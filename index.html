@@ -17,19 +17,19 @@
     }
   </script>
 </head>
-<body class="min-h-screen pb-24 font-sans antialiased">
+<body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
 
   <header class="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60 px-4 py-4 max-w-md mx-auto w-full flex items-center justify-between">
     <h1 class="text-xl font-black bg-gradient-to-r from-amber-400 to-yellow-500 bg-clip-text text-transparent">Ilmu Emas</h1>
     
     <div class="relative">
-      <button onclick="toggleCoffeeMenu()" class="w-10 h-10 bg-zinc-900 border border-zinc-800 rounded-full flex items-center justify-center text-amber-400 animate-bounce focus:outline-none">
-        <i class="fa-solid fa-mug-hot"></i>
+      <button onclick="toggleCoffeeMenu()" class="w-10 h-10 bg-zinc-900 border border-zinc-800 rounded-full flex items-center justify-center text-amber-400 focus:outline-none">
+        <i class="fa-solid fa-mug-hot animate-bounce"></i>
       </button>
-      <div id="coffee-dropdown" class="absolute right-0 mt-3 w-48 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 translate-y-2 transition-all duration-500 ease-in-out shadow-2xl">
-        <a href="#daftar-section" onclick="triggerDaftarPopup()" class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+      <div id="coffee-dropdown" class="absolute right-0 mt-3 w-48 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 transition-all duration-300 ease-in-out shadow-2xl z-50">
+        <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
           <i class="fa-solid fa-user-plus text-amber-400"></i> Daftar Percuma
-        </a>
+        </button>
         <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
           <i class="fa-solid fa-comments text-amber-400"></i> Chat Sokongan
         </a>
@@ -80,7 +80,6 @@
         </div>
       </a>
     </section>
-
   </main>
 
   <div id="push-notification-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-end justify-center px-4 pb-8 hidden opacity-0 transition-all duration-500">
@@ -119,9 +118,9 @@
     </div>
   </div>
 
-  <div id="nav-popup-overlay" onclick="closeNavPopups()" class="fixed inset-0 z-40 bg-zinc-950/60 backdrop-blur-xs hidden opacity-0 transition-all duration-500"></div>
+  <div id="nav-popup-overlay" onclick="closeNavPopups()" class="fixed inset-0 z-40 bg-zinc-950/60 backdrop-blur-xs hidden opacity-0 transition-all duration-300"></div>
   
-  <div id="menu-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-500 ease-in-out shadow-2xl">
+  <div id="menu-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-300 ease-in-out shadow-2xl">
     <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Navigasi Aplikasi</h4>
     <div class="grid grid-cols-4 gap-y-4 gap-x-2 text-center">
       <a href="faq.html" class="flex flex-col items-center group">
@@ -144,19 +143,7 @@
     </div>
   </div>
 
-  <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-500">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
-      <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
-      <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
-      <div class="space-y-3 pt-2">
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Dewasa (18 Tahun Ke Atas)</a>
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Junior (17 Tahun Ke Bawah)</a>
-      </div>
-      <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-2 block mx-auto underline">Tutup</button>
-    </div>
-  </div>
-
-  <div id="akses-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-500 ease-in-out shadow-2xl">
+  <div id="akses-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-300 ease-in-out shadow-2xl">
     <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Akses & Sistem</h4>
     <div class="grid grid-cols-3 gap-2 text-center">
       <a href="pasang-percuma.html" class="flex flex-col items-center group">
@@ -171,6 +158,18 @@
         <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-share-nodes text-lg"></i></div>
         <span class="text-[11px] text-zinc-400 mt-2 font-medium">Salin Pautan</span>
       </button>
+    </div>
+  </div>
+
+  <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
+      <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
+      <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
+      <div class="space-y-3 pt-2">
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Dewasa (18 Tahun Ke Atas)</a>
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Junior (17 Tahun Ke Bawah)</a>
+      </div>
+      <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-2 block mx-auto underline">Tutup</button>
     </div>
   </div>
 
@@ -189,16 +188,16 @@
     </button>
   </nav>
 
-  <script src="js/main.js"></script>
   <script>
     function toggleCoffeeMenu() {
       const dd = document.getElementById("coffee-dropdown");
       if(dd.classList.contains("hidden")) {
         dd.classList.remove("hidden");
-        setTimeout(() => dd.classList.remove("opacity-0", "translate-y-2"), 10);
+        void dd.offsetWidth;
+        dd.classList.remove("opacity-0", "-translate-y-2");
       } else {
-        dd.classList.add("opacity-0", "translate-y-2");
-        setTimeout(() => dd.classList.add("hidden"), 500);
+        dd.classList.add("opacity-0", "-translate-y-2");
+        setTimeout(() => { if(dd.classList.contains("opacity-0")) dd.classList.add("hidden"); }, 300);
       }
     }
 
@@ -206,10 +205,11 @@
       const modal = document.getElementById("alert-list-modal");
       if(show) {
         modal.classList.remove("hidden");
-        setTimeout(() => modal.classList.remove("opacity-0"), 10);
+        void modal.offsetWidth;
+        modal.classList.remove("opacity-0");
       } else {
         modal.classList.add("opacity-0");
-        setTimeout(() => modal.classList.add("hidden"), 500);
+        setTimeout(() => { if(modal.classList.contains("opacity-0")) modal.classList.add("hidden"); }, 500);
       }
     }
 
@@ -217,46 +217,54 @@
       closeNavPopups();
       const modal = document.getElementById("daftar-pilihan-modal");
       modal.classList.remove("hidden");
-      setTimeout(() => modal.classList.remove("opacity-0"), 10);
+      void modal.offsetWidth;
+      modal.classList.remove("opacity-0");
     }
+
     function closeDaftarPopup() {
       const modal = document.getElementById("daftar-pilihan-modal");
       modal.classList.add("opacity-0");
-      setTimeout(() => modal.classList.add("hidden"), 500);
+      setTimeout(() => { if(modal.classList.contains("opacity-0")) modal.classList.add("hidden"); }, 300);
     }
 
     function openNavPopup(type) {
       closeNavPopups();
-      document.getElementById("nav-popup-overlay").classList.remove("hidden");
-      setTimeout(() => document.getElementById("nav-popup-overlay").classList.remove("opacity-0"), 10);
+      
+      const overlay = document.getElementById("nav-popup-overlay");
+      overlay.classList.remove("hidden");
+      void overlay.offsetWidth;
+      overlay.classList.remove("opacity-0");
       
       const card = document.getElementById(type === 'menu' ? "menu-popup-card" : "akses-popup-card");
       card.classList.remove("hidden");
-      setTimeout(() => card.classList.remove("opacity-0", "translate-y-6"), 10);
+      void card.offsetWidth;
+      card.classList.remove("opacity-0", "translate-y-6");
     }
 
     function closeNavPopups() {
       const overlay = document.getElementById("nav-popup-overlay");
-      overlay.classList.add("opacity-0");
-      setTimeout(() => overlay.classList.add("hidden"), 500);
+      const menuCard = document.getElementById("menu-popup-card");
+      const aksesCard = document.getElementById("akses-popup-card");
 
-      ["menu-popup-card", "akses-popup-card"].forEach(id => {
-        const card = document.getElementById(id);
-        card.classList.add("opacity-0", "translate-y-6");
-        setTimeout(() => card.classList.add("hidden"), 500);
-      });
+      overlay.classList.add("opacity-0");
+      menuCard.classList.add("opacity-0", "translate-y-6");
+      aksesCard.classList.add("opacity-0", "translate-y-6");
+
+      setTimeout(() => {
+        if (overlay.classList.contains("opacity-0")) overlay.classList.add("hidden");
+        if (menuCard.classList.contains("opacity-0")) menuCard.classList.add("hidden");
+        if (aksesCard.classList.contains("opacity-0")) aksesCard.classList.add("hidden");
+      }, 300);
     }
 
-    // Push Notification Trigger Logic (Session Check)
     window.addEventListener("load", () => {
       if (!sessionStorage.getItem("push_notified_index")) {
         setTimeout(() => {
           const modal = document.getElementById("push-notification-modal");
           modal.classList.remove("hidden");
-          setTimeout(() => {
-            modal.classList.remove("opacity-0");
-            modal.querySelector('div').classList.remove("translate-y-10");
-          }, 10);
+          void modal.offsetWidth;
+          modal.classList.remove("opacity-0");
+          modal.querySelector('div').classList.remove("translate-y-10");
         }, 1500);
       }
     });
@@ -265,21 +273,25 @@
       const modal = document.getElementById("push-notification-modal");
       modal.classList.add("opacity-0");
       modal.querySelector('div').classList.add("translate-y-10");
-      setTimeout(() => modal.classList.add("hidden"), 500);
+      setTimeout(() => { if(modal.classList.contains("opacity-0")) modal.classList.add("hidden"); }, 500);
       sessionStorage.setItem("push_notified_index", "true");
     }
 
     function acceptPushModal(tag) {
       dismissPushModal();
-      // Integrasi ke fungsi global main.js OneSignal
-      if(typeof initOneSignalTagging === "function") {
-         initOneSignalTagging(tag);
-      }
+      alert("Notifikasi diaktifkan bagi kategori: " + tag);
     }
 
     function triggerOneSignalForce() {
       closeNavPopups();
-      showToastNotification("Menyambung ke pelayan OneSignal...");
+      alert("Menyambung ke saluran peranti...");
+    }
+
+    function copyGlobalLink(path) {
+      const url = window.location.origin + '/' + path;
+      navigator.clipboard.writeText(url).then(() => {
+        alert("Pautan disalin: " + url);
+      });
     }
   </script>
 </body>
