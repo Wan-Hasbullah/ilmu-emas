@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilmu Emas - Pelaburan Emas Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-gray-400 min-h-screen pb-24 antialiased selection:bg-amber-400 selection:text-zinc-950">
+
+    <header class="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50 px-4 py-4">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black text-white tracking-wide">Ilmu Emas</h1>
+            
+            <div class="relative id="coffee-wrapper"">
+                <button id="coffee-btn" class="w-10 h-10 rounded-full bg-zinc-900 border border-amber-400/30 flex items-center justify-center text-amber-400 hover:bg-zinc-800 transition-all duration-300">
+                    <i class="fa-solid fa-mug-hot animate-bounce"></i>
+                </button>
+                
+                <div id="coffee-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl overflow-hidden z-50 transform opacity-0 translate-y-2 transition-all duration-500 ease-in-out">
+                    <a href="https://wa.me/601126704897" target="_blank" class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 text-white transition-colors">
+                        <i class="fa-solid fa-user-plus text-amber-400"></i>
+                        <span class="text-sm font-medium">Daftar Percuma</span>
+                    </a>
+                    <a href="https://wa.me/601126704897" target="_blank" class="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 text-gray-300 transition-colors border-t border-zinc-800/50">
+                        <i class="fa-solid fa-comments text-amber-400"></i>
+                        <span class="text-sm font-medium">Chat Bantuan</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto px-4 pt-6 space-y-6">
+        
+        <div class="relative bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-lg overflow-hidden">
+            <div class="absolute top-3 right-3 flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-400"></span>
+            </div>
+            
+            <h3 class="text-white font-semibold text-base mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-bullhorn text-amber-400"></i> Makluman Terkini
+            </h3>
+            <p class="text-xs text-gray-400 leading-relaxed mb-3">Sistem Web App Ilmu Emas kini dikemas kini dengan wajah Premium V5 yang lebih pantas.</p>
+            <a href="info/perubahan-app.html" class="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold text-zinc-950 bg-amber-400 rounded-lg hover:bg-amber-300 transition-colors">
+                Lihat
+            </a>
+        </div>
+
+        <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800/60 rounded-2xl p-6 text-center space-y-4">
+            <span class="text-xs font-bold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">AKADEMI LITERASI EMAS</span>
+            <h2 class="text-2xl font-extrabold text-white leading-tight">Bina Kekayaan Kalis Inflasi Melalui Emas Fizikal</h2>
+            <p class="text-sm text-gray-400">Akses panduan eksklusif, strategi pasaran, dan mentorship profesional bersama Dealership Wan Hasbullah.</p>
+        </div>
+    </main>
+
+    <div id="push-popup" class="fixed bottom-24 left-4 right-4 max-w-md mx-auto bg-zinc-900 border border-amber-400/30 rounded-2xl p-5 shadow-2xl z-50 transform translate-y-10 opacity-0 transition-all duration-500 ease-in-out hidden">
+        <div class="flex gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center shrink-0 text-amber-400 text-xl">
+                <i class="fa-solid fa-bell animate-swing"></i>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-white font-bold text-sm">Sertai Komuniti Ilmu Emas!</h4>
+                <p class="text-xs text-gray-400 leading-relaxed">Klik terima notification untuk mendapatkan panduan kewangan, video akademi, dan info seminar terkini secara terus.</p>
+                <div class="flex gap-2 justify-end">
+                    <button id="push-deny" class="px-3 py-1.5 text-xs font-medium text-gray-400 hover:text-white transition-colors">Nanti Dulu</button>
+                    <button id="push-allow" class="px-4 py-1.5 text-xs font-bold text-zinc-950 bg-amber-400 rounded-lg hover:bg-amber-300 transition-colors">Terima</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/90 backdrop-blur-lg border-t border-zinc-800 px-6 py-2">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex flex-col items-center gap-1 text-amber-400">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] font-medium">Home</span>
+            </a>
+            <button id="nav-menu-btn" class="flex flex-col items-center gap-1 text-gray-500 hover:text-white transition-colors cursor-pointer">
+                <i class="fa-solid fa-grid-2x2 text-lg"></i>
+                <span class="text-[10px] font-medium">Menu</span>
+            </button>
+            <button id="nav-akses-btn" class="flex flex-col items-center gap-1 text-gray-500 hover:text-white transition-colors cursor-pointer">
+                <i class="fa-solid fa-sliders text-lg"></i>
+                <span class="text-[10px] font-medium">Akses</span>
+            </button>
+        </div>
+    </nav>
+
+    <div id="menu-popup" class="fixed inset-0 z-30 bg-zinc-950/80 backdrop-blur-sm hidden items-end justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl w-full max-w-md p-6 space-y-4 transform translate-y-4 opacity-0 transition-all duration-500 ease-in-out">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+                <h3 class="text-white font-bold">Menu Navigasi</h3>
+                <button id="close-menu-btn" class="text-gray-500 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <a href="faq.html" class="flex flex-col items-center gap-2 p-4 bg-zinc-950 border border-zinc-800 rounded-2xl text-center hover:border-amber-400/40 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-amber-400"><i class="fa-solid fa-circle-question"></i></div>
+                    <span class="text-xs font-semibold text-white">Persoalan Lazim</span>
+                </a>
+                <a href="program/index.html" class="flex flex-col items-center gap-2 p-4 bg-zinc-950 border border-zinc-800 rounded-2xl text-center hover:border-amber-400/40 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-amber-400"><i class="fa-solid fa-calendar-days"></i></div>
+                    <span class="text-xs font-semibold text-white">Program</span>
+                </a>
+                <a href="gold-saver.html" class="relative flex flex-col items-center gap-2 p-4 bg-zinc-950 border border-amber-400/20 rounded-2xl text-center hover:border-amber-400/40 transition-all">
+                    <span class="absolute top-2 right-2 text-[8px] bg-amber-400/10 text-amber-400 px-1.5 py-0.5 rounded-md border border-amber-400/20 font-bold">Eksklusif</span>
+                    <div class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-amber-400"><i class="fa-solid fa-gem"></i></div>
+                    <span class="text-xs font-semibold text-white">Ruang Eksklusif</span>
+                </a>
+                <a href="https://wa.me/601126704897" target="_blank" class="flex flex-col items-center gap-2 p-4 bg-zinc-950 border border-zinc-800 rounded-2xl text-center hover:border-amber-400/40 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-amber-400"><i class="fa-solid fa-user-plus"></i></div>
+                    <span class="text-xs font-semibold text-white">Daftar Percuma</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="akses-popup" class="fixed inset-0 z-30 bg-zinc-950/80 backdrop-blur-sm hidden items-end justify-center p-4">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl w-full max-w-md p-6 space-y-4 transform translate-y-4 opacity-0 transition-all duration-500 ease-in-out">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+                <h3 class="text-white font-bold">Akses & Aplikasi</h3>
+                <button id="close-akses-btn" class="text-gray-500 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-2">
+                <button onclick="alert('Fungsi PWA Pasang Aplikasi diaktifkan')" class="w-full flex items-center justify-between p-3 bg-zinc-950 border border-zinc-800 rounded-xl hover:border-amber-400/30 transition-all text-left">
+                    <span class="text-xs font-medium text-white"><i class="fa-solid fa-download text-amber-400 mr-2"></i> Pasang Aplikasi</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-600"></i>
+                </button>
+                <button id="akses-notify" class="w-full flex items-center justify-between p-3 bg-zinc-950 border border-zinc-800 rounded-xl hover:border-amber-400/30 transition-all text-left">
+                    <span class="text-xs font-medium text-white"><i class="fa-solid fa-bell text-amber-400 mr-2"></i> Aktifkan Notifikasi</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-600"></i>
+                </button>
+                <button onclick="globalCopyLink(window.location.href)" class="w-full flex items-center justify-between p-3 bg-zinc-950 border border-zinc-800 rounded-xl hover:border-amber-400/30 transition-all text-left">
+                    <span class="text-xs font-medium text-white"><i class="fa-solid fa-link text-amber-400 mr-2"></i> Copy Link Web App</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
