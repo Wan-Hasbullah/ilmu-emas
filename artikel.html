@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub Kebijaksanaan Kewangan - Artikel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
+  
+  <header class="p-4 border-b border-zinc-900 flex items-center justify-between sticky top-0 bg-zinc-950/80 backdrop-blur-md z-40">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+      <h1 class="text-base font-bold">Hub Artikel</h1>
+    </div>
+  </header>
+
+  <main class="p-4 space-y-4" id="artikel-list-container">
+    </main>
+
+  <script src="js/artikel-data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("artikel-list-container");
+      ARTIKEL_DATA.forEach(art => {
+        const box = document.createElement("div");
+        box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm";
+        box.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-2">
+               <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-400/5 px-2 py-1 rounded-md border border-amber-400/10">${art.category}</span>
+               <span class="text-[10px] text-zinc-500 font-medium">Penulis: ${art.author}</span>
+            </div>
+            <h3 class="text-base font-bold text-zinc-100 leading-snug">${art.title}</h3>
+            <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-zinc-800/60">
+            <button onclick="copyGlobalLink('artikel.html#${art.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1"><i class="fa-solid fa-copy"></i> Salin</button>
+            <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors">Baca Penuh</a>
+          </div>
+        `;
+        box.id = art.id;
+        container.appendChild(box);
+      });
+    });
+  </script>
+</body>
+</html>

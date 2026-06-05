@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akademi Multimedia - Ilmu Emas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
+  
+  <header class="p-4 border-b border-zinc-900 flex items-center justify-between sticky top-0 bg-zinc-950/80 backdrop-blur-md z-40">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+      <h1 class="text-base font-bold">Akademi Multimedia</h1>
+    </div>
+  </header>
+
+  <main class="p-4 space-y-6">
+    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+      <button onclick="filterVideos('all')" class="bg-amber-400 text-zinc-950 text-xs px-4 py-2 rounded-full font-bold shadow-sm whitespace-nowrap" id="btn-all">Semua</button>
+      <button onclick="filterVideos('ilmu-emas')" class="bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-4 py-2 rounded-full font-medium border border-zinc-800 whitespace-nowrap" id="btn-ilmu-emas">Ilmu Emas</button>
+      <button onclick="filterVideos('ilmu-kewangan')" class="bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-4 py-2 rounded-full font-medium border border-zinc-800 whitespace-nowrap" id="btn-ilmu-kewangan">Ilmu Kewangan</button>
+    </div>
+
+    <div id="video-container" class="space-y-6"></div>
+  </main>
+
+  <script src="js/video-data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function renderVideos(filter) {
+      const container = document.getElementById("video-container");
+      container.innerHTML = "";
+      
+      const filtered = VIDEO_DATA.filter(v => filter === "all" || v.category === filter);
+      
+      filtered.forEach(video => {
+        // Abaikan kategori eksklusif ahli di paparan awam jika mahu diasingkan
+        if(video.category === "kisah-kejayaan") return;
+
+        const card = document.createElement("div");
+        card.className = "bg-zinc-900 border border-zinc-800/80 rounded-2xl p-4 space-y-3 shadow-md";
+        card.id = video.id;
+        card.innerHTML = `
+          <div class="overflow-hidden rounded-xl bg-zinc-950">
+            ${video.embedCode}
+          </div>
+          <div class="flex flex-col space-y-2">
+            <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">${video.category.replace("-", " ")}</span>
+            <h3 class="text-sm font-bold leading-snug text-zinc-100">${video.title}</h3>
+            <div class="flex justify-end pt-1">
+              <button onclick="copyGlobalLink('video.html#${video.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1.5 font-medium bg-zinc-950 px-3 py-1.5 rounded-lg border border-zinc-800">
+                <i class="fa-solid fa-copy"></i> Copy Link
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterVideos(category) {
+      ["all", "ilmu-emas", "ilmu-kewangan"].forEach(c => {
+        const btn = document.getElementById(`btn-${c}`);
+        if(c === category) {
+          btn.className = "bg-amber-400 text-zinc-950 text-xs px-4 py-2 rounded-full font-bold shadow-sm whitespace-nowrap";
+        } else {
+          btn.className = "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-4 py-2 rounded-full font-medium border border-zinc-800 whitespace-nowrap";
+        }
+      });
+      renderVideos(category);
+    }
+
+    // Init run
+    renderVideos("all");
+  </script>
+</body>
+</html>
