@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Kaya Dengan Emas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --dark-gold: #AA7C11;
+            --light-gold: #F3E5AB;
+            --bg-dark: #0B0F19;
+            --bg-card: #161C2A;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --border-color: rgba(212, 175, 55, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        /* Container styling */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header / Hero Section */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: #000;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #FFF, var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 28px; }
+        }
+
+        .quote-box {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 18px;
+            color: var(--primary-gold);
+            margin: 20px auto;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+
+        .author {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-style: normal;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .intro-text {
+            font-size: 15px;
+            color: var(--text-main);
+            margin-top: 25px;
+            background: rgba(22, 28, 42, 0.6);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary-gold);
+            text-align: left;
+        }
+
+        /* Checklist Loop */
+        .checklist {
+            margin-top: 30px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(212, 175, 55, 0.05);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        /* Step Number Badge */
+        .step-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 110px;
+            font-weight: 800;
+            color: rgba(212, 175, 55, 0.03);
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            line-height: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .index-badge {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary-gold);
+            font-weight: 700;
+            font-size: 16px;
+            min-width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 1.3;
+            padding-top: 4px;
+        }
+
+        .card-body {
+            position: relative;
+            z-index: 2;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #D1D5DB;
+        }
+
+        .bullet-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        /* PREMIUM FINTECH BUTTON LAYOUT - UPDATED POSITIONING */
+        .btn-group {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn-group.single-btn {
+            grid-template-columns: 1fr;
+            max-width: 340px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: #0B0F19;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline {
+            background: rgba(212, 175, 55, 0.02);
+            color: var(--primary-gold);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--primary-gold);
+            transform: translateY(-2px);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #1CBD56);
+            color: #FFF;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+            border: none;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Footer Info */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        @media (min-width: 600px) {
+            .btn-group-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 599px) {
+            .btn-group {
+                grid-template-columns: 1fr !important;
+            }
+            .card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-badge">Premium Wealth Guide</div>
+            <h1>Checklist Kaya Dengan Emas</h1>
+            
+            <div class="quote-box">
+                "Bukan emas yang membuatkan kita kaya, tetapi ilmu..."
+                <div class="author">Inilah kata-kata Guru Emas, Tuan Mohd Zulkifli Shafie, iaitu penulis buku Wang Emas.</div>
+            </div>
+
+            <p class="intro-text">
+                Berikut adalah 7 senarai semak (checklist) untuk jadi penyimpan emas yang berilmu, seterusnya kaya dengan emas.
+            </p>
+        </header>
+
+        <main class="checklist">
+
+            <section class="card">
+                <div class="step-number">01</div>
+                <div class="card-header">
+                    <div class="index-badge">1</div>
+                    <h2>Muat Turun Aplikasi Public Gold dan Buat Belian Pertama</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="bullet-list">
+                        <li>Urusan jual beli menggunakan aplikasi lebih mudah.</li>
+                        <li>Aplikasi mesra pengguna.</li>
+                        <li>Anda perlu buat belian pertama supaya anda mempunyai tanda aras harga emas (benchmark price).</li>
+                        <li>Anda akan lebih faham tentang naik turun harga emas bila sudah buat belian pertama.</li>
+                    </ul>
+                    <div class="btn-group btn-group-4">
+                        <a href="https://play.google.com/store/apps/details?id=com.pgmapp.publicgold" target="_blank" class="btn btn-outline">Android</a>
+                        <a href="https://apps.apple.com/my/app/public-gold/id1591580964" target="_blank" class="btn btn-outline">IOS</a>
+                        <a href="https://appgallery.huawei.com/app/C104917075" target="_blank" class="btn btn-outline">Huawei</a>
+                        <a href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" class="btn btn-primary">Cara Bermula</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="step-number">02</div>
+                <div class="card-header">
+                    <div class="index-badge">2</div>
+                    <h2>Join Whatsapp Group</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="bullet-list">
+                        <li>Saya sediakan group whatsapp eksklusif untuk penyimpan emas di bawah bimbingan saya.</li>
+                        <li>Saya kongsikan ilmu emas &amp; kewangan.</li>
+                        <li>Saya kongsikan info terkini dan promosi semasa.</li>
+                    </ul>
+                    <div class="btn-group single-btn">
+                        <a href="https://wa.me/?text=Assalamulaikum,%20boleh%20saya%20dapatkan%20link%20grup%20whatsapp" target="_blank" class="btn btn-whatsapp">
+                            💬 Hubungi saya
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="step-number">03</div>
+                <div class="card-header">
+                    <div class="index-badge">3</div>
+                    <h2>Baca Customer Handbook dan rujuk link Tutorial</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="bullet-list">
+                        <li>Muat turun Customer Handbook yang lengkap sebagai rujukan (klik butang 'Customer Handbook')</li>
+                        <li>Tutorial untuk semua urusan (beli, jual, pajak, keluarkan emas, etc) boleh rujuk tutorial dibawah.</li>
+                    </ul>
+                    <div class="btn-group">
+                        <a href="https://pg2u.my/handbook/customer-handbook" target="_blank" class="btn btn-outline">Customer Handbook</a>
+                        <a href="https://pg2u.my/wanhasbullah/tutorial" target="_blank" class="btn btn-primary">Tutorial</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="step-number">04</div>
+                <div class="card-header">
+                    <div class="index-badge">4</div>
+                    <h2>Beli dan baca buku Wang Emas &amp; Misi Bebas Hutang</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="bullet-list">
+                        <li>Untuk pastikan simpanan emas cepat bertambah, baca dua buah buku ini.</li>
+                        <li>Kedua-dua buku ini saling melengkapi dan paling cepat pandai pasal emas + kewangan.</li>
+                    </ul>
+                    <div class="btn-group">
+                        <a href="https://g100.my/combo-buku/" target="_blank" class="btn btn-outline">Testimoni</a>
+                        <a href="https://pgmall.my/p/P108/0071?rpc=pgbyweh@gmail.com" target="_blank" class="btn btn-primary">Buku Harga Promosi</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="step-number">05</div>
+                <div class="card-header">
+                    <div class="index-badge">5</div>
+                    <h2>Subscribe GAP Auto-debit selama 5 tahun</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="bullet-list">
+                        <li>Konsisten menyimpan emas dengan cara menabung di dalam akaun GAP secara autodebit.</li>
+                    </ul>
+                    <div class="btn-group single-btn">
+                        <a href="https://pg2u.my/wanhasbullah/gap-autodebit" target="_blank" class="btn btn-primary">Tutorial GAP Auto-debit</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="step-number">06</div>
+                <div class="card-header">
+                    <div class="index-badge">6</div>
+                    <h2>Join Private Webinar : Membina 1 Juta Pertama</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="bullet-list">
+                        <li>Ketahui ilmu penting dan perkara asas dalam membina simpanan 1 Juta Pertama.</li>
+                    </ul>
+                    <div class="btn-group single-btn">
+                        <a href="https://wa.me/?text=Assalamulaikum,%20boleh%20saya%20dapatkan%20info%20seminar%20M1JP" target="_blank" class="btn btn-whatsapp">
+                            📊 Hubungi saya
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="step-number">07</div>
+                <div class="card-header">
+                    <div class="index-badge">7</div>
+                    <h2>Join training dealer PG Leadership Training (PLT) atau join Kempen Sebarkan Manfaat Emas untuk jana pendapatan sambil simpan emas</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="bullet-list">
+                        <li>Sambil menabung emas, sambil jana pendapatan.</li>
+                        <li>Jika emas menjadikan kewangan anda lebih baik, pertimbangkan sebar manfaat emas dengan jadi dealer Public Gold atau refer penyimpan emas dapat saguhati daripada saya.</li>
+                        <li>Untuk menjadi dealer Public Gold dan terima pasif income RM2,500 dalam tempoh 12 bulan, anda perlu menghadiri program latihan sebulan sekali PG Leadership Training (PLT) setiap Sabtu pertama dan latihan seminggu sekali Weekly Business Meeting (WBM) dan Weekly Group Coaching (WGC) setiap Ahad.</li>
+                        <li>Bagi yang rasa join training satu cabaran yang besar, saya tak sarankan jadi dealer - supaya tak menyusahkan orang lain (samada customer, staff PG atau dealer lain). Join sahaja “Kempen Sebar Manfaat Emas” dengan refer penyimpan emas dan terima saguhati.</li>
+                    </ul>
+                    <div class="btn-group single-btn">
+                        <a href="https://wa.me/?text=Assalamulaikum,%20saya%20berminat%20tahu%20lebih%20lanjut%20tentang%20Dealer%20dan%20Kempen%20Emas" target="_blank" class="btn btn-primary">Hubungi saya</a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Checklist Kaya Dengan Emas. Direka khusus untuk platform Fintech Eksklusif &amp; Profesional.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
