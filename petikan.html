@@ -39,19 +39,27 @@
   </main>
 
   <script src="./petikan-data.js"></script>
-  <script src="../js/main.js"></script>
 
   <script>
-    // Membina paparan kad daripada data PETIKAN_DATA
+    // Fungsi membina paparan kad daripada data PETIKAN_DATA
     function renderPetikan() {
       const container = document.getElementById('petikan-container');
+      if (!container) return;
+      
       container.innerHTML = '';
+
+      // Semakan keselamatan jika data gagal dimuatkan
+      if (typeof PETIKAN_DATA === 'undefined') {
+        container.innerHTML = '<p class="text-xs text-red-400 text-center py-4">Ralat: Fail petikan-data.js gagal dikesan.</p>';
+        return;
+      }
 
       PETIKAN_DATA.forEach(item => {
         const card = document.createElement('div');
         card.id = item.id;
-        // Reka bentuk gaya Fintech premium (Tiada butang baca penuh, susunan kemas)
-        card.className = "bg-zinc-900/40 border border-zinc-900 rounded-2xl p-5 shadow-xl backdrop-blur-sm transition-all duration-300 ring-4 ring-transparent target:scroll-mt-24";
+        
+        // Kelas reka bentuk Fintech premium dikembalikan ke standard v3 yang serasi
+        card.className = "bg-zinc-900 bg-opacity-40 border border-zinc-900 rounded-2xl p-5 shadow-xl backdrop-blur-sm transition-all duration-300 ring-4 ring-transparent";
         
         card.innerHTML = `
           <div class="space-y-4">
@@ -64,7 +72,7 @@
               "${item.quote}"
             </p>
 
-            <hr class="border-zinc-800/60">
+            <hr class="border-zinc-800 border-opacity-60">
 
             <div class="flex justify-between items-center">
               <p class="text-xs text-amber-400 font-semibold tracking-wide">Oleh: ${item.author}</p>
@@ -72,11 +80,11 @@
             </div>
 
             <div class="grid grid-cols-2 gap-2 pt-2">
-              <button onclick="salinDanDenyut('${item.id}')" class="text-xs bg-zinc-900/80 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95">
+              <button onclick="salinDanDenyut('${item.id}')" class="text-xs bg-zinc-900 bg-opacity-80 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95">
                 <i class="fa-solid fa-link text-[11px]"></i> Salin Link
               </button>
               
-              <button onclick="simpanSebagaiImej('${item.id}')" class="text-xs bg-amber-400/10 border border-amber-400/20 text-amber-400 hover:bg-amber-400 hover:text-zinc-950 font-bold px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95">
+              <button onclick="simpanSebagaiImej('${item.id}')" class="text-xs bg-amber-400 bg-opacity-10 border border-amber-400 border-opacity-20 text-amber-400 hover:bg-amber-400 hover:text-zinc-950 font-bold px-3 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95">
                 <i class="fa-solid fa-download text-[11px]"></i> Simpan Imej
               </button>
             </div>
@@ -86,42 +94,33 @@
       });
     }
 
-    // Fungsi salin link, auto scroll, dan efek berdenyut
     function salinDanDenyut(id) {
-      // Membina url bersih berdasarkan ID kad
       const URL_Penuh = window.location.origin + window.location.pathname + '#' + id;
       
       navigator.clipboard.writeText(URL_Penuh).then(() => {
-        // Melakukan kesan gerak (scroll) ke elemen sasaran
         const elemen = document.getElementById(id);
         if (elemen) {
           elemen.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          
-          // Cetus kesan berdenyut premium
           elemen.classList.add('highlight-pulse');
           setTimeout(() => {
             elemen.classList.remove('highlight-pulse');
-          }, 3000); // Denyutan tamat selepas 3 saat
+          }, 3000);
         }
-        alert('Pautan petikan berjaya disalin ke papan klip!');
+        alert('Pautan petikan berjaya disalin!');
       }).catch(err => {
-        console.error('Gagal menyalin pautan: ', err);
+        console.error('Gagal menyalin: ', err);
       });
     }
 
-    // Fungsi asas simpan imej (Mencetak/Menyimpan fokus kad ke PDF/Imej peranti)
     function simpanSebagaiImej(id) {
-      alert('Sistem sedang menyediakan paparan kad premium untuk dimuat turun.');
+      alert('Sistem menyediakan paparan kad cetakan.');
       window.print(); 
-      // Nota: Untuk fungsi muat turun kad grafik penuh .png direct telefon, 
-      // anda boleh suntik pustaka eksternal "html2canvas" di masa hadapan jika perlu.
     }
 
-    // Menjana paparan sebaik sahaja halaman dibuka
-    window.onload = () => {
+    // Jalankan fungsi serta-merta selepas dom siap
+    document.addEventListener("DOMContentLoaded", () => {
       renderPetikan();
       
-      // Jika pengguna masuk terus menggunakan pautan khas (cth: petikan.html#id), jalankan denyutan auto
       if(window.location.hash) {
         const targetId = window.location.hash.substring(1);
         setTimeout(() => {
@@ -133,7 +132,7 @@
           }
         }, 500);
       }
-    };
+    });
   </script>
 </body>
 </html>
