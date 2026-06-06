@@ -18,24 +18,43 @@
   </script>
   <style>
     /* ── Coffee Cup Animation ── */
-    .coffee-cup-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
-    .steam-line {
-      position: absolute;
-      bottom: 100%;
-      width: 2px;
-      border-radius: 2px;
-      background: linear-gradient(to top, rgba(251,191,36,0.7), transparent);
-      animation: steam-rise 1.6s ease-in-out infinite;
-      transform-origin: bottom center;
-    }
-    .steam-line:nth-child(1) { left: 30%; height: 10px; animation-delay: 0s; }
-    .steam-line:nth-child(2) { left: 50%; height: 14px; animation-delay: 0.4s; }
-    .steam-line:nth-child(3) { left: 68%; height: 9px; animation-delay: 0.8s; }
-    @keyframes steam-rise {
-      0%   { opacity: 0; transform: translateY(0) scaleX(1); }
-      40%  { opacity: 1; }
-      100% { opacity: 0; transform: translateY(-12px) scaleX(1.4); }
-    }
+.coffee-cup-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 44px;
+}
+.coffee-cup-wrap svg {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  bottom: 0;
+}
+.steam {
+  stroke: #fbbf24;
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill: none;
+  opacity: 0;
+  animation: steam-svg 1.8s ease-in-out infinite;
+}
+.steam-1 { animation-delay: 0s; }
+.steam-2 { animation-delay: 0.5s; }
+@keyframes steam-svg {
+  0%   { opacity: 0; transform: translateY(0px); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-7px); }
+}
+.coffee-cup-wrap svg path:not(.steam) {
+  fill: #fbbf24;
+}
+/* cawan putih → tukar kepada amber supaya selaras tema */
+.coffee-cup-wrap svg path:not(.steam) {
+  fill: #fbbf24;
+  stroke: #fbbf24;
+}
 
     /* ── Coffee Dropdown Animation ── */
     #coffee-dropdown { transition: opacity 0.25s ease, transform 0.25s ease; }
@@ -71,15 +90,17 @@
     <!-- Kanan: Coffee Cup + Dropdown -->
     <div class="relative">
       <button onclick="toggleCoffeeMenu()" id="coffee-btn"
-        class="w-10 h-10 bg-zinc-900 border border-zinc-800 rounded-full flex items-center justify-center text-amber-400 focus:outline-none hover:border-amber-500/40 transition-colors">
-        <div class="coffee-cup-wrap w-full h-full flex items-center justify-center">
-          <!-- Steam lines -->
-          <span class="steam-line"></span>
-          <span class="steam-line"></span>
-          <span class="steam-line"></span>
-          <i class="fa-solid fa-mug-hot text-sm"></i>
-        </div>
-      </button>
+  class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
+  style="background:none; border:none; padding:0;">
+  <div class="coffee-cup-wrap">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+      <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+      <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+      <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    </svg>
+  </div>
+</button>
 
       <!-- Dropdown -->
       <div id="coffee-dropdown"
