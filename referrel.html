@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Program Referral Public Gold</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    /* Premium Fintech Theme Global Styles */
+    body {
+      background-color: #0f172a; /* Slate Dark Background */
+      color: #f8fafc;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      margin: 40px 20px;
+      padding: 40px 30px;
+      border-radius: 24px;
+      border: 1px solid rgba(212, 175, 55, 0.2); /* Soft Gold Border */
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-sizing: border-box;
+    }
+
+    /* Typography & Headers */
+    h1 {
+      color: #d4af37; /* Premium Gold */
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      color: #e2e8f0;
+      font-size: 20px;
+      font-weight: 600;
+      border-left: 4px solid #d4af37;
+      padding-left: 12px;
+      margin-top: 35px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #cbd5e1;
+      font-size: 16px;
+      line-height: 1.7;
+      margin: 15px 0;
+    }
+
+    b {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* List styling */
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 20px 0;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    ul li::before {
+      content: "\f058"; /* FontAwesome Check Circle */
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      top: 2px;
+      color: #d4af37; /* Gold Checkmark */
+      font-size: 18px;
+    }
+
+    /* Images Container */
+    .image-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .image-container img:hover {
+      transform: scale(1.02);
+    }
+
+    /* CTA BUTTON SECTION */
+    .cta-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .cta-btn {
+      width: 100%;
+      text-align: center;
+      padding: 18px 25px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-sizing: border-box;
+      letter-spacing: 0.5px;
+    }
+
+    /* Modern Premium Color Palette */
+    .btn-red {
+      background: linear-gradient(135deg, #ef4444, #b91c1c); /* Elegant Crimson */
+      color: #ffffff;
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, #10b981, #047857); /* Emerald Green */
+      color: #ffffff;
+    }
+
+    .btn-yellow {
+      background: linear-gradient(135deg, #fbbf24, #d97706); /* Wealth Amber/Gold */
+      color: #0f172a;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+      filter: brightness(1.1);
+    }
+
+    /* Premium Glow Animation for Main Button */
+    .blink {
+      animation: pulseGlow 2s infinite alternate;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+      }
+      100% {
+        box-shadow: 0 8px 30px rgba(239, 68, 68, 0.8);
+      }
+    }
+
+    /* Desktop Responsive View */
+    @media (min-width: 768px) {
+      .cta-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .cta-btn {
+        flex: 1;
+        min-width: 230px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="image-container">
+    <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjri6HuOp9mySwMPNkZutxDzzVCwQ8lFd1RfDeZ1ANS2EoOYFGMuSc75AFhMtLqdXxsP-P3vA4DHraAJtdcf4Czb-odGdKuu0c3ojKC8hh9xvHReMr6fV5F7HwqC4-rTKzxTyAMYUoYUeIbIVCrbhHANTkt_BHPW-qtQOhN-C4Ol8EXgQDYcHoqzfbWwqk">
+      <img alt="Banner Public Gold" data-original-height="1536" data-original-width="1024" src="https://blogger.googleusercontent.com/img/a/AVvXsEjri6HuOp9mySwMPNkZutxDzzVCwQ8lFd1RfDeZ1ANS2EoOYFGMuSc75AFhMtLqdXxsP-P3vA4DHraAJtdcf4Czb-odGdKuu0c3ojKC8hh9xvHReMr6fV5F7HwqC4-rTKzxTyAMYUoYUeIbIVCrbhHANTkt_BHPW-qtQOhN-C4Ol8EXgQDYcHoqzfbWwqk=s16000" />
+    </a>
+  </div>
+
+  <h1>Program Referrel : Insentif Setinggi RM50</h1>
+  
+  <p>Jana pendapatan sampingan sebagai referrel <b>(perkenalkan kenalan/stranger kepada saya untuk simpan emas di Public Gold).</b></p>
+  
+  <p>Program Referrel ini <b>seperti affiliate</b>:</p>
+  
+  <p>❌ Tidak perlu servis atau uruskan pelanggan.</p>
+  <p>✅ 100% saya yang servis &amp; uruskan pelanggan anda.</p>
+  <p>✅ Anda hanya promot (di status wasap atau facebook) ataupun perkenalkan kepada kenalan &amp; stranger sahaja.</p>
+
+  <h2>Syaratnya, setiap yang diperkenalkan :-</h2>
+  <ul>
+    <li>Belum pernah register PG</li>
+    <li>Berumur 18 tahun ke atas</li>
+    <li>Berjaya buat simpanan pertama (walaupun minimum Rm100)</li>
+  </ul>
+
+  <p>Anda akan terima insentif (komisen) setinggi <b>Rm50</b> untuk seorang yang diperkenalkan melalui link referrel anda.</p>
+  
+  <p>Daftar sebagai Referrer dahulu (klik butang <b>"Daftar Referrer"</b> dibawah untuk dapatkan link anda).</p>
+
+  <h2>Jadual Insentif :-</h2>
+  <div class="image-container">
+    <a href="https://blogger.googleusercontent.com/img/a/AVvXsEiOlK9O3oZH4lU_KWTRMr1sIfp8R0xVes9-MmF9r1JkD3BP9Qndt0IXnBkuw1qYjJbutWZLQW3MY3jgpJ_JsGQ16HnYAZ8zGdsRbh1kyeqCdWNCToT6E0nHEaMRx5f4DU3mIaxF9DNMcJhqr3u85XdH39NnmynsXDX-Jg__MkKoElr4pNDPy6ibQTNDJCQ" target="_blank">
+      <img alt="Komisen" src="https://blogger.googleusercontent.com/img/a/AVvXsEiOlK9O3oZH4lU_KWTRMr1sIfp8R0xVes9-MmF9r1JkD3BP9Qndt0IXnBkuw1qYjJbutWZLQW3MY3jgpJ_JsGQ16HnYAZ8zGdsRbh1kyeqCdWNCToT6E0nHEaMRx5f4DU3mIaxF9DNMcJhqr3u85XdH39NnmynsXDX-Jg__MkKoElr4pNDPy6ibQTNDJCQ=s16000" />
+    </a>
+  </div>
+
+  <p>Jika ada adik beradik, kawan atau kenalan yang nak simpan emas di Public Gold, boleh bagitahu saya atau join Referrel Program ini. 
+  <br><br>
+  Klik butang daftar referrer dibawah :</p>
+
+  <div class="cta-container">
+
+    <a class="cta-btn btn-red blink" href="https://www.publicgoldofficial.com/referrer/register/wanhasbullah" target="_blank">
+      <i class="fas fa-user-plus"></i>
+      Daftar Referrer
+    </a>
+
+    <a class="cta-btn btn-green" href="http://www.wasap.my/601126704897/ProgramReferrel" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+      Pertanyaan
+    </a>
+
+    <a class="cta-btn btn-yellow" href="https://www.publicgoldofficial.com/wanhasbullah/pgdealer" target="_blank">
+      <i class="fas fa-user-tie"></i>
+      Potensi Sebagai Dealer / Introducer
+    </a>
+
+  </div>
+  </div>
+
+</body>
+</html>
