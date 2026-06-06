@@ -3,188 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program Premium Fintech</title>
+    <title>Program Hub | Fintech Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        fintechDark: '#0B0F19',
-                        fintechCard: '#151D30',
-                        fintechGold: '#D4AF37',
-                        fintechGoldHover: '#F3E5AB',
+                        premiumDark: '#070A11',
+                        premiumCard: '#111622',
+                        premiumGold: '#D4AF37',
+                        premiumAccent: '#1E2638',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        html {
-            scroll-behavior: smooth;
+        html { scroll-behavior: smooth; }
+        body { background-color: #070A11; color: #E2E8F0; }
+
+        /* Kesan Blink Highlight untuk kad yang dipilih */
+        @keyframes blinkGold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); border-color: #1E2638; }
+            50% { box-shadow: 0 0 25px 5px rgba(212, 175, 55, 0.4); border-color: #D4AF37; }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); border-color: #1E2638; }
         }
-        /* Kesan Blink/Highlight Premium */
-        @keyframes premiumBlink {
-            0%, 100% { border-color: rgba(212, 175, 55, 0.2); box-shadow: none; }
-            50% { border-color: #D4AF37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
-        }
-        .blink-highlight {
-            animation: premiumBlink 1.5s ease-in-out 2;
-        }
+        .highlight-card { animation: blinkGold 1.5s ease-in-out 2; border-width: 2px !important; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #070A11; }
+        ::-webkit-scrollbar-thumb { background: #1E2638; border-radius: 10px; }
+        
+        .hide-scroll::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-fintechDark text-gray-100 font-sans antialiased min-h-screen pb-12">
+<body class="antialiased">
 
-    <header class="sticky top-0 z-50 bg-fintechDark/80 backdrop-blur-md border-b border-gray-800 px-4 py-4 md:px-8">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <a href="#" onclick="window.history.back(); return false;" class="text-gray-400 hover:text-fintechGold transition-colors" aria-label="Kembali">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    <header class="sticky top-0 z-40 bg-premiumDark/80 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-5 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button onclick="window.history.back()" class="p-2.5 rounded-xl bg-white/5 hover:bg-premiumGold hover:text-premiumDark transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
-                </a>
-                <h1 class="text-xl font-bold tracking-wide bg-gradient-to-r flow-root from-white to-gray-400 bg-clip-text text-transparent">Program</h1>
+                </button>
+                <h1 class="text-xl font-bold tracking-tight text-white uppercase">Program</h1>
             </div>
-            <div></div>
+            <div class="hidden md:block">
+                <span class="text-xs font-medium text-premiumGold tracking-widest uppercase">Eksklusif Ilmu Emas</span>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 mt-8 md:px-8">
-        <div class="flex gap-2 overflow-x-auto pb-4 mb-8 border-b border-gray-800 scrollbar-none" id="category-filters">
-            <button onclick="filterCategory('All')" id="btn-All" class="cat-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 bg-fintechGold text-fintechDark font-semibold shadow-lg shadow-fintechGold/10">Semua</button>
-            <button onclick="filterCategory('G100 Talk Show')" id="btn-G100" class="cat-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 bg-fintechCard text-gray-400 hover:text-white border border-gray-800">G100 Talk Show</button>
-            <button onclick="filterCategory('QnA Public Gold')" id="btn-QnA" class="cat-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 bg-fintechCard text-gray-400 hover:text-white border border-gray-800">QnA Public Gold</button>
-            <button onclick="filterCategory('Membina Rm1 Juta Pertama')" id="btn-Rm1Juta" class="cat-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 bg-fintechCard text-gray-400 hover:text-white border border-gray-800">Membina RM1 Juta Pertama</button>
+    <section class="max-w-7xl mx-auto px-5 mt-8">
+        <div class="flex gap-3 overflow-x-auto pb-4 hide-scroll" id="filter-bar">
+            <button onclick="filterCategory('All')" id="btn-All" class="cat-btn px-6 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-lg shadow-premiumGold/20">Semua</button>
+            <button onclick="filterCategory('G100 Talk Show')" id="btn-G100" class="cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400">G100 Talk Show</button>
+            <button onclick="filterCategory('QnA Public Gold')" id="btn-QnA" class="cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400">QnA Public Gold</button>
+            <button onclick="filterCategory('Membina Rm1 Juta Pertama')" id="btn-Rm1" class="cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400">RM1 Juta Pertama</button>
         </div>
+    </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="program-container">
+    <main class="max-w-7xl mx-auto px-5 py-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="listing-container">
             </div>
     </main>
 
-    <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-5 py-3 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 text-sm font-medium">
-        Pautan kad berjaya disalin ke papan klip!
+    <div id="modal-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-premiumDark/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="relative bg-premiumCard border border-white/10 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 p-2 bg-premiumDark/50 rounded-full text-white hover:bg-red-500 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l18 18" />
+                </svg>
+            </button>
+            
+            <div class="md:w-1/2 bg-black flex items-center justify-center">
+                <img id="modal-img" src="" alt="Poster" class="w-full h-auto object-contain max-h-[80vh]">
+            </div>
+            
+            <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                <span id="modal-cat" class="text-xs font-bold text-premiumGold uppercase tracking-widest mb-4">Kategori</span>
+                <h2 id="modal-title" class="text-3xl font-bold text-white mb-6 leading-tight">Tajuk Program</h2>
+                <p id="modal-caption" class="text-gray-400 leading-relaxed mb-8">Keterangan program...</p>
+                <div class="pt-6 border-t border-white/5">
+                    <button onclick="closeModal()" class="w-full py-4 rounded-2xl bg-premiumAccent text-white font-bold hover:bg-premiumGold hover:text-premiumDark transition-all uppercase tracking-tighter">Tutup Paparan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-premiumGold text-premiumDark rounded-2xl font-bold text-sm shadow-2xl transition-all duration-500 translate-y-20 opacity-0 z-50">
+        Pautan Berjaya Disalin!
     </div>
 
     <script src="js/program-data.js"></script>
-
     <script>
-        let currentFilter = 'All';
+        let currentCategory = 'All';
 
-        // Fungsi untuk memaparkan kad program
         function renderPrograms() {
-            const container = document.getElementById('program-container');
+            const container = document.getElementById('listing-container');
             container.innerHTML = '';
 
-            const filteredData = currentFilter === 'All' 
+            const filtered = currentCategory === 'All' 
                 ? programData 
-                : programData.filter(p => p.category === currentFilter);
+                : programData.filter(p => p.category === currentCategory);
 
-            filteredData.forEach(program => {
+            filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.id = program.id;
-                // Reka bentuk kad premium fintech
-                card.className = "bg-fintechCard border border-gray-800 rounded-2xl overflow-hidden transition-all duration-300 hover:border-fintechGold/50 flex flex-col justify-between";
+                card.id = item.id;
+                card.className = "group relative bg-premiumCard border border-white/5 rounded-[2rem] p-4 transition-all duration-500 hover:border-premiumGold/30";
                 
                 card.innerHTML = `
-                    <div>
-                        <div class="relative aspect-[16/9] w-full bg-gray-900 overflow-hidden group">
-                            <img src="${program.image}" alt="${program.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/151d30/ffffff?text=Poster+Tiada'">
-                            <span class="absolute top-3 left-3 bg-fintechDark/80 backdrop-blur-sm text-fintechGold text-xs font-semibold px-3 py-1 rounded-full border border-fintechGold/30">${program.category}</span>
-                        </div>
-                        <div class="p-5">
-                            <h3 class="text-lg font-bold text-white mb-2 tracking-wide leading-snug hover:text-fintechGold transition-colors">${program.title}</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">${program.caption}</p>
-                        </div>
+                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-6">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://placehold.co/600x400/111622/D4AF37?text=Poster+Akan+Datang'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-premiumDark via-transparent opacity-60"></div>
                     </div>
-                    <div class="p-5 pt-0">
-                        <button onclick="copyProgramLink('${program.id}')" class="w-full bg-gradient-to-r from-gray-800 to-gray-900 hover:from-fintechGold hover:to-amber-500 text-gray-300 hover:text-fintechDark font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 border border-gray-700 hover:border-transparent flex items-center justify-center gap-2 shadow-inner">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-                            </svg>
-                            Salin Pautan Program
-                        </button>
+                    
+                    <div class="px-2">
+                        <span class="text-[10px] font-extrabold text-premiumGold uppercase tracking-[0.2em] mb-2 block">${item.category}</span>
+                        <h3 class="text-lg font-bold text-white mb-3 leading-snug min-h-[50px]">${item.title}</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-6 font-medium">${item.caption}</p>
+                        
+                        <div class="flex gap-3">
+                            <button onclick="openModal('${item.id}')" class="flex-1 py-3.5 rounded-xl bg-premiumGold text-premiumDark font-bold text-xs uppercase tracking-tighter hover:bg-white transition-all">Lihat</button>
+                            <button onclick="copyLink('${item.id}')" class="p-3.5 rounded-xl bg-premiumAccent text-white hover:bg-white/10 transition-all" title="Salin Pautan">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 002-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // Fungsi Filter Kategori & Kemas Kini Gaya Butang
-        function filterCategory(category) {
-            currentFilter = category;
-            renderPrograms();
+        // FUNGSI MODAL (LIHAT)
+        function openModal(id) {
+            const data = programData.find(p => p.id === id);
+            const modal = document.getElementById('modal-view');
             
-            // Set semula gaya semua butang kpd tidak aktif
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 bg-fintechCard text-gray-400 hover:text-white border border-gray-800";
-            });
-
-            // Set butang aktif
-            const activeIdMap = {
-                'All': 'btn-All',
-                'G100 Talk Show': 'btn-G100',
-                'QnA Public Gold': 'btn-QnA',
-                'Membina Rm1 Juta Pertama': 'btn-Rm1Juta'
-            };
-            document.getElementById(activeIdMap[category]).className = "cat-btn px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 bg-fintechGold text-fintechDark shadow-lg shadow-fintechGold/20";
-        }
-
-        // Fungsi Salin Pautan Kad
-        function copyProgramLink(id) {
-            const baseUrl = window.location.href.split('#')[0];
-            const fullUrl = `${baseUrl}#${id}`;
+            document.getElementById('modal-img').src = data.image;
+            document.getElementById('modal-cat').innerText = data.category;
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-caption').innerText = data.caption;
             
-            navigator.clipboard.writeText(fullUrl).then(() => {
-                showToast();
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.replace('opacity-0', 'opacity-100'), 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-view');
+            modal.classList.replace('opacity-100', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // FUNGSI COPY LINK & BLINK
+        function copyLink(id) {
+            const url = window.location.origin + window.location.pathname + '#' + id;
+            navigator.clipboard.writeText(url).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.replace('translate-y-20', 'translate-y-0');
+                toast.classList.replace('opacity-0', 'opacity-100');
+                setTimeout(() => {
+                    toast.classList.replace('translate-y-0', 'translate-y-20');
+                    toast.classList.replace('opacity-100', 'opacity-0');
+                }, 2500);
             });
         }
 
-        // Papar Toast Sentuhan Premium
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.className = toast.className.replace('translate-y-20 opacity-0', 'translate-y-0 opacity-100');
-            setTimeout(() => {
-                toast.className = toast.className.replace('translate-y-0 opacity-100', 'translate-y-20 opacity-0');
-            }, 3000);
-        }
-
-        // Logik Semak URL Hash (Auto Scroll & Blink apabila pautan dibuka/diklik)
-        function handleHashAction() {
-            const hash = window.location.hash;
-            if (hash) {
-                const targetId = hash.replace('#', '');
-                const targetProgram = programData.find(p => p.id === targetId);
-                
-                if (targetProgram) {
-                    // 1. Tukar filter secara automatik jika kad berada dalam kategori berbeza
-                    if (currentFilter !== 'All' && currentFilter !== targetProgram.category) {
-                        filterCategory(targetProgram.category);
-                    }
-                    
-                    // 2. Tunggu seketika sehingga DOM selesai dibina semula, kemudian skrol dan blink
-                    setTimeout(() => {
-                        const targetCard = document.getElementById(targetId);
-                        if (targetCard) {
-                            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            targetCard.classList.add('blink-highlight');
-                            // Buang kelas blink selepas animasi selesai supaya boleh di-trigger semula nanti
-                            setTimeout(() => {
-                                targetCard.classList.remove('blink-highlight');
-                            }, 3000);
-                        }
-                    }, 200);
+        function handleHash() {
+            const hash = window.location.hash.substring(1);
+            if(hash) {
+                const target = document.getElementById(hash);
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    target.classList.add('highlight-card');
+                    setTimeout(() => target.classList.remove('highlight-card'), 3500);
                 }
             }
         }
 
-        // Jalankan sewaktu halaman pertama kali dimuatkan
-        window.addEventListener('DOMContentLoaded', () => {
+        function filterCategory(cat) {
+            currentCategory = cat;
+            
+            // Update button styles
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400";
+            });
+            
+            const activeId = cat === 'All' ? 'btn-All' : (cat === 'G100 Talk Show' ? 'btn-G100' : (cat === 'QnA Public Gold' ? 'btn-QnA' : 'btn-Rm1'));
+            document.getElementById(activeId).className = "cat-btn px-6 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-lg shadow-premiumGold/20";
+            
             renderPrograms();
-            handleHashAction();
-        });
+        }
 
-        // Pantau jika pengguna klik link yang ada hash berbeza pada halaman yang sama
-        window.addEventListener('hashchange', handleHashAction);
+        window.onload = () => {
+            renderPrograms();
+            setTimeout(handleHash, 500);
+        };
+        window.onhashchange = handleHash;
     </script>
 </body>
 </html>
