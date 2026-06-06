@@ -6,6 +6,18 @@
   <title>Akademi Multimedia - Ilmu Emas</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  @keyframes video-highlight {
+    0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.8); }
+    25%  { box-shadow: 0 0 0 4px rgba(251,191,36,0.35), 0 8px 32px rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.8); }
+    50%  { box-shadow: 0 0 0 2px rgba(251,191,36,0.15), 0 4px 16px rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.4); }
+    75%  { box-shadow: 0 0 0 4px rgba(251,191,36,0.25), 0 8px 24px rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.6); }
+    100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.8); }
+  }
+  .video-highlight-anim {
+    animation: video-highlight 1.6s ease 3;
+  }
+</style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
   
@@ -73,7 +85,28 @@
     }
 
     // Init run
-    renderVideos("all");
+renderVideos("all");
+
+// Auto scroll + highlight jika ada URL hash
+window.addEventListener("DOMContentLoaded", function () {
+  const hash = window.location.hash;
+  if (!hash) return;
+
+  // Tunggu video dirender dahulu, kemudian scroll
+  setTimeout(function () {
+    const target = document.querySelector(hash);
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    setTimeout(function () {
+      target.classList.add("video-highlight-anim");
+      target.addEventListener("animationend", function () {
+        target.classList.remove("video-highlight-anim");
+      }, { once: true });
+    }, 600);
+  }, 300);
+});
   </script>
 </body>
 </html>
