@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" class="bg-zinc-950 text-white scroll-smooth selection:bg-amber-500 selection:text-zinc-950">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Program Hub | Fintech Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        premiumDark: '#070A11',
-                        premiumCard: '#111622',
-                        premiumGold: '#D4AF37',
-                        premiumAccent: '#1E2638',
+                        premiumDark: '#09090b', /* zinc-950 */
+                        premiumCard: '#18181b', /* zinc-900 */
+                        premiumGold: '#fbbf24', /* amber-400 */
+                        premiumAccent: '#27272a', /* zinc-800 */
                     },
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
@@ -25,81 +26,172 @@
     </script>
     <style>
         html { scroll-behavior: smooth; }
-        body { background-color: #070A11; color: #E2E8F0; }
+        body { background-color: #09090b; color: #f4f4f5; }
 
         /* Kesan Blink Highlight untuk kad yang dipilih */
         @keyframes blinkGold {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); border-color: #1E2638; }
-            50% { box-shadow: 0 0 25px 5px rgba(212, 175, 55, 0.4); border-color: #D4AF37; }
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); border-color: #1E2638; }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
+            50% { box-shadow: 0 0 25px 5px rgba(251, 191, 36, 0.3); border-color: #fbbf24; }
         }
         .highlight-card { animation: blinkGold 1.5s ease-in-out 2; border-width: 2px !important; }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #070A11; }
-        ::-webkit-scrollbar-thumb { background: #1E2638; border-radius: 10px; }
+        /* Custom Scrollbar Premium */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
         
         .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ── Coffee Cup Animation (Penyepaduan Premium) ── */
+        .coffee-cup-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 44px;
+        }
+        .coffee-cup-wrap svg {
+            width: 26px;
+            height: 26px;
+            position: absolute;
+            bottom: 9px;
+        }
+        .steam {
+            stroke: #fbbf24;
+            stroke-width: 2;
+            stroke-linecap: round;
+            fill: none;
+            opacity: 0;
+            animation: steam-svg 1.8s ease-in-out infinite;
+        }
+        .steam-1 { animation-delay: 0s; }
+        .steam-2 { animation-delay: 0.5s; }
+        @keyframes steam-svg {
+            0%   { opacity: 0; transform: translateY(0px); }
+            30%  { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-7px); }
+        }
+        
+        /* Dropdown Transition Smoothness */
+        #coffee-dropdown {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        #coffee-dropdown.show {
+            display: block !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased min-h-screen max-w-md mx-auto border-x border-zinc-900/40 pb-12">
 
-    <header class="sticky top-0 z-40 bg-premiumDark/80 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-5 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <button onclick="window.history.back()" class="p-2.5 rounded-xl bg-white/5 hover:bg-premiumGold hover:text-premiumDark transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
+    <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-900/60">
+        <div class="px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="window.history.back()" class="text-zinc-400 hover:text-amber-400 transition-colors focus:outline-none" aria-label="Kembali">
+                    <i class="fa-solid fa-arrow-left text-lg"></i>
                 </button>
-                <h1 class="text-xl font-bold tracking-tight text-white uppercase">Program</h1>
+                <h1 class="text-base font-bold bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent tracking-tight uppercase">Program</h1>
             </div>
-            <div class="hidden md:block">
-                <span class="text-xs font-medium text-premiumGold tracking-widest uppercase">Eksklusif Ilmu Emas</span>
+            
+            <div class="relative">
+                <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+                    class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
+                    style="background:none; border:none; padding:0;">
+                    <div class="coffee-cup-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+                            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+                            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+                            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+                        </svg>
+                    </div>
+                </button>
+
+                <div id="coffee-dropdown"
+                    class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+
+                    <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+                        <i class="fa-solid fa-user-plus text-amber-400"></i>
+                        <span>Daftar Percuma</span>
+                    </button>
+
+                    <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank"
+                        class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+                        <i class="fa-solid fa-comments text-amber-400"></i>
+                        <span>Pertanyaan</span>
+                    </a>
+                </div>
             </div>
         </div>
     </header>
 
-    <section class="max-w-7xl mx-auto px-5 mt-8">
-        <div class="flex gap-3 overflow-x-auto pb-4 hide-scroll" id="filter-bar">
-            <button onclick="filterCategory('All')" id="btn-All" class="cat-btn px-6 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-lg shadow-premiumGold/20">Semua</button>
-            <button onclick="filterCategory('G100 Talk Show')" id="btn-G100" class="cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400">G100 Talk Show</button>
-            <button onclick="filterCategory('QnA Public Gold')" id="btn-QnA" class="cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400">QnA Public Gold</button>
-            <button onclick="filterCategory('Membina Rm1 Juta Pertama')" id="btn-Rm1" class="cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400">RM1 Juta Pertama</button>
+    <section class="px-4 mt-6 space-y-4">
+        <div class="text-center space-y-1">
+            <span class="text-[10px] text-amber-400 uppercase tracking-widest font-bold bg-amber-400/5 px-3 py-1 rounded-full border border-amber-400/10 inline-block">Eksklusif Ilmu Emas</span>
+        </div>
+
+        <div class="flex gap-2 overflow-x-auto pb-2 hide-scroll" id="filter-bar">
+            <button onclick="filterCategory('All')" id="btn-All" class="cat-btn px-5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-md shadow-premiumGold/10">Semua</button>
+            <button onclick="filterCategory('G100 Talk Show')" id="btn-G100" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200">G100 Talk Show</button>
+            <button onclick="filterCategory('QnA Public Gold')" id="btn-QnA" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200">QnA Public Gold</button>
+            <button onclick="filterCategory('Membina Rm1 Juta Pertama')" id="btn-Rm1" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200">RM1 Juta Pertama</button>
         </div>
     </section>
 
-    <main class="max-w-7xl mx-auto px-5 py-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="listing-container">
+    <main class="px-4 py-6">
+        <div class="grid grid-cols-1 gap-6" id="listing-container">
             </div>
     </main>
 
-    <div id="modal-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-premiumDark/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="relative bg-premiumCard border border-white/10 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 p-2 bg-premiumDark/50 rounded-full text-white hover:bg-red-500 transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l18 18" />
-                </svg>
+    <div id="modal-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="relative bg-zinc-900 border border-zinc-800 w-full max-w-sm rounded-[2rem] overflow-hidden shadow-2xl flex flex-col">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 p-2 bg-zinc-950/60 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all focus:outline-none">
+                <i class="fa-solid fa-xmark text-sm w-4 h-4 flex items-center justify-center"></i>
             </button>
             
-            <div class="md:w-1/2 bg-black flex items-center justify-center">
-                <img id="modal-img" src="" alt="Poster" class="w-full h-auto object-contain max-h-[80vh]">
+            <div class="w-full bg-black flex items-center justify-center aspect-video overflow-hidden">
+                <img id="modal-img" src="" alt="Poster" class="w-full h-full object-cover">
             </div>
             
-            <div class="md:w-1/2 p-8 flex flex-col justify-center">
-                <span id="modal-cat" class="text-xs font-bold text-premiumGold uppercase tracking-widest mb-4">Kategori</span>
-                <h2 id="modal-title" class="text-3xl font-bold text-white mb-6 leading-tight">Tajuk Program</h2>
-                <p id="modal-caption" class="text-gray-400 leading-relaxed mb-8">Keterangan program...</p>
-                <div class="pt-6 border-t border-white/5">
-                    <button onclick="closeModal()" class="w-full py-4 rounded-2xl bg-premiumAccent text-white font-bold hover:bg-premiumGold hover:text-premiumDark transition-all uppercase tracking-tighter">Tutup Paparan</button>
+            <div class="p-6 flex flex-col justify-between flex-1">
+                <div>
+                    <span id="modal-cat" class="text-[10px] font-bold text-premiumGold uppercase tracking-widest mb-2 block">Kategori</span>
+                    <h2 id="modal-title" class="text-xl font-bold text-white mb-3 leading-snug">Tajuk Program</h2>
+                    <p id="modal-caption" class="text-zinc-400 text-xs leading-relaxed mb-6 text-justify">Keterangan program...</p>
+                </div>
+                
+                <div class="space-y-2 pt-4 border-t border-zinc-800/60">
+                    <div class="grid grid-cols-2 gap-3">
+                        <button id="modal-btn-copy" class="py-3 rounded-xl bg-zinc-800 text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-zinc-700 transition-all flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-link"></i> Salin Pautan
+                        </button>
+                        <a id="modal-btn-link" href="#" target="_blank" class="py-3 rounded-xl bg-premiumGold text-premiumDark font-bold text-xs uppercase tracking-wider hover:bg-yellow-300 transition-all flex items-center justify-center gap-1.5 text-center">
+                            Info Lanjut <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                    <button onclick="closeModal()" class="w-full py-2.5 text-zinc-500 hover:text-zinc-300 font-medium text-xs transition-all underline block text-center">Tutup</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-premiumGold text-premiumDark rounded-2xl font-bold text-sm shadow-2xl transition-all duration-500 translate-y-20 opacity-0 z-50">
-        Pautan Berjaya Disalin!
+    <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-xs text-center space-y-4 shadow-2xl">
+            <h4 class="font-bold text-base text-white">Kategori Pendaftaran Akaun</h4>
+            <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
+            <div class="space-y-2.5 pt-2">
+                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all">Dewasa (18 Tahun Ke Atas)</a>
+                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all">Junior (17 Tahun Ke Bawah)</a>
+            </div>
+            <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-1 block mx-auto underline">Tutup</button>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-white rounded-full font-bold text-xs shadow-2xl transition-all duration-500 translate-y-20 opacity-0 z-50 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i> Pautan Berjaya Disalin!
     </div>
 
     <script src="js/program-data.js"></script>
@@ -117,23 +209,23 @@
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.id = item.id;
-                card.className = "group relative bg-premiumCard border border-white/5 rounded-[2rem] p-4 transition-all duration-500 hover:border-premiumGold/30";
+                card.className = "group relative bg-premiumCard border border-zinc-900 rounded-[2rem] p-4 transition-all duration-500 hover:border-premiumGold/30 shadow-md";
                 
                 card.innerHTML = `
-                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-6">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://placehold.co/600x400/111622/D4AF37?text=Poster+Akan+Datang'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-premiumDark via-transparent opacity-60"></div>
+                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-zinc-950">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent opacity-60"></div>
                     </div>
                     
-                    <div class="px-2">
-                        <span class="text-[10px] font-extrabold text-premiumGold uppercase tracking-[0.2em] mb-2 block">${item.category}</span>
-                        <h3 class="text-lg font-bold text-white mb-3 leading-snug min-h-[50px]">${item.title}</h3>
-                        <p class="text-gray-500 text-sm line-clamp-2 mb-6 font-medium">${item.caption}</p>
+                    <div class="px-1">
+                        <span class="text-[9px] font-extrabold text-premiumGold uppercase tracking-[0.15em] mb-1.5 block">${item.category}</span>
+                        <h3 class="text-sm font-bold text-zinc-100 mb-2 leading-snug min-h-[40px]">${item.title}</h3>
+                        <p class="text-zinc-400 text-xs line-clamp-2 mb-4 font-medium">${item.caption}</p>
                         
-                        <div class="flex gap-3">
-                            <button onclick="openModal('${item.id}')" class="flex-1 py-3.5 rounded-xl bg-premiumGold text-premiumDark font-bold text-xs uppercase tracking-tighter hover:bg-white transition-all">Lihat</button>
-                            <button onclick="copyLink('${item.id}')" class="p-3.5 rounded-xl bg-premiumAccent text-white hover:bg-white/10 transition-all" title="Salin Pautan">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="flex gap-2">
+                            <button onclick="openModal('${item.id}')" class="flex-1 py-3 rounded-xl bg-premiumGold text-premiumDark font-bold text-xs uppercase tracking-wider hover:bg-yellow-300 transition-all">Lihat Info</button>
+                            <button onclick="copyLink('${item.id}')" class="p-3 rounded-xl bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all" title="Salin Pautan">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 002-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                 </svg>
                             </button>
@@ -144,7 +236,7 @@
             });
         }
 
-        // FUNGSI MODAL (LIHAT)
+        // FUNGSI MODAL DIKEMASKINI DENGAN 2 BUTANG (SALIN & LANJUT)
         function openModal(id) {
             const data = programData.find(p => p.id === id);
             const modal = document.getElementById('modal-view');
@@ -154,6 +246,21 @@
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-caption').innerText = data.caption;
             
+            // Konfigurasi tindakan dinamik untuk butang salin dalam modal
+            document.getElementById('modal-btn-copy').onclick = () => {
+                copyLink(data.id);
+            };
+
+            // Ambil konfigurasi URL lanjutan (data.link) daripada program-data.js
+            const linkBtn = document.getElementById('modal-btn-link');
+            if (data.link) {
+                linkBtn.href = data.link;
+                linkBtn.style.display = 'flex';
+            } else {
+                linkBtn.href = "#";
+                linkBtn.style.display = 'none'; // Sembunyikan sekiranya link tiada dalam objek data
+            }
+
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.replace('opacity-0', 'opacity-100'), 10);
         }
@@ -164,7 +271,7 @@
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
 
-        // FUNGSI COPY LINK & BLINK
+        // FUNGSI COPY LINK & TOAST FEEDBACK
         function copyLink(id) {
             const url = window.location.origin + window.location.pathname + '#' + id;
             navigator.clipboard.writeText(url).then(() => {
@@ -178,31 +285,78 @@
             });
         }
 
+        // AUTOSCROLL & HIGHLIGHT DENGAN STRUKTUR AGAR SERASI KATEGORI
         function handleHash() {
             const hash = window.location.hash.substring(1);
             if(hash) {
-                const target = document.getElementById(hash);
-                if(target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    target.classList.add('highlight-card');
-                    setTimeout(() => target.classList.remove('highlight-card'), 3500);
+                const targetData = programData.find(p => p.id === hash);
+                if(targetData && currentCategory !== 'All' && currentCategory !== targetData.category) {
+                    currentCategory = targetData.category;
+                    updateButtonActiveStyles(currentCategory);
+                    renderPrograms();
                 }
+
+                setTimeout(() => {
+                    const target = document.getElementById(hash);
+                    if(target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        target.classList.add('highlight-card');
+                        setTimeout(() => target.classList.remove('highlight-card'), 3500);
+                    }
+                }, 300);
             }
         }
 
         function filterCategory(cat) {
             currentCategory = cat;
-            
-            // Update button styles
+            updateButtonActiveStyles(cat);
+            renderPrograms();
+        }
+
+        function updateButtonActiveStyles(cat) {
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border border-white/10 bg-premiumAccent/50 text-gray-400";
+                btn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200";
             });
             
             const activeId = cat === 'All' ? 'btn-All' : (cat === 'G100 Talk Show' ? 'btn-G100' : (cat === 'QnA Public Gold' ? 'btn-QnA' : 'btn-Rm1'));
-            document.getElementById(activeId).className = "cat-btn px-6 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-lg shadow-premiumGold/20";
-            
-            renderPrograms();
+            const activeBtn = document.getElementById(activeId);
+            if (activeBtn) {
+                activeBtn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-md shadow-premiumGold/10";
+            }
         }
+
+        // INTERAKSI MENU COFFEE DROPDOWN & MODAL DAFTAR
+        function toggleCoffeeMenu() {
+            const dropdown = document.getElementById("coffee-dropdown");
+            dropdown.classList.toggle("show");
+        }
+
+        function triggerDaftarPopup() {
+            const dropdown = document.getElementById("coffee-dropdown");
+            if (dropdown) dropdown.classList.remove("show");
+
+            const modal = document.getElementById("daftar-pilihan-modal");
+            modal.classList.remove("hidden");
+            void modal.offsetWidth; 
+            modal.classList.remove("opacity-0");
+        }
+
+        function closeDaftarPopup() {
+            const modal = document.getElementById("daftar-pilihan-modal");
+            modal.classList.add("opacity-0");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 300);
+        }
+
+        // Tutup menu dropdown apabila klik di luar kawasan element
+        window.addEventListener("click", (e) => {
+            const btn = document.getElementById("coffee-btn");
+            const dropdown = document.getElementById("coffee-dropdown");
+            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove("show");
+            }
+        });
 
         window.onload = () => {
             renderPrograms();
