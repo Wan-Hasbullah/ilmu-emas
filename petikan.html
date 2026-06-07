@@ -65,14 +65,14 @@
     .quote-card:hover { border-color: rgba(251,191,36,0.25); }
     .quote-card:hover::before { opacity: 1; }
 
-    /* ── Highlight pulse (scroll target) ── */
+    /* ── Premium Highlight Pulse (Kesan Denyut Kad) ── */
     @keyframes highlight-pulse {
       0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0.0), 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.7); }
-      33%  { box-shadow: 0 0 0 4px rgba(251,191,36,0.3), 0 8px 32px rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.7); }
-      66%  { box-shadow: 0 0 0 2px rgba(251,191,36,0.15), 0 4px 16px rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.4); }
+      33%  { box-shadow: 0 0 0 5px rgba(251,191,36,0.25), 0 10px 30px rgba(251,191,36,0.2); border-color: rgba(251,191,36,0.8); }
+      66%  { box-shadow: 0 0 0 2px rgba(251,191,36,0.1), 0 4px 15px rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.4); }
       100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.0), 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.7); }
     }
-    .highlight-anim { animation: highlight-pulse 1.4s ease 3; }
+    .highlight-anim { animation: highlight-pulse 1.4s ease 3; scroll-margin-top: 100px; }
 
     /* ── Category badge colours ── */
     .badge-tips-emas     { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
@@ -303,7 +303,7 @@
 
     function buildFilterBar() {
       const bar = document.getElementById('filter-bar');
-      let html = `<button class="cat-pill active" data-cat="semua" onclick="filterCat('semua',this)">Semua</button>`;
+      let html = `<button class="cat-pill active" id="pill-semua" data-cat="semua" onclick="filterCat('semua',this)">Semua</button>`;
 
       const dynamicCategories = [...new Set(PETIKAN.map(p => p.kategori))];
 
@@ -313,7 +313,7 @@
         const icon = cfg ? cfg.icon : "fa-tag";
 
         html += `
-          <button class="cat-pill" data-cat="${key}" onclick="filterCat('${key}',this)">
+          <button class="cat-pill" id="pill-${key}" data-cat="${key}" onclick="filterCat('${key}',this)">
             <i class="fa-solid ${icon} mr-1 text-[10px]"></i>${label}
           </button>`;
       });
@@ -383,22 +383,39 @@
       document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       renderCards(cat);
-      const hash = window.location.hash;
-      if (hash && cat === 'semua') triggerHashHighlight(hash);
     }
 
-    function triggerHashHighlight(hash) {
-      const target = document.querySelector(hash);
-      if (!target) return;
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // ── PENAMBAHAN SISTEM AUTO SCROLL & HIGHLIGHT DENYUTAN ──
+    function handleHashHighlight() {
+      const hash = window.location.hash;
+      if (!hash) return;
+
+      const targetId = hash.replace("#", "");
+      const linkedItem = PETIKAN.find(p => p.id === targetId);
+      
+      if (linkedItem) {
+        // Jika item berada dalam kategori lain dan penapis sekarang menyekatnya, paksa tukar tab atau render semua kad
+        if (activeCat !== 'semua' && activeCat !== linkedItem.kategori) {
+          const targetPill = document.getElementById(`pill-${linkedItem.kategori}`) || document.getElementById('pill-semua');
+          filterCat(linkedItem.kategori, targetPill);
+        }
+
+        // Jalankan auto-scroll lancar dan animasi denyutan
         setTimeout(() => {
-          target.classList.add('highlight-anim');
-          target.addEventListener('animationend', () => {
-            target.classList.remove('highlight-anim');
-          }, { once: true });
-        }, 600);
-      }, 400);
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Tambah class denyutan neon kelabu-keemasan premium
+            setTimeout(() => {
+              targetEl.classList.add('highlight-anim');
+              targetEl.addEventListener('animationend', () => {
+                targetEl.classList.remove('highlight-anim');
+              }, { once: true });
+            }, 450);
+          }
+        }, 100);
+      }
     }
 
     let currentShareId = null;
@@ -503,15 +520,11 @@
     window.addEventListener('DOMContentLoaded', function() {
       buildFilterBar();
       renderCards('semua');
-      var hash = window.location.hash;
-      if (hash) {
-        const targetId = hash.replace("#", "");
-        const linkedItem = PETIKAN.find(p => p.id === targetId);
-        if(linkedItem) {
-          triggerHashHighlight(hash);
-        }
-      }
+      handleHashHighlight();
     });
+
+    // Kesan perubahan hash secara dinamik sekiranya link diklik semula semasa berada pada halaman yang sama
+    window.addEventListener('hashchange', handleHashHighlight);
   </script>
 </body>
 </html>
