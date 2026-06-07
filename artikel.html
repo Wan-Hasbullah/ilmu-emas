@@ -21,15 +21,28 @@
     .highlight-pulse {
       animation: premiumGlow 2s ease-in-out 2; /* Berdenyut sebanyak 2 kali */
     }
+    /* Sembunyikan scrollbar untuk paparan kategori yang lebih kemas pada desktop */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
   
-  <header class="p-4 border-b border-zinc-900 flex items-center justify-between sticky top-0 bg-zinc-950/80 backdrop-blur-md z-40">
-    <div class="flex items-center gap-3">
-      <a href="index.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
-      <h1 class="text-base font-bold">Hub Artikel</h1>
+  <header class="border-b border-zinc-900 sticky top-0 bg-zinc-950/80 backdrop-blur-md z-40">
+    <div class="p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+        <h1 class="text-base font-bold">Hub Artikel</h1>
+      </div>
     </div>
+    
+    <div id="category-tabs-container" class="flex items-center gap-2 px-4 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
+      </div>
   </header>
 
   <main class="p-4 space-y-4" id="artikel-list-container">
@@ -40,56 +53,108 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const container = document.getElementById("artikel-list-container");
-      
-      // 1. Render senarai artikel asal (Kekal 100%)
-      ARTIKEL_DATA.forEach(art => {
-        const box = document.createElement("div");
-        box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm transition-all duration-300";
-        box.innerHTML = `
-          <div>
-            <div class="flex justify-between items-center mb-2">
-               <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-400/5 px-2 py-1 rounded-md border border-amber-400/10">${art.category}</span>
-               <span class="text-[10px] text-zinc-500 font-medium">Oleh: ${art.author}</span>
-            </div>
-            <h3 class="text-base font-bold text-zinc-100 leading-snug">${art.title}</h3>
-            <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
-          </div>
-          <div class="flex justify-between items-center pt-2 border-t border-zinc-800/60">
-            <button onclick="copyGlobalLink('artikel.html#${art.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1"><i class="fa-solid fa-copy"></i> Salin</button>
-            <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors">Baca Penuh</a>
-          </div>
-        `;
-        box.id = art.id;
-        container.appendChild(box);
-      });
+      const tabsContainer = document.getElementById("category-tabs-container");
+      let currentActiveCategory = "Semua";
 
-      // 2. Logik Auto-Scroll & Kesan Denyutan (Highlight)
+      // 1. Janakan Senarai Kategori Unik Secara Auto-Kemaskini merujuk kepada artikel-data.js
+      const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
+
+      // 2. Fungsi Papar Menu Kategori (Fintech Pill Style)
+      function renderCategoryTabs() {
+        tabsContainer.innerHTML = "";
+        categories.forEach(cat => {
+          const btn = document.createElement("button");
+          btn.innerText = cat;
+          
+          // Gaya premium mengikut status aktif/tidak aktif
+          if (cat === currentActiveCategory) {
+            btn.className = "text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10 whitespace-nowrap";
+          } else {
+            btn.className = "text-xs font-medium text-zinc-400 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800/60 hover:text-zinc-200 hover:border-zinc-700 transition-all whitespace-nowrap";
+          }
+          
+          btn.onclick = () => {
+            currentActiveCategory = cat;
+            renderCategoryTabs(); // Kemas kini rupa butang aktif
+            renderArticles();     // Tapis senarai artikel
+          };
+          
+          tabsContainer.appendChild(btn);
+        });
+      }
+
+      // 3. Fungsi Render Senarai Artikel (Kekal 100% Struktur Asal & Sokong Tapis Kategori)
+      function renderArticles() {
+        container.innerHTML = "";
+        
+        // Tapis mengikut kategori terpilih
+        const filteredData = currentActiveCategory === "Semua" 
+          ? ARTIKEL_DATA 
+          : ARTIKEL_DATA.filter(art => art.category === currentActiveCategory);
+
+        filteredData.forEach(art => {
+          const box = document.createElement("div");
+          box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm transition-all duration-300";
+          box.innerHTML = `
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                 <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-400/5 px-2 py-1 rounded-md border border-amber-400/10">${art.category}</span>
+                 <span class="text-[10px] text-zinc-500 font-medium">Oleh: ${art.author}</span>
+              </div>
+              <h3 class="text-base font-bold text-zinc-100 leading-snug">${art.title}</h3>
+              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
+            </div>
+            <div class="flex justify-between items-center pt-2 border-t border-zinc-800/60">
+              <button onclick="copyGlobalLink('artikel.html#${art.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1"><i class="fa-solid fa-copy"></i> Salin</button>
+              <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors">Baca Penuh</a>
+            </div>
+          `;
+          box.id = art.id;
+          container.appendChild(box);
+        });
+      }
+
+      // 4. Logik Asal Auto-Scroll & Kesan Denyutan (Dipertingkatkan bersama sistem Kategori)
       function handleHashHighlight() {
         const hash = window.location.hash;
         if (hash) {
-          const targetCard = document.querySelector(hash);
-          if (targetCard) {
-            // Memberi sedikit ruang (delay) supaya render DOM selesai sepenuhnya
-            setTimeout(() => {
-              // Auto-scroll dengan posisi tumpuan yang ngam di tengah skrin (Sesuai untuk Mobile & Desktop)
-              targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
-              
-              // Masukkan kelas animasi denyutan emas premium
-              targetCard.classList.add("highlight-pulse");
-              
-              // Buang kelas setelah animasi tamat supaya kod kekal bersih
+          const targetId = hash.replace("#", "");
+          // Cari artikel asal dalam data untuk tahu kategorinya
+          const linkedArticle = ARTIKEL_DATA.find(art => art.id === targetId);
+          
+          if (linkedArticle) {
+            // Jika artikel berada dalam kategori khusus, auto tukar tab kategori ke kategori tersebut supaya kad muncul
+            if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArticle.category) {
+              currentActiveCategory = linkedArticle.category;
+              renderCategoryTabs();
+              renderArticles();
+            }
+            
+            const targetCard = document.getElementById(targetId);
+            if (targetCard) {
               setTimeout(() => {
-                targetCard.classList.remove("highlight-pulse");
-              }, 4000); 
-            }, 300);
+                // Auto-scroll ke tengah skrin
+                targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                
+                // Masukkan kesan denyutan emas premium
+                targetCard.classList.add("highlight-pulse");
+                
+                // Padam kelas setelah animasi tamat
+                setTimeout(() => {
+                  targetCard.classList.remove("highlight-pulse");
+                }, 4000); 
+              }, 300);
+            }
           }
         }
       }
 
-      // Jalankan fungsi sebaik sahaja halaman selesai dimuatkan
+      // Jalankan semua fungsi permulaan
+      renderCategoryTabs();
+      renderArticles();
       handleHashHighlight();
 
-      // Jalankan juga jika pengguna klik link berbeza semasa berada di halaman yang sama
+      // Kesan perubahan hash pautan
       window.addEventListener("hashchange", handleHashHighlight);
     });
   </script>
