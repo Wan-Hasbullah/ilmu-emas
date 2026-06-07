@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -26,16 +27,17 @@
     </script>
     <style>
         html { scroll-behavior: smooth; }
-        body { background-color: #09090b; color: #f4f4f5; }
+        body { background-color: #09090b; color: #e4e4e7; }
 
-        /* Kesan Blink Highlight untuk kad yang dipilih */
+        /* Kesan Blink Highlight Premium Berdenyut Emas */
         @keyframes blinkGold {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
-            50% { box-shadow: 0 0 25px 5px rgba(251, 191, 36, 0.3); border-color: #fbbf24; }
+            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
+            50% { box-shadow: 0 0 25px 5px rgba(251, 191, 36, 0.35); border-color: #fbbf24; }
+            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
         }
         .highlight-card { animation: blinkGold 1.5s ease-in-out 2; border-width: 2px !important; }
 
-        /* Custom Scrollbar Premium */
+        /* Custom Scrollbar Premium Fintech */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #09090b; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
@@ -74,7 +76,7 @@
             100% { opacity: 0; transform: translateY(-7px); }
         }
         
-        /* Dropdown Transition Smoothness */
+        /* Dropdown Smooth Transition */
         #coffee-dropdown {
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
@@ -85,15 +87,17 @@
         }
     </style>
 </head>
-<body class="antialiased min-h-screen max-w-md mx-auto border-x border-zinc-900/40 pb-12">
+<body class="antialiased min-h-screen bg-zinc-950 text-zinc-200">
 
-    <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-900/60">
-        <div class="px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <button onclick="window.history.back()" class="text-zinc-400 hover:text-amber-400 transition-colors focus:outline-none" aria-label="Kembali">
-                    <i class="fa-solid fa-arrow-left text-lg"></i>
+    <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-900">
+        <div class="max-w-7xl mx-auto px-5 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button onclick="window.history.back()" class="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-400/40 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
                 </button>
-                <h1 class="text-base font-bold bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent tracking-tight uppercase">Program</h1>
+                <h1 class="text-base font-bold tracking-tight bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent uppercase">Program</h1>
             </div>
             
             <div class="relative">
@@ -128,70 +132,64 @@
         </div>
     </header>
 
-    <section class="px-4 mt-6 space-y-4">
-        <div class="text-center space-y-1">
-            <span class="text-[10px] text-amber-400 uppercase tracking-widest font-bold bg-amber-400/5 px-3 py-1 rounded-full border border-amber-400/10 inline-block">Eksklusif Ilmu Emas</span>
-        </div>
-
-        <div class="flex gap-2 overflow-x-auto pb-2 hide-scroll" id="filter-bar">
-            <button onclick="filterCategory('All')" id="btn-All" class="cat-btn px-5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-md shadow-premiumGold/10">Semua</button>
-            <button onclick="filterCategory('G100 Talk Show')" id="btn-G100" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200">G100 Talk Show</button>
-            <button onclick="filterCategory('QnA Public Gold')" id="btn-QnA" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200">QnA Public Gold</button>
-            <button onclick="filterCategory('Membina Rm1 Juta Pertama')" id="btn-Rm1" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200">RM1 Juta Pertama</button>
+    <section class="max-w-7xl mx-auto px-5 mt-8">
+        <div class="flex gap-2 overflow-x-auto pb-4 hide-scroll" id="filter-bar">
+            <button onclick="filterCategory('All')" id="btn-All" class="cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10">Semua</button>
+            <button onclick="filterCategory('G100 Talk Show')" id="btn-G100" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700">G100 Talk Show</button>
+            <button onclick="filterCategory('QnA Public Gold')" id="btn-QnA" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700">QnA Public Gold</button>
         </div>
     </section>
 
-    <main class="px-4 py-6">
-        <div class="grid grid-cols-1 gap-6" id="listing-container">
-            </div>
+    <main class="max-w-7xl mx-auto px-5 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="listing-container">
+        </div>
     </main>
 
     <div id="modal-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="relative bg-zinc-900 border border-zinc-800 w-full max-w-sm rounded-[2rem] overflow-hidden shadow-2xl flex flex-col">
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 p-2 bg-zinc-950/60 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all focus:outline-none">
-                <i class="fa-solid fa-xmark text-sm w-4 h-4 flex items-center justify-center"></i>
+        <div class="relative bg-zinc-900 border border-zinc-800 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 p-2.5 bg-zinc-950/60 rounded-full text-zinc-400 hover:bg-zinc-800 hover:text-white transition-all border border-zinc-800/80">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l18 18" />
+                </svg>
             </button>
             
-            <div class="w-full bg-black flex items-center justify-center aspect-video overflow-hidden">
-                <img id="modal-img" src="" alt="Poster" class="w-full h-full object-cover">
+            <div class="md:w-1/2 bg-black flex items-center justify-center">
+                <img id="modal-img" src="" alt="Poster" class="w-full h-auto object-contain max-h-[50vh] md:max-h-[80vh]">
             </div>
             
-            <div class="p-6 flex flex-col justify-between flex-1">
-                <div>
-                    <span id="modal-cat" class="text-[10px] font-bold text-premiumGold uppercase tracking-widest mb-2 block">Kategori</span>
-                    <h2 id="modal-title" class="text-xl font-bold text-white mb-3 leading-snug">Tajuk Program</h2>
-                    <p id="modal-caption" class="text-zinc-400 text-xs leading-relaxed mb-6 text-justify">Keterangan program...</p>
-                </div>
+            <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+                <span id="modal-cat" class="text-[10px] font-bold text-amber-400 uppercase tracking-widest mb-3 bg-amber-400/5 px-2.5 py-1 rounded-md border border-amber-400/10 inline-block w-max">Kategori</span>
+                <h2 id="modal-title" class="text-xl md:text-2xl font-bold text-white mb-4 leading-tight">Tajuk Program</h2>
+                <p id="modal-caption" class="text-xs text-zinc-400 leading-relaxed mb-6 text-justify">Keterangan program...</p>
                 
-                <div class="space-y-2 pt-4 border-t border-zinc-800/60">
-                    <div class="grid grid-cols-2 gap-3">
-                        <button id="modal-btn-copy" class="py-3 rounded-xl bg-zinc-800 text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-zinc-700 transition-all flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-link"></i> Salin Pautan
-                        </button>
-                        <a id="modal-btn-link" href="#" target="_blank" class="py-3 rounded-xl bg-premiumGold text-premiumDark font-bold text-xs uppercase tracking-wider hover:bg-yellow-300 transition-all flex items-center justify-center gap-1.5 text-center">
-                            Info Lanjut <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                        </a>
-                    </div>
-                    <button onclick="closeModal()" class="w-full py-2.5 text-zinc-500 hover:text-zinc-300 font-medium text-xs transition-all underline block text-center">Tutup</button>
+                <div class="pt-5 border-t border-zinc-800/80 flex flex-col sm:flex-row gap-3">
+                    <button id="modal-btn-copy" onclick="" class="flex-1 py-3 px-4 rounded-xl bg-zinc-800 text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-zinc-700 transition-all border border-zinc-700/60 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-copy"></i> Salin Pautan
+                    </button>
+                    <a id="modal-btn-lanjut" href="#" target="_blank" class="flex-1 py-3 px-4 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs uppercase tracking-wider hover:bg-white text-center transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Lanjut
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-xs text-center space-y-4 shadow-2xl">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
             <h4 class="font-bold text-base text-white">Kategori Pendaftaran Akaun</h4>
             <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
-            <div class="space-y-2.5 pt-2">
-                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all">Dewasa (18 Tahun Ke Atas)</a>
-                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all">Junior (17 Tahun Ke Bawah)</a>
+            <div class="space-y-3 pt-1">
+                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all border border-zinc-700/30">Dewasa (18 Tahun Ke Atas)</a>
+                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all border border-zinc-700/30">Junior (17 Tahun Ke Bawah)</a>
             </div>
             <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-1 block mx-auto underline">Tutup</button>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-white rounded-full font-bold text-xs shadow-2xl transition-all duration-500 translate-y-20 opacity-0 z-50 flex items-center gap-2">
-        <i class="fa-solid fa-circle-check text-emerald-400"></i> Pautan Berjaya Disalin!
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-white rounded-full font-semibold text-xs shadow-2xl transition-all duration-500 translate-y-20 opacity-0 z-50 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span>Pautan Berjaya Disalin!</span>
     </div>
 
     <script src="js/program-data.js"></script>
@@ -209,22 +207,22 @@
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.id = item.id;
-                card.className = "group relative bg-premiumCard border border-zinc-900 rounded-[2rem] p-4 transition-all duration-500 hover:border-premiumGold/30 shadow-md";
+                card.className = "group relative bg-zinc-900 border border-zinc-800/80 rounded-[2rem] p-4 transition-all duration-500 hover:border-amber-400/30";
                 
                 card.innerHTML = `
-                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-zinc-950">
+                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-5 bg-zinc-950">
                         <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent opacity-60"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent opacity-65"></div>
                     </div>
                     
                     <div class="px-1">
-                        <span class="text-[9px] font-extrabold text-premiumGold uppercase tracking-[0.15em] mb-1.5 block">${item.category}</span>
-                        <h3 class="text-sm font-bold text-zinc-100 mb-2 leading-snug min-h-[40px]">${item.title}</h3>
-                        <p class="text-zinc-400 text-xs line-clamp-2 mb-4 font-medium">${item.caption}</p>
+                        <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-[0.15em] mb-2 block">${item.category}</span>
+                        <h3 class="text-base font-bold text-zinc-100 mb-2 leading-snug min-h-[48px] line-clamp-2">${item.title}</h3>
+                        <p class="text-zinc-400 text-xs line-clamp-2 mb-5 font-medium leading-relaxed">${item.caption}</p>
                         
-                        <div class="flex gap-2">
-                            <button onclick="openModal('${item.id}')" class="flex-1 py-3 rounded-xl bg-premiumGold text-premiumDark font-bold text-xs uppercase tracking-wider hover:bg-yellow-300 transition-all">Lihat Info</button>
-                            <button onclick="copyLink('${item.id}')" class="p-3 rounded-xl bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all" title="Salin Pautan">
+                        <div class="flex gap-2.5">
+                            <button onclick="openModal('${item.id}')" class="flex-1 py-3 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs uppercase tracking-wide hover:bg-white transition-all">Lihat</button>
+                            <button onclick="copyLink('${item.id}')" class="p-3 rounded-xl bg-zinc-800 border border-zinc-700/60 text-zinc-300 hover:text-amber-400 hover:bg-zinc-700 transition-all" title="Salin Pautan">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 002-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                 </svg>
@@ -236,7 +234,7 @@
             });
         }
 
-        // FUNGSI MODAL DIKEMASKINI DENGAN 2 BUTANG (SALIN & LANJUT)
+        // FUNGSI MODAL (LIHAT) - DENGAN 2 BUTANG BARU: SALIN & LANJUT
         function openModal(id) {
             const data = programData.find(p => p.id === id);
             const modal = document.getElementById('modal-view');
@@ -246,21 +244,18 @@
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-caption').innerText = data.caption;
             
-            // Konfigurasi tindakan dinamik untuk butang salin dalam modal
-            document.getElementById('modal-btn-copy').onclick = () => {
-                copyLink(data.id);
-            };
-
-            // Ambil konfigurasi URL lanjutan (data.link) daripada program-data.js
-            const linkBtn = document.getElementById('modal-btn-link');
-            if (data.link) {
-                linkBtn.href = data.link;
-                linkBtn.style.display = 'flex';
+            // Konfigurasi butang salin dalam modal
+            document.getElementById('modal-btn-copy').setAttribute('onclick', `copyLink('${data.id}')`);
+            
+            // Konfigurasi butang lanjut dinamik daripada parameter link di program-data.js
+            const btnLanjut = document.getElementById('modal-btn-lanjut');
+            if(data.link) {
+                btnLanjut.href = data.link;
+                btnLanjut.style.display = "flex";
             } else {
-                linkBtn.href = "#";
-                linkBtn.style.display = 'none'; // Sembunyikan sekiranya link tiada dalam objek data
+                btnLanjut.style.display = "none";
             }
-
+            
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.replace('opacity-0', 'opacity-100'), 10);
         }
@@ -271,7 +266,7 @@
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
 
-        // FUNGSI COPY LINK & TOAST FEEDBACK
+        // FUNGSI COPY LINK & BLINK
         function copyLink(id) {
             const url = window.location.origin + window.location.pathname + '#' + id;
             navigator.clipboard.writeText(url).then(() => {
@@ -285,47 +280,36 @@
             });
         }
 
-        // AUTOSCROLL & HIGHLIGHT DENGAN STRUKTUR AGAR SERASI KATEGORI
         function handleHash() {
             const hash = window.location.hash.substring(1);
             if(hash) {
-                const targetData = programData.find(p => p.id === hash);
-                if(targetData && currentCategory !== 'All' && currentCategory !== targetData.category) {
-                    currentCategory = targetData.category;
-                    updateButtonActiveStyles(currentCategory);
-                    renderPrograms();
+                const target = document.getElementById(hash);
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    target.classList.add('highlight-card');
+                    setTimeout(() => target.classList.remove('highlight-card'), 3500);
                 }
-
-                setTimeout(() => {
-                    const target = document.getElementById(hash);
-                    if(target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        target.classList.add('highlight-card');
-                        setTimeout(() => target.classList.remove('highlight-card'), 3500);
-                    }
-                }, 300);
             }
         }
 
         function filterCategory(cat) {
             currentCategory = cat;
-            updateButtonActiveStyles(cat);
+            
+            // Mengemas kini gaya visual butang penapis tab
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700";
+            });
+            
+            const activeId = cat === 'All' ? 'btn-All' : (cat === 'G100 Talk Show' ? 'btn-G100' : 'btn-QnA');
+            const activeBtn = document.getElementById(activeId);
+            if(activeBtn) {
+                activeBtn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10";
+            }
+            
             renderPrograms();
         }
 
-        function updateButtonActiveStyles(cat) {
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200";
-            });
-            
-            const activeId = cat === 'All' ? 'btn-All' : (cat === 'G100 Talk Show' ? 'btn-G100' : (cat === 'QnA Public Gold' ? 'btn-QnA' : 'btn-Rm1'));
-            const activeBtn = document.getElementById(activeId);
-            if (activeBtn) {
-                activeBtn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border border-premiumGold bg-premiumGold text-premiumDark shadow-md shadow-premiumGold/10";
-            }
-        }
-
-        // INTERAKSI MENU COFFEE DROPDOWN & MODAL DAFTAR
+        // ── Fungsi Interaksi Dropdown Kopi & Modal ──
         function toggleCoffeeMenu() {
             const dropdown = document.getElementById("coffee-dropdown");
             dropdown.classList.toggle("show");
@@ -349,7 +333,7 @@
             }, 300);
         }
 
-        // Tutup menu dropdown apabila klik di luar kawasan element
+        // Klik luar untuk menutup dropdown menu cawan kopi
         window.addEventListener("click", (e) => {
             const btn = document.getElementById("coffee-btn");
             const dropdown = document.getElementById("coffee-dropdown");
