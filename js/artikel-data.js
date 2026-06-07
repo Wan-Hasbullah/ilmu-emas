@@ -9,7 +9,6 @@ const ARTIKEL_DATA = [
     path: "kandungan-artikel/panduan-simpanan-emas.html"
   }
 ];
-
 {
     id: "sejarah-harga-emas-10-tahun",
     title: "Sejarah Harga Emas 10 Tahun",
