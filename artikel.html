@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub Artikel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @keyframes premiumGlow {
+      0%, 100% {
+        border-color: rgb(39, 39, 42); /* border-zinc-800 */
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+      }
+      50% {
+        border-color: rgb(251, 191, 36); /* border-amber-400 */
+        box-shadow: 0 0 20px 2px rgba(251, 191, 36, 0.25);
+      }
+    }
+    .highlight-pulse {
+      animation: premiumGlow 2s ease-in-out 2; /* Berdenyut sebanyak 2 kali */
+    }
+    /* Sembunyikan scrollbar untuk paparan kategori yang lebih kemas pada desktop */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* ── Coffee Cup Animation ── */
+    .coffee-cup-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 44px;
+    }
+    .coffee-cup-wrap svg {
+      width: 26px;
+      height: 26px;
+      position: absolute;
+      bottom: 9px;
+    }
+    .steam {
+      stroke: #fbbf24;
+      stroke-width: 2;
+      stroke-linecap: round;
+      fill: none;
+      opacity: 0;
+      animation: steam-svg 1.8s ease-in-out infinite;
+    }
+    .steam-1 { animation-delay: 0s; }
+    .steam-2 { animation-delay: 0.5s; }
+    @keyframes steam-svg {
+      0%   { opacity: 0; transform: translateY(0px); }
+      30%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-7px); }
+    }
+    .coffee-cup-wrap svg path:not(.steam) {
+      fill: #fbbf24;
+      stroke: #fbbf24;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
+  
+  <header class="border-b border-zinc-900 sticky top-0 bg-zinc-950/80 backdrop-blur-md z-40">
+    <div class="p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+        <h1 class="text-base font-bold">Hub Artikel</h1>
+      </div>
+      <div class="coffee-cup-wrap">
+        <svg viewBox="0 0 24 24">
+          <path class="steam steam-1" d="M10,4 C10,2 11,2 11,0" />
+          <path class="steam steam-2" d="M14,4 C14,2 13,2 13,0" />
+          <path d="M2,21 C2,22 3,23 4,23 L16,23 C17,23 18,22 18,21 L18,11 L2,11 L2,21 Z M18,13 L20,13 C21,13 22,14 22,15 L22,17 C22,18 21,19 20,19 L18,19 L18,13 Z" />
+        </svg>
+      </div>
+    </div>
+    
+    <div id="category-tabs-container" class="flex items-center gap-2 px-4 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
+    </div>
+  </header>
+
+  <main class="p-4 space-y-4" id="artikel-list-container">
+  </main>
+
+  <script src="js/artikel-data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("artikel-list-container");
+      const tabsContainer = document.getElementById("category-tabs-container");
+      let currentActiveCategory = "Semua";
+
+      // 1. Janakan Senarai Kategori Unik Secara Auto-Kemaskini merujuk kepada artikel-data.js
+      const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
+
+      // 2. Fungsi Papar Menu Kategori (Fintech Pill Style)
+      function renderCategoryTabs() {
+        tabsContainer.innerHTML = "";
+        categories.forEach(cat => {
+          const btn = document.createElement("button");
+          btn.innerText = cat;
+          
+          // Gaya premium mengikut status aktif/tidak aktif
+          if (cat === currentActiveCategory) {
+            btn.className = "text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10 whitespace-nowrap";
+          } else {
+            btn.className = "text-xs font-medium text-zinc-400 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800/60 hover:text-zinc-200 hover:border-zinc-700 transition-all whitespace-nowrap";
+          }
+          
+          btn.onclick = () => {
+            currentActiveCategory = cat;
+            renderCategoryTabs(); // Kemas kini rupa butang aktif
+            renderArticles();     // Tapis senarai artikel
+          };
+          
+          tabsContainer.appendChild(btn);
+        });
+      }
+
+      // 3. Fungsi Render Senarai Artikel (Kekal 100% Struktur Asal & Sokong Tapis Kategori)
+      function renderArticles() {
+        container.innerHTML = "";
+        
+        // Tapis mengikut kategori terpilih
+        const filteredData = currentActiveCategory === "Semua" 
+          ? ARTIKEL_DATA 
+          : ARTIKEL_DATA.filter(art => art.category === currentActiveCategory);
+
+        filteredData.forEach(art => {
+          const box = document.createElement("div");
+          box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm transition-all duration-300";
+          box.innerHTML = `
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                 <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-400/5 px-2 py-1 rounded-md border border-amber-400/10">${art.category}</span>
+                 <span class="text-[10px] text-zinc-500 font-medium">Penulis: ${art.author}</span>
+              </div>
+              <h3 class="text-base font-bold text-zinc-100 leading-snug">${art.title}</h3>
+              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
+            </div>
+            <div class="flex justify-between items-center pt-2 border-t border-zinc-800/60">
+              <button onclick="copyGlobalLink('artikel.html#${art.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1"><i class="fa-solid fa-copy"></i> Salin</button>
+              <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors">Baca Penuh</a>
+            </div>
+          `;
+          box.id = art.id;
+          container.appendChild(box);
+        });
+      }
+
+      // 4. Logik Asal Auto-Scroll & Kesan Denyutan (Dipertingkatkan bersama sistem Kategori)
+      function handleHashHighlight() {
+        const hash = window.location.hash;
+        if (hash) {
+          const targetId = hash.replace("#", "");
+          // Cari artikel asal dalam data untuk tahu kategorinya
+          const linkedArticle = ARTIKEL_DATA.find(art => art.id === targetId);
+          
+          if (linkedArticle) {
+            // Jika artikel berada dalam kategori khusus, auto tukar tab kategori ke kategori tersebut supaya kad muncul
+            if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArticle.category) {
+              currentActiveCategory = linkedArticle.category;
+              renderCategoryTabs();
+              renderArticles();
+            }
+            
+            const targetCard = document.getElementById(targetId);
+            if (targetCard) {
+              setTimeout(() => {
+                // Auto-scroll ke tengah skrin
+                targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                
+                // Masukkan kesan denyutan emas premium
+                targetCard.classList.add("highlight-pulse");
+                
+                // Padam kelas setelah animasi tamat
+                setTimeout(() => {
+                  targetCard.classList.remove("highlight-pulse");
+                }, 4000); 
+              }, 300);
+            }
+          }
+        }
+      }
+
+      // Jalankan semua fungsi permulaan
+      renderCategoryTabs();
+      renderArticles();
+      handleHashHighlight();
+
+      // Kesan perubahan hash pautan
+      window.addEventListener("hashchange", handleHashHighlight);
+    });
+  </script>
+</body>
+</html>
