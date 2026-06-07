@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub Artikel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @keyframes premiumGlow {
+      0%, 100% {
+        border-color: rgb(39, 39, 42); /* border-zinc-800 */
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+      }
+      50% {
+        border-color: rgb(251, 191, 36); /* border-amber-400 */
+        box-shadow: 0 0 20px 2px rgba(251, 191, 36, 0.25);
+      }
+    }
+    .highlight-pulse {
+      animation: premiumGlow 2s ease-in-out 2; /* Berdenyut sebanyak 2 kali */
+    }
+    /* Sembunyikan scrollbar untuk paparan kategori yang lebih kemas pada desktop */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* ── Coffee Cup Animation (Sama seperti index.html) ── */
+    .coffee-cup-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 44px;
+    }
+    .coffee-cup-wrap svg {
+      width: 26px;
+      height: 26px;
+      position: absolute;
+      bottom: 9px;
+    }
+    .steam {
+      stroke: #fbbf24;
+      stroke-width: 2;
+      stroke-linecap: round;
+      fill: none;
+      opacity: 0;
+      animation: steam-svg 1.8s ease-in-out infinite;
+    }
+    .steam-1 { animation-delay: 0s; }
+    .steam-2 { animation-delay: 0.5s; }
+    @keyframes steam-svg {
+      0%   { opacity: 0; transform: translateY(0px); }
+      30%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-7px); }
+    }
+    
+    /* Dropdown Transition */
+    #coffee-dropdown {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    #coffee-dropdown.show {
+      display: block !important;
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
+  
+  <header class="border-b border-zinc-900 sticky top-0 bg-zinc-950/80 backdrop-blur-md z-40">
+    <div class="p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+        <h1 class="text-base font-bold">Hub Artikel</h1>
+      </div>
+      
+      <div class="relative">
+        <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+          class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
+          style="background:none; border:none; padding:0;">
+          <div class="coffee-cup-wrap">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+              <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+              <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+              <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+            </svg>
+          </div>
+        </button>
+
+        <div id="coffee-dropdown"
+          class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+
+          <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+            <i class="fa-solid fa-user-plus text-amber-400"></i>
+            <span>Daftar Percuma</span>
+          </button>
+
+          <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank"
+            class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+            <i class="fa-solid fa-comments text-amber-400"></i>
+            <span>Pertanyaan</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div id="category-tabs-container" class="flex items-center gap-2 px-4 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
+    </div>
+  </header>
+
+  <main class="p-4 space-y-4" id="artikel-list-container">
+  </main>
+
+  <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
+      <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
+      <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
+      <div class="space-y-3 pt-2">
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Dewasa (18 Tahun Ke Atas)</a>
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Junior (17 Tahun Ke Bawah)</a>
+      </div>
+      <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-2 block mx-auto underline">Tutup</button>
+    </div>
+  </div>
+
+  <script src="js/artikel-data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Fungsi Toggle Dropdown Kopi (Sama seperti index.html)
+    function toggleCoffeeMenu() {
+      const dropdown = document.getElementById("coffee-dropdown");
+      dropdown.classList.toggle("show");
+    }
+
+    // Fungsi untuk membuka Modal Daftar Percuma
+    function triggerDaftarPopup() {
+      const dropdown = document.getElementById("coffee-dropdown");
+      if (dropdown) dropdown.classList.remove("show");
+
+      const modal = document.getElementById("daftar-pilihan-modal");
+      modal.classList.remove("hidden");
+      void modal.offsetWidth; 
+      modal.classList.remove("opacity-0");
+    }
+
+    // Fungsi untuk menutup Modal Daftar Percuma
+    function closeDaftarPopup() {
+      const modal = document.getElementById("daftar-pilihan-modal");
+      modal.classList.add("opacity-0");
+      setTimeout(() => {
+        modal.classList.add("hidden");
+      }, 300);
+    }
+
+    // Klik luar untuk menutup dropdown kopi
+    window.addEventListener("click", (e) => {
+      const btn = document.getElementById("coffee-btn");
+      const dropdown = document.getElementById("coffee-dropdown");
+      if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove("show");
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("artikel-list-container");
+      const tabsContainer = document.getElementById("category-tabs-container");
+      let currentActiveCategory = "Semua";
+
+      const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
+
+      function renderCategoryTabs() {
+        tabsContainer.innerHTML = "";
+        categories.forEach(cat => {
+          const btn = document.createElement("button");
+          btn.innerText = cat;
+          
+          if (cat === currentActiveCategory) {
+            btn.className = "text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10 whitespace-nowrap";
+          } else {
+            btn.className = "text-xs font-medium text-zinc-400 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800/60 hover:text-zinc-200 hover:border-zinc-700 transition-all whitespace-nowrap";
+          }
+          
+          btn.onclick = () => {
+            currentActiveCategory = cat;
+            renderCategoryTabs();
+            renderArticles();
+          };
+          
+          tabsContainer.appendChild(btn);
+        });
+      }
+
+      function renderArticles() {
+        container.innerHTML = "";
+        
+        const filteredData = currentActiveCategory === "Semua" 
+          ? ARTIKEL_DATA 
+          : ARTIKEL_DATA.filter(art => art.category === currentActiveCategory);
+
+        filteredData.forEach(art => {
+          const box = document.createElement("div");
+          box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm transition-all duration-300";
+          box.innerHTML = `
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                 <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-400/5 px-2 py-1 rounded-md border border-amber-400/10">${art.category}</span>
+                 <span class="text-[10px] text-zinc-500 font-medium">Penulis: ${art.author}</span>
+              </div>
+              <h3 class="text-base font-bold text-zinc-100 leading-snug">${art.title}</h3>
+              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
+            </div>
+            <div class="flex justify-between items-center pt-2 border-t border-zinc-800/60">
+              <button onclick="copyGlobalLink('artikel.html#${art.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1"><i class="fa-solid fa-copy"></i> Salin</button>
+              <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors">Baca Penuh</a>
+            </div>
+          `;
+          box.id = art.id;
+          container.appendChild(box);
+        });
+      }
+
+      function handleHashHighlight() {
+        const hash = window.location.hash;
+        if (hash) {
+          const targetId = hash.replace("#", "");
+          const linkedArticle = ARTIKEL_DATA.find(art => art.id === targetId);
+          
+          if (linkedArticle) {
+            if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArticle.category) {
+              currentActiveCategory = linkedArticle.category;
+              renderCategoryTabs();
+              renderArticles();
+            }
+            
+            const targetCard = document.getElementById(targetId);
+            if (targetCard) {
+              setTimeout(() => {
+                targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                targetCard.classList.add("highlight-pulse");
+                setTimeout(() => {
+                  targetCard.classList.remove("highlight-pulse");
+                }, 4000); 
+              }, 300);
+            }
+          }
+        }
+      }
+
+      renderCategoryTabs();
+      renderArticles();
+      handleHashHighlight();
+
+      window.addEventListener("hashchange", handleHashHighlight);
+    });
+  </script>
+</body>
+</html>
