@@ -1,6 +1,6 @@
 /**
  * ╔══════════════════════════════════════════════════════════╗
- * ║           ILMU EMAS — DATA PETIKAN                      ║
+ * ║         ILMU EMAS — DATA PETIKAN                         ║
  * ║  Edit fail ini untuk kemaskini atau tambah petikan baru  ║
  * ╚══════════════════════════════════════════════════════════╝
  *
@@ -10,27 +10,31 @@
  * Pastikan id adalah unik (contoh: "q7", "q8", dll.)
  *
  * KATEGORI YANG TERSEDIA:
- *   "tips-emas"      → warna Amber/Emas
- *   "tips-kewangan"  → warna Biru/Sky
+ * "tips-emas"      → warna Amber/Emas
+ * "tips-kewangan"  → warna Biru/Sky
  *
  * CONTOH STRUKTUR:
  * ─────────────────
  * {
- *   id: "q7",
- *   kategori: "tips-emas",
- *   oleh: "Nama Penulis",
- *   petikan: "Teks petikan anda di sini."
+ * id: "q7",
+ * kategori: "tips-emas",
+ * oleh: "Nama Penulis",
+ * petikan: "Teks petikan anda di sini."
  * }
  */
 
 const PETIKAN = [
-
-  // ── Tips Emas ─────────────────────────────────────────────
   {
     id: "q1",
     kategori: "tips-kewangan",
-    oleh: "Mohd Zulkifli Shafie",
+    by: "Mohd Zulkifli Shafie",
     petikan: "Tiada SHORCUT melunasi hutang. Belajarlah apa-apa strategi sekali pun, akhir sekali hutang tetap perlu dibayar dengan duit kita juga. Tak ada teknik magik untuk langsai hutang."
+  },
+  {
+    id: "q2",
+    kategori: "mindset",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Nak tingkatkan kejayaan sebenarnya kena tingkatkan self-image, bukan duit dalam poket. Duit dalam poket akan automatik meningkat bila self-image meningkat."
   },
   {
     id: "q3",
@@ -39,40 +43,23 @@ const PETIKAN = [
     petikan: "Nak tingkatkan kejayaan sebenarnya kena tingkatkan self-image, bukan duit dalam poket. Duit dalam poket akan automatik meningkat bila self-image meningkat."
   },
   {
-    id: "q5",
-    kategori: "tips-emas",
-    oleh: "Wan Hasbullah",
-    petikan: "Simpan sedikit emas setiap bulan, bukan kerana anda kaya — tetapi kerana anda mahu menjadi kaya. Disiplin kecil hari ini membina kekayaan besar esok hari."
-  },
-
-  // ── Tips Kewangan ─────────────────────────────────────────
-  {
-    id: "q2",
-    kategori: "tips-kewangan",
-    oleh: "Robert Kiyosaki",
-    petikan: "Orang kaya tidak bekerja untuk wang — mereka menjadikan wang bekerja untuk mereka. Fahami aset dan liabiliti sebelum membuat sebarang keputusan kewangan."
-  },
-  {
     id: "q4",
     kategori: "tips-kewangan",
     oleh: "Warren Buffett",
     petikan: "Jangan bergantung pada satu sumber pendapatan sahaja. Lakukan pelaburan untuk mencipta sumber pendapatan yang kedua. Diversifikasi adalah perisai kewangan terbaik."
   },
   {
+    id: "q5",
+    kategori: "tips-emas",
+    oleh: "Wan Hasbullah",
+    petikan: "Simpan sedikit emas setiap bulan, bukan kerana anda kaya — tetapi kerana anda mahu menjadi kaya. Disiplin kecil hari ini membina kekayaan besar esok hari."
+  },
+  {
     id: "q6",
     kategori: "tips-kewangan",
     oleh: "T. Harv Eker",
     petikan: "Cara anda lakukan sesuatu perkara adalah cara anda lakukan segalanya. Sikap anda terhadap wang kecil mencerminkan sikap anda terhadap wang besar."
-  },
-
-  // ── Tambah petikan baru di bawah ini ──────────────────────
-  // {
-  //   id: "q7",
-  //   kategori: "tips-emas",
-  //   oleh: "Nama Penulis",
-  //   petikan: "Tulis petikan anda di sini."
-  // },
-
+  }
 ];
 
 /**
