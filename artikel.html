@@ -1,11 +1,27 @@
 <!DOCTYPE html>
-<html lang="ms" class="bg-zinc-950 text-white">
+<html lang="ms" class="bg-zinc-950 text-white scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub Kebijaksanaan Kewangan - Artikel</title>
+  <title>Hub Artikel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @keyframes premiumGlow {
+      0%, 100% {
+        border-color: rgb(39, 39, 42); /* border-zinc-800 */
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+      }
+      50% {
+        border-color: rgb(251, 191, 36); /* border-amber-400 */
+        box-shadow: 0 0 20px 2px rgba(251, 191, 36, 0.25);
+      }
+    }
+    .highlight-pulse {
+      animation: premiumGlow 2s ease-in-out 2; /* Berdenyut sebanyak 2 kali */
+    }
+  </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
   
@@ -17,16 +33,18 @@
   </header>
 
   <main class="p-4 space-y-4" id="artikel-list-container">
-    </main>
+  </main>
 
   <script src="js/artikel-data.js"></script>
   <script src="js/main.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const container = document.getElementById("artikel-list-container");
+      
+      // 1. Render senarai artikel asal (Kekal 100%)
       ARTIKEL_DATA.forEach(art => {
         const box = document.createElement("div");
-        box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm";
+        box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm transition-all duration-300";
         box.innerHTML = `
           <div>
             <div class="flex justify-between items-center mb-2">
@@ -44,6 +62,35 @@
         box.id = art.id;
         container.appendChild(box);
       });
+
+      // 2. Logik Auto-Scroll & Kesan Denyutan (Highlight)
+      function handleHashHighlight() {
+        const hash = window.location.hash;
+        if (hash) {
+          const targetCard = document.querySelector(hash);
+          if (targetCard) {
+            // Memberi sedikit ruang (delay) supaya render DOM selesai sepenuhnya
+            setTimeout(() => {
+              // Auto-scroll dengan posisi tumpuan yang ngam di tengah skrin (Sesuai untuk Mobile & Desktop)
+              targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+              
+              // Masukkan kelas animasi denyutan emas premium
+              targetCard.classList.add("highlight-pulse");
+              
+              // Buang kelas setelah animasi tamat supaya kod kekal bersih
+              setTimeout(() => {
+                targetCard.classList.remove("highlight-pulse");
+              }, 4000); 
+            }, 300);
+          }
+        }
+      }
+
+      // Jalankan fungsi sebaik sahaja halaman selesai dimuatkan
+      handleHashHighlight();
+
+      // Jalankan juga jika pengguna klik link berbeza semasa berada di halaman yang sama
+      window.addEventListener("hashchange", handleHashHighlight);
     });
   </script>
 </body>
