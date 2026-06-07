@@ -27,7 +27,7 @@ const PETIKAN = [
   {
     id: "q1",
     kategori: "tips-kewangan",
-    by: "Mohd Zulkifli Shafie",
+    oleh: "Mohd Zulkifli Shafie",
     petikan: "Tiada SHORCUT melunasi hutang. Belajarlah apa-apa strategi sekali pun, akhir sekali hutang tetap perlu dibayar dengan duit kita juga. Tak ada teknik magik untuk langsai hutang."
   },
   {
@@ -38,27 +38,27 @@ const PETIKAN = [
   },
   {
     id: "q3",
-    kategori: "tips-emas",
+    kategori: "tips-kewangan",
     oleh: "Mohd Zulkifli Shafie",
-    petikan: "Nak tingkatkan kejayaan sebenarnya kena tingkatkan self-image, bukan duit dalam poket. Duit dalam poket akan automatik meningkat bila self-image meningkat."
+    petikan: "Tak kisah berapa besar pun gaji yang diterima setiap bulan, selagi tak menyimpan dan tak mampu disiplinkan diri menyimpan setiap bulan, selagi itulah tak akan kaya."
   },
   {
     id: "q4",
     kategori: "tips-kewangan",
-    oleh: "Warren Buffett",
-    petikan: "Jangan bergantung pada satu sumber pendapatan sahaja. Lakukan pelaburan untuk mencipta sumber pendapatan yang kedua. Diversifikasi adalah perisai kewangan terbaik."
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Duit yang kita ada hari ni bukan hanya untuk hidup hari ni, tapi untuk masa depan yang belum tentu untung nasib kita. Jadi sebahagian duit gaji yang kita terima setiap bulan kena simpan untuk 3 tujuan asas, iaitu kecemasan, perbelanjaan masa depan, dan pelaburan."
   },
   {
     id: "q5",
-    kategori: "tips-emas",
-    oleh: "Wan Hasbullah",
-    petikan: "Simpan sedikit emas setiap bulan, bukan kerana anda kaya — tetapi kerana anda mahu menjadi kaya. Disiplin kecil hari ini membina kekayaan besar esok hari."
+    kategori: "tips-kewangan",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Guru-guru kewangan cadangkan setiap kita mesti simpan Dana Kecemasan paling minimum berjumlah 3 bulan gaji. Kalau hilang pekerjaan atau hilang upaya untuk bekerja, at least kita masih ada tempoh 3 bulan untuk survive sebelum dapat kerja baru."
   },
   {
     id: "q6",
-    kategori: "tips-kewangan",
-    oleh: "T. Harv Eker",
-    petikan: "Cara anda lakukan sesuatu perkara adalah cara anda lakukan segalanya. Sikap anda terhadap wang kecil mencerminkan sikap anda terhadap wang besar."
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Harga emas confirm naik dalam jangka panjang. Ini disebabkan kuasa beli duit semakin menurun. Harga turun naik dalam jangka pendek itu perkara biasa biasa. Penyimpan emas yang berilmu, dia akan beli emas menggunkan duit simpanan jangka panjang, sekurang-kurangnya untuk jangka waktu 2 - 3 tahun."
   }
 ];
 
