@@ -8,7 +8,7 @@ const ARTIKEL_DATA = [
     summary: "Fahami cara memulakan simpanan emas fizikal dengan strategi memaksimumkan keuntungan jangka masa panjang.",
     path: "kandungan-artikel/panduan-simpanan-emas.html"
   }
-];
+
 {
     id: "sejarah-harga-emas-10-tahun",
     title: "Sejarah Harga Emas 10 Tahun",
