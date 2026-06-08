@@ -14,7 +14,7 @@ const VIDEO_DATA = [
   type: "tiktok",
   // Menggunakan URL embed terus ke dalam iframe (lebih stabil & responsive)
   embedCode: `<iframe class="w-full aspect-[9/16] rounded-xl" src="https://www.tiktok.com/player/v1/7648484980837846292?rel=0&native=1" title="TikTok video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen style="max-width: 400px; margin: 0 auto;"></iframe>`
-},
+  },
   {
     id: "ciri-emas-paling-untung",
     title: "Ciri-Ciri Emas Paling Untung Untuk Pelaburan",
