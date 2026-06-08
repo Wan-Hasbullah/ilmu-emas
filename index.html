@@ -18,17 +18,17 @@
   </script>
   
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(async function() {
-      await OneSignal.init({
-        appId: "2e160715-b1dc-4876-ac2d-dea7697d7d60",
-        notifyButton: {
-          enable: false, // Ditutup kerana menggunakan butang & modal custom Ilmu Emas sendiri
-        },
-      });
+<script>
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(async function() {
+    await OneSignal.init({
+      appId: "2e160715-b1dc-4981-ac2d-dea7697d7d60",
+      notifyButton: {
+        enable: false, // Ditutup kerana menggunakan butang & modal custom Ilmu Emas sendiri
+      },
     });
-  </script>
+  }); // <-- Kurungan penutup ini telah dibetulkan supaya tiada ralat sintaks
+</script>
 
   <style>
     /* ── Coffee Cup Animation ── */
