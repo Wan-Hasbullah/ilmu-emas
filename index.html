@@ -83,21 +83,29 @@
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
 
   <div id="gold-drop-notification" class="fixed top-0 left-0 right-0 z-50 px-4 pt-4 max-w-md mx-auto w-full hidden opacity-0 -translate-y-10">
-    <div onclick="openGoldPromoModal()" class="bg-gradient-to-r from-zinc-900 via-zinc-900 to-amber-950/40 border border-amber-500/30 rounded-2xl p-3.5 shadow-[0_10px_30px_rgba(0,0,0,0.8),_0_0_15px_rgba(251,191,36,0.1)] flex items-center justify-between cursor-pointer hover:border-amber-400 transition-all group backdrop-blur-md">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center text-sm animate-bounce">
-          <i class="fa-solid fa-chart-line-down"></i>
+    <div class="bg-gradient-to-r from-zinc-900 via-zinc-900 to-amber-950/40 border border-amber-500/30 rounded-2xl p-3.5 shadow-[0_10px_30px_rgba(0,0,0,0.8),_0_0_15px_rgba(251,191,36,0.1)] flex items-center justify-between backdrop-blur-md relative group">
+      
+      <div onclick="openGoldPromoModal()" class="flex items-center gap-3 cursor-pointer flex-1 pr-8">
+        <div class="w-9 h-9 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-xl flex items-center justify-center text-sm animate-bounce">
+          <i class="fa-solid fa-arrow-trend-down"></i>
         </div>
         <div>
           <h4 class="text-xs font-bold text-white tracking-wide">Peluang Keemasan Semasa!</h4>
           <p class="text-[11px] text-amber-400 font-semibold flex items-center gap-1 mt-0.5">
-            Harga Emas Turun Hari Ini <i class="fa-solid fa-arrow-trend-down text-[9px]"></i>
+            Harga Emas Turun Hari Ini <i class="fa-solid fa-arrow-trend-down text-[10px] text-rose-400"></i>
           </p>
         </div>
       </div>
-      <span class="text-[11px] text-zinc-400 bg-zinc-800 px-2.5 py-1 rounded-lg font-bold group-hover:bg-amber-400 group-hover:text-zinc-950 transition-colors flex items-center gap-1">
-        Lihat <i class="fa-solid fa-chevron-right text-[8px]"></i>
-      </span>
+
+      <div class="flex items-center gap-2">
+        <span onclick="openGoldPromoModal()" class="text-[11px] text-zinc-400 bg-zinc-800 px-2.5 py-1 rounded-lg font-bold hover:bg-amber-400 hover:text-zinc-950 transition-colors flex items-center gap-1 cursor-pointer">
+          Lihat <i class="fa-solid fa-chevron-right text-[8px]"></i>
+        </span>
+        <button onclick="dismissGoldNotification(event)" class="w-6 h-6 rounded-lg bg-zinc-800/80 hover:bg-rose-500 text-zinc-400 hover:text-white flex items-center justify-center transition-all border border-zinc-700/50 text-[10px] focus:outline-none" title="Tutup Notifikasi">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -240,7 +248,7 @@
       <div>
         <h4 class="text-lg font-bold text-white">Sertai komuniti Ilmu Emas!</h4>
         <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
-          Klik terima notification untuk mendapatkan panduan kewangan, video akademi, dan info seminar terkini secara terus.
+          Klik terima notification untuk mendapatkan panduan kewangan, video akademi, and info seminar terkini secara terus.
         </p>
       </div>
       <div class="grid grid-cols-2 gap-3 pt-2">
@@ -290,15 +298,15 @@
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
-      <div class="w-14 h-14 mx-auto bg-amber-400/10 border border-amber-400/30 rounded-2xl flex items-center justify-center text-amber-400 text-2xl shadow-lg">
-        <i class="fa-solid fa-chart-line-down"></i>
+      <div class="w-14 h-14 mx-auto bg-rose-500/10 border border-rose-500/30 rounded-2xl flex items-center justify-center text-rose-400 text-2xl shadow-lg animate-pulse">
+        <i class="fa-solid fa-arrow-trend-down"></i>
       </div>
 
       <div class="space-y-2">
         <h3 class="font-black text-lg text-white tracking-tight">Strategi Tabungan Bijak</h3>
         <div class="bg-zinc-950 border border-zinc-800/50 rounded-xl p-4 text-xs text-zinc-300 leading-relaxed font-medium italic space-y-1 text-center shadow-inner">
           <p>“ Setiap bulan menabung emas secara konsisten, ”</p>
-          <p class="text-emerald-400 font-semibold">Harga emas turun kita borong,</p>
+          <p class="text-rose-400 font-semibold">Harga emas turun kita borong,</p>
           <p class="text-amber-400 font-semibold">Harga emas naik kita untung. ”</p>
         </div>
       </div>
@@ -351,7 +359,7 @@
     <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Akses &amp; Sistem</h4>
     <div class="grid grid-cols-3 gap-2 text-center">
       <a href="pasang-percuma.html" class="flex flex-col items-center group">
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 its-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-download text-lg"></i></div>
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-download text-lg"></i></div>
         <span class="text-[11px] text-zinc-400 mt-2 font-medium">Pasang App</span>
       </a>
       <button onclick="triggerOneSignalForce()" class="flex flex-col items-center group focus:outline-none">
@@ -531,7 +539,7 @@
       setTimeout(() => { modal.classList.add("hidden"); }, 300);
     }
 
-    /* ── Tab Akses: NATIVE ACTIONS REPLACED WITH PREMIUM FINTECH POPUPS ── */
+    /* ── Tab Akses: ACTIONS WITH PREMIUM FINTECH POPUPS ── */
     function triggerOneSignalForce() {
       closeNavPopups();
       openDynamicAccessPopup(
@@ -556,7 +564,6 @@
           url
         );
       }).catch(() => {
-        // Fallback jika pelayar menyekat clipboard API
         openDynamicAccessPopup(
           "fa-solid fa-link", 
           "bg-zinc-800", 
@@ -580,7 +587,7 @@
         }, 1500);
       }
 
-      // SEMAKAN HARGA EMAS DUNIA UTK NOTIFIKASI TURUN
+      // SEMAKAN PASARAN UNTUK NOTIFIKASI HARGA TURUN
       checkGoldPriceStatus();
     });
 
@@ -602,7 +609,7 @@
       );
     }
 
-    /* ── Skrip Logik Semakan Harga Emas Serta Modal Tindakan ── */
+    /* ── Logik Notifikasi & Modal Isyarat Harga Emas Turun ── */
     function checkGoldPriceStatus() {
       const goldData = document.getElementById("hidden-gold-data");
       if(goldData && goldData.getAttribute("data-status") === "down") {
@@ -611,7 +618,7 @@
           goldNotif.classList.remove("hidden");
           void goldNotif.offsetWidth;
           goldNotif.classList.remove("opacity-0", "-translate-y-10");
-        }, 2200); // Muncul sejurus selepas modal push komuniti asal
+        }, 2200);
       }
     }
 
@@ -626,6 +633,13 @@
       const modal = document.getElementById("gold-promo-modal");
       modal.classList.add("opacity-0");
       setTimeout(() => { modal.classList.add("hidden"); }, 300);
+    }
+
+    function dismissGoldNotification(event) {
+      event.stopPropagation(); // Elakkan modal terbuka jika tertekan kad
+      const goldNotif = document.getElementById("gold-drop-notification");
+      goldNotif.classList.add("opacity-0", "-translate-y-10");
+      setTimeout(() => { goldNotif.classList.add("hidden"); }, 500);
     }
   </script>
 </body>
