@@ -550,7 +550,7 @@
         } else {
           // Jika tidak melanggan/pernah sekat, paparkan slidedown prompt binaan OneSignal
           try {
-            await OneSignal.showSlidedownPrompt();
+            await OneSignal.Notifications.requestPermission();
           } catch(e) {
             console.error("Ralat pemicu slidedown:", e);
           }
