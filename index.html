@@ -533,30 +533,29 @@
     }
 
     /* ── Tab Akses: Connected to OneSignal Verification ── */
-    function triggerOneSignalForce() {
-      closeNavPopups();
-      
-      OneSignal.push(async function() {
-        const isSubscribed = OneSignal.User.PushSubscription.id;
-        
-        if (isSubscribed) {
-          openDynamicAccessPopup(
-            "fa-solid fa-circle-check text-emerald-400", 
-            "bg-emerald-500/10 border border-emerald-500/20", 
-            "text-emerald-400", 
-            "Status Aktif", 
-            "Peranti anda sudah berjaya disinkronisasikan dan aktif menerima sebarang makluman terbaru."
-          );
-        } else {
-          // Jika tidak melanggan/pernah sekat, paparkan slidedown prompt binaan OneSignal
-          try {
-            await OneSignal.Notifications.requestPermission();
-          } catch(e) {
-            console.error("Ralat pemicu slidedown:", e);
-          }
-        }
-      });
+function triggerOneSignalForce() {
+  closeNavPopups();
+
+  OneSignalDeferred.push(async function(OneSignal) {
+    const isSubscribed = OneSignal.User.PushSubscription.optedIn;
+
+    if (isSubscribed) {
+      openDynamicAccessPopup(
+        "fa-solid fa-circle-check text-emerald-400",
+        "bg-emerald-500/10 border border-emerald-500/20",
+        "text-emerald-400",
+        "Status Aktif",
+        "Peranti anda sudah berjaya disinkronisasikan dan aktif menerima sebarang makluman terbaru."
+      );
+    } else {
+      try {
+        await OneSignal.Notifications.requestPermission();
+      } catch(e) {
+        console.error("Ralat pemicu notifikasi:", e);
+      }
     }
+  });
+}
 
     function copyGlobalLink(path) {
       closeNavPopups();
