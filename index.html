@@ -22,25 +22,15 @@
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
-      appId: \"2e160715-b1dc-4966-9b59-0091ee6b1efd\",
-      safari_web_id: \"web.onesignal.auto.292bfef3-722a-4467-bb89-53b0df38c564\",
+      appId: "2e160715-b1dc-4981-ac2d-dea7697d7d60",
       notifyButton: {
-        enable: true,
+        enable: false,
       },
     });
   });
 </script>
 
   <style>
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); opacity: 0.2; }
-      50% { transform: scale(1.05); opacity: 0.4; }
-    }
-    .glow-bg { animation: pulse-glow 6s ease-in-out infinite; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #09090b; }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 99px; }
-    
     /* ── Coffee Cup Animation ── */
     .coffee-cup-wrap {
       position: relative;
@@ -54,7 +44,7 @@
       width: 26px;
       height: 26px;
       position: absolute;
-      bottom: 9px;
+      bottom: 0;
     }
     .steam {
       stroke: #fbbf24;
@@ -71,361 +61,689 @@
       30%  { opacity: 1; }
       100% { opacity: 0; transform: translateY(-7px); }
     }
-    
-    #coffee-dropdown {
-      transition: opacity 0.2s ease, transform 0.2s ease;
+    .coffee-cup-wrap svg path:not(.steam) {
+      fill: #fbbf24;
+      stroke: #fbbf24;
     }
-    #coffee-dropdown.show {
-      display: block !important;
-      opacity: 1 !important;
-      transform: translateY(0) !important;
+
+    /* ── Coffee Dropdown Animation ── */
+    #coffee-dropdown { transition: opacity 0.25s ease, transform 0.25s ease; }
+    #coffee-dropdown.show { opacity: 1 !important; transform: translateY(0) !important; }
+
+    /* ── Tab Close (×) button on nav popup cards ── */
+    .popup-close-btn {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 28px; height: 28px;
+      background: rgba(63,63,70,0.8);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: #a1a1aa;
+      transition: background 0.2s, color 0.2s;
+    }
+    .popup-close-btn:hover { background: #ef4444; color: #fff; }
+
+    /* ── Gold Premium Drop Notification Animation ── */
+    #gold-drop-notification {
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
-<body class="antialiased bg-zinc-950 text-zinc-400 min-h-screen flex flex-col justify-between">
+<body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
 
-  <div id="gold-drop-notification" class="fixed top-24 left-4 right-4 z-50 max-w-md mx-auto bg-gradient-to-r from-amber-500/10 via-amber-400/20 to-amber-500/10 border border-amber-400/30 rounded-2xl p-4 shadow-2xl backdrop-blur-xl hidden opacity-0 -translate-y-10 transition-all duration-500 cursor-pointer" onclick="openGoldPromoModal()">
-    <div class="flex items-start gap-3">
-      <div class="p-2 bg-amber-400 rounded-xl text-zinc-950 shrink-0 shadow-lg shadow-amber-400/20">
-        <i class="fa-solid fa-chart-line-down text-base animate-bounce"></i>
-      </div>
-      <div class="flex-1 min-w-0">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Isyarat Premium</span>
-          <button onclick="dismissGoldNotification(event)" class="text-zinc-500 hover:text-white transition-colors p-1 -mr-1">
-            <i class="fa-solid fa-xmark text-xs"></i>
-          </button>
+  <div id="gold-drop-notification" class="fixed top-0 left-0 right-0 z-50 px-4 pt-4 max-w-md mx-auto w-full hidden opacity-0 -translate-y-10">
+    <div class="bg-gradient-to-r from-zinc-900 via-zinc-900 to-amber-950/40 border border-amber-500/30 rounded-2xl p-3.5 shadow-[0_10px_30px_rgba(0,0,0,0.8),_0_0_15px_rgba(251,191,36,0.1)] flex items-center justify-between backdrop-blur-md relative group">
+      
+      <div onclick="openGoldPromoModal()" class="flex items-center gap-3 cursor-pointer flex-1 pr-8">
+        <div class="w-9 h-9 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-xl flex items-center justify-center text-sm animate-bounce">
+          <i class="fa-solid fa-arrow-trend-down"></i>
         </div>
-        <h4 class="text-sm font-bold text-white mt-0.5">Harga Emas Dilaporkan Turun!</h4>
-        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Ini adalah peluang terbaik untuk menambah simpanan aset anda. Sentuh di sini untuk panduan strategi belian hari ini.</p>
+        <div>
+          <h4 class="text-xs font-bold text-white tracking-wide">Peluang Keemasan Semasa!</h4>
+          <p class="text-[11px] text-amber-400 font-semibold flex items-center gap-1 mt-0.5">
+            Harga Emas Turun Hari Ini <i class="fa-solid fa-arrow-trend-down text-[10px] text-rose-400"></i>
+          </p>
+        </div>
       </div>
+
+      <div class="flex items-center gap-2">
+        <span onclick="openGoldPromoModal()" class="text-[11px] text-zinc-400 bg-zinc-800 px-2.5 py-1 rounded-lg font-bold hover:bg-amber-400 hover:text-zinc-950 transition-colors flex items-center gap-1 cursor-pointer">
+          Lihat <i class="fa-solid fa-chevron-right text-[8px]"></i>
+        </span>
+        <button onclick="dismissGoldNotification(event)" class="w-6 h-6 rounded-lg bg-zinc-800/80 hover:bg-rose-500 text-zinc-400 hover:text-white flex items-center justify-center transition-all border border-zinc-700/50 text-[10px] focus:outline-none" title="Tutup Notifikasi">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <div id="hidden-gold-data" class="hidden" data-status="down"></div>
+  <div id="hidden-gold-data" class="hidden" data-current-price="84.50" data-previous-price="86.20" data-status="down"></div>
 
-  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] pointer-events-none overflow-hidden z-0">
-    <div class="absolute top-[-150px] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-amber-500/10 rounded-full blur-[130px] glow-bg"></div>
-  </div>
+  <header class="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60 px-4 py-3 max-w-md mx-auto w-full flex items-center justify-between">
+    <div class="flex flex-col justify-center">
+      <h1 class="text-xl font-black tracking-tight leading-none">
+        <span class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(251,191,36,0.35)]">Ilmu Emas</span>
+      </h1>
+      <span class="text-[10px] font-bold tracking-wider uppercase mt-1 bg-gradient-to-r from-zinc-300 via-zinc-400 to-zinc-500 bg-clip-text text-transparent opacity-90">PG by Wan Hasbullah</span>
+    </div>
 
-  <header class="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900/60">
-    <div class="max-w-md mx-auto px-4 h-20 flex items-center justify-between md:max-w-xl">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 p-[1px] shadow-lg shadow-amber-500/10">
-          <div class="w-full h-full bg-zinc-950 rounded-[11px] flex items-center justify-center">
-            <i class="fa-solid fa-coins text-amber-400 text-sm"></i>
-          </div>
+    <div class="relative flex items-center h-full">
+      <button onclick="toggleCoffeeMenu()" id="coffee-btn" class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300" style="background:none; border:none; padding:0;">
+        <div class="coffee-cup-wrap">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          </svg>
         </div>
-        <div>
-          <span class="text-[10px] font-bold text-zinc-500 tracking-widest uppercase block leading-none">Hub Pintar</span>
-          <h2 class="text-sm font-extrabold text-white tracking-wide uppercase mt-0.5">Gold Saver</h2>
-        </div>
-      </div>
+      </button>
 
-      <div class="relative">
-        <button onclick="toggleCoffeeMenu()" id="coffee-btn" class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300" style="background:none; border:none; padding:0;">
-          <div class="coffee-cup-wrap">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
-              <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
-              <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
-              <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
-            </svg>
-          </div>
+      <div id="coffee-dropdown" class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+        <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+          <i class="fa-solid fa-user-plus text-amber-400"></i>
+          <span>Daftar Percuma</span>
         </button>
-
-        <div id="coffee-dropdown" class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
-          <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
-            <i class="fa-solid fa-user-plus text-amber-400"></i>
-            <span>Daftar Percuma</span>
-          </button>
-          <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
-            <i class="fa-solid fa-comments text-amber-400"></i>
-            <span>Pertanyaan</span>
-          </a>
-        </div>
+        <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+          <i class="fa-solid fa-comments text-amber-400"></i>
+          <span>Pertanyaan</span>
+        </a>
       </div>
     </div>
   </header>
 
-  <main class="max-w-md mx-auto px-4 pt-4 md:max-w-xl flex-1 w-full z-10 relative">
-    
-    <section class="mb-8">
-      <div class="flex items-center justify-between mb-4">
+  <main class="max-w-md mx-auto px-4 mt-6 space-y-6">
+    <section class="py-2 text-center space-y-2">
+      <h2 class="text-2xl font-extrabold tracking-tight leading-tight bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
+        Tingkatkan Kewangan dan Lindungi Kekayaan Anda Dengan Simpanan Emas
+      </h2>
+      <p class="text-sm text-zinc-500 leading-relaxed max-w-xs mx-auto">
+        Mulakan perjalanan kewangan anda hari ini — belajar, simpan, dan lindungi masa depan bersama komuniti Ilmu Emas.
+      </p>
+    </section>
+
+    <section class="grid grid-cols-2 gap-4">
+      <a href="video.html" class="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl flex flex-col justify-between group hover:border-amber-500/40 transition-all duration-300">
+        <div class="w-10 h-10 bg-amber-400/10 border border-amber-400/20 text-amber-400 rounded-xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-play"></i>
+        </div>
+        <div class="mt-6">
+          <h4 class="font-bold text-zinc-100 text-base">Video</h4>
+          <p class="text-xs text-zinc-400 mt-1">Akademi Multimedia</p>
+        </div>
+      </a>
+
+      <a href="artikel.html" class="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl flex flex-col justify-between group hover:border-amber-500/40 transition-all duration-300">
+        <div class="w-10 h-10 bg-amber-400/10 border border-amber-400/20 text-amber-400 rounded-xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <div class="mt-6">
+          <h4 class="font-bold text-zinc-100 text-base">Artikel</h4>
+          <p class="text-xs text-zinc-400 mt-1">Blog Penulisan</p>
+        </div>
+      </a>
+
+      <a href="petikan.html" class="col-span-2 bg-zinc-900 border border-zinc-800 p-5 rounded-2xl flex items-center gap-4 group hover:border-amber-500/40 transition-all duration-300">
+        <div class="w-10 h-10 bg-amber-400/10 border border-amber-400/20 text-amber-400 rounded-xl flex items-center justify-center text-lg flex-shrink-0 group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-quote-left"></i>
+        </div>
+        <div>
+          <h4 class="font-bold text-zinc-100 text-base">Petikan</h4>
+          <p class="text-xs text-zinc-400 mt-1">Pesan Mentor</p>
+        </div>
+        <i class="fa-solid fa-arrow-right text-zinc-700 group-hover:text-amber-400 ml-auto transition-colors"></i>
+      </a>
+    </section>
+
+    <!-- ── Makluman Terkini (Dynamic dari program-data.js) ── -->
+    <div class="space-y-2.5 pt-2">
+      <div class="flex items-center justify-between px-1">
         <div class="flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
-          <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-widest">Makluman Terkini</h3>
+          <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></div>
+          <p class="text-[11px] text-zinc-500 uppercase tracking-widest font-bold">Makluman Terkini</p>
         </div>
-        <a href="makluman/index.html" class="text-[11px] font-semibold text-zinc-500 hover:text-amber-400 transition-colors flex items-center gap-1">
-          Arkib Log <i class="fa-solid fa-angle-right text-[10px]"></i>
+        <a href="makluman-terkini/index" class="text-[11px] text-amber-400/90 hover:text-amber-300 transition-colors font-semibold flex items-center gap-1 group">
+          Semua Log <i class="fa-solid fa-angle-right text-[10px] group-hover:translate-x-0.5 transition-transform"></i>
         </a>
       </div>
 
-      <div class="space-y-3" id="makluman-container">
-        <div class="bg-zinc-900/40 border border-zinc-900 rounded-2xl p-4 text-center text-xs text-zinc-600">
-          Memuatkan makluman sistem...
-        </div>
+      <div id="makluman-container" class="bg-zinc-900 border border-zinc-800/80 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm">
+        <!-- Items rendered by JS below -->
       </div>
-    </section>
-
-    <section class="mb-8">
-      <div class="flex items-center gap-2 mb-4">
-        <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest">Akses Navigasi Pintar</h3>
-      </div>
-
-      <div class="grid grid-cols-2 gap-3">
-        <a href="https://pgdealer-wanhasbullah.pages.dev/misi-visi" target="_blank" class="bg-zinc-900/40 border border-zinc-900 rounded-2xl p-4 flex flex-col justify-between min-h-[110px] hover:border-zinc-800/80 transition-all group">
-          <div class="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-amber-400 group-hover:bg-amber-400 group-hover:text-zinc-950 transition-colors shadow-inner">
-            <i class="fa-solid fa-bullseye text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-white tracking-wide">Misi &amp; Visi</h4>
-            <p class="text-[10px] text-zinc-500 mt-0.5 leading-tight">Hala tuju ekosistem emas.</p>
-          </div>
-        </a>
-
-        <a href="program.html" class="bg-zinc-900/40 border border-zinc-900 rounded-2xl p-4 flex flex-col justify-between min-h-[110px] hover:border-zinc-800/80 transition-all group">
-          <div class="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-amber-400 group-hover:bg-amber-400 group-hover:text-zinc-950 transition-colors shadow-inner">
-            <i class="fa-solid fa-calendar-alt text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-white tracking-wide">Jadual Program</h4>
-            <p class="text-[10px] text-zinc-500 mt-0.5 leading-tight">Sertai webinar &amp; latihan.</p>
-          </div>
-        </a>
-
-        <a href="https://pgdealer-wanhasbullah.pages.dev/katalog" target="_blank" class="bg-zinc-900/40 border border-zinc-900 rounded-2xl p-4 flex flex-col justify-between min-h-[110px] hover:border-zinc-800/80 transition-all group">
-          <div class="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-amber-400 group-hover:bg-amber-400 group-hover:text-zinc-950 transition-colors shadow-inner">
-            <i class="fa-solid fa-folder-open text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-white tracking-wide">Katalog Premium</h4>
-            <p class="text-[10px] text-zinc-500 mt-0.5 leading-tight">Koleksi gred produk fizikal.</p>
-          </div>
-        </a>
-
-        <a href="https://pgdealer-wanhasbullah.pages.dev/calculator" target="_blank" class="bg-zinc-900/40 border border-zinc-900 rounded-2xl p-4 flex flex-col justify-between min-h-[110px] hover:border-zinc-800/80 transition-all group">
-          <div class="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-amber-400 group-hover:bg-amber-400 group-hover:text-zinc-950 transition-colors shadow-inner">
-            <i class="fa-solid fa-calculator text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-white tracking-wide">Kalkulator Pajak</h4>
-            <p class="text-[10px] text-zinc-500 mt-0.5 leading-tight">Kira simulasi nilai Ar-Rahnu.</p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section class="bg-gradient-to-br from-zinc-900/80 to-zinc-900/20 border border-zinc-900 rounded-3xl p-5 mb-8 shadow-xl relative overflow-hidden">
-      <div class="absolute bottom-[-20px] right-[-20px] w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none"></div>
-      
-      <span class="text-[9px] font-extrabold text-amber-400 uppercase tracking-widest bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20 inline-block mb-3">Rangkaian Sah</span>
-      <h3 class="text-sm font-extrabold text-white leading-snug">Rakan Elit Niaga Public Gold</h3>
-      <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed text-justify">Bimbingan eksklusif berterusan bagi penstrukturan simpanan, perlindungan aset fizikal, serta strategi pembebasan liabiliti kewangan berteraskan piawaian industri yang diyakini.</p>
-      
-      <div class="mt-5 pt-4 border-t border-zinc-800/60 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Penasihat Aktif</span>
-        </div>
-        <span class="text-xs font-bold text-zinc-300">Wan Hasbullah</span>
-      </div>
-    </section>
-
+    </div>
   </main>
 
-  <footer class="border-t border-zinc-900 bg-zinc-950 py-4 z-10 relative">
-    <p class="text-center text-[10px] font-medium text-zinc-600 tracking-wider uppercase">© 2026 Gold Saver • FinTech Ecosystem Interface</p>
-  </footer>
+  <div id="push-notification-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-end justify-center px-4 pb-8 hidden opacity-0 transition-all duration-500">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm space-y-4 shadow-2xl transform translate-y-10 transition-transform duration-500">
+      <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-xl">
+        <i class="fa-solid fa-bell"></i>
+      </div>
+      <div>
+        <h4 class="text-lg font-bold text-white">Sertai komuniti Ilmu Emas!</h4>
+        <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+          Klik terima untuk mendapatkan panduan kewangan, video akademi, info pasaran harga emas, dan makluman terkini secara terus.
+        </p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <button onclick="dismissPushModal()" class="bg-zinc-800 text-zinc-400 font-medium py-3 rounded-xl hover:bg-zinc-700 transition-colors text-sm">Nanti Kemudian</button>
+        <button onclick="acceptPushModal()" class="bg-amber-400 text-zinc-950 font-bold py-3 rounded-xl hover:bg-amber-300 transition-colors text-sm shadow-lg shadow-amber-500/10">Terima</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="alert-list-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-500">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 w-full max-w-sm space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h4 class="font-bold text-lg text-white">Senarai Makluman</h4>
+        <button onclick="toggleAlertListPopup(false)" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      <div class="space-y-3">
+        <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-xl flex justify-between items-center">
+          <div>
+            <span class="text-xs text-amber-400 font-semibold">SISTEM</span>
+            <p class="text-sm text-zinc-200 font-medium">Perubahan Log App V6</p>
+          </div>
+          <a href="info/perubahan-app.html" class="bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-zinc-300">Lihat</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dynamic-access-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-xs text-center space-y-4 shadow-2xl relative">
+      <div id="dynamic-icon-wrap" class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center text-xl shadow-lg"></div>
+      <div class="space-y-1">
+        <h4 id="dynamic-title" class="font-bold text-base text-white"></h4>
+        <p id="dynamic-desc" class="text-xs text-zinc-400 leading-relaxed"></p>
+      </div>
+      <div id="dynamic-meta-box" class="hidden text-[11px] bg-zinc-950 border border-zinc-800/80 rounded-xl p-2 font-mono text-zinc-500 break-all select-all"></div>
+      <button onclick="closeDynamicAccessPopup()" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs rounded-xl transition-all">
+        Selesai
+      </button>
+    </div>
+  </div>
+
+  <div id="gold-promo-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-5 shadow-2xl relative">
+      <button onclick="closeGoldPromoModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors focus:outline-none">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="w-14 h-14 mx-auto bg-rose-500/10 border border-rose-500/30 rounded-2xl flex items-center justify-center text-rose-400 text-2xl shadow-lg animate-pulse">
+        <i class="fa-solid fa-arrow-trend-down"></i>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="font-black text-lg text-white tracking-tight">Strategi Tabungan Bijak</h3>
+        <div class="bg-zinc-950 border border-zinc-800/50 rounded-xl p-4 text-xs text-zinc-300 leading-relaxed font-medium italic space-y-1 text-center shadow-inner">
+          <p>“ Setiap bulan menabung emas secara konsisten, ”</p>
+          <p class="text-rose-400 font-semibold">Harga emas turun kita borong,</p>
+          <p class="text-amber-400 font-semibold">Harga emas naik kita untung. ”</p>
+        </div>
+      </div>
+
+      <div class="space-y-2.5 pt-1">
+        <a href="https://publicgold.com.my/" target="_blank" class="flex items-center justify-between w-full px-4 py-2.5 bg-zinc-950 border border-zinc-800 hover:border-amber-400/60 text-xs text-zinc-200 hover:text-white font-semibold rounded-xl transition-all group">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-coins text-amber-400 text-[11px]"></i> Harga Hari Ini</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-zinc-600 group-hover:text-amber-400 transition-colors"></i>
+        </a>
+        <a href="https://pg2u.my/wanhasbullah/pembelian-gap" target="_blank" class="flex items-center justify-between w-full px-4 py-2.5 bg-zinc-950 border border-zinc-800 hover:border-amber-400/60 text-xs text-zinc-200 hover:text-white font-semibold rounded-xl transition-all group">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-wallet text-amber-400 text-[11px]"></i> Cara Topup GAP</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-zinc-600 group-hover:text-amber-400 transition-colors"></i>
+        </a>
+        <a href="https://pg2u.my/wanhasbullah/pembelian-outright" target="_blank" class="flex items-center justify-between w-full px-4 py-2.5 bg-zinc-950 border border-zinc-800 hover:border-amber-400/60 text-xs text-zinc-200 hover:text-white font-semibold rounded-xl transition-all group">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar text-amber-400 text-[11px]"></i> Cara Lock Bayaran Penuh/Bulanan</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-zinc-600 group-hover:text-amber-400 transition-colors"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="nav-popup-overlay" onclick="closeNavPopups()" class="fixed inset-0 z-40 bg-zinc-950/60 backdrop-blur-xs hidden opacity-0 transition-all duration-300"></div>
+
+  <div id="menu-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-300 ease-in-out shadow-2xl">
+    <button onclick="closeNavPopups()" class="popup-close-btn"><i class="fa-solid fa-xmark text-xs"></i></button>
+    <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Navigasi Aplikasi</h4>
+    <div class="grid grid-cols-4 gap-y-4 gap-x-2 text-center">
+      <a href="faq.html" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-circle-question text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">FAQ</span>
+      </a>
+      <a href="program.html" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-calendar-alt text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Program</span>
+      </a>
+      <button onclick="triggerDaftarPopup()" class="flex flex-col items-center group focus:outline-none">
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-user-plus text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Daftar</span>
+      </button>
+      <a href="gold-saver.html" class="flex flex-col items-center group relative">
+        <span class="absolute -top-1.5 right-0 bg-amber-500 text-[8px] text-zinc-950 font-black px-1.5 py-0.5 rounded-full scale-90 shadow-md">VIP</span>
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-crown text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Eksklusif</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="akses-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-300 ease-in-out shadow-2xl">
+    <button onclick="closeNavPopups()" class="popup-close-btn"><i class="fa-solid fa-xmark text-xs"></i></button>
+    <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Akses &amp; Sistem</h4>
+    <div class="grid grid-cols-3 gap-2 text-center">
+      <a href="pasang-percuma.html" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-download text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium">Pasang App</span>
+      </a>
+      <button onclick="triggerOneSignalForce()" class="flex flex-col items-center group focus:outline-none">
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-bell text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium">Notifikasi</span>
+      </button>
+      <button onclick="copyGlobalLink('index.html')" class="flex flex-col items-center group focus:outline-none">
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-share-nodes text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium">Salin Pautan</span>
+      </button>
+    </div>
+  </div>
 
   <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
-      <h4 class="font-bold text-base text-white">Kategori Pendaftaran Akaun</h4>
+      <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
       <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
-      <div class="space-y-3 pt-1">
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all border border-zinc-700/30">Dewasa (18 Tahun Ke Atas)</a>
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all border border-zinc-700/30">Junior (17 Tahun Ke Bawah)</a>
+      <div class="space-y-3 pt-2">
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Dewasa (18 Tahun Ke Atas)</a>
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Junior (17 Tahun Ke Bawah)</a>
       </div>
-      <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-1 block mx-auto underline">Tutup</button>
+      <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-2 block mx-auto underline">Tutup</button>
     </div>
   </div>
 
-  <div id="gold-promo-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm shadow-2xl relative space-y-4">
-      <button onclick="closeGoldPromoModal()" class="absolute top-4 right-4 p-1.5 bg-zinc-950 border border-zinc-800 rounded-full text-zinc-400 hover:text-white transition-colors">
-        <i class="fa-solid fa-xmark text-sm"></i>
-      </button>
-      <div class="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
-        <i class="fa-solid fa-bolt text-xl animate-pulse"></i>
-      </div>
-      <div>
-        <h3 class="text-base font-bold text-white">Strategi Belian Semasa Harga Turun</h3>
-        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed text-justify">Gunakan kaedah pemurataan kos (*Value Averaging*) menerusi kemudahan sistem Akaun Emas GAP bagi mengoptimumkan gram belian anda ketika graf pasaran memihak kepada penyimpan.</p>
-      </div>
-      <div class="pt-2 flex gap-3">
-        <button onclick="closeGoldPromoModal()" class="flex-1 py-2.5 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 font-semibold text-xs rounded-xl transition-colors">Faham</button>
-        <a href="https://wasap.my/601126704897/StrategiEmasTurun" target="_blank" class="flex-1 py-2.5 bg-amber-400 text-zinc-950 font-bold text-xs rounded-xl hover:bg-white text-center transition-colors flex items-center justify-center gap-1">
-          Bimbingan <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-        </a>
-      </div>
-    </div>
-  </div>
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/90 backdrop-blur-lg border-t border-zinc-900 px-6 py-3 max-w-md mx-auto w-full flex justify-around items-center">
+    <a href="index.html" class="flex flex-col items-center text-amber-400">
+      <i class="fa-solid fa-house text-lg"></i>
+      <span class="text-[10px] font-bold mt-1">Home</span>
+    </a>
+    <button id="nav-menu-btn" onclick="toggleNavPopup('menu')" class="flex flex-col items-center text-zinc-400 hover:text-amber-400 focus:outline-none">
+      <i class="fa-solid fa-bars text-lg"></i>
+      <span class="text-[10px] font-bold mt-1">Menu</span>
+    </button>
+    <button id="nav-akses-btn" onclick="toggleNavPopup('akses')" class="flex flex-col items-center text-zinc-400 hover:text-amber-400 focus:outline-none">
+      <i class="fa-solid fa-sliders text-lg"></i>
+      <span class="text-[10px] font-bold mt-1">Akses</span>
+    </button>
+  </nav>
 
+  <!-- ── Program Data ── -->
   <script src="js/program-data.js"></script>
 
   <script>
-    let countdownInterval;
+    /* ── Makluman Terkini: Render dari programData ── */
+    (function renderMakluman() {
+      const container = document.getElementById("makluman-container");
+      if (!container || typeof programData === "undefined") return;
 
-    /* ── FUNGSI COUNTDOWN SPESIFIK MAKLUMAN TERKINI (AM/PM DESIGN) ── */
-    function getCountdownString(targetDateStr) {
-      if (!targetDateStr) return "<span class='text-zinc-600 text-[10px]'><i class='fa-regular fa-clock mr-1'></i>Masa Tiada</span>";
-      
-      const targetTime = new Date(targetDateStr).getTime();
-      const now = new Date().getTime();
-      const difference = targetTime - now;
+      const items = programData.slice(0, 2);
 
-      if (difference <= 0) {
-        if (difference > -10800000) { 
-          return "<span class='text-emerald-400 inline-flex items-center gap-1 bg-emerald-400/5 px-2 py-0.5 rounded border border-emerald-400/10 text-[10px]'><span class='w-1 h-1 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>";
+      items.forEach((item, idx) => {
+        const isLast = idx === items.length - 1;
+        const targetDate = new Date(item.date);
+        const countdownId = "countdown-" + item.id;
+
+        const categoryColor = item.category.startsWith("G100")
+          ? "text-amber-400 bg-amber-400/10 border border-amber-400/20"
+          : "text-cyan-400 bg-cyan-400/10 border border-cyan-400/20";
+
+        const iconHtml = item.category.startsWith("G100")
+          ? `<i class="fa-solid fa-tower-broadcast text-[9px]"></i>`
+          : `<i class="fa-solid fa-graduation-cap text-[9px]"></i>`;
+
+        const divider = !isLast
+          ? `<div class="border-t border-zinc-800/60 mx-4"></div>`
+          : "";
+
+        const block = `
+          <div class="p-4 hover:bg-zinc-800/20 transition-colors group">
+            <div class="flex items-start justify-between gap-3">
+              <div class="space-y-1.5 flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${categoryColor}">
+                    ${iconHtml} ${item.category}
+                  </span>
+                </div>
+                <h4 class="text-sm font-bold text-zinc-100 group-hover:text-amber-400 transition-colors line-clamp-2 leading-snug">${item.title}</h4>
+                <p class="text-xs text-zinc-500/80 leading-relaxed line-clamp-2">${item.caption}</p>
+
+                <!-- Countdown -->
+                <div id="${countdownId}" class="mt-2 flex items-center gap-1.5 flex-wrap">
+                  <i class="fa-regular fa-clock text-[10px] text-zinc-600"></i>
+                  <span class="text-[10px] text-zinc-500 font-medium countdown-label">Mengira...</span>
+                </div>
+              </div>
+
+              <a href="${item.link}" target="_blank"
+                class="p-2 bg-zinc-800/60 hover:bg-amber-400 hover:text-zinc-950 rounded-xl text-amber-400 transition-all flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+          ${divider}
+        `;
+
+        container.insertAdjacentHTML("beforeend", block);
+
+        // Start countdown for this item
+        function updateCountdown() {
+          const el = document.querySelector(`#${countdownId} .countdown-label`);
+          if (!el) return;
+
+          const now = new Date();
+          const diff = targetDate - now;
+
+          if (diff <= 0) {
+            el.textContent = "Program sedang berlangsung";
+            el.closest("div").querySelector("i").className = "fa-solid fa-circle text-[8px] text-emerald-400 animate-pulse";
+            return;
+          }
+
+          const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          let label = "";
+          if (days > 0)         label = `${days}h ${hours}j lagi`;
+          else if (hours > 0)   label = `${hours}j ${minutes}m lagi`;
+          else if (minutes > 0) label = `${minutes}m ${seconds}s lagi`;
+          else                  label = `${seconds}s lagi`;
+
+          el.textContent = label;
+
+          // Colour urgency
+          if (diff < 3600000) {
+            el.className = "text-[10px] font-bold text-rose-400 countdown-label";
+          } else if (diff < 86400000) {
+            el.className = "text-[10px] font-bold text-amber-400 countdown-label";
+          } else {
+            el.className = "text-[10px] text-zinc-500 font-medium countdown-label";
+          }
+
+          setTimeout(updateCountdown, 1000);
         }
-        return "<span class='text-zinc-600 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-900 text-[10px] uppercase font-bold tracking-wider'>Selesai</span>";
+
+        updateCountdown();
+      });
+    })();
+  </script>
+
+  <script>
+    /* ── Coffee Dropdown Logic ── */
+    let coffeeOpen = false;
+    function toggleCoffeeMenu() {
+      const dd = document.getElementById("coffee-dropdown");
+      coffeeOpen = !coffeeOpen;
+      if (coffeeOpen) {
+        dd.classList.remove("hidden");
+        void dd.offsetWidth;
+        dd.classList.remove("opacity-0", "-translate-y-2");
+      } else {
+        dd.classList.add("opacity-0", "-translate-y-2");
+        setTimeout(() => { dd.classList.add("hidden"); }, 250);
       }
+    }
+    
+    document.addEventListener("click", function(e) {
+      if (!document.getElementById("coffee-btn").contains(e.target) &&
+          !document.getElementById("coffee-dropdown").contains(e.target)) {
+        const dd = document.getElementById("coffee-dropdown");
+        if (coffeeOpen) {
+          coffeeOpen = false;
+          dd.classList.add("opacity-0", "-translate-y-2");
+          setTimeout(() => { dd.classList.add("hidden"); }, 250);
+        }
+      }
+    });
 
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      let countdownText = "";
-      if (days > 0) countdownText += `${days}h `;
-      countdownText += `${hours.toString().padStart(2, '0')}j ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-
-      return `<span class="text-amber-400/90 font-mono text-[10px] font-bold bg-amber-400/5 px-2 py-0.5 rounded border border-amber-400/10 inline-flex items-center gap-1"><i class="fa-regular fa-clock text-[9px]"></i> Mula: ${countdownText}</span>`;
+    /* ── Alert List Popup Logic ── */
+    function toggleAlertListPopup(show) {
+      const modal = document.getElementById("alert-list-modal");
+      if (show) {
+        modal.classList.remove("hidden");
+        void modal.offsetWidth;
+        modal.classList.remove("opacity-0");
+      } else {
+        modal.classList.add("opacity-0");
+        setTimeout(() => { modal.classList.add("hidden"); }, 500);
+      }
     }
 
-    /* ── MENJANA 2 MAKLUMAN TERATAS DARIPADA DATA PROGRAM-DATA.JS ── */
-    function renderIndexMakluman() {
-      const container = document.getElementById('makluman-container');
-      if (!container) return;
+    /* ── Daftar Selection Popup Logic ── */
+    function triggerDaftarPopup() {
+      closeNavPopups();
+      const modal = document.getElementById("daftar-pilihan-modal");
+      modal.classList.remove("hidden");
+      void modal.offsetWidth;
+      modal.classList.remove("opacity-0");
+    }
+    function closeDaftarPopup() {
+      const modal = document.getElementById("daftar-pilihan-modal");
+      modal.classList.add("opacity-0");
+      setTimeout(() => { modal.classList.add("hidden"); }, 300);
+    }
 
-      if (typeof programData === 'undefined' || programData.length === 0) {
-        container.innerHTML = `<div class="bg-zinc-900/40 border border-zinc-900 rounded-2xl p-4 text-center text-xs text-zinc-600">Tiada makluman terkini buat masa ini.</div>`;
+    /* ── Navigation Bottom Popups Menu/Akses ── */
+    let activeNav = null;
+    function toggleNavPopup(type) {
+      if (activeNav === type) {
+        closeNavPopups();
         return;
       }
+      openNavPopup(type);
+    }
+    function openNavPopup(type) {
+      closeNavPopups(false);
+      activeNav = type;
 
-      container.innerHTML = '';
-      
-      // Mengambil hanya 2 elemen teratas sahaja (Ambil index 0 dan 1)
-      const topTwoPrograms = programData.slice(0, 2);
+      const overlay = document.getElementById("nav-popup-overlay");
+      overlay.classList.remove("hidden");
+      void overlay.offsetWidth;
+      overlay.classList.remove("opacity-0");
 
-      topTwoPrograms.forEach(item => {
-        const card = document.createElement('div');
-        card.className = "bg-zinc-900/40 border border-zinc-900 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-800/80 transition-all";
+      const card = document.getElementById(type === 'menu' ? "menu-popup-card" : "akses-popup-card");
+      card.classList.remove("hidden");
+      void card.offsetWidth;
+      card.classList.remove("opacity-0", "translate-y-6");
 
-        const countdownHTML = getCountdownString(item.date);
+      document.getElementById("nav-menu-btn").classList.toggle("text-amber-400", type === 'menu');
+      document.getElementById("nav-menu-btn").classList.toggle("text-zinc-400", type !== 'menu');
+      document.getElementById("nav-akses-btn").classList.toggle("text-amber-400", type === 'akses');
+      document.getElementById("nav-akses-btn").classList.toggle("text-zinc-400", type !== 'akses');
+    }
+    function closeNavPopups(resetActive = true) {
+      if (resetActive) {
+        activeNav = null;
+        document.getElementById("nav-menu-btn").classList.replace("text-amber-400", "text-zinc-400");
+        document.getElementById("nav-akses-btn").classList.replace("text-amber-400", "text-zinc-400");
+      }
 
-        card.innerHTML = `
-          <div>
-            <div class="flex items-start justify-between gap-3 mb-2">
-              <h4 class="text-xs font-bold text-white tracking-wide line-clamp-1 flex-1">${item.title}</h4>
-              <div class="index-countdown-ticker shrink-0" data-date="${item.date || ''}">
-                ${countdownHTML}
-              </div>
-            </div>
-            <p class="text-[11px] text-zinc-500 leading-relaxed line-clamp-2 text-justify">${item.caption}</p>
-          </div>
-          <div class="mt-3 pt-2.5 border-t border-zinc-900 flex justify-end">
-            <a href="${item.link || '#'}" target="_blank" class="text-[10px] font-bold text-amber-400 hover:text-white transition-colors flex items-center gap-1">
-              Lihat Maklumat <i class="fa-solid fa-arrow-up-right-from-square text-[8px]"></i>
-            </a>
-          </div>
-        `;
-        container.appendChild(card);
+      const overlay  = document.getElementById("nav-popup-overlay");
+      const menuCard = document.getElementById("menu-popup-card");
+      const aksesCard= document.getElementById("akses-popup-card");
+
+      overlay.classList.add("opacity-0");
+      menuCard.classList.add("opacity-0", "translate-y-6");
+      aksesCard.classList.add("opacity-0", "translate-y-6");
+
+      setTimeout(() => {
+        if (overlay.classList.contains("opacity-0"))   overlay.classList.add("hidden");
+        if (menuCard.classList.contains("opacity-0"))  menuCard.classList.add("hidden");
+        if (aksesCard.classList.contains("opacity-0")) aksesCard.classList.add("hidden");
+      }, 300);
+    }
+
+    /* ── Dynamic Access Popup Control ── */
+    function openDynamicAccessPopup(iconClass, bgIconColor, textIconColor, title, desc, metaContent = "") {
+      const modal = document.getElementById("dynamic-access-modal");
+      const iconWrap = document.getElementById("dynamic-icon-wrap");
+      const titleEl = document.getElementById("dynamic-title");
+      const descEl = document.getElementById("dynamic-desc");
+      const metaBox = document.getElementById("dynamic-meta-box");
+
+      iconWrap.className = `w-14 h-14 mx-auto rounded-2xl flex items-center justify-center text-xl shadow-lg ${bgIconColor} ${textIconColor}`;
+      iconWrap.innerHTML = `<i class="${iconClass}"></i>`;
+      titleEl.innerText = title;
+      descEl.innerText = desc;
+
+      if(metaContent) {
+        metaBox.innerText = metaContent;
+        metaBox.classList.remove("hidden");
+      } else {
+        metaBox.classList.add("hidden");
+      }
+
+      modal.classList.remove("hidden");
+      void modal.offsetWidth;
+      modal.classList.remove("opacity-0");
+    }
+
+    function closeDynamicAccessPopup() {
+      const modal = document.getElementById("dynamic-access-modal");
+      modal.classList.add("opacity-0");
+      setTimeout(() => { modal.classList.add("hidden"); }, 300);
+    }
+
+    /* ── Tab Akses: Connected to OneSignal Verification ── */
+function triggerOneSignalForce() {
+  closeNavPopups();
+
+  OneSignalDeferred.push(async function(OneSignal) {
+    const isSubscribed = OneSignal.User.PushSubscription.optedIn;
+
+    if (isSubscribed) {
+      openDynamicAccessPopup(
+        "fa-solid fa-circle-check text-emerald-400",
+        "bg-emerald-500/10 border border-emerald-500/20",
+        "text-emerald-400",
+        "Status Aktif",
+        "Peranti anda sudah berjaya disinkronisasikan dan aktif menerima sebarang makluman terbaru."
+      );
+    } else {
+      try {
+        await OneSignal.Notifications.requestPermission();
+      } catch(e) {
+        console.error("Ralat pemicu notifikasi:", e);
+      }
+    }
+  });
+}
+
+    function copyGlobalLink(path) {
+      closeNavPopups();
+      const url = window.location.origin + '/' + path;
+      navigator.clipboard.writeText(url).then(() => {
+        openDynamicAccessPopup(
+          "fa-solid fa-circle-check", 
+          "bg-emerald-500/10 border border-emerald-500/20", 
+          "text-emerald-400", 
+          "Pautan Berjaya Disalin", 
+          "Pautan App Ilmu Emas disalin ke papan klip anda. Sedia untuk dikongsi.",
+          url
+        );
+      }).catch(() => {
+        openDynamicAccessPopup(
+          "fa-solid fa-link", 
+          "bg-zinc-800", 
+          "text-zinc-200", 
+          "Salin Pautan", 
+          "Sila salin pautan portal di bawah secara manual:", 
+          url
+        );
       });
     }
 
-    /* ── AUTOMATIK REALTIME LIVE REFRESH RADAR COUNTDOWN ── */
-    function startIndexCountdowns() {
-      if (countdownInterval) clearInterval(countdownInterval);
+    /* ── Custom Push Notification Modal ── */
+    window.addEventListener("load", () => {
+      if (!sessionStorage.getItem("push_notified_index")) {
+        setTimeout(() => {
+          const modal = document.getElementById("push-notification-modal");
+          modal.classList.remove("hidden");
+          void modal.offsetWidth;
+          modal.classList.remove("opacity-0");
+          modal.querySelector('div').classList.remove("translate-y-10");
+        }, 1500);
+      }
+      checkGoldPriceStatus();
+    });
+
+    function dismissPushModal() {
+      const modal = document.getElementById("push-notification-modal");
+      modal.classList.add("opacity-0");
+      modal.querySelector('div').classList.add("translate-y-10");
+      setTimeout(() => { modal.classList.add("hidden"); }, 500);
+      sessionStorage.setItem("push_notified_index", "true");
+    }
+
+    // Fungsi melanggan dengan sistem kriteria Data Tags OneSignal
+    function acceptPushModal() {
+      dismissPushModal();
       
-      countdownInterval = setInterval(() => {
-        document.querySelectorAll('.index-countdown-ticker').forEach(el => {
-          const targetDate = el.getAttribute('data-date');
-          if (targetDate) {
-            el.innerHTML = getCountdownString(targetDate);
-          }
-        });
-      }, 1000);
-    }
+      OneSignal.push(async function() {
+        try {
+          // Cetus kebenaran browser untuk push notification
+          await OneSignal.User.PushSubscription.optIn();
+          
+          // Tetapkan tag kriteria langganan khusus mengikut keperluan anda
+          await OneSignal.User.addTags({
+            "harga_emas": "aktif",
+            "media_ilmu": "aktif",
+            "makluman_terkini": "aktif"
+          });
 
-    /* ── Dropdown Kopi & Modal ── */
-    function toggleCoffeeMenu() {
-      const dropdown = document.getElementById(\"coffee-dropdown\");
-      dropdown.classList.toggle(\"show\");
-    }
-
-    function triggerDaftarPopup() {
-      const dropdown = document.getElementById(\"coffee-dropdown\");
-      if (dropdown) dropdown.classList.remove(\"show\");
-
-      const modal = document.getElementById(\"daftar-pilihan-modal\");
-      modal.classList.remove(\"hidden\");
-      void modal.offsetWidth; 
-      modal.classList.remove(\"opacity-0\");
-    }
-
-    function closeDaftarPopup() {
-      const modal = document.getElementById(\"daftar-pilihan-modal\");
-      modal.classList.add(\"opacity-0\");
-      setTimeout(() => { modal.classList.add(\"hidden\"); }, 300);
+          // Papar popup maklum balas kejayaan rekaan anda sendiri
+          openDynamicAccessPopup(
+            "fa-solid fa-bell",
+            "bg-amber-400/10 border border-amber-400/20",
+            "text-amber-400",
+            "Langganan Aktif",
+            "Notifikasi Ilmu Emas berjaya diaktifkan! Anda kini akan menerima update harga emas, media, dan makluman terkini secara langsung."
+          );
+        } catch (error) {
+          console.error("Ralat pendaftaran kebenaran push:", error);
+        }
+      });
     }
 
     /* ── Isyarat Harga Emas Turun Logic ── */
     function checkGoldPriceStatus() {
-      const goldData = document.getElementById(\"hidden-gold-data\");
-      if(goldData && goldData.getAttribute(\"data-status\") === \"down\") {
+      const goldData = document.getElementById("hidden-gold-data");
+      if(goldData && goldData.getAttribute("data-status") === "down") {
         setTimeout(() => {
-          const goldNotif = document.getElementById(\"gold-drop-notification\");
-          goldNotif.classList.remove(\"hidden\");
+          const goldNotif = document.getElementById("gold-drop-notification");
+          goldNotif.classList.remove("hidden");
           void goldNotif.offsetWidth;
-          goldNotif.classList.remove(\"opacity-0\", \"-translate-y-10\");
+          goldNotif.classList.remove("opacity-0", "-translate-y-10");
         }, 2200);
       }
     }
 
     function openGoldPromoModal() {
-      const modal = document.getElementById(\"gold-promo-modal\");
-      modal.classList.remove(\"hidden\");
+      const modal = document.getElementById("gold-promo-modal");
+      modal.classList.remove("hidden");
       void modal.offsetWidth;
-      modal.classList.remove(\"opacity-0\");
+      modal.classList.remove("opacity-0");
     }
 
     function closeGoldPromoModal() {
-      const modal = document.getElementById(\"gold-promo-modal\");
-      modal.classList.add(\"opacity-0\");
-      setTimeout(() => { modal.classList.add(\"hidden\"); }, 300);
+      const modal = document.getElementById("gold-promo-modal");
+      modal.classList.add("opacity-0");
+      setTimeout(() => { modal.classList.add("hidden"); }, 300);
     }
 
     function dismissGoldNotification(event) {
       event.stopPropagation();
-      const goldNotif = document.getElementById(\"gold-drop-notification\");
-      goldNotif.classList.add(\"opacity-0\", \"-translate-y-10\");
-      setTimeout(() => { goldNotif.classList.add(\"hidden\"); }, 500);
+      const goldNotif = document.getElementById("gold-drop-notification");
+      goldNotif.classList.add("opacity-0", "-translate-y-10");
+      setTimeout(() => { goldNotif.classList.add("hidden"); }, 500);
     }
-
-    window.addEventListener(\"click\", (e) => {
-      const btn = document.getElementById(\"coffee-btn\");
-      const dropdown = document.getElementById(\"coffee-dropdown\");
-      if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.remove(\"show\");
-      }
-    });
-
-    window.onload = () => {
-      renderIndexMakluman();
-      startIndexCountdowns();
-      checkGoldPriceStatus();
-    };
   </script>
 </body>
 </html>
