@@ -82,6 +82,27 @@
     .card-fade { 
       animation: card-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; 
     }
+
+    /* ── Search Result Cards ── */
+    .search-result-card {
+      background: linear-gradient(135deg, #1c1917 0%, #1a1a2e 100%);
+      border: 1px solid rgba(251,191,36,0.18);
+      border-radius: 16px;
+      padding: 14px 16px;
+      animation: card-in 0.35s cubic-bezier(0.16,1,0.3,1) both;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(251,191,36,0.06);
+    }
+    .search-result-card:hover {
+      border-color: rgba(251,191,36,0.35);
+      box-shadow: 0 4px 28px rgba(0,0,0,0.5), 0 0 12px rgba(251,191,36,0.08);
+    }
+    .search-empty-card {
+      background: rgba(24,24,27,0.7);
+      border: 1px solid rgba(63,63,70,0.6);
+      border-radius: 16px;
+      padding: 14px 16px;
+      animation: card-in 0.3s cubic-bezier(0.16,1,0.3,1) both;
+    }
   </style>
 </head>
 <body class="min-h-screen pb-16 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40 antialiased">
@@ -134,6 +155,52 @@
       <h2 class="text-xl font-extrabold text-white tracking-tight">Koleksi Soalan Lazim</h2>
       <p class="text-xs text-zinc-400 max-w-xs mx-auto">Jawapan pantas serta tepat bagi setiap kemusykilan pengurusan simpanan emas anda.</p>
     </div>
+
+    <!-- ── AI Search Bubble ── -->
+    <div class="space-y-3" id="faq-search-section">
+
+      <!-- Bot typing bubble -->
+      <div class="flex items-end gap-2.5">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-amber-500/20">
+          <i class="fa-solid fa-coins text-zinc-950 text-[11px]"></i>
+        </div>
+        <div class="relative bg-zinc-800/80 border border-zinc-700/60 rounded-2xl rounded-bl-sm px-4 py-3 max-w-[82%] shadow-md backdrop-blur-sm">
+          <p class="text-sm text-zinc-100 font-medium leading-snug">Anda ingin bertanya tentang apa?</p>
+          <div class="absolute -bottom-1.5 left-3 w-3 h-3 bg-zinc-800/80 border-b border-l border-zinc-700/60 rotate-45 rounded-sm"></div>
+        </div>
+      </div>
+
+      <!-- Input area -->
+      <div class="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-2xl px-3.5 py-2.5 shadow-inner focus-within:border-amber-400/50 focus-within:shadow-[0_0_0_3px_rgba(251,191,36,0.07)] transition-all duration-200">
+        <i class="fa-solid fa-magnifying-glass text-zinc-600 text-xs flex-shrink-0"></i>
+        <input
+          id="faq-search-input"
+          type="text"
+          placeholder="Contoh: emas digital atau fizikal?"
+          autocomplete="off"
+          class="flex-1 bg-transparent text-sm text-zinc-100 placeholder-zinc-600 outline-none font-medium"
+          oninput="handleFaqSearch(this.value)"
+          onkeydown="if(event.key==='Escape'){clearFaqSearch()}"
+        />
+        <button id="faq-clear-btn" onclick="clearFaqSearch()" class="hidden text-zinc-600 hover:text-zinc-300 transition-colors focus:outline-none">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+      </div>
+
+      <!-- Search result bubble (hidden by default) -->
+      <div id="faq-search-result" class="hidden">
+        <div class="flex items-end gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-amber-500/20 self-start mt-0.5">
+            <i class="fa-solid fa-coins text-zinc-950 text-[11px]"></i>
+          </div>
+          <div class="flex-1 space-y-2">
+            <div id="faq-result-cards" class="space-y-2"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- ── /AI Search Bubble ── -->
 
     <div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth pb-1" id="categoryContainer">
       <button class="category-tab text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/5 whitespace-nowrap active" onclick="filterCategory('all', this)">Semua Topik</button>
@@ -285,6 +352,109 @@
 
     // Memantau sebarang perubahan hash URL secara live tanpa perlu memuat semula halaman (reload)
     window.addEventListener("hashchange", checkHashNavigation);
+
+    // ── FAQ Smart Search ──
+    let searchDebounce = null;
+
+    function handleFaqSearch(query) {
+      const clearBtn = document.getElementById("faq-clear-btn");
+      const resultBox = document.getElementById("faq-search-result");
+      clearBtn.classList.toggle("hidden", !query.trim());
+
+      clearTimeout(searchDebounce);
+      if (!query.trim()) {
+        resultBox.classList.add("hidden");
+        return;
+      }
+
+      searchDebounce = setTimeout(() => {
+        const q = query.trim().toLowerCase();
+        const matched = faqData.filter(item =>
+          item.question.toLowerCase().includes(q) ||
+          item.answer.replace(/<[^>]+>/g, "").toLowerCase().includes(q)
+        ).slice(0, 3);
+
+        renderSearchResults(matched, query.trim());
+      }, 280);
+    }
+
+    function renderSearchResults(results, query) {
+      const resultBox = document.getElementById("faq-search-result");
+      const cardsEl  = document.getElementById("faq-result-cards");
+      resultBox.classList.remove("hidden");
+
+      if (results.length === 0) {
+        cardsEl.innerHTML = `
+          <div class="search-empty-card flex items-start gap-3">
+            <div class="w-7 h-7 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="fa-solid fa-magnifying-glass text-zinc-500 text-[10px]"></i>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-zinc-300">Tiada hasil ditemui</p>
+              <p class="text-[11px] text-zinc-500 mt-0.5 leading-relaxed">Cuba kata kunci lain, atau tatal ke bahagian kategori di bawah.</p>
+            </div>
+          </div>`;
+        return;
+      }
+
+      const categoryLabel = {
+        "asas-simpanan":  "Asas Simpanan Emas",
+        "memilih-emas":   "Memilih Emas Terbaik",
+        "strategi-emas":  "Strategi Jual, Beli & Pajak",
+        "transaksi-pg":   "Transaksi Public Gold",
+        "akaun-gap":      "Akaun Emas GAP",
+        "bisnes-emas":    "Bisnes Emas Public Gold"
+      };
+
+      cardsEl.innerHTML = results.map((item, i) => {
+        const plainAnswer = item.answer.replace(/<[^>]+>/g, "");
+        const snippet = plainAnswer.length > 120 ? plainAnswer.slice(0, 120) + "…" : plainAnswer;
+        const delay = i * 60;
+        const cat = categoryLabel[item.category] || item.category;
+
+        return `
+          <div class="search-result-card transition-all duration-200 cursor-pointer group" style="animation-delay:${delay}ms"
+               onclick="jumpToFAQ('${item.id}', '${item.category}')">
+            <div class="flex items-start justify-between gap-3">
+              <div class="space-y-1.5 flex-1 min-w-0">
+                <span class="inline-block text-[9px] font-bold uppercase tracking-widest text-amber-400/80 bg-amber-400/8 border border-amber-400/15 px-2 py-0.5 rounded-full">${cat}</span>
+                <p class="text-sm font-bold text-white leading-snug group-hover:text-amber-300 transition-colors">${item.question}</p>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">${snippet}</p>
+              </div>
+              <div class="w-7 h-7 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-amber-400 group-hover:border-amber-400 transition-all">
+                <i class="fa-solid fa-arrow-down text-amber-400 group-hover:text-zinc-950 text-[10px] transition-colors"></i>
+              </div>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    function jumpToFAQ(id, category) {
+      // Tapis kategori betul
+      const targetTab = Array.from(document.querySelectorAll(".category-tab")).find(tab =>
+        tab.getAttribute("onclick") && tab.getAttribute("onclick").includes(category)
+      );
+      if (targetTab) filterCategory(category, targetTab);
+
+      setTimeout(() => {
+        const card = document.getElementById(id);
+        if (card) {
+          const yOffset = -90;
+          const y = card.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+          card.classList.add("highlight-blink");
+          setTimeout(() => card.classList.remove("highlight-blink"), 2000);
+        }
+      }, 120);
+    }
+
+    function clearFaqSearch() {
+      const input = document.getElementById("faq-search-input");
+      input.value = "";
+      document.getElementById("faq-clear-btn").classList.add("hidden");
+      document.getElementById("faq-search-result").classList.add("hidden");
+      input.focus();
+    }
 
     // ── Fungsi Interaksi Dropdown Kopi & Modal ──
     function toggleCoffeeMenu() {
