@@ -1,536 +1,1074 @@
 <!DOCTYPE html>
-<html lang="ms" class="bg-zinc-950 text-white selection:bg-amber-500 selection:text-zinc-950">
+<html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ Simpanan Emas | Panduan Lengkap</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Simpanan Emas | Panduan Lengkap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+        :root {
+            --gold-100: #FDF8EC;
+            --gold-200: #F5E6B8;
+            --gold-300: #E8C96A;
+            --gold-400: #D4A843;
+            --gold-500: #B8891E;
+            --gold-600: #96700F;
+            --dark-900: #0D0E12;
+            --dark-800: #14161C;
+            --dark-700: #1C1F28;
+            --dark-600: #252836;
+            --dark-500: #2E3244;
+            --text-primary: #F0EDE6;
+            --text-secondary: #A8A4A0;
+            --text-muted: #6B6868;
+            --border: rgba(212, 168, 67, 0.15);
+            --border-hover: rgba(212, 168, 67, 0.35);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.35);
+            --shadow-glow: 0 0 40px rgba(212,168,67,0.08);
         }
-      }
-    }
-  </script>
-  <style>
-    /* ── Coffee Cup Animation ── */
-    .coffee-cup-wrap {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 44px;
-    }
-    .coffee-cup-wrap svg {
-      width: 26px;
-      height: 26px;
-      position: absolute;
-      bottom: 0;
-    }
-    .steam {
-      stroke: #fbbf24;
-      stroke-width: 2;
-      stroke-linecap: round;
-      fill: none;
-      opacity: 0;
-      animation: steam-svg 1.8s ease-in-out infinite;
-    }
-    .steam-1 { animation-delay: 0s; }
-    .steam-2 { animation-delay: 0.5s; }
-    @keyframes steam-svg {
-      0%   { opacity: 0; transform: translateY(0px); }
-      30%  { opacity: 1; }
-      100% { opacity: 0; transform: translateY(-7px); }
-    }
-    .coffee-cup-wrap svg path:not(.steam) {
-      fill: #fbbf24;
-      stroke: #fbbf24;
-    }
 
-    /* ── Coffee Dropdown Animation ── */
-    #coffee-dropdown { transition: opacity 0.25s ease, transform 0.25s ease; }
-    #coffee-dropdown.show { opacity: 1 !important; transform: translateY(0) !important; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Core FAQ Transitions from Original faq.html ── */
-    .faq-card .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.35s ease;
-      opacity: 0;
-    }
-    .faq-card.open {
-      border-color: rgba(251, 191, 36, 0.4) !important;
-      background-color: rgba(24, 24, 27, 0.6) !important;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px 1px rgba(251, 191, 36, 0.03);
-    }
-    .faq-card.open .faq-answer {
-      max-height: 1000px;
-      opacity: 1;
-      padding-top: 1rem;
-    }
-    .faq-card .chevron-icon {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .faq-card.open .chevron-icon {
-      transform: rotate(180deg);
-      color: #fbbf24;
-    }
-    .tab-btn {
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .tab-btn.active {
-      background-color: #fbbf24;
-      color: #09090b;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
-    }
-    #scrollTop {
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      transform: translateY(10px);
-    }
-    #scrollTop.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-  </style>
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-900);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── TOP HEADER BAR ───────────────────── */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(13, 14, 18, 0.80);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .top-bar-left a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 18px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .top-bar-left a:hover { color: var(--gold-400); }
+        .top-bar-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        /* Coffee cup button */
+        .coffee-cup-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 44px;
+        }
+        .coffee-cup-wrap svg {
+            width: 26px;
+            height: 26px;
+            position: absolute;
+            bottom: 9px;
+        }
+        .steam {
+            stroke: var(--gold-400);
+            stroke-width: 2;
+            stroke-linecap: round;
+            fill: none;
+            opacity: 0;
+            animation: steam-svg 1.8s ease-in-out infinite;
+        }
+        .steam-1 { animation-delay: 0s; }
+        .steam-2 { animation-delay: 0.5s; }
+        @keyframes steam-svg {
+            0%   { opacity: 0; transform: translateY(0px); }
+            30%  { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-7px); }
+        }
+
+        /* Dropdown */
+        #coffee-dropdown {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        #coffee-dropdown.show {
+            display: block !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        .coffee-dropdown-wrap {
+            position: relative;
+        }
+        #coffee-dropdown {
+            position: absolute;
+            right: 0;
+            margin-top: 12px;
+            width: 208px;
+            background: var(--dark-700);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 8px;
+            display: none;
+            opacity: 0;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            z-index: 50;
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: background 0.18s, color 0.18s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+        }
+        .dropdown-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+        }
+        .dropdown-item i { color: var(--gold-400); font-size: 14px; width: 16px; text-align: center; }
+
+        /* ── HERO ─────────────────────────────── */
+        .hero {
+            position: relative;
+            background: linear-gradient(160deg, var(--dark-800) 0%, var(--dark-900) 60%);
+            padding: 80px 24px 60px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(212,168,67,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212,168,67,0.10);
+            border: 1px solid var(--border-hover);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold-300);
+            margin-bottom: 24px;
+        }
+        .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-400); display: inline-block; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 5vw, 52px);
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: clamp(14px, 2vw, 17px);
+            max-width: 560px;
+            margin: 0 auto 40px;
+        }
+
+        /* ── SEARCH ───────────────────────────── */
+        .search-wrap {
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .search-wrap input {
+            width: 100%;
+            background: var(--dark-700);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 14px 50px 14px 22px;
+            font-size: 15px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            font-family: 'Inter', sans-serif;
+        }
+        .search-wrap input::placeholder { color: var(--text-muted); }
+        .search-wrap input:focus {
+            border-color: var(--gold-400);
+            box-shadow: 0 0 0 3px rgba(212,168,67,0.10);
+        }
+        .search-icon {
+            position: absolute;
+            right: 18px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* ── LAYOUT ───────────────────────────── */
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        /* ── CATEGORY TABS ────────────────────── */
+        .tabs-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 40px 0 0;
+            scrollbar-width: none;
+        }
+        .tabs-wrapper::-webkit-scrollbar { display: none; }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            width: max-content;
+            padding-bottom: 32px;
+        }
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.22s;
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: rgba(212,168,67,0.05);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+            border-color: transparent;
+            color: var(--dark-900);
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(212,168,67,0.30);
+        }
+        .tab-btn .tab-count {
+            background: rgba(0,0,0,0.18);
+            border-radius: 100px;
+            padding: 1px 7px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .tab-btn.active .tab-count { background: rgba(0,0,0,0.15); }
+
+        /* ── SECTION HEADER ───────────────────── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .section-icon {
+            width: 40px; height: 40px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, rgba(212,168,67,0.20), rgba(212,168,67,0.08));
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(18px, 3vw, 23px);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .section-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ── FAQ CARD ─────────────────────────── */
+        .faq-group { margin-bottom: 48px; }
+        .faq-group.hidden { display: none; }
+
+        .faq-card {
+            background: var(--dark-700);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .faq-card:hover { border-color: var(--border-hover); }
+        .faq-card.open {
+            border-color: rgba(212,168,67,0.30);
+            box-shadow: var(--shadow-glow);
+        }
+        .faq-card.search-hidden { display: none; }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 22px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .faq-question:hover { background: rgba(255,255,255,0.02); }
+        .faq-question-text {
+            font-size: clamp(14px, 2vw, 15.5px);
+            font-weight: 500;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        .faq-card.open .faq-question-text { color: var(--gold-300); }
+
+        .faq-chevron {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: rgba(212,168,67,0.08);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.3s, background 0.25s, border-color 0.25s;
+        }
+        .faq-chevron svg { transition: transform 0.3s; color: var(--gold-400); }
+        .faq-card.open .faq-chevron {
+            background: rgba(212,168,67,0.18);
+            border-color: rgba(212,168,67,0.35);
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+            opacity: 0;
+        }
+        .faq-card.open .faq-answer {
+            max-height: 1200px;
+            opacity: 1;
+        }
+        .faq-answer-inner {
+            padding: 0 22px 22px;
+            font-size: clamp(13.5px, 1.8vw, 15px);
+            color: var(--text-secondary);
+            line-height: 1.85;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+        }
+        .faq-answer-inner strong { color: var(--text-primary); font-weight: 600; }
+        .faq-answer-inner em { color: var(--gold-300); font-style: italic; }
+        .faq-answer-inner a {
+            color: var(--gold-400);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(212,168,67,0.25);
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .faq-answer-inner a:hover {
+            color: var(--gold-300);
+            border-color: rgba(212,168,67,0.55);
+        }
+
+        /* ── EMPTY STATE ──────────────────────── */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            display: none;
+        }
+        .empty-state.visible { display: block; }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+        .empty-state p { color: var(--text-muted); font-size: 15px; }
+
+        /* ── FOOTER ───────────────────────────── */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 24px;
+            text-align: center;
+        }
+        .footer p { color: var(--text-muted); font-size: 13px; line-height: 1.8; }
+        .footer a { color: var(--gold-400); text-decoration: none; }
+        .footer a:hover { color: var(--gold-300); }
+
+        /* ── DIVIDER ──────────────────────────── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 8px 0 28px;
+        }
+
+        /* ── SCROLL TO TOP ────────────────────── */
+        .scroll-top {
+            position: fixed;
+            bottom: 28px; right: 24px;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(212,168,67,0.35);
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 99;
+        }
+        .scroll-top.visible { opacity: 1; transform: translateY(0); }
+        .scroll-top svg { color: var(--dark-900); }
+
+        /* ── HIGHLIGHT ────────────────────────── */
+        mark {
+            background: rgba(212,168,67,0.22);
+            color: var(--gold-300);
+            border-radius: 3px;
+            padding: 0 2px;
+        }
+
+        @media (max-width: 600px) {
+            .hero { padding: 60px 20px 40px; }
+            .faq-question { padding: 16px 16px; }
+            .faq-answer-inner { padding: 16px 16px; }
+            .back-label { display: none; }
+            .coffee-label { display: none; }
+            .top-bar-title { font-size: 13px; }
+        }
+    </style>
 </head>
-<body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950 text-zinc-300">
+<body>
 
-  <header class="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60 px-4 py-3 max-w-md mx-auto w-full flex items-center justify-between">
-    <div class="flex items-center gap-3.5">
-      <a href="index.html" class="w-9 h-9 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
-        <i class="fa-solid fa-arrow-left text-sm"></i>
-      </a>
-      <h1 class="text-base font-bold tracking-tight text-white">FAQ</h1>
-    </div>
-
-    <div class="relative flex items-center h-full">
-      <button onclick="toggleCoffeeMenu()" id="coffee-btn" class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300" style="background:none; border:none; padding:0;">
-        <div class="coffee-cup-wrap">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
-            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
-            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
-            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
-          </svg>
-        </div>
-      </button>
-
-      <div id="coffee-dropdown" class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
-        <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
-          <i class="fa-solid fa-user-plus text-amber-400"></i>
-          <span>Daftar Percuma</span>
-        </button>
-        <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
-          <i class="fa-solid fa-comments text-amber-400"></i>
-          <span>Pertanyaan</span>
+<!-- TOP HEADER BAR -->
+<div class="top-bar">
+    <!-- Left: back arrow + title -->
+    <div class="top-bar-left">
+        <a href="javascript:history.back()" title="Kembali">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </a>
-      </div>
+        <span class="top-bar-title">FAQ</span>
     </div>
-  </header>
 
-  <main class="max-w-md mx-auto px-4 mt-6 space-y-6">
-    
-    <section class="py-2 text-center space-y-2">
-      <h2 class="text-2xl font-extrabold tracking-tight leading-tight bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
-        Pusat Bantuan &amp; Soalan Lazim
-      </h2>
-      <p class="text-xs text-zinc-500 leading-relaxed max-w-xs mx-auto">
-        Cari jawapan pantas mengenai akaun GAP, pembelian fizikal, logistik, pengeluaran serta strategi pelaburan emas Public Gold.
-      </p>
-    </section>
-
-    <section class="relative">
-      <div class="relative group">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-zinc-500 group-focus-within:text-amber-400 transition-colors">
-          <i class="fa-solid fa-magnifying-glass text-sm"></i>
-        </div>
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Cari soalan atau kata kunci (cth: GAP, Gold Premium)..." 
-          class="w-full pl-11 pr-11 py-3.5 bg-zinc-900/90 border border-zinc-800 rounded-2xl text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400/60 focus:ring-1 focus:ring-amber-400/20 shadow-xl transition-all duration-300"
-        />
-        <button 
-          id="faq-clear-btn" 
-          onclick="clearSearchInput()" 
-          class="absolute inset-y-0 right-0 flex items-center pr-4 text-zinc-500 hover:text-zinc-300 transition-colors hidden"
-          title="Kosongkan carian"
-        >
-          <i class="fa-solid fa-circle-xmark text-sm"></i>
+    <!-- Right: animated coffee cup with dropdown -->
+    <div class="coffee-dropdown-wrap">
+        <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+            style="background:none; border:none; padding:0; cursor:pointer; color: var(--gold-400);"
+            class="coffee-cup-wrap">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+                <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+                <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="var(--gold-400)" />
+                <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="var(--gold-400)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+            </svg>
         </button>
-      </div>
-      <div id="faq-search-result" class="hidden text-left px-1 mt-2">
-        <p class="text-[11px] font-semibold text-zinc-500 flex items-center gap-1.5">
-          <span class="inline-block w-1 h-1 rounded-full bg-amber-400"></span>
-          Hasil tapisan carian dipaparkan di bawah.
-        </p>
-      </div>
-    </section>
 
-    <section class="flex gap-1.5 overflow-x-auto pb-2 scrollbar-none -mx-1 px-1">
-      <button data-cat="all" class="tab-btn active px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 whitespace-nowrap focus:outline-none">Semua</button>
-      <button data-cat="gap" class="tab-btn px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 whitespace-nowrap focus:outline-none">Akaun GAP</button>
-      <button data-cat="fizikal" class="tab-btn px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 whitespace-nowrap focus:outline-none">Fizikal / Outright</button>
-      <button data-cat="akaun" class="tab-btn px-4 py-2 text-xs font-semibold rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 whitespace-nowrap focus:outline-none">Sistem &amp; E-Auth</button>
-    </section>
+        <div id="coffee-dropdown">
+            <button onclick="triggerDaftarPopup()" class="dropdown-item">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Daftar Percuma</span>
+            </button>
+            <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" class="dropdown-item">
+                <i class="fa-solid fa-comments"></i>
+                <span>Pertanyaan</span>
+            </a>
+        </div>
+    </div>
+</div>
 
-    <section id="faq-container" class="space-y-3">
-      
-      <div class="faq-card bg-zinc-900/40 border border-zinc-900 p-4 rounded-2xl transition-all duration-300 cursor-pointer" data-category="gap">
-        <div class="flex items-start justify-between gap-3" onclick="toggleFaqCard(this.parentNode)">
-          <div class="space-y-0.5">
-            <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider">Akaun GAP</span>
-            <h4 class="text-sm font-bold text-zinc-100 leading-snug">Apakah itu Akaun Emas GAP (Gold Accumulation Program)?</h4>
-          </div>
-          <span class="chevron-icon text-zinc-500 mt-1 flex-shrink-0"><i class="fa-solid fa-chevron-down text-xs"></i></span>
+<!-- DAFTAR PILIHAN MODAL -->
+<div id="daftar-pilihan-modal" style="display:none; opacity:0; position:fixed; inset:0; z-index:200; background:rgba(13,14,18,0.80); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:16px; transition: opacity 0.3s;">
+    <div style="background:var(--dark-700); border:1px solid var(--border); border-radius:24px; padding:28px 24px; width:100%; max-width:340px; text-align:center;">
+        <h4 style="font-weight:700; font-size:17px; color:var(--text-primary); margin-bottom:8px;">Kategori Pendaftaran Akaun</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">Pilih kategori umur pemohon di bawah:</p>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+            <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" style="display:block; padding:13px; background:var(--dark-600); border-radius:12px; font-size:13px; font-weight:600; color:var(--text-primary); text-decoration:none; transition:background 0.2s, color 0.2s;" onmouseover="this.style.background='var(--gold-400)';this.style.color='var(--dark-900)'" onmouseout="this.style.background='var(--dark-600)';this.style.color='var(--text-primary)'">Dewasa (18 Tahun Ke Atas)</a>
+            <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" style="display:block; padding:13px; background:var(--dark-600); border-radius:12px; font-size:13px; font-weight:600; color:var(--text-primary); text-decoration:none; transition:background 0.2s, color 0.2s;" onmouseover="this.style.background='var(--gold-400)';this.style.color='var(--dark-900)'" onmouseout="this.style.background='var(--dark-600)';this.style.color='var(--text-primary)'">Junior (17 Tahun Ke Bawah)</a>
         </div>
-        <div class="faq-answer">
-          <p class="text-xs text-zinc-400 leading-relaxed border-t border-zinc-800/60 pt-3">
-            GAP merupakan program simpanan emas fizikal patuh syariah yang membolehkan anda mengumpul emas dengan modal sekecil RM100 atau 1 gram secara sikit-sikit. Emas anda disimpan secara percuma di Public Gold tanpa had masa, dan boleh dikeluarkan dalam bentuk gold bar atau dinar fizikal pada bila-bila masa di cawangan berhampiran.
-          </p>
-        </div>
-      </div>
+        <button onclick="closeDaftarPopup()" style="font-size:12px; color:var(--text-muted); background:none; border:none; cursor:pointer; text-decoration:underline; font-family:'Inter',sans-serif;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">Tutup</button>
+    </div>
+</div>
 
-      <div class="faq-card bg-zinc-900/40 border border-zinc-900 p-4 rounded-2xl transition-all duration-300 cursor-pointer" data-category="gap">
-        <div class="flex items-start justify-between gap-3" onclick="toggleFaqCard(this.parentNode)">
-          <div class="space-y-0.5">
-            <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider">Akaun GAP</span>
-            <h4 class="text-sm font-bold text-zinc-100 leading-snug">Adakah terdapat baki minimum yang perlu ditinggalkan dalam akaun GAP?</h4>
-          </div>
-          <span class="chevron-icon text-zinc-500 mt-1 flex-shrink-0"><i class="fa-solid fa-chevron-down text-xs"></i></span>
-        </div>
-        <div class="faq-answer">
-          <p class="text-xs text-zinc-400 leading-relaxed border-t border-zinc-800/60 pt-3">
-            Ya, untuk memastikan akaun GAP anda kekal aktif secara berterusan, anda disarankan untuk meninggalkan baki minimum sebanyak 1 gram di dalam akaun jika anda melakukan pengeluaran emas fizikal sepenuhnya. Tiada denda dikenakan sekiranya baki menjadi 0, namun akaun mungkin diklasifikasikan sebagai tidak aktif sementara waktu.
-          </p>
-        </div>
-      </div>
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-badge"><span></span>Panduan Simpanan Emas Malaysia</div>
+    <h1>Soalan Lazim<br><em>Pelaburan Emas</em></h1>
+    <p>Jawapan lengkap berdasarkan pengalaman nyata &amp; panduan pakar emas Malaysia.</p>
+    <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Cari soalan atau kata kunci…" autocomplete="off">
+        <span class="search-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+    </div>
+</header>
 
-      <div class="faq-card bg-zinc-900/40 border border-zinc-900 p-4 rounded-2xl transition-all duration-300 cursor-pointer" data-category="fizikal">
-        <div class="flex items-start justify-between gap-3" onclick="toggleFaqCard(this.parentNode)">
-          <div class="space-y-0.5">
-            <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider">Fizikal / Outright</span>
-            <h4 class="text-sm font-bold text-zinc-100 leading-snug">Apakah maksud caj Gold Premium semasa pengeluaran fizikal?</h4>
-          </div>
-          <span class="chevron-icon text-zinc-500 mt-1 flex-shrink-0"><i class="fa-solid fa-chevron-down text-xs"></i></span>
+<!-- MAIN -->
+<main class="container">
+    <div class="tabs-wrapper">
+        <div class="tabs" id="tabsContainer">
+            <button class="tab-btn active" data-cat="all">
+                Semua <span class="tab-count" id="cnt-all">0</span>
+            </button>
+            <button class="tab-btn" data-cat="asas-simpanan">
+                💰 Asas Simpanan <span class="tab-count" id="cnt-asas-simpanan">0</span>
+            </button>
+            <button class="tab-btn" data-cat="memilih-emas">
+                🏅 Memilih Emas <span class="tab-count" id="cnt-memilih-emas">0</span>
+            </button>
+            <button class="tab-btn" data-cat="strategi-emas">
+                📈 Strategi Jual &amp; Beli <span class="tab-count" id="cnt-strategi-emas">0</span>
+            </button>
+            <button class="tab-btn" data-cat="transaksi-pg">
+                🔄 Transaksi Public Gold <span class="tab-count" id="cnt-transaksi-pg">0</span>
+            </button>
+            <button class="tab-btn" data-cat="akaun-gap">
+                🏦 Akaun Emas GAP <span class="tab-count" id="cnt-akaun-gap">0</span>
+            </button>
+            <button class="tab-btn" data-cat="bisnes-emas">
+                🤝 Bisnes Emas PG <span class="tab-count" id="cnt-bisnes-emas">0</span>
+            </button>
         </div>
-        <div class="faq-answer">
-          <p class="text-xs text-zinc-400 leading-relaxed border-t border-zinc-800/60 pt-3">
-            Caj Gold Premium ialah kos operasi logistik, insurans perlindungan, dan pembuatan acuan yang dikenakan bagi setiap kepingan gold bar atau dinar fizikal yang diambil. Kos ini berbeza mengikut saiz berat gram produk dan lokasi cawangan (Semenanjung Malaysia atau Sabah/Sarawak).
-          </p>
-        </div>
-      </div>
-
-      <div class="faq-card bg-zinc-900/40 border border-zinc-900 p-4 rounded-2xl transition-all duration-300 cursor-pointer" data-category="fizikal">
-        <div class="flex items-start justify-between gap-3" onclick="toggleFaqCard(this.parentNode)">
-          <div class="space-y-0.5">
-            <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider">Fizikal / Outright</span>
-            <h4 class="text-sm font-bold text-zinc-100 leading-snug">Bagaimanakah kaedah pembelian secara Outright Purchase dilakukan?</h4>
-          </div>
-          <span class="chevron-icon text-zinc-500 mt-1 flex-shrink-0"><i class="fa-solid fa-chevron-down text-xs"></i></span>
-        </div>
-        <div class="faq-answer">
-          <p class="text-xs text-zinc-400 leading-relaxed border-t border-zinc-800/60 pt-3">
-            Outright Purchase bermaksud anda membeli produk emas fizikal (seperti gold bar berasingan atau dinar) secara bayaran penuh 100% sekali gus berdasarkan harga semasa pasaran yang dipaparkan. Setelah bayaran disahkan, anda boleh memilih untuk mengambil item tersebut di cawangan (GIT) atau dihantar terus ke rumah melalui kurier berasurans jika saiz sesuai.
-          </p>
-        </div>
-      </div>
-
-      <div class="faq-card bg-zinc-900/40 border border-zinc-900 p-4 rounded-2xl transition-all duration-300 cursor-pointer" data-category="akaun">
-        <div class="flex items-start justify-between gap-3" onclick="toggleFaqCard(this.parentNode)">
-          <div class="space-y-0.5">
-            <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider">Sistem &amp; E-Auth</span>
-            <h4 class="text-sm font-bold text-zinc-100 leading-snug">Mengapakah saya gagal mendaftar masuk melalui sistem E-Auth portal?</h4>
-          </div>
-          <span class="chevron-icon text-zinc-500 mt-1 flex-shrink-0"><i class="fa-solid fa-chevron-down text-xs"></i></span>
-        </div>
-        <div class="faq-answer">
-          <p class="text-xs text-zinc-400 leading-relaxed border-t border-zinc-800/60 pt-3">
-            Kegagalan E-Auth biasanya berlaku disebabkan oleh beberapa perkara: ralat pengisian kod PG, kata laluan yang tidak sepadan, atau akaun baru anda masih belum disahkan sepenuhnya oleh pihak admin HQ. Sila pastikan cache pelayar anda dibersihkan atau hubungi dealer penasihat anda untuk semakan status PG code.
-          </p>
-        </div>
-      </div>
-
-    </section>
-
-    <div id="no-results" class="hidden text-center py-12 space-y-3">
-      <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-600">
-        <i class="fa-solid fa-comment-slash text-base"></i>
-      </div>
-      <p class="text-xs text-zinc-500 max-w-xs mx-auto">Tiada sebarang padanan soalan ditemui bagi kata kunci carian tersebut. Sila cuba kata kunci lain.</p>
     </div>
 
-  </main>
-
-  <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
-      <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
-      <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
-      <div class="space-y-3 pt-2">
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Dewasa (18 Tahun Ke Atas)</a>
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">Junior (17 Tahun Ke Bawah)</a>
-      </div>
-      <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-2 block mx-auto underline">Tutup</button>
+    <div id="faqContainer"></div>
+    <div class="empty-state" id="emptyState">
+        <div class="empty-state-icon">🔍</div>
+        <p>Tiada soalan dijumpai.<br>Cuba kata kunci yang lain.</p>
     </div>
-  </div>
+</main>
 
-  <div id="nav-popup-overlay" onclick="closeNavPopups()" class="fixed inset-0 z-40 bg-zinc-950/60 backdrop-blur-xs hidden opacity-0 transition-all duration-300"></div>
+<footer class="footer">
+    <p>Maklumat ini dikongsi sebagai panduan umum sahaja.<br>
+    Untuk pelaburan, sila buat keputusan anda sendiri berdasarkan situasi kewangan peribadi.<br>
+    © 2025 · Panduan Simpanan Emas</p>
+</footer>
 
-  <div id="menu-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-300 ease-in-out shadow-2xl">
-    <button onclick="closeNavPopups()" class="absolute top-3.5 right-3.5 w-7 h-7 bg-zinc-800/80 rounded-full flex items-center justify-center text-zinc-500 hover:bg-rose-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-xmark"></i></button>
-    <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Navigasi Aplikasi</h4>
-    <div class="grid grid-cols-4 gap-y-4 gap-x-2 text-center">
-      <a href="faq.html" class="flex flex-col items-center group">
-        <div class="w-12 h-12 rounded-full bg-amber-400 text-zinc-950 flex items-center justify-center font-bold transition-all shadow-md"><i class="fa-solid fa-circle-question text-lg"></i></div>
-        <span class="text-[11px] text-zinc-200 mt-2 font-medium">FAQ</span>
-      </a>
-      <a href="program.html" class="flex flex-col items-center group">
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-calendar-alt text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Program</span>
-      </a>
-      <button onclick="triggerDaftarPopup()" class="flex flex-col items-center group focus:outline-none">
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-user-plus text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Daftar</span>
-      </button>
-      <a href="gold-saver.html" class="flex flex-col items-center group relative">
-        <span class="absolute -top-1.5 right-0 bg-amber-500 text-[8px] text-zinc-950 font-black px-1.5 py-0.5 rounded-full scale-90 shadow-md">VIP</span>
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-crown text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Eksklusif</span>
-      </a>
-    </div>
-  </div>
+<button class="scroll-top" id="scrollTop" aria-label="Ke atas">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
-  <div id="akses-popup-card" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-5 z-50 hidden opacity-0 translate-y-6 transition-all duration-300 ease-in-out shadow-2xl">
-    <button onclick="closeNavPopups()" class="absolute top-3.5 right-3.5 w-7 h-7 bg-zinc-800/80 rounded-full flex items-center justify-center text-zinc-500 hover:bg-rose-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-xmark"></i></button>
-    <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Akses &amp; Sistem</h4>
-    <div class="grid grid-cols-3 gap-2 text-center">
-      <a href="pasang-percuma.html" class="flex flex-col items-center group">
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-download text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium">Pasang App</span>
-      </a>
-      <button onclick="alert('Menyambung ke saluran peranti...')" class="flex flex-col items-center group focus:outline-none">
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-bell text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium">Notifikasi</span>
-      </button>
-      <button onclick="alert('Pautan berjaya disalin!')" class="flex flex-col items-center group focus:outline-none">
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-share-nodes text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium">Salin Pautan</span>
-      </button>
-    </div>
-  </div>
+<script>
+const faqData = [
+    // ========================================================
+    // Kategori 1: Asas Simpanan Emas
+    // ========================================================
+    {
+        id: "faq-1",
+        category: "asas-simpanan",
+        question: "Barang kemas, gold bar, ataupun dinar, yang mana lebih baik?",
+        answer: "Kalau beli emas untuk tujuan simpanan atau pelaburan, <strong>gold bar atau dinar (berketulenan 999.9) lebih menguntungkan</strong>.<br><br>Harga per gram lebih murah sekitar 15% berbanding barang kemas, spread ('susut nilai') juga jauh lebih rendah (kurang dari 10%).<br><br>Barang kemas tak sesuai untuk tujuan simpanan ataupun pelaburan. Ia cuma sesuai untuk perhiasan. Harganya lebih mahal, dikenakan caj upah tukang, dan spreadnya sangat tinggi (sekitar 25% - 40%). Ia merugikan."
+    },
+    {
+        id: "faq-2",
+        category: "asas-simpanan",
+        question: "Apa beza dinar dengan gold bar?",
+        answer: "Sama sahaja antara gold bar dan dinar dari sudut potensi keuntungan. Harga per gram sama, spread ('susut nilai') sama, ketulenan pun sama (ketulenan 999.9).<br><br>Bezanya cuma bentuk bulat &amp; segi empat sahaja. 1 dinar beratnya 4.25 gram."
+    },
+    {
+        id: "faq-3",
+        category: "asas-simpanan",
+        question: "Emas digital atau emas fizikal, yang mana lebih baik?",
+        answer: "Semua pakar kewangan mencadangkan beli <strong>emas fizikal</strong>.<br><br>Tidak seperti penyimpan emas digital, penyimpan emas fizikal masih berpeluang menjana keuntungan daripada simpanan emas sekiranya harga emas jatuh.<br><br>Baca penjelasan guru saya dalam artikel <a href='https://www.mohdzulkifli.com/2022/07/harga-jatuh-pelabur-emas-digital-berputih-mata.html' target='_blank' rel='noopener'><em>\"Harga Jatuh, Pelabur Emas Digital Berputih Mata!\"</em></a>"
+    },
+    {
+        id: "faq-4",
+        category: "asas-simpanan",
+        question: "Adakah bagus jual barang kemas yang tak dipakai dan beli gold bar / dinar?",
+        answer: "Saya tak sarankan. Jual barang kemas hanya bila perlukan duit.<br><br>Kalau jual barang kemas untuk beli gold bar, kita akan kerugian dua kali \"spread\" (potongan harga). Iaitu spread barang kemas (25% - 40%) dan spread gold bar yang baru dibeli (bawah 10%).<br><br>Kalau simpan sahaja barang kemas tersebut, kita hanya dikenakan sekali \"spread\" sahaja."
+    },
+    {
+        id: "faq-5",
+        category: "asas-simpanan",
+        question: "ASB, Tabung Haji, atau emas, yang mana lebih baik?",
+        answer: "Untuk simpanan <strong>jangka pendek (kurang 2 tahun), ASB atau Tabung Haji lebih baik</strong>. Pulangannya konsisten sekitar 4% - 5% setahun.<br><br>Tapi untuk <strong>jangka panjang, emas lebih baik</strong>. Nilainya lebih terjamin dan tak terjejas walauapapun keadaan ekonomi atau politik sesebuah negara.<br><br>Walaupun harga emas ada turun naik dalam jangka pendek, tetapi sejarah 20 tahun menunjukkan <strong>harga emas naik secara purata sekitar 10% setahun</strong>. Harga emas confirm akan naik dalam jangka panjang disebabkan faktor inflasi dan kejatuhan ringgit.<br><br><strong>Duit simpanan jangka pendek, simpanlah dalam ASB atau Tabung Haji. Untuk jangka panjang, simpanlah dalam bentuk emas.</strong>"
+    },
+    {
+        id: "faq-6",
+        category: "asas-simpanan",
+        question: "Adakah harga emas akan sentiasa naik?",
+        answer: "Untuk jangka pendek, harga emas sentiasa ada turun naik. <strong>Tetapi dalam jangka panjang, harga emas sentiasa naik.</strong><br><br>Ini disebabkan nilai duit kertas sentiasa menyusut dalam jangka panjang disebabkan inflasi dan kejatuhan nilai ringgit.<br><br>Sejarah 20 tahun menunjukkan <strong>harga emas naik secara purata sekitar 10% setahun</strong>.<br><br>Harga emas akan terus naik dalam jangka panjang selagi mana sistem wang kertas (wang fiat) digunakan. Selagi kerajaan terus mencetak wang (yang menyebabkan nilainya semakin menurun), selagi itulah harga emas akan terus naik."
+    },
+    {
+        id: "faq-7",
+        category: "asas-simpanan",
+        question: "Adakah emas ada dividen seperti ASB atau Tabung Haji?",
+        answer: "Tidak ada. Emas tidak ada dividen macam ASB atau Tabung Haji.<br><br>Kalau pelaburan emas yang <em>offer</em> ada dividen atau pendapatan bulanan atau tahunan, itu semua skim penipuan."
+    },
+    {
+        id: "faq-8",
+        category: "asas-simpanan",
+        question: "Bagaimana cara buat untung dengan emas?",
+        answer: "Asasnya \"beli harga rendah, jual harga tinggi\". <strong>Jadikan emas sebagai simpanan jangka panjang, sekurang-kurangnya 2 tahun dan ke atas.</strong><br><br>Walaupun harga emas ada turun naik dalam jangka pendek, tetapi sejarah 20 tahun menunjukkan <strong>harga emas secara purata naik sekitar 10% setahun</strong>.<br><br>Harga emas akan sentiasa naik dalam jangka panjang kerana nilai duit kertas sentiasa merosot dari tahun ke tahun disebabkan inflasi dan kejatuhan ringgit."
+    },
+    {
+        id: "faq-9",
+        category: "asas-simpanan",
+        question: "Bagaimana emas menjadikan penyimpannya bertambah kaya?",
+        answer: "Selain harga emas makin lama makin mahal, <strong>duit simpanan tak lagi bocor. Bahkan jumlah simpanan bertambah dengan cepat.</strong><br><br>Bila duit sudah ditukarkan menjadi emas, secara automatik kita <strong>hilang nafsu berbelanja</strong> - sebab \"nombor\" yang menggoda telahpun hilang.<br><br>Yang nampak cuma kepingan-kepingan emas yang cantik, yang membuatkan kita <strong>ketagih untuk kumpul emas lebih banyak, lagi dan lagi</strong>.<br><br>'Ketagih' menyimpan dan hilang nafsu berbelanja itulah yang membuatkan penyimpan emas bertambah kaya. Selain dari harganya yang semakin mahal dari tahun ke tahun."
+    },
+    {
+        id: "faq-10",
+        category: "asas-simpanan",
+        question: "Apakah kelebihan emas berbanding aset lain?",
+        answer: "1. Emas boleh dijadikan <strong>'ubat mujarab' untuk penyakit boros</strong> dan masalah simpanan yang sentiasa bocor.<br><br>2. Emas <strong>penyimpan nilai paling ampuh</strong> dalam sejarah manusia. Simpan emas, kekayaan kita <strong>selamat dari inflasi dan risiko kejatuhan ringgit</strong> dalam jangka panjang.<br><br>3. Emas adalah <strong>aset fizikal mampu milik</strong>. Tidak seperti hartanah, kita boleh memiliki emas walaupun dengan bajet kecil, <strong>sekecil item 1 gram</strong> (bajet sekitar RM300).<br><br>4. Emas adalah <strong>aset kewangan yang tidak boleh dibekukan</strong> oleh kerajaan. Ia <strong>aset terbaik untuk sorokkan kekayaan</strong> dan sebagai <strong>benteng terakhir kewangan keluarga</strong>."
+    },
+    {
+        id: "faq-11",
+        category: "asas-simpanan",
+        question: "Berapakah jumlah simpanan emas setiap orang patut ada?",
+        answer: "Letakkan target sekurang-kurangnya <strong>100 gram emas untuk satu keluarga</strong>. Bila sudah capai 100 gram pertama, target seterusnya ialah memiliki <strong>1 kilogram emas untuk satu keluarga</strong>. Mulakan tabiat simpan <strong>1 gram 1 bulan</strong> dulu.<br><br>Menurut pakar kewangan Tuan Azizi Ali, setiap kita patut simpan <strong>sekurang-kurangnya 10% daripada jumlah kekayaan (nett worth)</strong> kita dalam bentuk emas sebagai benteng terakhir kekayaan kita."
+    },
+    {
+        id: "faq-12",
+        category: "asas-simpanan",
+        question: "Apakah perkara penting yang perlu tahu untuk elakkan kerugian dalam pelaburan emas?",
+        answer: "1. Simpanan <strong>emas tiada pendapatan</strong> bulanan atau tahunan macam dividen ASB/Tabung Haji. Mana-mana pelaburan emas yang menjanjikan pendapatan, itu semua scam.<br><br>2. <strong>Beli emas mesti dapat emas (fizikal)</strong>, sama macam beli emas di kedai-kedai emas.<br><br>3. Emas sesuai untuk simpanan jangka panjang, <strong>sekurang-kurangnya 2 tahun ke atas</strong>.<br><br>4. Beli emas bermaksud simpan duit. <strong>Beli emas duit tak habis</strong>. Bila nak pakai duit, boleh jual atau pajak sahaja pada bila-bila masa.<br><br>5. <strong>Pastikan jual beli emas hanya dengan syarikat yang sudah trusted dan berkredibiliti sahaja</strong>. Bukan dari mana-mana individu yang tidak dikenali."
+    },
+    {
+        id: "faq-13",
+        category: "asas-simpanan",
+        question: "Adakah sesuai beli emas dengan duit pinjaman?",
+        answer: "Tak sesuai. Emas hanya sesuai dibeli dengan duit simpanan jangka panjang, sekurang-kurangnya 2 tahun ke atas.<br><br>Kalau masih ada hutang yang cajnya mahal seperti kad kredit (dengan kadar interest 18% setahun), lebih baik fokus langsaikan hutang terlebih dahulu.<br><br>Tak berbaloi simpan emas yang keuntungannya sekitar 10%, sedangkan kos pinjaman yang masih tertanggung lebih tinggi - melebihi 10%."
+    },
+    {
+        id: "faq-14",
+        category: "asas-simpanan",
+        question: "Duit yang manakah sesuai digunakan untuk beli emas?",
+        answer: "<strong>Apa sahaja duit untuk simpanan sekurang-kurangnya 2 tahun dan ke atas</strong>, ia sesuai ditukarkan kepada bentuk emas.<br><br>Emas sesuai dijadikan simpanan jangka panjang seperti dana perkahwinan, deposit beli rumah, dana haji atau umrah, dana pendidikan anak-anak, dana persaraan atau lain-lain."
+    },
+    {
+        id: "faq-15",
+        category: "asas-simpanan",
+        question: "Berapakah jumlah emas yang dikenakan zakat?",
+        answer: "Emas simpanan dikenakan zakat <strong>2.5%</strong> sekiranya cukup <strong>85 gram</strong> (bersamaan 20 dinar), dan disimpan untuk tempoh minimum 1 tahun (berdasarkan kalendar hijrah).<br><br>Barang kemas juga dikenakan zakat sekiranya jumlah emas tersebut melebihi uruf yang ditetapkan oleh Majlis Agama Islam (mengikut negeri masing-masing).<br><br>Maklumat lanjut tentang cara pengiraan zakat, sila rujuk di <a href='https://www.zakat.com.my/info-zakat/jenis-jenis-zakat/zakat-emas' target='_blank' rel='noopener'>https://www.zakat.com.my/info-zakat/jenis-jenis-zakat/zakat-emas</a>"
+    },
 
-  <button id="scrollTop" class="fixed bottom-24 right-6 w-10 h-10 bg-amber-400 text-zinc-950 border border-amber-300 rounded-full flex items-center justify-center shadow-lg focus:outline-none z-30">
-    <i class="fa-solid fa-arrow-up text-sm"></i>
-  </button>
+    // ========================================================
+    // Kategori 2: Memilih Emas Terbaik
+    // ========================================================
+    {
+        id: "faq-16",
+        category: "memilih-emas",
+        question: "Apakah kriteria memilih emas terbaik untuk pelaburan?",
+        answer: "Apa jenama pun tak kisah. Kalau beli dengan tujuan pelaburan (untuk menjual pada harga lebih tinggi pada masa akan datang), kena pastikan 5 kriteria ini:<br><br>1. <strong>Harga</strong> per gram rendah<br>2. <strong>Spread</strong> ('susut nilai') nipis - supaya cepat dapat keuntungan<br>3. <strong>Stok</strong> tiada had - supaya kita berpeluang beli banyak ketika harga rendah<br>4. <strong>Cawangan</strong> jual beli banyak - supaya memudahkan urusan<br>5. <strong>Jaminan beli balik</strong> tanpa syarat yang cerewet - supaya mudah dijual pada harga tinggi<br><br>Boleh baca penerangan lanjut dari guru emas saya Tuan Mohd Zulkifli Shafie <a href='https://www.mohdzulkifli.com/2012/05/5-kriteria-penting-memilih-emas-pelaburan.html' target='_blank' rel='noopener'>DI SINI</a>."
+    },
+    {
+        id: "faq-17",
+        category: "memilih-emas",
+        question: "Apakah jenama emas terbaik di Malaysia?",
+        answer: "Ada banyak jenama emas di Malaysia. Tapi ini jenama emas pelaburan (emas fizikal) yang paling bereputasi di Malaysia dan bagus untuk 'pelaburan'.<br><br>1. <strong>Public Gold</strong> - lebih 80% penyimpan emas di Malaysia memilih Public Gold. Ia jenama yang paling mudah dibeli, dan paling mudah dijual, serta diterima meluas oleh institusi ar-rahnu (mudah untuk dipajak).<br>2. <strong>Kijang Emas</strong> (Maybank)<br>3. <strong>UOB Bank</strong> - menjual emas pelbagai jenama antarabangsa<br>4. <strong>Bank Muamalat</strong> - menjual emas jenama Perth Mint (Australia)"
+    },
+    {
+        id: "faq-18",
+        category: "memilih-emas",
+        question: "Apakah kelebihan emas Public Gold yang menjadi pilihan no. 1 penyimpan emas Malaysia?",
+        answer: "Lebih 80% penyimpan emas di Malaysia memilih emas Public Gold. Ia menjadi jenama pilihan no. 1 di Malaysia kerana <strong>mudah dibeli, mudah dijual</strong> dan <strong>disahkan patuh syariah</strong>.<br><br>Selain daripada itu, kelebihan emas Public Gold:<br>1. <strong>Harga</strong> lebih murah sekitar 15% berbanding kedai emas.<br>2. <strong>Spread</strong> yang rendah - 6% - 9% sahaja.<br>3. <strong>Cawangan jual beli</strong> banyak - 16 cawangan di Malaysia, 5 cawangan di Indonesia.<br>4. Boleh dibeli <strong>secara online 100%</strong> - transaksi boleh dibuat 24 jam sehari, dan Public Gold hantarkan terus emas kepada pembeli menggunakan servis pos berinsurans.<br>5. <strong>Stok tiada had</strong> - boleh beli emas tanpa had walaupun ketika harga emas sedang jatuh.<br>6. <strong>Jaminan beli balik</strong> - Public Gold jamin beli balik emas jenamanya pada harga tinggi walaupun emas tersebut calar, bengkok, ataupun kemek.<br>7. Servis <strong>simpan emas percuma</strong> melalui Akaun Emas GAP - tak perlu bimbang di mana nak simpan emas yang dibeli.<br>8. <strong>Rekod bersih</strong> - 100% pembeli emas Public Gold dapat emas yang dibeli; sejak mula beroperasi pada tahun 2008 hingga sudah lebih 1 juta penyimpan emas berdaftar."
+    },
 
-  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/90 backdrop-blur-lg border-t border-zinc-900 px-6 py-3 max-w-md mx-auto w-full flex justify-around items-center">
-    <a href="index.html" class="flex flex-col items-center text-zinc-400 hover:text-amber-400">
-      <i class="fa-solid fa-house text-lg"></i>
-      <span class="text-[10px] font-bold mt-1">Home</span>
-    </a>
-    <button id="nav-menu-btn" onclick="toggleNavPopup('menu')" class="flex flex-col items-center text-zinc-400 hover:text-amber-400 focus:outline-none">
-      <i class="fa-solid fa-bars text-lg"></i>
-      <span class="text-[10px] font-bold mt-1">Menu</span>
-    </button>
-    <button id="nav-akses-btn" onclick="toggleNavPopup('akses')" class="flex flex-col items-center text-zinc-400 hover:text-amber-400 focus:outline-none">
-      <i class="fa-solid fa-sliders text-lg"></i>
-      <span class="text-[10px] font-bold mt-1">Akses</span>
-    </button>
-  </nav>
+    // ========================================================
+    // Kategori 3: Strategi Jual, Beli dan Pajak
+    // ========================================================
+    {
+        id: "faq-19",
+        category: "strategi-emas",
+        question: "Bila waktu terbaik beli emas?",
+        answer: "<strong>Waktu terbaik ialah bila ada duit untuk simpanan sekurang-kurangnya 2 tahun dan ke atas</strong>, dan sudah faham perkara paling asas tentang emas.<br><br>Jangan tunggu harga terbaik, sebab tak siapa tahu bila harga emas paling rendah, kecuali harga tersebut sudahpun jadi sejarah.<br><br>Dalam jangka pendek, harga emas memang ada turun naik. Tapi dalam jangka panjang, harga emas <em>confirm</em> akan naik disebabkan kuasa beli duit kertas yang sentiasa merosot.<br><br>Untuk faham harga emas tinggi rendah, <strong>mulakan dulu dengan belian pertama sekurang-kurangnya 1 gram untuk dijadikan sebagai benchmark</strong>.<br><br>Selagi emas fizikal ada di tangan, dan kita beli untuk simpanan jangka panjang, risiko kerugian sangat tipis."
+    },
+    {
+        id: "faq-20",
+        category: "strategi-emas",
+        question: "Bila waktu terbaik jual emas?",
+        answer: "Waktu terbaik jual emas ialah pada 3 keadaan;<br><br>1. Ada <strong>peluang tukarkan kepada aset yang lebih baik</strong>, seperti peluang beli rumah pelaburan di bawah harga pasaran, atau digunakan untuk <em>rolling</em> modal bisnes.<br>2. Sudah <strong>capai matlamat simpanan</strong>, seperti sampai waktu menunaikan haji, anak nak masuk universiti, atau cukup untuk dijadikan deposit membeli rumah.<br>3. Ada <strong>hal kecemasan</strong>, iaitu ketika mana duit simpanan kecemasan sudah habis."
+    },
+    {
+        id: "faq-21",
+        category: "strategi-emas",
+        question: "Kalau nak pakai duit, di mana tempat terbaik jual emas?",
+        answer: "<strong>Tempat terbaik jual emas ialah tempat di mana kita membelinya.</strong><br><br>Kalau emas Public Gold, jual kembali kepada Public Gold. Kalau emas Poh Kong, jual kembali ke kedai emas Poh Kong.<br><br>Ini kerana pengeluar asal akan membelinya pada harga yang lebih tinggi berbanding anda menjualnya di tempat lain."
+    },
+    {
+        id: "faq-22",
+        category: "strategi-emas",
+        question: "Adakah bagus jual barang kemas yang tak dipakai dan beli gold bar / dinar?",
+        answer: "Saya tak sarankan. Jual barang kemas hanya bila perlukan duit.<br><br>Kalau jual barang kemas untuk beli gold bar, kita akan kerugian dua kali \"spread\" (potongan harga). Iaitu spread barang kemas (25% - 40%) dan spread gold bar yang baru dibeli (bawah 10%).<br><br>Kalau simpan sahaja barang kemas tersebut, kita hanya dikenakan sekali \"spread\" sahaja."
+    },
+    {
+        id: "faq-23",
+        category: "strategi-emas",
+        question: "Jual atau pajak, yang mana lebih baik?",
+        answer: "Secara idealnya, penyimpan emas tegar tak jual emas mereka kecuali dalam 3 keadaan (Tukar aset lebih baik, capai matlamat, hal kecemasan).<br><br>Selain daripada 3 keadaan ini, penyimpan emas tegar akan pajak emas mereka kalau perlukan tunai segera, dan akan tebus semula secepat mungkin dalam masa 6 - 12 bulan.<br><br><strong>Sekiranya anda tak mampu tebus emas tersebut dalam masa 6 - 12 bulan, pilihan terbaik ialah jual sahaja emas tersebut.</strong>"
+    },
+    {
+        id: "faq-24",
+        category: "strategi-emas",
+        question: "Adakah berbaloi kalau pajak emas sedia ada untuk beli lagi emas yang baru?",
+        answer: "Dalam banyak keadaan, ianya <strong>tak berbaloi</strong>. Bahkan risiko rugi lebih besar berbanding potensi keuntungan.<br><br>Ini disebabkan kos pajakan ar-rahnu yang mahal iaitu sekitar 1.15% sebulan atau 13.8% setahun. Sedangkan harga emas naik sekitar 10% sahaja setahun kalau berdasarkan sejarah 20 tahun harga emas."
+    },
 
-  <script>
-    let activeCategory = "all";
-    let searchQuery = "";
+    // ========================================================
+    // Kategori 4: Transaksi Emas Public Gold
+    // ========================================================
+    {
+        id: "faq-25",
+        category: "transaksi-pg",
+        question: "Bagaimana cara daftar sebagai ahli Public Gold?",
+        answer: "Daftar di sini (percuma) :<br><br>• <a href='https://publicgold.com.my/index.php?route=account/register&intro_pgcode=PG00556711&is_dealer=1' target='_blank' rel='noopener'><strong>AKAUN DEWASA</strong></a><br>• <a href='https://publicgold.com.my/index.php?route=account/register&form_type=ja&intro_pgcode=PG00556711&is_dealer=1' target='_blank' rel='noopener'><strong>AKAUN JUNIOR (bawah 18 tahun)</strong></a><br><br>Setelah berjaya daftar, download <strong>aplikasi \"Public Gold\"</strong> untuk buat pembelian cara yang lebih mudah.<br><br>• <a href='https://play.google.com/store/apps/details?id=com.pgmapp.publicgold&pli=1' target='_blank' rel='noopener'>Android</a><br>• <a href='https://apps.apple.com/my/app/public-gold/id1591580964' target='_blank' rel='noopener'>iOS</a><br><br>Bagi yang sudah ada \"PG Code\" (user ID Public Gold), boleh gunakan PG Code sedia ada untuk login dan buat pembelian."
+    },
+    {
+        id: "faq-26",
+        category: "transaksi-pg",
+        question: "Berapa bajet paling minimum untuk memulakan simpanan emas?",
+        answer: "Dengan Public Gold, boleh mula menabung emas dengan bajet serendah <strong>RM100</strong> melalui Akaun Emas GAP.<br><br>Dan boleh tambah tabungan pada bila-bila masa dengan bajet minimum RM100 setiap kali pembelian.<br><br>Tidak ada syarat wajib untuk beli setiap bulan.<br><br>Item paling kecil boleh dikeluarkan dari Akaun GAP ialah gold bar 0.5 gram (berketulenan 999.9) pelbagai design."
+    },
+    {
+        id: "faq-27",
+        category: "transaksi-pg",
+        question: "Bolehkah beli terus secara walk-in di branch Public Gold terdekat?",
+        answer: "Public Gold tak terima belian secara walk-in.<br><br>Untuk keselesaan hampir 1 juta pelanggan, branch Public Gold hanya berikan servis untuk pelanggan yang nak collect item emas bersaiz besar (yang tidak boleh dihantar melalui GIT i.e. pos berinsurans), iaitu item 50 gram / 10 dinar (42.5 gram) ke atas.<br><br>Untuk datang collect emas, kena order, buat pembayaran, dan set appointment terlebih dahulu.<br><br>Untuk item kecil (item 5 dinar / 20 gram ke bawah), Public Gold akan pos terus dari HQ Penang menggunakan servis Gold-in-Transit (GIT).<br><br>Untuk pembelian, ikut panduan <a href='https://pg2u.my/wanhasbullah/cara-bermula' target='_blank' rel='noopener'>DI SINI</a>."
+    },
+    {
+        id: "faq-28",
+        category: "transaksi-pg",
+        question: "Adakah servis GIT (pos emas berinsurans) yang disediakan oleh Public Gold dijamin selamat?",
+        answer: "Ya. Public Gold jamin emas tersebut selamat sampai kepada pelanggan atau digantikan yang dengan baru sekiranya berlaku kehilangan.<br><br>Setiap parcel dilindungi insuran 100%. Limit berat emas dalam satu parcel ialah 21.25 gram (bersamaan dengan 5 dinar)"
+    },
+    {
+        id: "faq-29",
+        category: "transaksi-pg",
+        question: "Kalau nak pakai duit, bagaimana cara nak jual balik emas Public Gold?",
+        answer: "Kalau <strong>emas fizikal</strong> yang ada di tangan, bawa sahaja emas tersebut ke mana-mana cawangan Public Gold terdekat. Boleh <strong>terus datang walk-in</strong> tanpa perlu buat appointment.<br><br>Jika jualan emas dilakukan sebelum 12.30 tengah hari, Public Gold akan buat bayaran ke akaun bank penjual pada hari yang sama.<br><br>Jika selepas jam 12.30 tengah hari, Public Gold akan membuat bayaran dalam masa 2 - 3 hari bekerja."
+    },
+    {
+        id: "faq-30",
+        category: "transaksi-pg",
+        question: "Macam mana cara nak pastikan ketulenan emas yang dijual oleh Public Gold?",
+        answer: "Setiap kepingan emas Public Gold didatangkan bersama sijil ketulenan yang disahkan oleh assayer (penilai) bebas.<br><br>Kalau mahu, boleh minta staff Public Gold uji ketulenan emas yang dibeli menggunakan \"densimeter\". Caj perkhidmatan dikenakan untuk setiap emas yang diuji tersebut.<br><br>Sejak mula beroperasi pada tahun 2008, belum ada sebarang laporan tentang isu ketulenan emas keluaran Public Gold."
+    },
+    {
+        id: "faq-31",
+        category: "transaksi-pg",
+        question: "Emas apa yang Public Gold tak terima untuk buyback (jual)?",
+        answer: "Antara emas yang <strong>tidak dibeli oleh Public Gold</strong> ialah :<br><br>• Emas serbuk (paper gold)<br>• Emas dibawah 0.5gram jenama selain Public Gold<br>• Semua jenis emas putih<br><br>Emas (yellow gold) berketulenan 750 (18k) dan kebawah perlu diuji dan dinilai terlebih dahulu. Untuk kepastian, digalakkan untuk bawa emas tersebut ke cawangan Public Gold berhampiran."
+    },
 
-    /* ── Logik Carian & Pengurusan Butang Clear Input (faq-emas.html Style) ── */
-    const searchInput = document.getElementById("searchInput");
-    const clearBtn = document.getElementById("faq-clear-btn");
-    const searchResultStatus = document.getElementById("faq-search-result");
+    // ========================================================
+    // Kategori 5: Akaun Emas GAP
+    // ========================================================
+    {
+        id: "faq-32",
+        category: "akaun-gap",
+        question: "Bagaimanakah sistem Akaun Emas GAP (Gold Accumulation Program) berfungsi?",
+        answer: "Akaun Emas GAP ialah kemudahan yang disediakan oleh Public Gold untuk membolehkan anda mengumpul emas fizikal dengan modal yang kecil (minimum RM100 atau 1 gram). Emas disimpankan secara percuma oleh Public Gold tanpa had masa, dan anda boleh mengeluarkan emas fizikal tersebut dalam bentuk gold bar atau dinar di mana-mana cawangan berhampiran pada bila-bila masa."
+    },
+    {
+        id: "faq-33",
+        category: "akaun-gap",
+        question: "Bagaimana cara buka Akaun Emas GAP?",
+        answer: "Daftar di sini (percuma) :<br><br>• <a href='https://publicgold.com.my/index.php?route=account/register&intro_pgcode=PG00556711&is_dealer=1' target='_blank' rel='noopener'><strong>AKAUN DEWASA</strong></a><br>• <a href='https://publicgold.com.my/index.php?route=account/register&form_type=ja&intro_pgcode=PG00556711&is_dealer=1' target='_blank' rel='noopener'><strong>AKAUN JUNIOR (bawah 18 tahun)</strong></a><br><br>Setelah berjaya daftar, download <strong>aplikasi \"Public Gold\"</strong> untuk buat pembelian cara yang lebih mudah.<br><br>• <a href='https://play.google.com/store/apps/details?id=com.pgmapp.publicgold&pli=1' target='_blank' rel='noopener'>Android</a><br>• <a href='https://apps.apple.com/my/app/public-gold/id1591580964' target='_blank' rel='noopener'>iOS</a>"
+    },
+    {
+        id: "faq-34",
+        category: "akaun-gap",
+        question: "Emas fizikal atau Akaun Emas GAP, yang mana lebih baik?",
+        answer: "Simpanan emas terbaik ialah emas fizikal yang ada di tangan kita sendiri. Ia lebih terjamin.<br><br>Cuma <strong>untuk pastikan kita menabung secara KONSISTEN, saya lebih suka Akaun Emas GAP</strong>. Ia lebih mudah, dan lebih fleksibel.<br><br><strong>GAP juga emas fizikal</strong>. Kita boleh menabung dengan bajet serendah RM100. Bila cukup gram dan nak keluarkan emas fizikal untuk simpan sendiri, boleh minta Public Gold poskan pada bila-bila masa."
+    },
+    {
+        id: "faq-35",
+        category: "akaun-gap",
+        question: "Berapa caj simpan emas dengan Public Gold?",
+        answer: "Percuma. Tiada sebarang caj, tiada had masa, tiada limit jumlah emas yang boleh kita simpan di dalam Akaun Emas GAP."
+    },
+    {
+        id: "faq-36",
+        category: "akaun-gap",
+        question: "Berapakah umur paling minimum boleh buka Akaun Emas GAP?",
+        answer: "Bayi yang sudah ada dokumen <strong>sijil daftar kelahiran (surat beranak)</strong> sudah boleh buka Akaun Emas GAP.<br><br>Untuk anak-anak yang <strong>belum cukup 18 tahun</strong>, boleh buka <strong>Akaun GAP Junior</strong>. Iaitu akaun bersama dengan ibu, atau bapa, atau penjaga yang sah."
+    },
+    {
+        id: "faq-37",
+        category: "akaun-gap",
+        question: "Kalau nak pakai duit, macam mana cara nak jual balik emas GAP?",
+        answer: "Kalau emas masih di dalam <strong>Akaun Emas GAP</strong>, login aplikasi \"Public Gold\", <strong>klik butang \"Sell\"</strong>.<br><br>Jika jualan emas GAP dilakukan sebelum 12.30 tengah hari, Public Gold akan buat bayaran ke akaun bank penjual pada hari yang sama.<br><br>Jika selepas jam 12.30 tengah hari, Public Gold akan membuat bayaran dalam masa 2 - 3 hari bekerja."
+    },
+    {
+        id: "faq-38",
+        category: "akaun-gap",
+        question: "Macam mana cara keluarkan emas fizikal dari Akaun GAP?",
+        answer: "Login aplikasi &gt; tekan butang \"Withdraw\".<br><br>Bagi <strong>item kecil</strong> (bawah 5 dinar / 20 gram), minta Public Gold poskan dengan ikut langkah Withdraw di aplikasi. Setiap parcel dilindungi insuran 100%. Limit berat emas dalam satu parcel 21.25 gram (bersamaan 5 dinar).<br><br>Untuk keluarkan <strong>item besar</strong> (50 gram dan 10 Dinar ke atas), boleh <strong>buat temujanji</strong> untuk keluarkan di cawangan berhampiran. Datang ke cawangan pada tarikh dan masa yang ditetapkan.<br><br>Bawa juga kad pengenalan dan bersedia untuk bayar caj premium untuk setiap keping emas."
+    },
+    {
+        id: "faq-39",
+        category: "akaun-gap",
+        question: "Adakah Public Gold bayarkan zakat bagi emas yang disimpan di dalam Akaun Emas GAP?",
+        answer: "Tidak. Setiap penyimpan emas kena keluarkan zakat sendiri sekiranya jumlah emas yang disimpan sudah cukup haul dan nisab.<br><br>Sila rujuk kiraan zakat di <a href='https://www.zakat.com.my' target='_blank' rel='noopener'>https://www.zakat.com.my</a>"
+    },
+    {
+        id: "faq-40",
+        category: "akaun-gap",
+        question: "Adakah simpan emas GAP dikenakan zakat?",
+        answer: "Ya, jika cukup haul (tempoh setahun hijrah) dan nisab (minimum 85 gram).<br><br>Emas GAP adalah sempurna milik. Ia perlu dikira sama seperti emas yang disimpan sendiri. Bila nak kira zakat, kena jumlahkan kesemua emas yang disimpan sendiri + Akaun GAP.<br><br>Cara pengiraan zakat emas, sila rujuk website <a href='https://www.zakat.com.my/info-zakat/jenis-jenis-zakat/zakat-emas' target='_blank' rel='noopener'>https://www.zakat.com.my/info-zakat/jenis-jenis-zakat/zakat-emas</a>"
+    },
+    {
+        id: "faq-41",
+        category: "akaun-gap",
+        question: "Kalau pemilik Akaun GAP meninggal dunia, macam mana cara nak tuntut emas tersebut?",
+        answer: "Ahli waris kena datang ke branch Public Gold terdekat, serahkan dokumen berikut:<br><br>1. Surat Kematian<br>2. Surat kuasa pentadbir harta pusaka dari mahkamah<br>3. IC pewaris<br>4. Surat pengesahan hubungan dengan si mati i.e. Sijil Nikah, Sijil Kelahiran<br><br>Public Gold ikut prosedur biasa urus harta si mati, sama macam duit dalam akaun bank."
+    },
 
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value.toLowerCase().trim();
-      
-      // Papar/Sembunyikan butang pangkah silang (clear)
-      if (searchQuery.length > 0) {
-        clearBtn.classList.remove("hidden");
-        searchResultStatus.classList.remove("hidden");
-        
-        // Auto beralih ke tab 'Semua' sekiranya pengguna sedang mencari global keywords
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-        document.querySelector("[data-cat='all']").classList.add("active");
-        activeCategory = "all";
-      } else {
-        clearBtn.classList.add("hidden");
-        searchResultStatus.classList.add("hidden");
-      }
-      applyFilters();
+    // ========================================================
+    // Kategori 6: Bisnes Emas Public Gold
+    // ========================================================
+    {
+        id: "faq-42",
+        category: "bisnes-emas",
+        question: "Apakah keuntungan menjadi dealer Public Gold?",
+        answer: "Dealer dibayar insentif (komisyen) atas belian sendiri, dan atas pembelian setiap customer yang dia introduce (register).<br><br>Dealer boleh dapat keuntungan dalam apa juga keadaan harga emas. Selain untung atas kenaikan harga emas, dealer untung atas setiap transaksi yang dibuat oleh pelanggan yang berjaya dibimbing dan didaftarkan dengan Public Gold.<br><br>Dapatkan maklumat lanjut <a href='https://pg2u.my/wanhasbullah/pgdealer' target='_blank' rel='noopener'>DI SINI</a>."
+    },
+    {
+        id: "faq-43",
+        category: "bisnes-emas",
+        question: "Bagaimana cara jadi dealer Public Gold?",
+        answer: "Ini syarat jadi dealer Public Gold (PG);<br><br>1. <strong>Tanpa promosi</strong> : Beli emas <strong>200 gram</strong> dalam 1 invois, free jadi dealer.<br><br>2. <strong>Promosi</strong> : Kadang-kadang ada promosi beli set emas berjumlah sekitar RM15k +/- sudah layak jadi dealer. Boleh cek <a href='https://pg2u.my/wanhasbullah/promosi-terkini' target='_blank' rel='noopener'>DI SINI</a>.<br><br>3. <strong>Wajib join 2 training</strong> untuk layak jadi upgrade jadi dealer iaitu <strong>PLT (PG Leadership Training)</strong> dan <strong>NDO (New Dealer Orientation)</strong> beserta <strong>lulus assesement dealer</strong> di PGO (Public Gold official). Kedua-dua training dijalankan adalah secara online."
+    },
+    {
+        id: "faq-44",
+        category: "bisnes-emas",
+        question: "Bagaimanakah cara untuk menjana pendapatan sebagai Dealer Public Gold?",
+        answer: "Sebagai dealer Public Gold, anda boleh menjana pendapatan pasif melalui komisen (insentif) daripada setiap transaksi belian dan jualan semula oleh pelanggan yang berdaftar di bawah struktur bimbingan anda. Insentif ini dibayar secara berterusan selagi pelanggan anda aktif melakukan transaksi."
+    }
+];
+
+// ── Category config ──────────────────────────────────────
+const categories = {
+    "asas-simpanan": { label: "Asas Simpanan Emas", icon: "💰" },
+    "memilih-emas": { label: "Memilih Emas Terbaik", icon: "🏅" },
+    "strategi-emas": { label: "Strategi Jual, Beli & Pajak", icon: "📈" },
+    "transaksi-pg": { label: "Transaksi Emas Public Gold", icon: "🔄" },
+    "akaun-gap": { label: "Akaun Emas GAP", icon: "🏦" },
+    "bisnes-emas": { label: "Bisnes Emas Public Gold", icon: "🤝" }
+};
+
+// ── State ────────────────────────────────────────────────
+let activeCategory = "all";
+let searchQuery = "";
+
+// ── Build UI ─────────────────────────────────────────────
+function buildFAQ() {
+    const container = document.getElementById("faqContainer");
+    container.innerHTML = "";
+
+    const catOrder = Object.keys(categories);
+
+    catOrder.forEach(cat => {
+        const items = faqData.filter(f => f.category === cat);
+        if (!items.length) return;
+
+        const cfg = categories[cat];
+        const group = document.createElement("div");
+        group.className = "faq-group";
+        group.dataset.cat = cat;
+
+        group.innerHTML = `
+            <div class="section-header">
+                <div class="section-icon">${cfg.icon}</div>
+                <div>
+                    <div class="section-title">${cfg.label}</div>
+                    <div class="section-sub">${items.length} soalan</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+        `;
+
+        items.forEach(faq => {
+            const card = document.createElement("div");
+            card.className = "faq-card";
+            card.dataset.id = faq.id;
+            card.dataset.cat = faq.category;
+
+            card.innerHTML = `
+                <div class="faq-question">
+                    <span class="faq-question-text">${faq.question}</span>
+                    <span class="faq-chevron">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">${faq.answer}</div>
+                </div>
+            `;
+
+            card.querySelector(".faq-question").addEventListener("click", () => toggleCard(card));
+            group.appendChild(card);
+        });
+
+        container.appendChild(group);
     });
 
-    function clearSearchInput() {
-      searchInput.value = "";
-      searchQuery = "";
-      clearBtn.classList.add("hidden");
-      searchResultStatus.classList.add("hidden");
-      applyFilters();
-      searchInput.focus();
-    }
+    updateCounts();
+    applyFilters();
+}
 
-    /* ── Logik Penapisan Kategori Tab (faq.html Asal) ── */
-    document.querySelectorAll(".tab-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
+function toggleCard(card) {
+    const isOpen = card.classList.contains("open");
+    // Close all
+    document.querySelectorAll(".faq-card.open").forEach(c => c.classList.remove("open"));
+    if (!isOpen) card.classList.add("open");
+}
+
+// ── Filters ──────────────────────────────────────────────
+function applyFilters() {
+    const q = searchQuery.toLowerCase().trim();
+    let anyVisible = false;
+
+    document.querySelectorAll(".faq-group").forEach(group => {
+        const cat = group.dataset.cat;
+        const catMatch = activeCategory === "all" || activeCategory === cat;
+
+        let groupHasVisible = false;
+        group.querySelectorAll(".faq-card").forEach(card => {
+            const faqId = card.dataset.id;
+            const faq = faqData.find(f => f.id === faqId);
+            const textMatch = !q || faq.question.toLowerCase().includes(q) || stripHTML(faq.answer).toLowerCase().includes(q);
+            const show = catMatch && textMatch;
+            card.classList.toggle("search-hidden", !show);
+            if (show) { groupHasVisible = true; anyVisible = true; }
+        });
+
+        group.classList.toggle("hidden", !groupHasVisible);
+    });
+
+    document.getElementById("emptyState").classList.toggle("visible", !anyVisible);
+}
+
+function stripHTML(html) {
+    return html.replace(/<[^>]*>/g, " ");
+}
+
+function updateCounts() {
+    // all
+    document.getElementById("cnt-all").textContent = faqData.length;
+    // per category
+    Object.keys(categories).forEach(cat => {
+        const el = document.getElementById("cnt-" + cat);
+        if (el) el.textContent = faqData.filter(f => f.category === cat).length;
+    });
+}
+
+// ── Tab switching ─────────────────────────────────────────
+document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
         document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         activeCategory = btn.dataset.cat;
         applyFilters();
-        
-        // Tutup semua kad kad FAQ yang sedang terbuka apabila bertukar kategori tab
+        // Close open cards when switching tabs
         document.querySelectorAll(".faq-card.open").forEach(c => c.classList.remove("open"));
-      });
     });
+});
 
-    function applyFilters() {
-      const cards = document.querySelectorAll(".faq-card");
-      let visibleCount = 0;
-
-      cards.forEach(card => {
-        const matchesCategory = (activeCategory === "all" || card.dataset.category === activeCategory);
-        
-        const questionText = card.querySelector("h4").innerText.toLowerCase();
-        const answerText = card.querySelector(".faq-answer p").innerText.toLowerCase();
-        const matchesSearch = (questionText.includes(searchQuery) || answerText.includes(searchQuery));
-
-        if (matchesCategory && matchesSearch) {
-          card.classList.remove("hidden");
-          visibleCount++;
-        } else {
-          card.classList.add("hidden");
+// ── Search ────────────────────────────────────────────────
+let searchTimer;
+document.getElementById("searchInput").addEventListener("input", e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+        searchQuery = e.target.value;
+        // Switch to all category on search
+        if (searchQuery) {
+            document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            document.querySelector("[data-cat='all']").classList.add("active");
+            activeCategory = "all";
         }
-      });
+        applyFilters();
+    }, 200);
+});
 
-      // Papar makluman sekiranya data carian tiada padanan
-      const noResultsBox = document.getElementById("no-results");
-      if (visibleCount === 0) {
-        noResultsBox.classList.remove("hidden");
-      } else {
-        noResultsBox.classList.add("hidden");
-      }
+// ── Scroll to top ─────────────────────────────────────────
+const scrollBtn = document.getElementById("scrollTop");
+window.addEventListener("scroll", () => {
+    scrollBtn.classList.toggle("visible", window.scrollY > 400);
+}, { passive: true });
+scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+// ── Init ──────────────────────────────────────────────────
+buildFAQ();
+
+// ── Coffee Dropdown ───────────────────────────────────────
+function toggleCoffeeMenu() {
+    const dropdown = document.getElementById("coffee-dropdown");
+    dropdown.classList.toggle("show");
+}
+function triggerDaftarPopup() {
+    const dropdown = document.getElementById("coffee-dropdown");
+    if (dropdown) dropdown.classList.remove("show");
+    const modal = document.getElementById("daftar-pilihan-modal");
+    modal.style.display = "flex";
+    void modal.offsetWidth;
+    modal.style.opacity = "1";
+}
+function closeDaftarPopup() {
+    const modal = document.getElementById("daftar-pilihan-modal");
+    modal.style.opacity = "0";
+    setTimeout(() => { modal.style.display = "none"; }, 300);
+}
+window.addEventListener("click", (e) => {
+    const btn = document.getElementById("coffee-btn");
+    const dropdown = document.getElementById("coffee-dropdown");
+    if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove("show");
     }
-
-    /* ── Logik Buka/Tutup Accordion Kad FAQ (faq.html Asal) ── */
-    function toggleFaqCard(cardElement) {
-      const isOpen = cardElement.classList.contains("open");
-      if (isOpen) {
-        cardElement.classList.remove("open");
-      } else {
-        cardElement.classList.add("open");
-      }
-    }
-
-    /* ── Kawalan Navigasi Cawan Kopi Dropdown ── */
-    let coffeeOpen = false;
-    function toggleCoffeeMenu() {
-      const dd = document.getElementById("coffee-dropdown");
-      coffeeOpen = !coffeeOpen;
-      if (coffeeOpen) {
-        dd.classList.remove("hidden");
-        void dd.offsetWidth;
-        dd.classList.remove("opacity-0", "-translate-y-2");
-      } else {
-        dd.classList.add("opacity-0", "-translate-y-2");
-        setTimeout(() => { dd.classList.add("hidden"); }, 250);
-      }
-    }
-    document.addEventListener("click", function(e) {
-      if (!document.getElementById("coffee-btn").contains(e.target) &&
-          !document.getElementById("coffee-dropdown").contains(e.target)) {
-        const dd = document.getElementById("coffee-dropdown");
-        if (coffeeOpen) {
-          coffeeOpen = false;
-          dd.classList.add("opacity-0", "-translate-y-2");
-          setTimeout(() => { dd.classList.add("hidden"); }, 250);
-        }
-      }
-    });
-
-    /* ── Modal Daftar Percuma ── */
-    function triggerDaftarPopup() {
-      closeNavPopups();
-      const modal = document.getElementById("daftar-pilihan-modal");
-      modal.classList.remove("hidden");
-      void modal.offsetWidth;
-      modal.classList.remove("opacity-0");
-    }
-    function closeDaftarPopup() {
-      const modal = document.getElementById("daftar-pilihan-modal");
-      modal.classList.add("opacity-0");
-      setTimeout(() => { modal.classList.add("hidden"); }, 300);
-    }
-
-    /* ── Nav Popups (Menu / Akses Tabs) ── */
-    let activeNav = null;
-    function toggleNavPopup(type) {
-      if (activeNav === type) {
-        closeNavPopups();
-        return;
-      }
-      openNavPopup(type);
-    }
-    function openNavPopup(type) {
-      closeNavPopups(false);
-      activeNav = type;
-
-      const overlay = document.getElementById("nav-popup-overlay");
-      overlay.classList.remove("hidden");
-      void overlay.offsetWidth;
-      overlay.classList.remove("opacity-0");
-
-      const card = document.getElementById(type === 'menu' ? "menu-popup-card" : "akses-popup-card");
-      card.classList.remove("hidden");
-      void card.offsetWidth;
-      card.classList.remove("opacity-0", "translate-y-6");
-
-      document.getElementById("nav-menu-btn").classList.toggle("text-amber-400", type === 'menu');
-      document.getElementById("nav-menu-btn").classList.toggle("text-zinc-400", type !== 'menu');
-      document.getElementById("nav-akses-btn").classList.toggle("text-amber-400", type === 'akses');
-      document.getElementById("nav-akses-btn").classList.toggle("text-zinc-400", type !== 'akses');
-    }
-    function closeNavPopups(resetActive = true) {
-      if (resetActive) {
-        activeNav = null;
-        document.getElementById("nav-menu-btn").classList.replace("text-amber-400", "text-zinc-400");
-        document.getElementById("nav-akses-btn").classList.replace("text-amber-400", "text-zinc-400");
-      }
-
-      const overlay  = document.getElementById("nav-popup-overlay");
-      const menuCard = document.getElementById("menu-popup-card");
-      const aksesCard= document.getElementById("akses-popup-card");
-
-      overlay.classList.add("opacity-0");
-      menuCard.classList.add("opacity-0", "translate-y-6");
-      aksesCard.classList.add("opacity-0", "translate-y-6");
-
-      setTimeout(() => {
-        if (overlay.classList.contains("opacity-0"))   overlay.classList.add("hidden");
-        if (menuCard.classList.contains("opacity-0"))  menuCard.classList.add("hidden");
-        if (aksesCard.classList.contains("opacity-0")) aksesCard.classList.add("hidden");
-      }, 300);
-    }
-
-    /* ── Scroll To Top Button Control ── */
-    const scrollBtn = document.getElementById("scrollTop");
-    window.addEventListener("scroll", () => {
-      scrollBtn.classList.toggle("visible", window.scrollY > 400);
-    }, { passive: true });
-    scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-  </script>
+});
+</script>
 </body>
 </html>
