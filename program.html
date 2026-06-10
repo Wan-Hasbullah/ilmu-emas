@@ -134,9 +134,6 @@
 
     <section class="max-w-7xl mx-auto px-5 mt-8">
         <div class="flex gap-2 overflow-x-auto pb-4 hide-scroll" id="filter-bar">
-            <button onclick="filterCategory('All')" id="btn-All" class="cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10">Semua</button>
-            <button onclick="filterCategory('G100 Talk Show')" id="btn-G100" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700">G100 Talk Show</button>
-            <button onclick="filterCategory('QnA Public Gold')" id="btn-QnA" class="cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700">QnA Public Gold</button>
         </div>
     </section>
 
@@ -154,12 +151,19 @@
                 </svg>
             </button>
             
-            <div class="md:w-1/2 bg-black flex items-center justify-center">
+            <div class="md:w-1/2 bg-black flex items-center justify-center relative">
                 <img id="modal-img" src="" alt="Poster" class="w-full h-auto object-contain max-h-[50vh] md:max-h-[80vh]">
             </div>
             
             <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
-                <span id="modal-cat" class="text-[10px] font-bold text-amber-400 uppercase tracking-widest mb-3 bg-amber-400/5 px-2.5 py-1 rounded-md border border-amber-400/10 inline-block w-max">Kategori</span>
+                <div class="flex flex-col gap-1 mb-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <span id="modal-cat" class="text-[10px] font-bold text-amber-400 uppercase tracking-widest bg-amber-400/5 px-2.5 py-1 rounded-md border border-amber-400/10 inline-block w-max">Kategori</span>
+                        <span id="modal-ampm-time" class="text-[11px] font-medium text-zinc-400"></span>
+                    </div>
+                    <div id="modal-countdown" class="text-xs font-bold text-zinc-300 bg-zinc-950 border border-zinc-800/80 px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 mt-2"></div>
+                </div>
+                
                 <h2 id="modal-title" class="text-xl md:text-2xl font-bold text-white mb-4 leading-tight">Tajuk Program</h2>
                 <p id="modal-caption" class="text-xs text-zinc-400 leading-relaxed mb-6 text-justify">Keterangan program...</p>
                 
@@ -195,6 +199,85 @@
     <script src="js/program-data.js"></script>
     <script>
         let currentCategory = 'All';
+        let countdownInterval;
+
+        // FUNGSI KHAS: MENUKAR FORMAT TARIKH ISO KEPADA FORMAT AM/PM YANG CANTIK
+        function formatToAMPM(dateStr) {
+            if (!dateStr) return "";
+            const dateObj = new Date(dateStr);
+            
+            // Susun tarikh (cth: 15/06/2026)
+            const day = dateObj.getDate().toString().padStart(2, '0');
+            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+            const year = dateObj.getFullYear();
+            
+            // Susun masa AM/PM
+            let hours = dateObj.getHours();
+            const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Tukar jam '0' kepada '12'
+            
+            return `${day}/${month}/${year} @ ${hours}:${minutes} ${ampm}`;
+        }
+
+        // FUNGSI UTAMA: ENGINE PENGIRAAN COUNTDOWN REAL-TIME
+        function getCountdownString(targetDateStr) {
+            if (!targetDateStr) return { text: "Masa Tiada", expired: true };
+            
+            const targetTime = new Date(targetDateStr).getTime();
+            const now = new Date().getTime();
+            const difference = targetTime - now;
+
+            if (difference <= 0) {
+                if (difference > -10800000) { 
+                    return { text: "<span class='text-emerald-400 flex items-center gap-1'><span class='w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>", expired: false };
+                }
+                return { text: "<span class='text-zinc-500 font-bold'>SELESAI</span>", expired: true };
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            let countdownText = "";
+            if (days > 0) countdownText += `${days}h `;
+            countdownText += `${hours.toString().padStart(2, '0')}j ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+
+            return { 
+                text: `<span class="text-amber-400 font-mono tracking-wide"><i class="fa-regular fa-clock text-[10px] mr-1"></i>Mula: ${countdownText}</span>`, 
+                expired: false 
+            };
+        }
+
+        // KEMASKINI BAR KATEGORI SECARA DINAMIK
+        function renderCategoryBar() {
+            const filterBar = document.getElementById('filter-bar');
+            const categories = ['All'];
+            
+            programData.forEach(item => {
+                if (item.category && !categories.includes(item.category)) {
+                    categories.push(item.category);
+                }
+            });
+
+            filterBar.innerHTML = '';
+            categories.forEach(cat => {
+                const button = document.createElement('button');
+                button.id = `btn-${cat.replace(/\s+/g, '-')}`;
+                button.setAttribute('onclick', `filterCategory('${cat}')`);
+                
+                if (cat === currentCategory) {
+                    button.className = "cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10";
+                    button.innerHTML = cat === 'All' ? 'Semua' : cat;
+                } else {
+                    button.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700";
+                    button.innerHTML = cat === 'All' ? 'Semua' : cat;
+                }
+                filterBar.appendChild(button);
+            });
+        }
 
         function renderPrograms() {
             const container = document.getElementById('listing-container');
@@ -207,19 +290,33 @@
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.id = item.id;
-                card.className = "group relative bg-zinc-900 border border-zinc-800/80 rounded-[2rem] p-4 transition-all duration-500 hover:border-amber-400/30";
+                card.className = "group relative bg-zinc-900 border border-zinc-800/80 rounded-[2rem] p-4 transition-all duration-500 hover:border-amber-400/30 flex flex-col justify-between";
                 
+                const countdownInfo = getCountdownString(item.date);
+                const amPmFormatted = formatToAMPM(item.date);
+
                 card.innerHTML = `
-                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-5 bg-zinc-950">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent opacity-65"></div>
+                    <div>
+                        <div class="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-zinc-950">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/50 via-transparent opacity-70"></div>
+                            
+                            <div class="absolute top-3 right-3 bg-zinc-950/85 backdrop-blur-md border border-zinc-800/60 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-lg shadow-black/40 card-countdown-el" data-date="${item.date || ''}">
+                                ${countdownInfo.text}
+                            </div>
+                        </div>
+                        
+                        <div class="px-1 mb-3">
+                            <div class="text-[10px] text-zinc-500 font-medium mb-1.5 flex items-center gap-1">
+                                <i class="fa-regular fa-calendar text-[9px]"></i> ${amPmFormatted}
+                            </div>
+                            <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-[0.15em] mb-1 block">${item.category}</span>
+                            <h3 class="text-base font-bold text-zinc-100 mb-2 leading-snug min-h-[48px] line-clamp-2">${item.title}</h3>
+                            <p class="text-zinc-400 text-xs line-clamp-2 mb-4 font-medium leading-relaxed">${item.caption}</p>
+                        </div>
                     </div>
                     
-                    <div class="px-1">
-                        <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-[0.15em] mb-2 block">${item.category}</span>
-                        <h3 class="text-base font-bold text-zinc-100 mb-2 leading-snug min-h-[48px] line-clamp-2">${item.title}</h3>
-                        <p class="text-zinc-400 text-xs line-clamp-2 mb-5 font-medium leading-relaxed">${item.caption}</p>
-                        
+                    <div class="px-1 mt-auto">
                         <div class="flex gap-2.5">
                             <button onclick="openModal('${item.id}')" class="flex-1 py-3 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs uppercase tracking-wide hover:bg-white transition-all">Lihat</button>
                             <button onclick="copyLink('${item.id}')" class="p-3 rounded-xl bg-zinc-800 border border-zinc-700/60 text-zinc-300 hover:text-amber-400 hover:bg-zinc-700 transition-all" title="Salin Pautan">
@@ -234,7 +331,27 @@
             });
         }
 
-        // FUNGSI MODAL (LIHAT) - DENGAN 2 BUTANG BARU: SALIN & LANJUT
+        // ENGINE LIVE REFRESH RADAR COUNTDOWN
+        function startLiveCountdowns() {
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            countdownInterval = setInterval(() => {
+                document.querySelectorAll('.card-countdown-el').forEach(el => {
+                    const targetDate = el.getAttribute('data-date');
+                    if (targetDate) {
+                        el.innerHTML = getCountdownString(targetDate).text;
+                    }
+                });
+
+                const modalCountdown = document.getElementById('modal-countdown');
+                const modalTargetDate = modalCountdown.getAttribute('data-date');
+                if (modalTargetDate && !document.getElementById('modal-view').classList.contains('hidden')) {
+                    modalCountdown.innerHTML = getCountdownString(modalTargetDate).text;
+                }
+            }, 1000);
+        }
+
+        // INTERAKSI MODAL BESAR DENGAN MASA FORMAT AM/PM
         function openModal(id) {
             const data = programData.find(p => p.id === id);
             const modal = document.getElementById('modal-view');
@@ -244,10 +361,16 @@
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-caption').innerText = data.caption;
             
-            // Konfigurasi butang salin dalam modal
+            // Set masa AM/PM bertulis pada bahagian penjuru modal
+            document.getElementById('modal-ampm-time').innerHTML = `<i class="fa-regular fa-clock mr-1"></i>${formatToAMPM(data.date)}`;
+            
+            // Konfigurasi radar countdown dalam modal
+            const modalCountdown = document.getElementById('modal-countdown');
+            modalCountdown.setAttribute('data-date', data.date || '');
+            modalCountdown.innerHTML = getCountdownString(data.date).text;
+            
             document.getElementById('modal-btn-copy').setAttribute('onclick', `copyLink('${data.id}')`);
             
-            // Konfigurasi butang lanjut dinamik daripada parameter link di program-data.js
             const btnLanjut = document.getElementById('modal-btn-lanjut');
             if(data.link) {
                 btnLanjut.href = data.link;
@@ -266,7 +389,6 @@
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
 
-        // FUNGSI COPY LINK & BLINK
         function copyLink(id) {
             const url = window.location.origin + window.location.pathname + '#' + id;
             navigator.clipboard.writeText(url).then(() => {
@@ -295,12 +417,11 @@
         function filterCategory(cat) {
             currentCategory = cat;
             
-            // Mengemas kini gaya visual butang penapis tab
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700";
             });
             
-            const activeId = cat === 'All' ? 'btn-All' : (cat === 'G100 Talk Show' ? 'btn-G100' : 'btn-QnA');
+            const activeId = `btn-${cat.replace(/\s+/g, '-')}`;
             const activeBtn = document.getElementById(activeId);
             if(activeBtn) {
                 activeBtn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10";
@@ -309,7 +430,6 @@
             renderPrograms();
         }
 
-        // ── Fungsi Interaksi Dropdown Kopi & Modal ──
         function toggleCoffeeMenu() {
             const dropdown = document.getElementById("coffee-dropdown");
             dropdown.classList.toggle("show");
@@ -333,7 +453,6 @@
             }, 300);
         }
 
-        // Klik luar untuk menutup dropdown menu cawan kopi
         window.addEventListener("click", (e) => {
             const btn = document.getElementById("coffee-btn");
             const dropdown = document.getElementById("coffee-dropdown");
@@ -343,7 +462,9 @@
         });
 
         window.onload = () => {
+            renderCategoryBar();
             renderPrograms();
+            startLiveCountdowns();
             setTimeout(handleHash, 500);
         };
         window.onhashchange = handleHash;
