@@ -440,7 +440,7 @@
           const diff = targetDate - now;
 
           if (diff <= 0) {
-            el.textContent = "Program sedang berlangsung";
+            el.textContent = "Selesai";
             el.closest("div").querySelector("i").className = "fa-solid fa-circle text-[8px] text-emerald-400 animate-pulse";
             return;
           }
