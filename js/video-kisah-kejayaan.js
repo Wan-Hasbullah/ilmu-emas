@@ -69,7 +69,7 @@ const KISAH_KEJAYAAN_DATA = [
     category: "suri-rumah",
     type: "youtube",
     embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/80ST8uXLRMQ?si=dCKbbjuofwJ6z7Ow" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
-  }
+  }, // <-- PEMBETULAN: Tanda koma ditambah di sini
   {
     id: "kisah-kejayaan-tuan-norasmadi",
     title: "Kisah Kejayaan : Tuan Norasmadi",
@@ -121,7 +121,7 @@ const KISAH_KEJAYAAN_DATA = [
   },
   {
     id: "kisah-kejayaan-dr-muaz",
-    title: "Kisah Kejayaan : Dr. Mu'az",
+    title: "Kisah Kejayaan : Dr. Mu'az", // Ditukar kepada standard (') string
     category: "doktor",
     type: "youtube",
     embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/nUS136jfWFA?si=hmfN-si4h2ShmJJy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
@@ -157,7 +157,7 @@ const KISAH_KEJAYAAN_DATA = [
   {
     id: "kisah-kejayaan-puan-nadirah-mustafa",
     title: "Kisah Kejayaan : Puan Nadirah Mustafa",
-    category: "",
+    category: "semua", // Ditukar dari kosong "" kepada "semua" demi keselamatan data penapis
     type: "youtube",
     embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/o-uW56VAntc?si=jcf25ar1feI4h258" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
