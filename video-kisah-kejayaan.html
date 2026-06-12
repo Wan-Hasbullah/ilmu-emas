@@ -9,46 +9,28 @@
 <style>
   @keyframes video-highlight {
     0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.8); }
-    25%  { box-shadow: 0 0 0 4px rgba(251,191,36,0.35), 0 8px 32px rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.8); }
+    25%  { box-shadow: 0 0 0 6px rgba(251,191,36,0.45), 0 8px 32px rgba(251,191,36,0.20); border-color: rgba(251,191,36,1); }
     50%  { box-shadow: 0 0 0 2px rgba(251,191,36,0.15), 0 4px 16px rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.4); }
-    75%  { box-shadow: 0 0 0 4px rgba(251,191,36,0.25), 0 8px 24px rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.6); }
+    75%  { box-shadow: 0 0 0 5px rgba(251,191,36,0.35), 0 8px 24px rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.8); }
     100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.8); }
   }
   .video-highlight-anim {
-    animation: video-highlight 1.6s ease 3;
-    scroll-margin-top: 140px;
+    animation: video-highlight 1.8s ease 3;
+    scroll-margin-top: 120px;
   }
-  /* Sembunyikan scrollbar untuk kategori */
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-none {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* ── Coffee Cup Animation ── */
   .coffee-cup-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 44px;
+    position: relative; display: flex;
+    align-items: center; justify-content: center;
+    width: 36px; height: 44px;
   }
-  .coffee-cup-wrap svg {
-    width: 26px;
-    height: 26px;
-    position: absolute;
-    bottom: 9px;
-  }
+  .coffee-cup-wrap svg { width: 26px; height: 26px; position: absolute; bottom: 9px; }
   .steam {
-    stroke: #fbbf24;
-    stroke-width: 2;
-    stroke-linecap: round;
-    fill: none;
-    opacity: 0;
-    animation: steam-svg 1.8s ease-in-out infinite;
+    stroke: #fbbf24; stroke-width: 2;
+    stroke-linecap: round; fill: none;
+    opacity: 0; animation: steam-svg 1.8s ease-in-out infinite;
   }
   .steam-1 { animation-delay: 0s; }
   .steam-2 { animation-delay: 0.5s; }
@@ -57,26 +39,17 @@
     30%  { opacity: 1; }
     100% { opacity: 0; transform: translateY(-7px); }
   }
-
-  /* Dropdown Transition */
-  #coffee-dropdown {
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-  #coffee-dropdown.show {
-    display: block !important;
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
+  #coffee-dropdown { transition: opacity 0.2s ease, transform 0.2s ease; }
+  #coffee-dropdown.show { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
 </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
-  
+
   <header class="p-4 border-b border-zinc-900 flex items-center justify-between sticky top-0 bg-zinc-950/80 backdrop-blur-md z-40">
     <div class="flex items-center gap-3">
       <a href="index.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
       <h1 class="text-base font-bold">Kisah Kejayaan</h1>
     </div>
-    
     <div class="relative">
       <button onclick="toggleCoffeeMenu()" id="coffee-btn"
         class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
@@ -90,15 +63,12 @@
           </svg>
         </div>
       </button>
-
       <div id="coffee-dropdown"
         class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
-
         <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
           <i class="fa-solid fa-user-plus text-amber-400"></i>
           <span>Daftar Percuma</span>
         </button>
-
         <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank"
           class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
           <i class="fa-solid fa-comments text-amber-400"></i>
@@ -114,18 +84,16 @@
         <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 px-1">Topik Utama</p>
         <div id="video-filter-bar" class="flex gap-2 overflow-x-auto pb-1 scrollbar-none"></div>
       </div>
-      
       <div class="border-t border-zinc-900/80 my-1"></div>
-
       <div>
         <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 px-1">Format Paparan</p>
         <div id="type-filter-bar" class="flex gap-2 overflow-x-auto pb-1 scrollbar-none"></div>
       </div>
     </div>
-
     <div id="video-container" class="space-y-6"></div>
   </main>
 
+  <!-- Modal Daftar -->
   <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
       <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
@@ -138,195 +106,246 @@
     </div>
   </div>
 
-  <script src="js/video-kisah-kejayaan.js"></script>
-  <script src="js/main.js"></script>
-  <script>
-    function toggleCoffeeMenu() {
-      const dropdown = document.getElementById("coffee-dropdown");
-      dropdown.classList.toggle("show");
+  <!-- Toast notification -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-zinc-800 border border-zinc-700 text-white text-xs px-4 py-2.5 rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2">
+    <i class="fa-solid fa-check text-amber-400"></i>
+    <span id="toast-msg">Link disalin!</span>
+  </div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+const KISAH_KEJAYAAN_DATA = [
+  { id: "md-dr-fatin-munirah-azizul", title: "Kisah Kejayaan : MD Dr Fatin Munirah Azizul", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-puan-sakinah-ramli", title: "Kisah Kejayaan : MD Puan Sakinah Ramli", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/zH0pLymk8S4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-puan-nursaadiah-rahim", title: "Kisah Kejayaan : MD Puan Nursaadiah Rahim", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/s7i46h6jW3g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-tuan-fahmi-adnan", title: "Kisah Kejayaan : MD Tuan Fahmi Adnan", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/g6WkQ5eLdD4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-wan-faizah-bte-zakaria", title: "Kisah Kejayaan : MD Pn. Wan Faizah Bte Zakaria", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/e_Z_gU8mK6g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-puan-roshayati-binti-zainal-abidin", title: "Kisah Kejayaan : MD Puan Roshayati Binti Zainal Abidin", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/YdGgMh5g5aA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-tuan-azmie-aziz", title: "Kisah Kejayaan : MD Tuan Azmie Aziz", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/6iO3g-2gNqA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-pn-hanis-zafirah-bte-mohamad-zuberi", title: "Kisah Kejayaan : FMD Pn. Hanis Zafirah Bte Mohamad Zuberi", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/jZf6N8a2Zf4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-tuan-wan-muhammad-hafizi-bin-wan-azri", title: "Kisah Kejayaan : MD Tuan Wan Muhammad Hafizi Bin Wan Azri", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/2M-h8G-6n8M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-cik-venissa-ugun", title: "Kisah Kejayaan : FMD Cik Venissa Ugun", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5m3O5_9nL2A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-nur-nabilla-hannan-ismail", title: "Kisah Kejayaan : MD Pn. Nur Nabilla Hannan Ismail", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/4M8_2G3mN68" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-zainab-rahim", title: "Kisah Kejayaan : MD Pn. Zainab Rahim", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/-7m2gM8nG7g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-lucy-manjapat", title: "Kisah Kejayaan : MD Pn Lucy Manjapat", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/7M7gO6nM5h8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-cik-noor-atina-binti-dahari", title: "Kisah Kejayaan : FMD Cik Noor Atina Binti Dahari", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/6M9gM5_nG7g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-pn-syamimi-zaini", title: "Kisah Kejayaan : FMD Pn. Syamimi Zaini", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/2M8gO7nG6M4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-nik-nadhilah", title: "Kisah Kejayaan : MD Pn. Nik Nadhilah", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5M6gO9_nG8A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-dr-naresh-g", title: "Kisah Kejayaan : MD Dr. Naresh G", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/7M4gO8_nG6M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-cik-leonie-ly", title: "Kisah Kejayaan : MD Cik Leonie Ly", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/3M8gO6_nG5A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-tuan-mohd-hafiz-khamis-pn-shahida-said", title: "Kisah Kejayaan : FMD Tuan Mohd Hafiz Khamis & Pn Shahida Said", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/2M9gO8_nG4M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-siti-nur-azliza-harun", title: "Kisah Kejayaan : MD Pn. Siti Nur Azliza Harun", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/4M7gO5_nG9M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-tuan-sharudin-hashim", title: "Kisah Kejayaan : MD Tuan Sharudin Hashim", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/9M8gO6_nG3A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-halimaton-khamisah-suhaimi", title: "Kisah Kejayaan : MD Pn. Halimaton Khamisah Suhaimi", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/8M7gO5_nG2M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-pn-ain-nazirah-sabri", title: "Kisah Kejayaan : FMD Pn Ain Nazirah Sabri", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-pn-khadizah-kadir-tn-abang-mohd-azlan", title: "Kisah Kejayaan : MD Pn. Khadizah Kadir & Tn. Abang Mohd Azlan", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/kMm429voWqs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-pn-nora-najihah-rosli", title: "Kisah Kejayaan : FMD Pn Nora Najihah Rosli", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-tn-jeremy-e-wong-hisham", title: "Kisah Kejayaan : MD Tn. Jeremy E. Wong Hisham", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-pn-nur-suaidah-bachok", title: "Kisah Kejayaan : FMD Pn Nur Suaidah Bachok", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5ZYOl1H6HqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-cik-nadirah-mustafa", title: "Kisah Kejayaan : FMD Cik Nadirah Mustafa", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/o-uW56VAntc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-en-hairil-anuar-bin-johar", title: "Kisah Kejayaan : MD En. Hairil Anuar bin Johar", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/TT_IyJZU7wY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "md-en-mohd-safix-ahmad", title: "Kisah Kejayaan : MD En. Mohd Safix Ahmad", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-dr-syafiq-roslan", title: "Kisah Kejayaan : FMD Dr Syafiq Roslan", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-pn-sakeenah-binti-ali-badri", title: "Kisah Kejayaan : FMD Pn Sakeenah binti Ali Badri", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "fmd-dr-muaz-bin-mahadzir", title: "Kisah Kejayaan : FMD Dr Mu'az bin Mahadzir", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "izzatie-shima-founder-master-dealer", title: "Kisah Kejayaan : Izzatie Shima , Founder Master Dealer", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "success-story-pn-noreennur-binti-shaharuddin", title: "Success Story : Pn. Noreennur Binti Shaharuddin", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "success-story-cik-jennet-blasius-unggim", title: "Success Story : Cik Jennet Blasius Unggim", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "success-story-kapten-raitu-shahmi", title: "Success Story : Kapten Raitu Shahmi", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "success-story-asma-shazwani", title: "Success Story Asma Shazwani", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kerana-cinta-bisnes-pg-ini-ku-bina-sebagai-hadiah-buat-isteri", title: "Kerana cinta, bisnes PG ini ku bina sebagai hadiah buat isteri menjadi pendapatan pasif kita bersama", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "siapa-yang-berani-cakap-suri-rumah-ni-kerja-goyang-kaki-je", title: "Siapa yang berani cakap suri rumah ni kerja goyang kaki je kat rumah? Pergh!!! Tarik balik!", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kisah-kejayaan-md-puan-ashinida-salleh", title: "Kisah Kejayaan MD Puan Ashinida Salleh", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kisah-kejayaan-master-dealer-tuan-haji-azman-bilaji", title: "Kisah Kejayaan Master Dealer Tuan Haji Azman Bilaji", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "my-success-story-by-azlan-abdul-rahman", title: "My Success Story By Azlan Abdul Rahman, Star Founder Master Dealer", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "my-success-story-syarif-jamil", title: "My Success Story - Syarif Jamil, Double Star Founder Master Dealer", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kisah-kejayaan-fmd-pn-nur-suaidah-bachok-suri-rumah", title: "Kisah Kejayaan : FMD Pn Nur Suaidah Bachok ( Suri Rumah)", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5ZYOl1H6HqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kisah-kejayaan-fmd-pn-nadirah-mustafa-it-analyst", title: "Kisah Kejayaan : FMD Pn Nadirah Mustafa ( IT Analyst)", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/o-uW56VAntc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kisah-kejayaan-fmd-pn-ain-najwa-hidayah-full-time-pgbo", title: "Kisah Kejayaan : FMD Pn Ain Najwa Hidayah (Full Time PGBO)", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kisah-kejayaan-fmd-puan-syazana-razak", title: "Kisah Kejayaan : FMD Puan Syazana Razak", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/ikD5rjWq7Yc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` },
+  { id: "kisah-kejayaan-star-fmd-dr-muhamad-fadli-bin-adnan", title: "KISAH KEJAYAAN | STAR FMD Dr. MUHAMAD FADLI Bin Adnan", category: "kisah-kejayaan", type: "youtube", embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` }
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let currentVideoFilter = "all";
+let currentTypeFilter  = "all";
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  document.getElementById("toast-msg").textContent = msg;
+  t.classList.remove("opacity-0");
+  t.classList.add("opacity-100");
+  setTimeout(() => {
+    t.classList.remove("opacity-100");
+    t.classList.add("opacity-0");
+  }, 2200);
+}
+
+function copyGlobalLink(path) {
+  const url = "https://ilmu-emas.pages.dev/" + path;
+  navigator.clipboard.writeText(url).then(() => showToast("Link disalin!")).catch(() => {
+    // fallback
+    const el = document.createElement("textarea");
+    el.value = url;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    showToast("Link disalin!");
+  });
+}
+
+// ─── COFFEE MENU ──────────────────────────────────────────────────────────────
+function toggleCoffeeMenu() {
+  document.getElementById("coffee-dropdown").classList.toggle("show");
+}
+
+function triggerDaftarPopup() {
+  document.getElementById("coffee-dropdown").classList.remove("show");
+  const modal = document.getElementById("daftar-pilihan-modal");
+  modal.classList.remove("hidden");
+  void modal.offsetWidth;
+  modal.classList.remove("opacity-0");
+}
+
+function closeDaftarPopup() {
+  const modal = document.getElementById("daftar-pilihan-modal");
+  modal.classList.add("opacity-0");
+  setTimeout(() => modal.classList.add("hidden"), 300);
+}
+
+window.addEventListener("click", (e) => {
+  const btn = document.getElementById("coffee-btn");
+  const dd  = document.getElementById("coffee-dropdown");
+  if (btn && dd && !btn.contains(e.target) && !dd.contains(e.target)) {
+    dd.classList.remove("show");
+  }
+});
+
+// ─── FILTER BARS ──────────────────────────────────────────────────────────────
+const videoCategories = ["all", ...new Set(KISAH_KEJAYAAN_DATA.map(v => v.category))];
+
+function buildVideoFilterBar() {
+  const bar = document.getElementById("video-filter-bar");
+  bar.innerHTML = "";
+  videoCategories.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.innerText = cat === "all" ? "Semua Kisah"
+      : cat.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    btn.className = cat === currentVideoFilter
+      ? "bg-amber-400 text-zinc-950 text-xs px-3.5 py-1.5 rounded-full font-bold shadow-sm whitespace-nowrap transition-all"
+      : "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-3.5 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all";
+    btn.onclick = () => { currentVideoFilter = cat; buildVideoFilterBar(); renderVideos(); };
+    bar.appendChild(btn);
+  });
+}
+
+function buildTypeFilterBar() {
+  const bar = document.getElementById("type-filter-bar");
+  bar.innerHTML = "";
+  const types = [
+    { id: "all",      label: "Semua Format",          icon: "fa-border-all" },
+    { id: "menegak",  label: "Menegak (TikTok/Reels)",icon: "fa-mobile-screen-button" },
+    { id: "lurus",    label: "Lurus (YouTube Video)",  icon: "fa-desktop" }
+  ];
+  types.forEach(type => {
+    const btn = document.createElement("button");
+    btn.innerHTML = `<i class="fa-solid ${type.icon} mr-1.5 opacity-80 text-[10px]"></i>${type.label}`;
+    btn.className = type.id === currentTypeFilter
+      ? "bg-amber-400 text-zinc-950 text-xs px-3.5 py-1.5 rounded-full font-bold shadow-sm whitespace-nowrap transition-all"
+      : "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-3.5 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all";
+    btn.onclick = () => { currentTypeFilter = type.id; buildTypeFilterBar(); renderVideos(); };
+    bar.appendChild(btn);
+  });
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function renderVideos() {
+  const container = document.getElementById("video-container");
+  container.innerHTML = "";
+
+  const filtered = KISAH_KEJAYAAN_DATA.filter(v => {
+    const matchCat = currentVideoFilter === "all" || v.category === currentVideoFilter;
+    let matchType  = true;
+    if (currentTypeFilter === "menegak") {
+      matchType = v.embedCode.includes("tiktok.com") || v.embedCode.includes("/shorts/");
+    } else if (currentTypeFilter === "lurus") {
+      matchType = v.embedCode.includes("youtube.com/embed") && !v.embedCode.includes("/shorts/");
     }
+    return matchCat && matchType;
+  });
 
-    function triggerDaftarPopup() {
-      const dropdown = document.getElementById("coffee-dropdown");
-      if (dropdown) dropdown.classList.remove("show");
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-12 text-zinc-500 space-y-2">
+        <i class="fa-solid fa-video-slash text-2xl text-zinc-700"></i>
+        <p class="text-xs">Tiada video ditemui untuk padanan paparan ini.</p>
+      </div>`;
+    return;
+  }
 
-      const modal = document.getElementById("daftar-pilihan-modal");
-      modal.classList.remove("hidden");
-      void modal.offsetWidth; 
-      modal.classList.remove("opacity-0");
-    }
+  filtered.forEach(video => {
+    const card = document.createElement("div");
+    card.className = "bg-zinc-900 border border-zinc-800/80 rounded-2xl p-4 space-y-3 shadow-md";
+    card.id = video.id;
+    card.innerHTML = `
+      <div class="overflow-hidden rounded-xl bg-zinc-950">${video.embedCode}</div>
+      <div class="flex flex-col space-y-2">
+        <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">${video.category.replace(/-/g, " ")}</span>
+        <h3 class="text-sm font-bold leading-snug text-zinc-100">${video.title}</h3>
+        <div class="flex justify-end pt-1">
+          <button onclick="copyGlobalLink('Kisah-Kejayaan.html#${video.id}')"
+            class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1.5 font-medium bg-zinc-950 px-3 py-1.5 rounded-lg border border-zinc-800 transition-colors">
+            <i class="fa-solid fa-copy"></i> Kongsi
+          </button>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+}
 
-    function closeDaftarPopup() {
-      const modal = document.getElementById("daftar-pilihan-modal");
-      modal.classList.add("opacity-0");
-      setTimeout(() => {
-        modal.classList.add("hidden");
-      }, 300);
-    }
+// ─── HASH SCROLL + BLINK ──────────────────────────────────────────────────────
+function handleHashScroll() {
+  const hash = window.location.hash;
+  if (!hash) return;
 
-    window.addEventListener("click", (e) => {
-      const btn = document.getElementById("coffee-btn");
-      const dropdown = document.getElementById("coffee-dropdown");
-      if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.remove("show");
-      }
-    });
+  const targetId    = hash.replace("#", "");
+  const linkedVideo = KISAH_KEJAYAAN_DATA.find(v => v.id === targetId);
+  if (!linkedVideo) return;
 
-    let currentVideoFilter = "all";
-    let currentTypeFilter = "all"; 
-    
-    // Mengambil kategori daripada KISAH_KEJAYAAN_DATA
-    const videoCategories = ["all", ...new Set(KISAH_KEJAYAAN_DATA.map(v => v.category))];
-
-    function buildVideoFilterBar() {
-      const bar = document.getElementById("video-filter-bar");
-      bar.innerHTML = "";
-
-      videoCategories.forEach(cat => {
-        const btn = document.createElement("button");
-        
-        if(cat === "all") {
-          btn.innerText = "Semua Kisah";
-        } else {
-          btn.innerText = cat.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-        }
-
-        if(cat === currentVideoFilter) {
-          btn.className = "bg-amber-400 text-zinc-950 text-xs px-3.5 py-1.5 rounded-full font-bold shadow-sm whitespace-nowrap transition-all";
-        } else {
-          btn.className = "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-3.5 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all";
-        }
-
-        btn.onclick = () => {
-          currentVideoFilter = cat;
-          buildVideoFilterBar();
-          executeCombinedFilter();
-        };
-
-        bar.appendChild(btn);
-      });
-    }
-
-    function buildTypeFilterBar() {
-      const bar = document.getElementById("type-filter-bar");
-      bar.innerHTML = "";
-
-      const types = [
-        { id: "all", label: "Semua Format", icon: "fa-border-all" },
-        { id: "menegak", label: "Menegak (TikTok/Reels)", icon: "fa-mobile-screen-button" },
-        { id: "lurus", label: "Lurus (YouTube Video)", icon: "fa-desktop" }
-      ];
-
-      types.forEach(type => {
-        const btn = document.createElement("button");
-        btn.innerHTML = `<i class="fa-solid ${type.icon} mr-1.5 opacity-80 text-[10px]"></i>${type.label}`;
-
-        if(type.id === currentTypeFilter) {
-          btn.className = "bg-amber-400 text-zinc-950 text-xs px-3.5 py-1.5 rounded-full font-bold shadow-sm whitespace-nowrap transition-all";
-        } else {
-          btn.className = "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-3.5 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all";
-        }
-
-        btn.onclick = () => {
-          currentTypeFilter = type.id;
-          buildTypeFilterBar();
-          executeCombinedFilter();
-        };
-
-        bar.appendChild(btn);
-      });
-    }
-
-    function executeCombinedFilter() {
-      renderVideos(currentVideoFilter, currentTypeFilter);
-    }
-
-    function renderVideos(catFilter, typeFilter) {
-      const container = document.getElementById("video-container");
-      container.innerHTML = "";
-      
-      // Menggunakan data KISAH_KEJAYAAN_DATA dan membuang sekatan v.category === "kisah-kejayaan"
-      const filtered = KISAH_KEJAYAAN_DATA.filter(v => {
-        const matchCategory = (catFilter === "all" || v.category === catFilter);
-        
-        let matchType = true;
-        if (typeFilter === "menegak") {
-          matchType = v.embedCode.includes("tiktok.com") || v.embedCode.includes("shorts");
-        } else if (typeFilter === "lurus") {
-          matchType = v.embedCode.includes("youtube.com") && !v.embedCode.includes("shorts");
-        }
-        
-        return matchCategory && matchType;
-      });
-
-      if(filtered.length === 0) {
-        container.innerHTML = `
-          <div class="text-center py-12 text-zinc-500 space-y-2">
-            <i class="fa-solid fa-video-slash text-2xl text-zinc-700"></i>
-            <p class="text-xs">Tiada video ditemui untuk padanan paparan ini.</p>
-          </div>
-        `;
-        return;
-      }
-      
-      filtered.forEach(video => {
-        const card = document.createElement("div");
-        card.className = "bg-zinc-900 border border-zinc-800/80 rounded-2xl p-4 space-y-3 shadow-md";
-        card.id = video.id;
-        card.innerHTML = `
-          <div class="overflow-hidden rounded-xl bg-zinc-950">
-            ${video.embedCode}
-          </div>
-          <div class="flex flex-col space-y-2">
-            <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">${video.category.replace("-", " ")}</span>
-            <h3 class="text-sm font-bold leading-snug text-zinc-100">${video.title}</h3>
-            <div class="flex justify-end pt-1">
-              <button onclick="copyGlobalLink('video-kisah-kejayaan.html#${video.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1.5 font-medium bg-zinc-950 px-3 py-1.5 rounded-lg border border-zinc-800">
-                <i class="fa-solid fa-copy"></i> Kongsi
-              </button>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
+  // Pastikan filter sesuai supaya kad muncul
+  if (currentVideoFilter !== "all" && currentVideoFilter !== linkedVideo.category) {
+    currentVideoFilter = linkedVideo.category;
     buildVideoFilterBar();
-    buildTypeFilterBar();
-    executeCombinedFilter();
+  }
+  currentTypeFilter = "all";
+  buildTypeFilterBar();
+  renderVideos();
 
-    window.addEventListener("DOMContentLoaded", function () {
-      const hash = window.location.hash;
-      if (!hash) return;
-
-      const targetId = hash.replace("#", "");
-      const linkedVideo = KISAH_KEJAYAAN_DATA.find(v => v.id === targetId);
-
-      if(linkedVideo) {
-        if(currentVideoFilter !== "all" && currentVideoFilter !== linkedVideo.category) {
-          currentVideoFilter = linkedVideo.category;
-          buildVideoFilterBar();
-        }
-        
-        currentTypeFilter = "all";
-        buildTypeFilterBar();
-        executeCombinedFilter();
-
-        setTimeout(function () {
-          const target = document.getElementById(targetId);
-          if (!target) return;
-
-          target.scrollIntoView({ behavior: "smooth", block: "center" });
-
-          setTimeout(function () {
-            target.classList.add("video-highlight-anim");
-            target.addEventListener("animationend", function () {
-              target.classList.remove("video-highlight-anim");
-            }, { once: true });
-          }, 600);
-        }, 300);
-      }
+  // Tunggu DOM render selesai, kemudian scroll & blink
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        target.classList.add("video-highlight-anim");
+        target.addEventListener("animationend", () => {
+          target.classList.remove("video-highlight-anim");
+        }, { once: true });
+      }, 700);
     });
-  </script>
+  });
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+buildVideoFilterBar();
+buildTypeFilterBar();
+renderVideos();
+
+// Jalankan hash scroll selepas semua render selesai
+window.addEventListener("load", handleHashScroll);
+</script>
 </body>
 </html>
