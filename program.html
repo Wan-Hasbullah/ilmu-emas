@@ -7,16 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        premiumDark: '#09090b', /* zinc-950 */
-                        premiumCard: '#18181b', /* zinc-900 */
-                        premiumGold: '#fbbf24', /* amber-400 */
-                        premiumAccent: '#27272a', /* zinc-800 */
+                        premiumDark: '#09090b',
+                        premiumCard: '#18181b',
+                        premiumGold: '#fbbf24',
+                        premiumAccent: '#27272a',
                     },
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
@@ -28,63 +27,30 @@
     <style>
         html { scroll-behavior: smooth; }
         body { background-color: #09090b; color: #e4e4e7; }
-
-        /* Kesan Blink Highlight Premium Berdenyut Emas */
         @keyframes blinkGold {
             0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
             50% { box-shadow: 0 0 25px 5px rgba(251, 191, 36, 0.35); border-color: #fbbf24; }
             100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
         }
         .highlight-card { animation: blinkGold 1.5s ease-in-out 2; border-width: 2px !important; }
-
-        /* Custom Scrollbar Premium Fintech */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #09090b; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
-        
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* ── Coffee Cup Animation (Penyepaduan Premium) ── */
-        .coffee-cup-wrap {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 44px;
-        }
-        .coffee-cup-wrap svg {
-            width: 26px;
-            height: 26px;
-            position: absolute;
-            bottom: 9px;
-        }
-        .steam {
-            stroke: #fbbf24;
-            stroke-width: 2;
-            stroke-linecap: round;
-            fill: none;
-            opacity: 0;
-            animation: steam-svg 1.8s ease-in-out infinite;
-        }
+        
+        .coffee-cup-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 44px; }
+        .coffee-cup-wrap svg { width: 26px; height: 26px; position: absolute; bottom: 9px; }
+        .steam { stroke: #fbbf24; stroke-width: 2; stroke-linecap: round; fill: none; opacity: 0; animation: steam-svg 1.8s ease-in-out infinite; }
         .steam-1 { animation-delay: 0s; }
         .steam-2 { animation-delay: 0.5s; }
         @keyframes steam-svg {
-            0%   { opacity: 0; transform: translateY(0px); }
-            30%  { opacity: 1; }
+            0% { opacity: 0; transform: translateY(0px); }
+            30% { opacity: 1; }
             100% { opacity: 0; transform: translateY(-7px); }
         }
-        
-        /* Dropdown Smooth Transition */
-        #coffee-dropdown {
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-        #coffee-dropdown.show {
-            display: block !important;
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
+        #coffee-dropdown { transition: opacity 0.2s ease, transform 0.2s ease; }
+        #coffee-dropdown.show { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
     </style>
 </head>
 <body class="antialiased min-h-screen bg-zinc-950 text-zinc-200">
@@ -101,9 +67,7 @@
             </div>
             
             <div class="relative">
-                <button onclick="toggleCoffeeMenu()" id="coffee-btn"
-                    class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
-                    style="background:none; border:none; padding:0;">
+                <button onclick="toggleCoffeeMenu()" id="coffee-btn" class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300" style="background:none; border:none; padding:0;">
                     <div class="coffee-cup-wrap">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
@@ -113,19 +77,12 @@
                         </svg>
                     </div>
                 </button>
-
-                <div id="coffee-dropdown"
-                    class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
-
+                <div id="coffee-dropdown" class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
                     <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
-                        <i class="fa-solid fa-user-plus text-amber-400"></i>
-                        <span>Daftar Percuma</span>
+                        <i class="fa-solid fa-user-plus text-amber-400"></i> <span>Daftar Percuma</span>
                     </button>
-
-                    <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank"
-                        class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
-                        <i class="fa-solid fa-comments text-amber-400"></i>
-                        <span>Pertanyaan</span>
+                    <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+                        <i class="fa-solid fa-comments text-amber-400"></i> <span>Pertanyaan</span>
                     </a>
                 </div>
             </div>
@@ -133,28 +90,23 @@
     </header>
 
     <section class="max-w-7xl mx-auto px-5 mt-8">
-        <div class="flex gap-2 overflow-x-auto pb-4 hide-scroll" id="filter-bar">
-        </div>
+        <div class="flex gap-2 overflow-x-auto pb-4 hide-scroll" id="filter-bar"></div>
     </section>
 
     <main class="max-w-7xl mx-auto px-5 py-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="listing-container">
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="listing-container"></div>
     </main>
 
     <div id="modal-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div class="relative bg-zinc-900 border border-zinc-800 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-            
             <button onclick="closeModal()" class="absolute top-4 right-4 z-10 p-2.5 bg-zinc-950/60 rounded-full text-zinc-400 hover:bg-zinc-800 hover:text-white transition-all border border-zinc-800/80">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l18 18" />
                 </svg>
             </button>
-            
             <div class="md:w-1/2 bg-black flex items-center justify-center relative">
                 <img id="modal-img" src="" alt="Poster" class="w-full h-auto object-contain max-h-[50vh] md:max-h-[80vh]">
             </div>
-            
             <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
                 <div class="flex flex-col gap-1 mb-3">
                     <div class="flex items-center justify-between gap-2">
@@ -163,12 +115,10 @@
                     </div>
                     <div id="modal-countdown" class="text-xs font-bold text-zinc-300 bg-zinc-950 border border-zinc-800/80 px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 mt-2"></div>
                 </div>
-                
                 <h2 id="modal-title" class="text-xl md:text-2xl font-bold text-white mb-4 leading-tight">Tajuk Program</h2>
                 <p id="modal-caption" class="text-xs text-zinc-400 leading-relaxed mb-6 text-justify">Keterangan program...</p>
-                
                 <div class="pt-5 border-t border-zinc-800/80 flex flex-col sm:flex-row gap-3">
-                    <button id="modal-btn-copy" onclick="" class="flex-1 py-3 px-4 rounded-xl bg-zinc-800 text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-zinc-700 transition-all border border-zinc-700/60 flex items-center justify-center gap-2">
+                    <button id="modal-btn-copy" class="flex-1 py-3 px-4 rounded-xl bg-zinc-800 text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-zinc-700 transition-all border border-zinc-700/60 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-copy"></i> Salin Pautan
                     </button>
                     <a id="modal-btn-lanjut" href="#" target="_blank" class="flex-1 py-3 px-4 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs uppercase tracking-wider hover:bg-white text-center transition-all flex items-center justify-center gap-2">
@@ -192,45 +142,44 @@
     </div>
 
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-white rounded-full font-semibold text-xs shadow-2xl transition-all duration-500 translate-y-20 opacity-0 z-50 flex items-center gap-2">
-        <i class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span>Pautan Berjaya Disalin!</span>
+        <i class="fa-solid fa-circle-check text-emerald-400"></i> <span>Pautan Berjaya Disalin!</span>
     </div>
 
-    <script src="js/program-data.js"></script>
+    <script>
+        const scriptData = document.createElement('script');
+        scriptData.src = "js/program-data.js?v=" + new Date().getTime();
+        document.head.appendChild(scriptData);
+    </script>
+
     <script>
         let currentCategory = 'All';
         let countdownInterval;
 
-        // FUNGSI KHAS: MENUKAR FORMAT TARIKH ISO KEPADA FORMAT AM/PM YANG CANTIK
+        // FORMAT TARIKH AM/PM
         function formatToAMPM(dateStr) {
             if (!dateStr) return "";
             const dateObj = new Date(dateStr);
-            
-            // Susun tarikh (cth: 15/06/2026)
             const day = dateObj.getDate().toString().padStart(2, '0');
             const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
             const year = dateObj.getFullYear();
             
-            // Susun masa AM/PM
             let hours = dateObj.getHours();
             const minutes = dateObj.getMinutes().toString().padStart(2, '0');
             const ampm = hours >= 12 ? 'PM' : 'AM';
             hours = hours % 12;
-            hours = hours ? hours : 12; // Tukar jam '0' kepada '12'
-            
+            hours = hours ? hours : 12;
             return `${day}/${month}/${year} @ ${hours}:${minutes} ${ampm}`;
         }
 
-        // FUNGSI UTAMA: ENGINE PENGIRAAN COUNTDOWN REAL-TIME
+        // ENGINE PENGIRAAN COUNTDOWN
         function getCountdownString(targetDateStr) {
             if (!targetDateStr) return { text: "Masa Tiada", expired: true };
-            
             const targetTime = new Date(targetDateStr).getTime();
             const now = new Date().getTime();
             const difference = targetTime - now;
 
             if (difference <= 0) {
-                if (difference > -10800000) { 
+                if (difference > -10800000) {
                     return { text: "<span class='text-emerald-400 flex items-center gap-1'><span class='w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>", expired: false };
                 }
                 return { text: "<span class='text-zinc-500 font-bold'>SELESAI</span>", expired: true };
@@ -245,17 +194,15 @@
             if (days > 0) countdownText += `${days}h `;
             countdownText += `${hours.toString().padStart(2, '0')}j ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
 
-            return { 
-                text: `<span class="text-amber-400 font-mono tracking-wide"><i class="fa-regular fa-clock text-[10px] mr-1"></i>Mula: ${countdownText}</span>`, 
-                expired: false 
-            };
+            return { text: `<span class="text-amber-400 font-mono tracking-wide"><i class="fa-regular fa-clock text-[10px] mr-1"></i>Mula: ${countdownText}</span>`, expired: false };
         }
 
-        // KEMASKINI BAR KATEGORI SECARA DINAMIK
+        // KEMASKINI BAR KATEGORI
         function renderCategoryBar() {
             const filterBar = document.getElementById('filter-bar');
-            const categories = ['All'];
+            if (typeof programData === 'undefined') return;
             
+            const categories = ['All'];
             programData.forEach(item => {
                 if (item.category && !categories.includes(item.category)) {
                     categories.push(item.category);
@@ -279,43 +226,57 @@
             });
         }
 
+        // SUSUN DAN RENDER KAD UTAMA
         function renderPrograms() {
             const container = document.getElementById('listing-container');
             container.innerHTML = '';
 
-            const filtered = currentCategory === 'All' 
-                ? programData 
-                : programData.filter(p => p.category === currentCategory);
+            if (typeof programData === 'undefined' || programData.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-zinc-600 text-xs">Tiada program tersedia buat masa ini.</div>`;
+                return;
+            }
+
+            // Aturan Sort: Sentiasa menyusun tarikh terawal ke atas sekali secara automatik
+            programData.sort((a, b) => {
+                const dateA = a.date ? new Date(a.date).getTime() : Infinity;
+                const dateB = b.date ? new Date(b.date).getTime() : Infinity;
+                return dateA - dateB;
+            });
+
+            const filtered = currentCategory === 'All' ? programData : programData.filter(p => p.category === currentCategory);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-zinc-600 text-xs">Tiada program ditemui untuk kategori ini.</div>`;
+                return;
+            }
 
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.id = item.id;
                 card.className = "group relative bg-zinc-900 border border-zinc-800/80 rounded-[2rem] p-4 transition-all duration-500 hover:border-amber-400/30 flex flex-col justify-between";
-                
+
                 const countdownInfo = getCountdownString(item.date);
                 const amPmFormatted = formatToAMPM(item.date);
+                const imejPoster = item.image || 'https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang';
 
                 card.innerHTML = `
                     <div>
                         <div class="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-zinc-950">
-                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang'">
+                            <img src="${imejPoster}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang'">
                             <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/50 via-transparent opacity-70"></div>
-                            
                             <div class="absolute top-3 right-3 bg-zinc-950/85 backdrop-blur-md border border-zinc-800/60 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-lg shadow-black/40 card-countdown-el" data-date="${item.date || ''}">
                                 ${countdownInfo.text}
                             </div>
                         </div>
-                        
                         <div class="px-1 mb-3">
                             <div class="text-[10px] text-zinc-500 font-medium mb-1.5 flex items-center gap-1">
                                 <i class="fa-regular fa-calendar text-[9px]"></i> ${amPmFormatted}
                             </div>
-                            <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-[0.15em] mb-1 block">${item.category}</span>
+                            <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-[0.15em] mb-1 block">${item.category || 'KATEGORI'}</span>
                             <h3 class="text-base font-bold text-zinc-100 mb-2 leading-snug min-h-[48px] line-clamp-2">${item.title}</h3>
                             <p class="text-zinc-400 text-xs line-clamp-2 mb-4 font-medium leading-relaxed">${item.caption}</p>
                         </div>
                     </div>
-                    
                     <div class="px-1 mt-auto">
                         <div class="flex gap-2.5">
                             <button onclick="openModal('${item.id}')" class="flex-1 py-3 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs uppercase tracking-wide hover:bg-white transition-all">Lihat</button>
@@ -331,18 +292,14 @@
             });
         }
 
-        // ENGINE LIVE REFRESH RADAR COUNTDOWN
+        // ENGINE LIVE REFRESH
         function startLiveCountdowns() {
             if (countdownInterval) clearInterval(countdownInterval);
-            
             countdownInterval = setInterval(() => {
                 document.querySelectorAll('.card-countdown-el').forEach(el => {
                     const targetDate = el.getAttribute('data-date');
-                    if (targetDate) {
-                        el.innerHTML = getCountdownString(targetDate).text;
-                    }
+                    if (targetDate) el.innerHTML = getCountdownString(targetDate).text;
                 });
-
                 const modalCountdown = document.getElementById('modal-countdown');
                 const modalTargetDate = modalCountdown.getAttribute('data-date');
                 if (modalTargetDate && !document.getElementById('modal-view').classList.contains('hidden')) {
@@ -351,34 +308,25 @@
             }, 1000);
         }
 
-        // INTERAKSI MODAL BESAR DENGAN MASA FORMAT AM/PM
         function openModal(id) {
             const data = programData.find(p => p.id === id);
-            const modal = document.getElementById('modal-view');
+            if (!data) return;
             
-            document.getElementById('modal-img').src = data.image;
-            document.getElementById('modal-cat').innerText = data.category;
+            const modal = document.getElementById('modal-view');
+            document.getElementById('modal-img').src = data.image || 'https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang';
+            document.getElementById('modal-cat').innerText = data.category || 'KATEGORI';
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-caption').innerText = data.caption;
-            
-            // Set masa AM/PM bertulis pada bahagian penjuru modal
             document.getElementById('modal-ampm-time').innerHTML = `<i class="fa-regular fa-clock mr-1"></i>${formatToAMPM(data.date)}`;
-            
-            // Konfigurasi radar countdown dalam modal
+
             const modalCountdown = document.getElementById('modal-countdown');
             modalCountdown.setAttribute('data-date', data.date || '');
             modalCountdown.innerHTML = getCountdownString(data.date).text;
             
             document.getElementById('modal-btn-copy').setAttribute('onclick', `copyLink('${data.id}')`);
-            
             const btnLanjut = document.getElementById('modal-btn-lanjut');
-            if(data.link) {
-                btnLanjut.href = data.link;
-                btnLanjut.style.display = "flex";
-            } else {
-                btnLanjut.style.display = "none";
-            }
-            
+            if (data.link) { btnLanjut.href = data.link; btnLanjut.style.display = "flex"; } else { btnLanjut.style.display = "none"; }
+
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.replace('opacity-0', 'opacity-100'), 10);
         }
@@ -402,11 +350,22 @@
             });
         }
 
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700";
+            });
+            const activeId = `btn-${cat.replace(/\s+/g, '-')}`;
+            const activeBtn = document.getElementById(activeId);
+            if (activeBtn) activeBtn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10";
+            renderPrograms();
+        }
+
         function handleHash() {
             const hash = window.location.hash.substring(1);
-            if(hash) {
+            if (hash) {
                 const target = document.getElementById(hash);
-                if(target) {
+                if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     target.classList.add('highlight-card');
                     setTimeout(() => target.classList.remove('highlight-card'), 3500);
@@ -414,62 +373,19 @@
             }
         }
 
-        function filterCategory(cat) {
-            currentCategory = cat;
-            
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700";
-            });
-            
-            const activeId = `btn-${cat.replace(/\s+/g, '-')}`;
-            const activeBtn = document.getElementById(activeId);
-            if(activeBtn) {
-                activeBtn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10";
-            }
-            
-            renderPrograms();
-        }
+        function toggleCoffeeMenu() { document.getElementById("coffee-dropdown").classList.toggle("show"); }
+        function triggerDaftarPopup() { document.getElementById("coffee-dropdown").classList.remove("show"); const modal = document.getElementById("daftar-pilihan-modal"); modal.classList.remove("hidden"); void modal.offsetWidth; modal.classList.remove("opacity-0"); }
+        function closeDaftarPopup() { const modal = document.getElementById("daftar-pilihan-modal"); modal.classList.add("opacity-0"); setTimeout(() => modal.classList.add("hidden"), 300); }
+        function goHome() { if (document.referrer && document.referrer.includes(window.location.origin)) { window.history.back(); } else { window.location.href = 'index.html'; } }
 
-        function toggleCoffeeMenu() {
-            const dropdown = document.getElementById("coffee-dropdown");
-            dropdown.classList.toggle("show");
-        }
-
-        function triggerDaftarPopup() {
-            const dropdown = document.getElementById("coffee-dropdown");
-            if (dropdown) dropdown.classList.remove("show");
-
-            const modal = document.getElementById("daftar-pilihan-modal");
-            modal.classList.remove("hidden");
-            void modal.offsetWidth; 
-            modal.classList.remove("opacity-0");
-        }
-
-        function closeDaftarPopup() {
-            const modal = document.getElementById("daftar-pilihan-modal");
-            modal.classList.add("opacity-0");
-            setTimeout(() => {
-                modal.classList.add("hidden");
-            }, 300);
-        }
-
-        window.addEventListener("click", (e) => {
+        window.onclick = function(e) {
             const btn = document.getElementById("coffee-btn");
             const dropdown = document.getElementById("coffee-dropdown");
-            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.remove("show");
-            }
-        });
+            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) dropdown.classList.remove("show");
+        };
 
-        function goHome() {
-            if (document.referrer && document.referrer.includes(window.location.origin)) {
-                window.history.back();
-            } else {
-                window.location.href = 'index.html';
-            }
-        }
-
-        window.onload = () => {
+        // Tunggu sehingga fail JS selesai dimuat secara dinamik sebelum render bermula
+        scriptData.onload = () => {
             renderCategoryBar();
             renderPrograms();
             startLiveCountdowns();
