@@ -109,8 +109,8 @@
             // 1. GABUNGKAN DATA
             let gabunganData = [...senaraiProgram, ...senaraiTalkshow];
 
-            // 2. TAPIS DATA AUTOmatic (Buang yang sudah 'Expired/Selesai/Siaran Ulang')
-            let dataAktif Sahaja = gabunganData.filter(item => {
+            // 2. TAPIS DATA AUTOMATIK (Buang yang sudah 'Expired/Selesai')
+            let dataAktifSahaja = gabunganData.filter(item => {
                 const tarikhEksplisit = item.date || item.dateMula;
                 const status = checkEventStatus(tarikhEksplisit);
                 return !status.isExpired; // Hanya simpan jika isExpired = false
@@ -176,7 +176,6 @@
                     const targetDate = el.getAttribute('data-date');
                     if (targetDate) {
                         const status = checkEventStatus(targetDate);
-                        // Jika semasa sedang dibuka, ada event yang bertukar status jadi 'Expired/Selesai'
                         if (status.isExpired) {
                             adaYangExpired = true;
                         } else {
@@ -185,7 +184,6 @@
                     }
                 });
 
-                // Jika ada program bertukar selesai, jalankan semula render untuk padam kad tersebut secara real-time
                 if (adaYangExpired) {
                     renderGabunganCards();
                 }
