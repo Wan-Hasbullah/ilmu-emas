@@ -12,7 +12,7 @@ const talkshowData = [
   {
     id: "g100-talk-show-1",
     title: "BELI TANAH CASH DENGAN EMAS",
-    category: "G100 Talk Show",
+    category: "BELI TANAH",
     image: "poster-program/beli-tanah-cash-dengan-emas.jpg",
     caption: "Siapa nak belajar tingkatkan jumlah TABUNGAN, selesaikan masalah HUTANG, dan bina HARTA hasil simpanan emas, jemput join live G100 Talkshow malam ni.",
     
