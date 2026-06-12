@@ -159,175 +159,175 @@ const KISAH_KEJAYAAN_DATA = [
     title: "Kisah Kejayaan : FMD Pn Ain Nazirah Sabri",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/9-tY68v6v6U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "md-pn-khadizah-kadir-tn-abang-mohd-azlan",
     title: "Kisah Kejayaan : MD Pn. Khadizah Kadir & Tn. Abang Mohd Azlan",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/EomU80n4m60" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/kMm429voWqs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "fmd-pn-nora-najihah-rosli",
     title: "Kisah Kejayaan : FMD Pn Nora Najihah Rosli",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/_K-C-O8U0gQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "md-tn-jeremy-e-wong-hisham",
     title: "Kisah Kejayaan : MD Tn. Jeremy E. Wong Hisham",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/o0m9V-XvG6E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "fmd-pn-nur-suaidah-bachok",
     title: "Kisah Kejayaan : FMD Pn Nur Suaidah Bachok",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/E-8_oU6mG5A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5ZYOl1H6HqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "fmd-cik-nadirah-mustafa",
     title: "Kisah Kejayaan : FMD Cik Nadirah Mustafa",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/v6zAarl_gTU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/o-uW56VAntc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "md-en-hairil-anuar-bin-johar",
     title: "Kisah Kejayaan : MD En. Hairil Anuar bin Johar",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/Z0o9mO7v6w8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/TT_IyJZU7wY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "md-en-mohd-safix-ahmad",
     title: "Kisah Kejayaan : MD En. Mohd Safix Ahmad",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/UomU76vXwG4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "fmd-dr-syafiq-roslan",
     title: "Kisah Kejayaan : FMD Dr Syafiq Roslan",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/WrqIbwkiyhY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "fmd-pn-sakeenah-binti-ali-badri",
     title: "Kisah Kejayaan : FMD Pn Sakeenah binti Ali Badri",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/X9oU86n7vG4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "fmd-dr-muaz-bin-mahadzir",
     title: "Kisah Kejayaan : FMD Dr Mu'az bin Mahadzir",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/7omU68n7mX8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "izzatie-shima-founder-master-dealer",
     title: "Kisah Kejayaan : Izzatie Shima , Founder Master Dealer",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/K8omU76vXwG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "success-story-pn-noreennur-binti-shaharuddin",
     title: "Success Story : Pn. Noreennur Binti Shaharuddin",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/X8omU96vXwM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "success-story-cik-jennet-blasius-unggim",
     title: "Success Story : Cik Jennet Blasius Unggim",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/E9omU78v6w8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "success-story-kapten-raitu-shahmi",
     title: "Success Story : Kapten Raitu Shahmi",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/Z8omU76vXwG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "success-story-asma-shazwani",
     title: "Success Story Asma Shazwani",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/-S3Y3LwvkEw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "kerana-cinta-bisnes-pg-ini-ku-bina-sebagai-hadiah-buat-isteri",
     title: "Kerana cinta, bisnes PG ini ku bina sebagai hadiah buat isteri menjadi pendapatan pasif kita bersama",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/IomU89n_Xw8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "siapa-yang-berani-cakap-suri-rumah-ni-kerja-goyang-kaki-je",
     title: "Siapa yang berani cakap suri rumah ni kerja goyang kaki je kat rumah? Pergh!!! Tarik balik!",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/VomU67nXwG4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "kisah-kejayaan-md-puan-ashinida-salleh",
     title: "Kisah Kejayaan MD Puan Ashinida Salleh",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/ZomU78nXwG4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "kisah-kejayaan-master-dealer-tuan-haji-azman-bilaji",
     title: "Kisah Kejayaan Master Dealer Tuan Haji Azman Bilaji",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/9omU76vXwG4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "my-success-story-by-azlan-abdul-rahman",
     title: "My Success Story By Azlan Abdul Rahman, Star Founder Master Dealer",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/X8omU56vXwG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "my-success-story-syarif-jamil",
     title: "My Success Story - Syarif Jamil, Double Star Founder Master Dealer",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/EomU95nXwG4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "kisah-kejayaan-fmd-pn-nur-suaidah-bachok-suri-rumah",
     title: "Kisah Kejayaan : FMD Pn Nur Suaidah Bachok ( Suri Rumah)",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/E-8_oU6mG5A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5ZYOl1H6HqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "kisah-kejayaan-fmd-pn-nadirah-mustafa-it-analyst",
     title: "Kisah Kejayaan : FMD Pn Nadirah Mustafa ( IT Analyst)",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/v6zAarl_gTU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/o-uW56VAntc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "kisah-kejayaan-fmd-pn-ain-najwa-hidayah-full-time-pgbo",
     title: "Kisah Kejayaan : FMD Pn Ain Najwa Hidayah (Full Time PGBO)",
     category: "kisah-kejayaan",
     type: "youtube",
-    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/ZomU95nXwG4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+    embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/5h00_qB7Z1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
   {
     id: "kisah-kejayaan-fmd-puan-syazana-razak",
