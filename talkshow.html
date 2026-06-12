@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white scroll-smooth selection:bg-amber-500 selection:text-zinc-950">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talkshow | Ilmu Emas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premiumDark: '#09090b',
+                        premiumCard: '#18181b',
+                        premiumGold: '#fbbf24',
+                        premiumAccent: '#27272a',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #09090b; color: #e4e4e7; }
+
+        /* Kesan Blink Highlight Premium Berdenyut Emas */
+        @keyframes blinkGold {
+            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
+            50% { box-shadow: 0 0 25px 5px rgba(251, 191, 36, 0.35); border-color: #fbbf24; }
+            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); border-color: #27272a; }
+        }
+        .highlight-card { animation: blinkGold 1.5s ease-in-out 2; border-width: 2px !important; }
+
+        /* Custom Scrollbar Premium Fintech */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+        
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ── Coffee Cup Animation ── */
+        .coffee-cup-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 44px;
+        }
+        .coffee-cup-wrap svg {
+            width: 26px;
+            height: 26px;
+            position: absolute;
+            bottom: 9px;
+        }
+        .steam {
+            stroke: #fbbf24;
+            stroke-width: 2;
+            stroke-linecap: round;
+            fill: none;
+            opacity: 0;
+            animation: steam-svg 1.8s ease-in-out infinite;
+        }
+        .steam-1 { animation-delay: 0s; }
+        .steam-2 { animation-delay: 0.5s; }
+        @keyframes steam-svg {
+            0%   { opacity: 0; transform: translateY(0px); }
+            30%  { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-7px); }
+        }
+        
+        /* Dropdown Smooth Transition */
+        #coffee-dropdown {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        #coffee-dropdown.show {
+            display: block !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* Search bar glow */
+        #search-input:focus {
+            box-shadow: 0 0 0 2px rgba(251,191,36,0.25);
+            border-color: rgba(251,191,36,0.5);
+        }
+
+        /* Phase button pulse animation */
+        @keyframes livePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(52,211,153,0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(52,211,153,0); }
+        }
+        .live-btn { animation: livePulse 1.8s ease-in-out infinite; }
+
+        /* Empty state fade */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.4s ease forwards; }
+    </style>
+</head>
+<body class="antialiased min-h-screen bg-zinc-950 text-zinc-200">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-900">
+        <div class="max-w-7xl mx-auto px-5 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button onclick="goHome()" class="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-400/40 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <h1 class="text-base font-bold tracking-tight bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent uppercase">Talkshow</h1>
+            </div>
+            
+            <div class="relative">
+                <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+                    class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
+                    style="background:none; border:none; padding:0;">
+                    <div class="coffee-cup-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+                            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+                            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+                            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+                        </svg>
+                    </div>
+                </button>
+
+                <div id="coffee-dropdown"
+                    class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+                    <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+                        <i class="fa-solid fa-user-plus text-amber-400"></i>
+                        <span>Daftar Percuma</span>
+                    </button>
+                    <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank"
+                        class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+                        <i class="fa-solid fa-comments text-amber-400"></i>
+                        <span>Pertanyaan</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEARCH BAR -->
+    <section class="max-w-7xl mx-auto px-5 mt-7">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <i class="fa-solid fa-magnifying-glass text-zinc-500 text-sm"></i>
+            </div>
+            <input
+                id="search-input"
+                type="text"
+                placeholder="Cari tajuk talkshow..."
+                oninput="onSearch()"
+                class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl pl-10 pr-10 py-3.5 text-sm text-zinc-200 placeholder-zinc-600 outline-none transition-all duration-300"
+            />
+            <button id="search-clear" onclick="clearSearch()" class="absolute inset-y-0 right-4 flex items-center text-zinc-600 hover:text-amber-400 transition-colors hidden">
+                <i class="fa-solid fa-circle-xmark text-sm"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- CATEGORY FILTER BAR -->
+    <section class="max-w-7xl mx-auto px-5 mt-4">
+        <div class="flex gap-2 overflow-x-auto pb-3 hide-scroll" id="filter-bar"></div>
+    </section>
+
+    <!-- LISTING GRID -->
+    <main class="max-w-7xl mx-auto px-5 py-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="listing-container"></div>
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-20 fade-in-up">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+                <i class="fa-solid fa-video-slash text-zinc-600 text-2xl"></i>
+            </div>
+            <p class="text-zinc-500 text-sm font-medium">Tiada talkshow dijumpai.</p>
+            <p class="text-zinc-700 text-xs mt-1">Cuba ubah kata carian atau kategori.</p>
+        </div>
+    </main>
+
+    <!-- MODAL DETAIL -->
+    <div id="modal-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="relative bg-zinc-900 border border-zinc-800 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 p-2.5 bg-zinc-950/60 rounded-full text-zinc-400 hover:bg-zinc-800 hover:text-white transition-all border border-zinc-800/80">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l18 18" />
+                </svg>
+            </button>
+            
+            <div class="md:w-1/2 bg-black flex items-center justify-center relative">
+                <img id="modal-img" src="" alt="Poster" class="w-full h-auto object-contain max-h-[50vh] md:max-h-[80vh]">
+            </div>
+            
+            <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+                <div class="flex flex-col gap-1 mb-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <span id="modal-cat" class="text-[10px] font-bold text-amber-400 uppercase tracking-widest bg-amber-400/5 px-2.5 py-1 rounded-md border border-amber-400/10 inline-block w-max">Kategori</span>
+                        <span id="modal-ampm-time" class="text-[11px] font-medium text-zinc-400"></span>
+                    </div>
+                    <div id="modal-countdown" class="text-xs font-bold text-zinc-300 bg-zinc-950 border border-zinc-800/80 px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 mt-2"></div>
+                </div>
+                
+                <h2 id="modal-title" class="text-xl md:text-2xl font-bold text-white mb-4 leading-tight">Tajuk Program</h2>
+                <p id="modal-caption" class="text-xs text-zinc-400 leading-relaxed mb-6 text-justify">Keterangan program...</p>
+                
+                <!-- 3-PHASE ACTION BUTTONS (Modal) -->
+                <div class="pt-5 border-t border-zinc-800/80 flex flex-col gap-3">
+                    <!-- Butang Lanjut (sebelum program mula) -->
+                    <a id="modal-btn-lanjut" href="#" target="_blank"
+                        class="py-3 px-4 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs uppercase tracking-wider hover:bg-white text-center transition-all flex items-center justify-center gap-2 hidden">
+                        <i class="fa-solid fa-arrow-right"></i> Lanjut
+                    </a>
+                    <!-- Butang Sedang Berlangsung (semasa program) -->
+                    <a id="modal-btn-live" href="#" target="_blank"
+                        class="py-3 px-4 rounded-xl bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider hover:bg-emerald-400 text-center transition-all flex items-center justify-center gap-2 live-btn hidden">
+                        <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span> Sedang Berlangsung
+                    </a>
+                    <!-- Butang Siaran Ulang (selepas program tamat) -->
+                    <a id="modal-btn-ulang" href="#" target="_blank"
+                        class="py-3 px-4 rounded-xl bg-zinc-700 text-zinc-100 font-bold text-xs uppercase tracking-wider hover:bg-zinc-600 text-center transition-all flex items-center justify-center gap-2 hidden">
+                        <i class="fa-brands fa-youtube text-red-400"></i> Siaran Ulang
+                    </a>
+                    <!-- Salin Pautan -->
+                    <button id="modal-btn-copy" onclick="" class="py-3 px-4 rounded-xl bg-zinc-800 text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-zinc-700 transition-all border border-zinc-700/60 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-copy"></i> Salin Pautan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DAFTAR -->
+    <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
+            <h4 class="font-bold text-base text-white">Kategori Pendaftaran Akaun</h4>
+            <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
+            <div class="space-y-3 pt-1">
+                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all border border-zinc-700/30">Dewasa (18 Tahun Ke Atas)</a>
+                <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" class="block w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-xs rounded-xl transition-all border border-zinc-700/30">Junior (17 Tahun Ke Bawah)</a>
+            </div>
+            <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-1 block mx-auto underline">Tutup</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-white rounded-full font-semibold text-xs shadow-2xl transition-all duration-500 translate-y-20 opacity-0 z-50 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span>Pautan Berjaya Disalin!</span>
+    </div>
+
+    <script src="talkshow-data.js"></script>
+    <script>
+        let currentCategory = 'All';
+        let searchQuery = '';
+        let countdownInterval;
+        let phaseInterval;
+
+        // ── HELPER: FORMAT MASA AM/PM ─────────────────────────────────────────
+        function formatToAMPM(dateStr) {
+            if (!dateStr) return "";
+            const d = new Date(dateStr);
+            const day = d.getDate().toString().padStart(2, '0');
+            const month = (d.getMonth() + 1).toString().padStart(2, '0');
+            const year = d.getFullYear();
+            let hours = d.getHours();
+            const minutes = d.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PTG/MLM' : 'PGI/TGH';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            return `${day}/${month}/${year} @ ${hours}:${minutes} ${ampm}`;
+        }
+
+        // ── HELPER: COUNTDOWN STRING ──────────────────────────────────────────
+        function getCountdownString(dateMula) {
+            if (!dateMula) return { text: "—", phase: "none" };
+            const now = new Date().getTime();
+            const mula = new Date(dateMula).getTime();
+            const diff = mula - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                let txt = "";
+                if (days > 0) txt += `${days}h `;
+                txt += `${hours.toString().padStart(2,'0')}j ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;
+                return {
+                    text: `<span class="text-amber-400 font-mono tracking-wide"><i class="fa-regular fa-clock text-[10px] mr-1"></i>Mula: ${txt}</span>`,
+                    phase: "before"
+                };
+            }
+            return { text: "", phase: "check-tamat" };
+        }
+
+        // ── HELPER: TENTUKAN FASA BUTANG ──────────────────────────────────────
+        // Fasa: "before" | "live" | "replay"
+        function getPhase(item) {
+            const now = new Date().getTime();
+            const mula = item.dateMula ? new Date(item.dateMula).getTime() : null;
+            const tamat = item.dateTamat ? new Date(item.dateTamat).getTime() : null;
+
+            if (!mula) return "before";
+            if (now < mula) return "before";
+            if (tamat && now <= tamat) return "live";
+            return "replay";
+        }
+
+        // ── RENDER CATEGORY BAR ───────────────────────────────────────────────
+        function renderCategoryBar() {
+            const filterBar = document.getElementById('filter-bar');
+            const categories = ['All'];
+            talkshowData.forEach(item => {
+                if (item.category && !categories.includes(item.category)) {
+                    categories.push(item.category);
+                }
+            });
+            filterBar.innerHTML = '';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.id = `btn-${cat.replace(/\s+/g, '-')}`;
+                btn.setAttribute('onclick', `filterCategory('${cat}')`);
+                const isActive = cat === currentCategory;
+                btn.className = isActive
+                    ? "cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10"
+                    : "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700";
+                btn.innerHTML = cat === 'All' ? 'Semua' : cat;
+                filterBar.appendChild(btn);
+            });
+        }
+
+        // ── RENDER CARDS ──────────────────────────────────────────────────────
+        function renderTalkshows() {
+            const container = document.getElementById('listing-container');
+            const emptyState = document.getElementById('empty-state');
+            container.innerHTML = '';
+
+            const q = searchQuery.toLowerCase().trim();
+            let filtered = currentCategory === 'All'
+                ? talkshowData
+                : talkshowData.filter(p => p.category === currentCategory);
+
+            if (q) {
+                filtered = filtered.filter(p => p.title.toLowerCase().includes(q));
+            }
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.id = item.id;
+                card.className = "group relative bg-zinc-900 border border-zinc-800/80 rounded-[2rem] p-4 transition-all duration-500 hover:border-amber-400/30 flex flex-col justify-between";
+
+                const countdownInfo = getCountdownString(item.dateMula);
+                const amPmFormatted = formatToAMPM(item.dateMula);
+                const phase = getPhase(item);
+
+                // ── PHASE BADGE (pada kad) ────────────────────────────────────
+                let phaseBadge = '';
+                if (phase === 'live') {
+                    phaseBadge = `<div class="absolute top-3 left-3 z-10 bg-emerald-500/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-white flex items-center gap-1.5 shadow-lg">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> LIVE
+                    </div>`;
+                } else if (phase === 'replay') {
+                    phaseBadge = `<div class="absolute top-3 left-3 z-10 bg-zinc-800/90 backdrop-blur-md border border-zinc-700/60 px-2.5 py-1 rounded-lg text-[10px] font-bold text-zinc-400 flex items-center gap-1.5 shadow-lg">
+                        <i class="fa-brands fa-youtube text-red-400 text-[10px]"></i> ULANG
+                    </div>`;
+                }
+
+                // ── COUNTDOWN BADGE (pada kad, hanya fasa before) ─────────────
+                const countdownBadge = phase === 'before' && countdownInfo.text
+                    ? `<div class="absolute top-3 right-3 bg-zinc-950/85 backdrop-blur-md border border-zinc-800/60 px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-lg shadow-black/40 card-countdown-el" data-date="${item.dateMula || ''}">${countdownInfo.text}</div>`
+                    : '';
+
+                // ── PHASE BUTTONS (pada kad) ──────────────────────────────────
+                let phaseBtn = '';
+                if (phase === 'before') {
+                    phaseBtn = `<a href="${item.linkLanjut || '#'}" target="_blank"
+                        class="flex-1 py-3 rounded-xl bg-amber-400 text-zinc-950 font-bold text-xs uppercase tracking-wide hover:bg-white transition-all text-center flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i> Lanjut
+                    </a>`;
+                } else if (phase === 'live') {
+                    phaseBtn = `<a href="${item.linkLive || '#'}" target="_blank"
+                        class="flex-1 py-3 rounded-xl bg-emerald-500 text-white font-bold text-xs uppercase tracking-wide hover:bg-emerald-400 transition-all text-center flex items-center justify-center gap-2 live-btn">
+                        <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span> Sedang Berlangsung
+                    </a>`;
+                } else {
+                    phaseBtn = `<a href="${item.linkUlang || '#'}" target="_blank"
+                        class="flex-1 py-3 rounded-xl bg-zinc-700 text-zinc-100 font-bold text-xs uppercase tracking-wide hover:bg-zinc-600 transition-all text-center flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-youtube text-red-400 text-[10px]"></i> Siaran Ulang
+                    </a>`;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative aspect-video rounded-2xl overflow-hidden mb-4 bg-zinc-950">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/18181b/fbbf24?text=Poster+Akan+Datang'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/50 via-transparent opacity-70"></div>
+                            ${phaseBadge}
+                            ${countdownBadge}
+                        </div>
+                        <div class="px-1 mb-3">
+                            <div class="text-[10px] text-zinc-500 font-medium mb-1.5 flex items-center gap-1">
+                                <i class="fa-regular fa-calendar text-[9px]"></i> ${amPmFormatted}
+                            </div>
+                            <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-[0.15em] mb-1 block">${item.category}</span>
+                            <h3 class="text-base font-bold text-zinc-100 mb-2 leading-snug min-h-[48px] line-clamp-2">${item.title}</h3>
+                            <p class="text-zinc-400 text-xs line-clamp-2 mb-4 font-medium leading-relaxed">${item.caption}</p>
+                        </div>
+                    </div>
+                    <div class="px-1 mt-auto">
+                        <div class="flex gap-2.5">
+                            ${phaseBtn}
+                            <button onclick="openModal('${item.id}')" class="p-3 rounded-xl bg-zinc-800 border border-zinc-700/60 text-zinc-300 hover:text-amber-400 hover:bg-zinc-700 transition-all" title="Lihat Butiran">
+                                <i class="fa-solid fa-circle-info h-4 w-4"></i>
+                            </button>
+                            <button onclick="copyLink('${item.id}')" class="p-3 rounded-xl bg-zinc-800 border border-zinc-700/60 text-zinc-300 hover:text-amber-400 hover:bg-zinc-700 transition-all" title="Salin Pautan">
+                                <i class="fa-solid fa-copy h-4 w-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ── LIVE COUNTDOWN REFRESH ────────────────────────────────────────────
+        function startLiveCountdowns() {
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                document.querySelectorAll('.card-countdown-el').forEach(el => {
+                    const targetDate = el.getAttribute('data-date');
+                    if (targetDate) {
+                        el.innerHTML = getCountdownString(targetDate).text;
+                    }
+                });
+                const modalCountdown = document.getElementById('modal-countdown');
+                const modalTargetDate = modalCountdown && modalCountdown.getAttribute('data-date');
+                if (modalTargetDate && !document.getElementById('modal-view').classList.contains('hidden')) {
+                    modalCountdown.innerHTML = getCountdownString(modalTargetDate).text;
+                }
+            }, 1000);
+        }
+
+        // ── AUTO PHASE REFRESH (semak setiap 30 saat, re-render jika perlu) ──
+        function startPhaseWatcher() {
+            if (phaseInterval) clearInterval(phaseInterval);
+            phaseInterval = setInterval(() => {
+                renderTalkshows();
+            }, 30000);
+        }
+
+        // ── MODAL ─────────────────────────────────────────────────────────────
+        function openModal(id) {
+            const data = talkshowData.find(p => p.id === id);
+            if (!data) return;
+            const modal = document.getElementById('modal-view');
+
+            document.getElementById('modal-img').src = data.image;
+            document.getElementById('modal-cat').innerText = data.category;
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-caption').innerText = data.caption;
+            document.getElementById('modal-ampm-time').innerHTML = `<i class="fa-regular fa-clock mr-1"></i>${formatToAMPM(data.dateMula)}`;
+
+            const modalCountdown = document.getElementById('modal-countdown');
+            modalCountdown.setAttribute('data-date', data.dateMula || '');
+            modalCountdown.innerHTML = getCountdownString(data.dateMula).text;
+
+            document.getElementById('modal-btn-copy').setAttribute('onclick', `copyLink('${data.id}')`);
+
+            // Set 3-phase buttons
+            const btnLanjut = document.getElementById('modal-btn-lanjut');
+            const btnLive   = document.getElementById('modal-btn-live');
+            const btnUlang  = document.getElementById('modal-btn-ulang');
+
+            btnLanjut.classList.add('hidden');
+            btnLive.classList.add('hidden');
+            btnUlang.classList.add('hidden');
+
+            const phase = getPhase(data);
+            if (phase === 'before') {
+                btnLanjut.href = data.linkLanjut || '#';
+                btnLanjut.classList.remove('hidden');
+            } else if (phase === 'live') {
+                btnLive.href = data.linkLive || '#';
+                btnLive.classList.remove('hidden');
+            } else {
+                btnUlang.href = data.linkUlang || '#';
+                btnUlang.classList.remove('hidden');
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.replace('opacity-0', 'opacity-100'), 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-view');
+            modal.classList.replace('opacity-100', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // ── SEARCH ────────────────────────────────────────────────────────────
+        function onSearch() {
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('search-clear');
+            searchQuery = input.value;
+            clearBtn.classList.toggle('hidden', !searchQuery);
+            renderTalkshows();
+        }
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            searchQuery = '';
+            document.getElementById('search-clear').classList.add('hidden');
+            renderTalkshows();
+        }
+
+        // ── CATEGORY FILTER ───────────────────────────────────────────────────
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border border-zinc-800/60 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700";
+            });
+            const activeBtn = document.getElementById(`btn-${cat.replace(/\s+/g, '-')}`);
+            if (activeBtn) {
+                activeBtn.className = "cat-btn px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border border-amber-400 bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/10";
+            }
+            renderTalkshows();
+        }
+
+        // ── COPY LINK ─────────────────────────────────────────────────────────
+        function copyLink(id) {
+            const url = window.location.origin + window.location.pathname + '#' + id;
+            navigator.clipboard.writeText(url).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.replace('translate-y-20', 'translate-y-0');
+                toast.classList.replace('opacity-0', 'opacity-100');
+                setTimeout(() => {
+                    toast.classList.replace('translate-y-0', 'translate-y-20');
+                    toast.classList.replace('opacity-100', 'opacity-0');
+                }, 2500);
+            });
+        }
+
+        // ── HASH HIGHLIGHT ────────────────────────────────────────────────────
+        function handleHash() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const target = document.getElementById(hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    target.classList.add('highlight-card');
+                    setTimeout(() => target.classList.remove('highlight-card'), 3500);
+                }
+            }
+        }
+
+        // ── DROPDOWN COFFEE ───────────────────────────────────────────────────
+        function toggleCoffeeMenu() {
+            document.getElementById("coffee-dropdown").classList.toggle("show");
+        }
+        function triggerDaftarPopup() {
+            document.getElementById("coffee-dropdown").classList.remove("show");
+            const modal = document.getElementById("daftar-pilihan-modal");
+            modal.classList.remove("hidden");
+            void modal.offsetWidth;
+            modal.classList.remove("opacity-0");
+        }
+        function closeDaftarPopup() {
+            const modal = document.getElementById("daftar-pilihan-modal");
+            modal.classList.add("opacity-0");
+            setTimeout(() => modal.classList.add("hidden"), 300);
+        }
+        window.addEventListener("click", (e) => {
+            const btn = document.getElementById("coffee-btn");
+            const dropdown = document.getElementById("coffee-dropdown");
+            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove("show");
+            }
+        });
+
+        // ── CLOSE MODAL ON BACKDROP ───────────────────────────────────────────
+        document.getElementById('modal-view').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ── GO HOME ───────────────────────────────────────────────────────────
+        function goHome() {
+            if (document.referrer && document.referrer.includes(window.location.origin)) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // ── INIT ──────────────────────────────────────────────────────────────
+        window.onload = () => {
+            renderCategoryBar();
+            renderTalkshows();
+            startLiveCountdowns();
+            startPhaseWatcher();
+            setTimeout(handleHash, 500);
+        };
+        window.onhashchange = handleHash;
+    </script>
+</body>
+</html>
