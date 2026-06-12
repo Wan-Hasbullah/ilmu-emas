@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Petikan - Ilmu Emas</title>
+  <title>Petikan - Pesan Mentor</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -347,14 +347,21 @@
             <p class="text-zinc-100 text-[15px] font-medium leading-relaxed pt-4">${item.petikan}</p>
           </div>
 
-          <div class="flex gap-2 mt-3">
+          <div class="flex items-center gap-2 mt-3">
+            ${item.link ? `
+            <a href="${item.link}" target="_blank" rel="noopener"
+              class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/25 text-amber-400 text-xs font-semibold transition-all">
+              <i class="fa-solid fa-comments text-xs"></i> Baca Komentar
+            </a>` : ''}
             <button onclick="saveImage('${item.id}')"
-              class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold transition-all">
-              <i class="fa-solid fa-image text-amber-400"></i> Simpan Imej
+              title="Simpan Imej"
+              class="w-10 h-10 flex items-center justify-center rounded-xl bg-zinc-800 hover:bg-zinc-700 text-amber-400 transition-all flex-shrink-0">
+              <i class="fa-solid fa-image text-sm"></i>
             </button>
             <button onclick="openShare('${item.id}')"
-              class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/25 text-amber-400 text-xs font-semibold transition-all">
-              <i class="fa-solid fa-share-nodes"></i> Kongsi
+              title="Kongsi"
+              class="w-10 h-10 flex items-center justify-center rounded-xl bg-zinc-800 hover:bg-zinc-700 text-amber-400 transition-all flex-shrink-0">
+              <i class="fa-solid fa-share-nodes text-sm"></i>
             </button>
           </div>
         </div>`;
