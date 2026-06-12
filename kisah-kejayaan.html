@@ -48,6 +48,11 @@
       transform: translateY(0) !important;
     }
 
+    /* ── Tab Underline Indicator ── */
+    .tab-indicator {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     /* ── Panel Slide ── */
     .panel-wrap {
       display: flex;
@@ -82,6 +87,10 @@
       50%      { border-color: rgb(251,191,36); box-shadow: 0 0 20px 2px rgba(251,191,36,.25); }
     }
     .highlight-pulse { animation: premiumGlow 2s ease-in-out 2; }
+
+    /* ── Premium ambient glow under tabs ── */
+    .tab-glow-video { text-shadow: 0 0 14px rgba(251,191,36,.5); }
+    .tab-glow-artikel { text-shadow: 0 0 14px rgba(251,191,36,.5); }
 
     /* ── Gold gradient divider ── */
     .gold-divider {
@@ -297,62 +306,12 @@
     </div>
   </div>
 
-  <!-- ═══════════════ DATA: VIDEO ═══════════════ -->
-  <script>
-    /* ════════════════════════════════════════════════
-       DATA VIDEO KISAH KEJAYAAN
-       Tambah / edit entri di sini sahaja.
-       category: gunakan slug seperti "pg-business-owner" / "pelabur-emas"
-       embedCode: paste iframe embed dari YouTube / TikTok
-    ════════════════════════════════════════════════ */
-    const KISAH_KEJAYAAN_DATA = [
-      // ── CONTOH — gantikan dengan data sebenar ──
-      {
-        id: "video-zulkifli-1",
-        title: "Mohd Zulkifli Shafie: Dari Akauntan ke Financial Freedom",
-        category: "PG Business Owner",
-        embedCode: `<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Kisah Kejayaan" frameborder="0" allowfullscreen></iframe>`
-      },
-      // Tambah lebih banyak entri di sini...
-    ];
-  </script>
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script src="js/video-kisah-kejayaan.js"></script>
+  <script src="js/artikel-kisah-kejayaan.js"></script>
+  <script src="js/main.js"></script>
 
-  <!-- ═══════════════ DATA: ARTIKEL ═══════════════ -->
   <script>
-    /* ════════════════════════════════════════════════
-       DATA ARTIKEL KISAH KEJAYAAN
-       Tambah / edit entri di sini sahaja.
-       path: lokasi fail artikel (dalam folder artikel-kisah-kejayaan/)
-    ════════════════════════════════════════════════ */
-    const ARTIKEL_KISAH_KEJAYAAN = [
-      {
-        id: "mohd-zulkifli-shafie",
-        title: "Kisah Kejayaan : Mohd Zulkifli Shafie",
-        author: "Mohd Zulkifli Shafie",
-        category: "PG Business Owner",
-        summary: "Bermula sekadar simpan emas untuk diri sendiri, saya tak sangka akhirnya Public Gold dapat memberi jaminan kewangan buat isteri dan anak-anak saya.",
-        path: "artikel-kisah-kejayaan/mohd-zulkifli-shafie.html"
-      },
-      // Tambah lebih banyak artikel di sini...
-    ];
-  </script>
-
-  <!-- ═══════════════ LOGIC ═══════════════ -->
-  <script>
-    /* ────────────────────────────────────────────
-       COPY LINK
-    ──────────────────────────────────────────── */
-    function copyGlobalLink(path) {
-      const url = `https://ilmu-emas.pages.dev/${path}`;
-      navigator.clipboard.writeText(url).then(() => {
-        const toast = document.createElement("div");
-        toast.textContent = "Pautan disalin!";
-        toast.className = "fixed bottom-6 left-1/2 -translate-x-1/2 bg-amber-400 text-zinc-950 text-xs font-bold px-4 py-2 rounded-xl shadow-lg z-[999] transition-all";
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2200);
-      });
-    }
-
     /* ────────────────────────────────────────────
        TAB STATE
     ──────────────────────────────────────────── */
@@ -391,6 +350,7 @@
         aFilters.style.opacity   = "1";
       }
 
+      /* ── Update URL hash for tab link sharing ── */
       if (pushState !== false) {
         const newHash = "#" + tab;
         if (window.location.hash !== newHash) {
@@ -404,8 +364,14 @@
     ──────────────────────────────────────────── */
     function resolveTabFromHash() {
       const hash = window.location.hash.replace("#", "").toLowerCase();
-      if (hash === "artikel") { switchTab("artikel", false); return true; }
-      if (hash === "video")   { switchTab("video", false);   return true; }
+      if (hash === "artikel") {
+        switchTab("artikel", false);
+        return true;
+      }
+      if (hash === "video") {
+        switchTab("video", false);
+        return true;
+      }
       return false;
     }
 
@@ -437,27 +403,48 @@
     });
 
     /* ────────────────────────────────────────────
-       COFFEE BUBBLE
+       COFFEE BUBBLE  — muncul 5s, ulang 10s
     ──────────────────────────────────────────── */
     (function initCoffeeBubble() {
-      const bubble    = document.getElementById("coffee-bubble");
+      const bubble   = document.getElementById("coffee-bubble");
       const coffeeBtn = document.getElementById("coffee-btn");
+      let bubbleTimer = null;
       let dismissed   = false;
 
       function showBubble() {
         if (dismissed) return;
         bubble.classList.add("bubble-show");
-        setTimeout(() => bubble.classList.remove("bubble-show"), 3500);
+        bubbleTimer = setTimeout(() => {
+          hideBubble();
+        }, 3500); // kekal nampak ~3.5s sebelum fade
       }
 
-      setTimeout(() => {
-        showBubble();
-        setInterval(() => showBubble(), 10000);
-      }, 5000);
-
-      coffeeBtn.addEventListener("click", () => { bubble.classList.remove("bubble-show"); });
-      bubble.addEventListener("click", () => {
+      function hideBubble() {
         bubble.classList.remove("bubble-show");
+      }
+
+      function scheduleBubble(delayMs) {
+        setTimeout(() => {
+          showBubble();
+          // Ulang setiap 10 saat selepas muncul pertama
+          if (!dismissed) {
+            setInterval(() => { showBubble(); }, 10000);
+          }
+        }, delayMs);
+      }
+
+      // Muncul 5 saat selepas halaman dimuatkan
+      scheduleBubble(5000);
+
+      // Klik pada coffee button — sembunyi bubble, tidak ulang lagi semasa dropdown terbuka
+      coffeeBtn.addEventListener("click", () => {
+        dismissed = false; // masih benarkan ulang
+        hideBubble();
+      });
+
+      // Klik pada bubble sendiri — buka dropdown
+      bubble.addEventListener("click", () => {
+        hideBubble();
         document.getElementById("coffee-dropdown").classList.add("show");
       }, true);
     })();
@@ -490,9 +477,9 @@
       const bar = document.getElementById("type-filter-bar");
       bar.innerHTML = "";
       const types = [
-        { id: "all",     label: "Semua Format",           icon: "fa-border-all" },
+        { id: "all",     label: "Semua Format",          icon: "fa-border-all" },
         { id: "menegak", label: "Menegak (TikTok/Reels)", icon: "fa-mobile-screen-button" },
-        { id: "lurus",   label: "Lurus (YouTube)",         icon: "fa-desktop" }
+        { id: "lurus",   label: "Lurus (YouTube)",        icon: "fa-desktop" }
       ];
       types.forEach(type => {
         const btn = document.createElement("button");
@@ -610,7 +597,7 @@
             <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
           </div>
           <div class="flex justify-between items-center pt-3 border-t border-zinc-800/60">
-            <button onclick="copyGlobalLink('kisah-kejayaan.html#${art.id}')"
+            <button onclick="copyGlobalLink('Kisah-Kejayaan.html#${art.id}')"
               class="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1.5 transition-colors font-medium">
               <i class="fa-solid fa-copy text-[9px]"></i> Salin
             </button>
@@ -630,8 +617,10 @@
       if (!hash) return;
       const targetId = hash.replace("#", "");
 
+      /* Tab-only hashes — handled by resolveTabFromHash, skip highlight */
       if (targetId === "video" || targetId === "artikel") return;
 
+      // Try video first
       const linkedVideo = KISAH_KEJAYAAN_DATA.find(v => v.id === targetId);
       if (linkedVideo) {
         if (activeTab !== "video") switchTab("video", false);
@@ -650,6 +639,7 @@
         return;
       }
 
+      // Try artikel
       const linkedArt = ARTIKEL_KISAH_KEJAYAAN.find(a => a.id === targetId);
       if (linkedArt) {
         if (activeTab !== "artikel") switchTab("artikel", false);
@@ -677,8 +667,11 @@
     renderCategoryTabs();
     renderArticles();
 
+    // Memastikan data dipaparkan dahulu, kemudian tunggu 300ms sebelum skrol automatik
     document.addEventListener("DOMContentLoaded", () => {
+      // 1. Resolve tab dari hash (#video / #artikel) dahulu
       const isTabHash = resolveTabFromHash();
+      // 2. Kemudian buat highlight jika ada ID spesifik
       setTimeout(() => {
         if (!isTabHash) handleHashHighlight();
       }, 300);
