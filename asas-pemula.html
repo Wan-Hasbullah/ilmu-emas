@@ -141,10 +141,10 @@
     .m-video-pill i { font-size: 9px; }
 
     /* Divider */
-    .m-divider { height:1px; background: linear-gradient(90deg,transparent,rgba(212,175,55,.2),transparent); margin: 4px 24px 28px; }
+    .m-divider { height:1px; background: linear-gradient(90deg,transparent,rgba(212,175,55,.2),transparent); margin: 4px 24px 20px; }
 
-    /* CTA section */
-    .m-cta-section { padding: 0 24px 40px; text-align: center; }
+    /* FIX 3: CTA section — kurangkan padding bawah supaya tiada ruang kosong berlebihan */
+    .m-cta-section { padding: 0 24px 24px; text-align: center; }
     .m-cta-label {
       font-size: 11px; color: #4B5563; font-weight: 600;
       text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;
@@ -218,7 +218,7 @@
     #youtube-popup .popup-buttons button:hover { background:#f0f0f0; }
 
     /* ══════════════════════════════════════
-       TAB 2 — ASAS PEMULA — UNCHANGED
+       TAB 2 — ASAS PEMULA
     ══════════════════════════════════════ */
     .ap-wrap { font-family:'Inter',sans-serif;background-color:#0B0F19;color:#F3F4F6;line-height:1.6;min-height:100vh; }
     .ap-container { max-width:800px;margin:0 auto;padding:40px 20px; }
@@ -239,15 +239,17 @@
     .ap-bullet-list { list-style:none;padding-left:0; }
     .ap-bullet-list li { position:relative;padding-left:24px;margin-bottom:12px;font-size:15px;color:#D1D5DB; }
     .ap-bullet-list li::before { content:"→";position:absolute;left:0;color:#D4AF37;font-weight:bold; }
-    .ap-btn-group { margin-top:25px;padding-top:20px;border-top:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;width:100%; }
-    .ap-btn-group.single-btn { grid-template-columns:1fr;max-width:340px; }
-    .ap-btn { display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;font-size:14px;font-weight:600;text-decoration:none;border-radius:10px;transition:all .25s cubic-bezier(.4,0,.2,1);cursor:pointer;text-align:center;width:100%; }
-    .ap-btn-primary { background:linear-gradient(135deg,#D4AF37,#AA7C11);color:#0B0F19;box-shadow:0 4px 12px rgba(212,175,55,.2); }
-    .ap-btn-primary:hover { opacity:.95;transform:translateY(-2px);box-shadow:0 6px 18px rgba(212,175,55,.3); }
+
+    /* FIX 4: Kecilkan butang tab 2 */
+    .ap-btn-group { margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;width:100%; }
+    .ap-btn-group.single-btn { grid-template-columns:1fr;max-width:300px; }
+    .ap-btn { display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;font-size:12.5px;font-weight:600;text-decoration:none;border-radius:9px;transition:all .25s cubic-bezier(.4,0,.2,1);cursor:pointer;text-align:center;width:100%; }
+    .ap-btn-primary { background:linear-gradient(135deg,#D4AF37,#AA7C11);color:#0B0F19;box-shadow:0 3px 10px rgba(212,175,55,.2); }
+    .ap-btn-primary:hover { opacity:.95;transform:translateY(-2px);box-shadow:0 5px 16px rgba(212,175,55,.3); }
     .ap-btn-outline { background:rgba(212,175,55,.02);color:#D4AF37;border:1px solid rgba(212,175,55,.3); }
     .ap-btn-outline:hover { background:rgba(212,175,55,.1);border-color:#D4AF37;transform:translateY(-2px); }
-    .ap-btn-whatsapp { background:linear-gradient(135deg,#25D366,#1CBD56);color:#FFF;box-shadow:0 4px 12px rgba(37,211,102,.2);border:none; }
-    .ap-btn-whatsapp:hover { transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,211,102,.3); }
+    .ap-btn-whatsapp { background:linear-gradient(135deg,#25D366,#1CBD56);color:#FFF;box-shadow:0 3px 10px rgba(37,211,102,.2);border:none; }
+    .ap-btn-whatsapp:hover { transform:translateY(-2px);box-shadow:0 5px 16px rgba(37,211,102,.3); }
     .ap-footer { text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid rgba(212,175,55,.15);color:#9CA3AF;font-size:13px; }
     @media(min-width:600px){.ap-btn-group-4{grid-template-columns:repeat(4,1fr);}}
     @media(max-width:599px){.ap-btn-group{grid-template-columns:1fr!important;}.ap-card{padding:22px;}}
@@ -365,7 +367,7 @@
         </div>
       </div><!-- /panel 1 -->
 
-      <!-- ═══ TAB 2 : CHECKLIST — Unchanged ═══ -->
+      <!-- ═══ TAB 2 : CHECKLIST ═══ -->
       <div class="panel">
         <div class="ap-wrap">
           <div class="ap-container">
@@ -607,8 +609,6 @@
 
     window.addEventListener("load", function () {
       setTimeout(function () { document.getElementById("youtube-popup").classList.add("show"); }, 4000);
-    });
-      });
     });
 
     document.addEventListener("DOMContentLoaded", () => { resolveHashOnLoad(); });
