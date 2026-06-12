@@ -1,12 +1,12 @@
 // Data Artikel Kisah Kejayaan - Sedia dipanggil secara global oleh fail pengurusan artikel
 const ARTIKEL_KISAH_KEJAYAAN = [
   {
-    id: "mohd-zulkifli-shafie",
-    title: "Dari Akauntan Bertauliah Kepada Peneraju Pendapatan Pasif Bertaraf Antarabangsa",
-    author: "Mohd Zulkifli & Najdah",
-    category: "Akauntan",
-    summary: "Kisah inspirasi seorang Akauntan Bertauliah yang bermula daripada belian RM20,000 demi menyelamatkan nilai tunai. Walaupun bermula tanpa minat berniaga, bimbingan penulisan blog beliau berkembang menjadi empayar pendapatan pasif yang kalis musibah, boleh diwarisi, serta memberikan kebebasan masa sepenuhnya.",
-    path: "kandungan-artikel-kisah-kejayaan/mohd-zulkifli-shafie.html"
+    id: "shara-ismail",
+    title: "Membina Empayar Pasif Income 5 Angka Setahun Lebih Melalui Strategi Duplikasi Sistem G100",
+    author: "Shara Ismail",
+    category: "Usahawan",
+    summary: "Kisah kejayaan seorang pemegang Sarjana Kerja Sosial Perubatan dan usahawan digital yang melonjakkan empayarnya kepada 6,000 penyimpan emas. Melalui pendedahan komprehensif di MDC, beliau berjaya menjana pendapatan pasif 5 angka sebulan serta melatih lebih 200 dealer dalam tempoh singkat.",
+    path: "kandungan-artikel-kisah-kejayaan/shara-ismail.html"
   },
   
   {
