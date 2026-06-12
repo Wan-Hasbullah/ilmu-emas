@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kisah Kejayaan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ── Coffee Cup Animation ── */
+    .coffee-cup-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 44px;
+    }
+    .coffee-cup-wrap svg {
+      width: 26px;
+      height: 26px;
+      position: absolute;
+      bottom: 9px;
+    }
+    .steam {
+      stroke: #fbbf24;
+      stroke-width: 2;
+      stroke-linecap: round;
+      fill: none;
+      opacity: 0;
+      animation: steam-svg 1.8s ease-in-out infinite;
+    }
+    .steam-1 { animation-delay: 0s; }
+    .steam-2 { animation-delay: 0.5s; }
+    @keyframes steam-svg {
+      0%   { opacity: 0; transform: translateY(0px); }
+      30%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-7px); }
+    }
+
+    /* ── Dropdown ── */
+    #coffee-dropdown {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    #coffee-dropdown.show {
+      display: block !important;
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    /* ── Tab Underline Indicator ── */
+    .tab-indicator {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Panel Slide ── */
+    .panel-wrap {
+      display: flex;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .panel {
+      flex: 0 0 100%;
+      min-width: 0;
+    }
+
+    /* ── Scrollbar hide ── */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ── Video highlight ── */
+    @keyframes video-highlight {
+      0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0); border-color: rgba(63,63,70,.8); }
+      25%  { box-shadow: 0 0 0 4px rgba(251,191,36,.35), 0 8px 32px rgba(251,191,36,.15); border-color: rgba(251,191,36,.8); }
+      50%  { box-shadow: 0 0 0 2px rgba(251,191,36,.15), 0 4px 16px rgba(251,191,36,.08); border-color: rgba(251,191,36,.4); }
+      75%  { box-shadow: 0 0 0 4px rgba(251,191,36,.25), 0 8px 24px rgba(251,191,36,.12); border-color: rgba(251,191,36,.6); }
+      100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); border-color: rgba(63,63,70,.8); }
+    }
+    .video-highlight-anim {
+      animation: video-highlight 1.6s ease 3;
+      scroll-margin-top: 140px;
+    }
+
+    /* ── Article highlight ── */
+    @keyframes premiumGlow {
+      0%,100% { border-color: rgb(39,39,42); box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+      50%      { border-color: rgb(251,191,36); box-shadow: 0 0 20px 2px rgba(251,191,36,.25); }
+    }
+    .highlight-pulse { animation: premiumGlow 2s ease-in-out 2; }
+
+    /* ── Premium ambient glow under tabs ── */
+    .tab-glow-video { text-shadow: 0 0 14px rgba(251,191,36,.5); }
+    .tab-glow-artikel { text-shadow: 0 0 14px rgba(251,191,36,.5); }
+
+    /* ── Gold gradient divider ── */
+    .gold-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(251,191,36,.35), transparent);
+    }
+
+    /* ── Filter chip active glow ── */
+    .chip-active { box-shadow: 0 0 10px rgba(251,191,36,.25); }
+
+    /* ── Card hover lift ── */
+    .card-lift {
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,.45);
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-16 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="border-b border-zinc-900 sticky top-0 bg-zinc-950/90 backdrop-blur-md z-40">
+    <!-- Top bar -->
+    <div class="px-4 pt-4 pb-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="w-8 h-8 flex items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-400/40 transition-all">
+          <i class="fa-solid fa-arrow-left text-sm"></i>
+        </a>
+        <div>
+          <h1 class="text-sm font-bold leading-none tracking-wide">Kisah Kejayaan</h1>
+          <p class="text-[10px] text-zinc-500 mt-0.5 leading-none">Inspirasi & Pencapaian</p>
+        </div>
+      </div>
+
+      <!-- Coffee menu -->
+      <div class="relative">
+        <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+          class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
+          style="background:none; border:none; padding:0;">
+          <div class="coffee-cup-wrap">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+              <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+              <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24"/>
+              <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+        </button>
+
+        <div id="coffee-dropdown"
+          class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+          <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+            <i class="fa-solid fa-user-plus text-amber-400"></i>
+            <span>Daftar Percuma</span>
+          </button>
+          <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank"
+            class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+            <i class="fa-solid fa-comments text-amber-400"></i>
+            <span>Pertanyaan</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gold divider -->
+    <div class="gold-divider mx-4"></div>
+
+    <!-- Tab switcher -->
+    <div class="px-4 pt-2.5 pb-0">
+      <div class="relative flex bg-zinc-900/60 border border-zinc-800/60 rounded-xl p-1 gap-1">
+        <!-- Sliding background pill -->
+        <div id="tab-bg" class="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-amber-400 rounded-[10px] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md shadow-amber-400/20"></div>
+
+        <button id="tab-video" onclick="switchTab('video')"
+          class="relative z-10 flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-[10px] transition-colors duration-200 text-zinc-950">
+          <i class="fa-solid fa-play-circle text-[11px]"></i>
+          <span>Video</span>
+        </button>
+        <button id="tab-artikel" onclick="switchTab('artikel')"
+          class="relative z-10 flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-[10px] transition-colors duration-200 text-zinc-400">
+          <i class="fa-solid fa-newspaper text-[11px]"></i>
+          <span>Artikel</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Video sub-filters (shown only on video tab) -->
+    <div id="video-filters-wrapper" class="overflow-hidden transition-all duration-300" style="max-height:200px; opacity:1;">
+      <div class="px-4 pt-2.5 pb-3 space-y-2">
+        <div id="video-filter-bar" class="flex gap-1.5 overflow-x-auto pb-0.5 no-scrollbar"></div>
+        <div id="type-filter-bar" class="flex gap-1.5 overflow-x-auto pb-0.5 no-scrollbar"></div>
+      </div>
+    </div>
+
+    <!-- Artikel sub-filters (shown only on artikel tab) -->
+    <div id="artikel-filters-wrapper" class="overflow-hidden transition-all duration-300" style="max-height:0; opacity:0;">
+      <div class="px-4 pt-2.5 pb-3">
+        <div id="category-tabs-container" class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ PANELS ═══════════════ -->
+  <div class="overflow-hidden">
+    <div class="panel-wrap" id="panel-wrap">
+
+      <!-- VIDEO PANEL -->
+      <div class="panel">
+        <main class="p-4 space-y-5" id="video-container"></main>
+      </div>
+
+      <!-- ARTIKEL PANEL -->
+      <div class="panel">
+        <main class="p-4 space-y-4" id="artikel-list-container"></main>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════ DAFTAR MODAL ═══════════════ -->
+  <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4 shadow-2xl">
+      <div class="w-12 h-12 bg-amber-400/10 border border-amber-400/20 rounded-2xl flex items-center justify-center mx-auto">
+        <i class="fa-solid fa-user-plus text-amber-400 text-lg"></i>
+      </div>
+      <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
+      <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
+      <div class="space-y-3 pt-1">
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank"
+          class="flex items-center justify-center gap-2 w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">
+          <i class="fa-solid fa-user text-current opacity-70 text-xs"></i>
+          Dewasa (18 Tahun Ke Atas)
+        </a>
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank"
+          class="flex items-center justify-center gap-2 w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">
+          <i class="fa-solid fa-child text-current opacity-70 text-xs"></i>
+          Junior (17 Tahun Ke Bawah)
+        </a>
+      </div>
+      <button onclick="closeDaftarPopup()" class="text-xs text-zinc-500 hover:text-zinc-300 pt-1 block mx-auto underline transition-colors">Tutup</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script src="js/video-kisah-kejayaan.js"></script>
+  <script src="js/artikel-kisah-kejayaan.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    /* ────────────────────────────────────────────
+       TAB STATE
+    ──────────────────────────────────────────── */
+    let activeTab = "video";
+
+    function switchTab(tab) {
+      activeTab = tab;
+
+      const panelWrap  = document.getElementById("panel-wrap");
+      const tabBg      = document.getElementById("tab-bg");
+      const tabVideo   = document.getElementById("tab-video");
+      const tabArtikel = document.getElementById("tab-artikel");
+      const vFilters   = document.getElementById("video-filters-wrapper");
+      const aFilters   = document.getElementById("artikel-filters-wrapper");
+
+      if (tab === "video") {
+        panelWrap.style.transform  = "translateX(0%)";
+        tabBg.style.left           = "4px";
+        tabBg.style.right          = "";
+        tabVideo.classList.replace("text-zinc-400", "text-zinc-950");
+        tabArtikel.classList.replace("text-zinc-950", "text-zinc-400");
+
+        vFilters.style.maxHeight = "200px";
+        vFilters.style.opacity   = "1";
+        aFilters.style.maxHeight = "0";
+        aFilters.style.opacity   = "0";
+      } else {
+        panelWrap.style.transform  = "translateX(-100%)";
+        tabBg.style.left           = "calc(50% + 0px)";
+        tabArtikel.classList.replace("text-zinc-400", "text-zinc-950");
+        tabVideo.classList.replace("text-zinc-950", "text-zinc-400");
+
+        vFilters.style.maxHeight = "0";
+        vFilters.style.opacity   = "0";
+        aFilters.style.maxHeight = "200px";
+        aFilters.style.opacity   = "1";
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       COFFEE MENU
+    ──────────────────────────────────────────── */
+    function toggleCoffeeMenu() {
+      document.getElementById("coffee-dropdown").classList.toggle("show");
+    }
+    function triggerDaftarPopup() {
+      const dd = document.getElementById("coffee-dropdown");
+      if (dd) dd.classList.remove("show");
+      const modal = document.getElementById("daftar-pilihan-modal");
+      modal.classList.remove("hidden");
+      void modal.offsetWidth;
+      modal.classList.remove("opacity-0");
+    }
+    function closeDaftarPopup() {
+      const modal = document.getElementById("daftar-pilihan-modal");
+      modal.classList.add("opacity-0");
+      setTimeout(() => modal.classList.add("hidden"), 300);
+    }
+    window.addEventListener("click", (e) => {
+      const btn = document.getElementById("coffee-btn");
+      const dd  = document.getElementById("coffee-dropdown");
+      if (btn && dd && !btn.contains(e.target) && !dd.contains(e.target)) {
+        dd.classList.remove("show");
+      }
+    });
+
+    /* ────────────────────────────────────────────
+       VIDEO SECTION
+    ──────────────────────────────────────────── */
+    let currentVideoFilter = "all";
+    let currentTypeFilter  = "all";
+
+    const videoCategories = ["all", ...new Set(KISAH_KEJAYAAN_DATA.map(v => v.category))];
+
+    function buildVideoFilterBar() {
+      const bar = document.getElementById("video-filter-bar");
+      bar.innerHTML = "";
+      videoCategories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.innerText = cat === "all" ? "Semua Kisah"
+          : cat.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+        const active = cat === currentVideoFilter;
+        btn.className = active
+          ? "bg-amber-400 text-zinc-950 text-[10px] px-3 py-1.5 rounded-full font-bold whitespace-nowrap transition-all chip-active flex-shrink-0"
+          : "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-[10px] px-3 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all flex-shrink-0";
+        btn.onclick = () => { currentVideoFilter = cat; buildVideoFilterBar(); executeCombinedFilter(); };
+        bar.appendChild(btn);
+      });
+    }
+
+    function buildTypeFilterBar() {
+      const bar = document.getElementById("type-filter-bar");
+      bar.innerHTML = "";
+      const types = [
+        { id: "all",     label: "Semua Format",          icon: "fa-border-all" },
+        { id: "menegak", label: "Menegak (TikTok/Reels)", icon: "fa-mobile-screen-button" },
+        { id: "lurus",   label: "Lurus (YouTube)",        icon: "fa-desktop" }
+      ];
+      types.forEach(type => {
+        const btn = document.createElement("button");
+        btn.innerHTML = `<i class="fa-solid ${type.icon} mr-1 opacity-80 text-[9px]"></i>${type.label}`;
+        const active = type.id === currentTypeFilter;
+        btn.className = active
+          ? "bg-amber-400 text-zinc-950 text-[10px] px-3 py-1.5 rounded-full font-bold whitespace-nowrap transition-all chip-active flex-shrink-0"
+          : "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-[10px] px-3 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all flex-shrink-0";
+        btn.onclick = () => { currentTypeFilter = type.id; buildTypeFilterBar(); executeCombinedFilter(); };
+        bar.appendChild(btn);
+      });
+    }
+
+    function executeCombinedFilter() { renderVideos(currentVideoFilter, currentTypeFilter); }
+
+    function renderVideos(catFilter, typeFilter) {
+      const container = document.getElementById("video-container");
+      container.innerHTML = "";
+
+      const filtered = KISAH_KEJAYAAN_DATA.filter(v => {
+        const matchCat  = catFilter === "all" || v.category === catFilter;
+        let matchType   = true;
+        if (typeFilter === "menegak") matchType = v.embedCode.includes("tiktok.com") || v.embedCode.includes("shorts");
+        else if (typeFilter === "lurus") matchType = v.embedCode.includes("youtube.com") && !v.embedCode.includes("shorts");
+        return matchCat && matchType;
+      });
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div class="text-center py-16 space-y-3">
+            <div class="w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mx-auto">
+              <i class="fa-solid fa-video-slash text-zinc-600 text-xl"></i>
+            </div>
+            <p class="text-xs text-zinc-500">Tiada video ditemui untuk paparan ini.</p>
+          </div>`;
+        return;
+      }
+
+      filtered.forEach(video => {
+        const card = document.createElement("div");
+        card.className = "bg-zinc-900 border border-zinc-800/80 rounded-2xl overflow-hidden shadow-md card-lift";
+        card.id = video.id;
+        card.innerHTML = `
+          <div class="overflow-hidden bg-zinc-950">
+            ${video.embedCode}
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] font-bold text-amber-400 uppercase tracking-widest bg-amber-400/8 border border-amber-400/15 px-2 py-0.5 rounded-md">
+                ${video.category.replace(/-/g, " ")}
+              </span>
+              <button onclick="copyGlobalLink('Kisah-Kejayaan.html#${video.id}')"
+                class="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1 transition-colors">
+                <i class="fa-solid fa-copy text-[9px]"></i> Kongsi
+              </button>
+            </div>
+            <h3 class="text-sm font-bold leading-snug text-zinc-100">${video.title}</h3>
+          </div>`;
+        container.appendChild(card);
+      });
+    }
+
+    /* ────────────────────────────────────────────
+       ARTIKEL SECTION
+    ──────────────────────────────────────────── */
+    let currentActiveCategory = "Semua";
+
+    function renderCategoryTabs() {
+      const tabsContainer = document.getElementById("category-tabs-container");
+      const categories = ["Semua", ...new Set(ARTIKEL_KISAH_KEJAYAAN.map(art => art.category))];
+      tabsContainer.innerHTML = "";
+
+      categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.innerText = cat;
+        const active = cat === currentActiveCategory;
+        btn.className = active
+          ? "text-[10px] font-bold text-zinc-950 bg-amber-400 px-3.5 py-1.5 rounded-full border border-amber-400 whitespace-nowrap flex-shrink-0 chip-active"
+          : "text-[10px] font-medium text-zinc-400 bg-zinc-900 px-3.5 py-1.5 rounded-full border border-zinc-800/60 hover:text-zinc-200 hover:border-zinc-700 transition-all whitespace-nowrap flex-shrink-0";
+        btn.onclick = () => { currentActiveCategory = cat; renderCategoryTabs(); renderArticles(); };
+        tabsContainer.appendChild(btn);
+      });
+    }
+
+    function renderArticles() {
+      const container = document.getElementById("artikel-list-container");
+      container.innerHTML = "";
+
+      const filtered = currentActiveCategory === "Semua"
+        ? ARTIKEL_KISAH_KEJAYAAN
+        : ARTIKEL_KISAH_KEJAYAAN.filter(art => art.category === currentActiveCategory);
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div class="text-center py-16 space-y-3">
+            <div class="w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mx-auto">
+              <i class="fa-solid fa-newspaper text-zinc-600 text-xl"></i>
+            </div>
+            <p class="text-xs text-zinc-500">Tiada artikel ditemui.</p>
+          </div>`;
+        return;
+      }
+
+      filtered.forEach(art => {
+        const box = document.createElement("div");
+        box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 card-lift";
+        box.id = art.id;
+        box.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-2.5">
+              <span class="text-[9px] font-bold text-amber-400 uppercase tracking-widest bg-amber-400/8 border border-amber-400/15 px-2 py-0.5 rounded-md">${art.category}</span>
+              <span class="text-[10px] text-zinc-500 font-medium">Oleh: ${art.author}</span>
+            </div>
+            <h3 class="text-sm font-bold text-zinc-100 leading-snug">${art.title}</h3>
+            <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
+          </div>
+          <div class="flex justify-between items-center pt-3 border-t border-zinc-800/60">
+            <button onclick="copyGlobalLink('Kisah-Kejayaan.html#${art.id}')"
+              class="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1.5 transition-colors font-medium">
+              <i class="fa-solid fa-copy text-[9px]"></i> Salin
+            </button>
+            <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors shadow-sm shadow-amber-400/20">
+              Baca Penuh
+            </a>
+          </div>`;
+        container.appendChild(box);
+      });
+    }
+
+    /* ────────────────────────────────────────────
+       HASH HIGHLIGHT
+    ──────────────────────────────────────────── */
+    function handleHashHighlight() {
+      const hash = window.location.hash;
+      if (!hash) return;
+      const targetId = hash.replace("#", "");
+
+      // Try video first
+      const linkedVideo = KISAH_KEJAYAAN_DATA.find(v => v.id === targetId);
+      if (linkedVideo) {
+        if (activeTab !== "video") switchTab("video");
+        if (currentVideoFilter !== "all" && currentVideoFilter !== linkedVideo.category) {
+          currentVideoFilter = linkedVideo.category;
+          buildVideoFilterBar();
+          executeCombinedFilter();
+        }
+        setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (!el) return;
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.classList.add("video-highlight-anim");
+          el.addEventListener("animationend", () => el.classList.remove("video-highlight-anim"), { once: true });
+        }, 400);
+        return;
+      }
+
+      // Try artikel
+      const linkedArt = ARTIKEL_KISAH_KEJAYAAN.find(a => a.id === targetId);
+      if (linkedArt) {
+        if (activeTab !== "artikel") switchTab("artikel");
+        if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArt.category) {
+          currentActiveCategory = linkedArt.category;
+          renderCategoryTabs();
+          renderArticles();
+        }
+        setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (!el) return;
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.classList.add("highlight-pulse");
+          setTimeout(() => el.classList.remove("highlight-pulse"), 4200);
+        }, 400);
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       INIT
+    ──────────────────────────────────────────── */
+    buildVideoFilterBar();
+    buildTypeFilterBar();
+    executeCombinedFilter();
+    renderCategoryTabs();
+    renderArticles();
+
+    document.addEventListener("DOMContentLoaded", handleHashHighlight);
+    window.addEventListener("hashchange", handleHashHighlight);
+  </script>
+</body>
+</html>
