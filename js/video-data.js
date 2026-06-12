@@ -130,7 +130,7 @@ const VIDEO_DATA = [
   {
     id: "check-point-kewangan-1-aliran-tunai-positif",
     title: "Check Point Kewangan : (1) Aliran Tunai Positif",
-    category: "ilmu-emas",
+    category: "ilmu-kewangan",
     type: "youtube",
     embedCode: `<iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/mCCHL-VyNRA?si=tFPMvSsDFiCFTun-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
   },
