@@ -24,6 +24,6 @@ const ARTIKEL_KISAH_KEJAYAAN = [
     author: "Shara Ismail",
     category: "Usahawan",
     summary: "Inspirasi Bagaimana Membina Empayar Pasif Income 5 Angka Melalui Ilmu Emas.",
-    path: "kandungan-artikel-kisah-kejayaan/rahman-ismail.html"
+    path: "kandungan-artikel-kisah-kejayaan/shara-ismail.html"
   }
 ];
