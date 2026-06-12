@@ -33,38 +33,53 @@
         <a href="../index.html" class="text-amber-400 font-black text-xl tracking-wider uppercase flex items-center gap-2">
             <i class="fa-solid fa-chevron-left text-sm text-gray-400"></i> Ilmu Emas
         </a>
-        <span class="text-xs bg-zinc-800 px-2 py-1 rounded text-zinc-400 font-medium border border-zinc-700">Semua Jadual</span>
+        <span class="text-xs bg-zinc-800 px-2 py-1 rounded text-zinc-400 font-medium border border-zinc-700">Jadual Terkini & LIVE</span>
     </nav>
 
     <main class="max-w-md mx-auto px-4 pt-6 md:max-w-xl pb-16">
         <header class="mb-8">
             <h1 class="text-2xl font-extrabold text-white">Log Makluman & Talkshow</h1>
-            <p class="text-xs text-gray-500 mt-1">Disusun mengikut jadual terawal dan terdekat.</p>
+            <p class="text-xs text-gray-500 mt-1">Hanya memaparkan program akan datang dan yang sedang berlangsung.</p>
         </header>
 
         <div class="space-y-4" id="makluman-container">
             </div>
     </main>
 
-    <script src="../js/program-data.js"></script>
-    <script src="../js/talkshow-data.js"></script>
+    <script>
+        const timestamp = new Date().getTime();
+        
+        const scriptProg = document.createElement('script');
+        scriptProg.src = "../js/program-data.js?v=" + timestamp;
+        document.head.appendChild(scriptProg);
+
+        const scriptTalk = document.createElement('script');
+        scriptTalk.src = "../js/talkshow-data.js?v=" + timestamp;
+        document.head.appendChild(scriptTalk);
+    </script>
 
     <script>
         let countdownInterval;
 
-        // FUNGSI UTAMA: MENGIRA UNDURAN MASA SECARA REAL-TIME
-        function getCountdownString(targetDateStr) {
-            if (!targetDateStr) return "<span class='text-zinc-600'><i class='fa-regular fa-clock mr-1'></i>Masa Tiada</span>";
+        // FUNGSI UTAMA: MENGIRA UNDURAN MASA & SEMAK STATUS AKTIF
+        function checkEventStatus(targetDateStr) {
+            if (!targetDateStr) return { html: "<span class='text-zinc-600'><i class='fa-regular fa-clock mr-1'></i>Masa Tiada</span>", isExpired: true };
             
             const targetTime = new Date(targetDateStr).getTime();
             const now = new Date().getTime();
             const difference = targetTime - now;
 
+            // Jika masa program sudah berlalu
             if (difference <= 0) {
-                if (difference > -10800000) { // Masih LIVE dalam tempoh 3 jam
-                    return "<span class='text-emerald-400 inline-flex items-center gap-1 bg-emerald-400/5 px-2 py-0.5 rounded border border-emerald-400/10 text-[10px]'><span class='w-1 h-1 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>";
+                // Selesai dalam tempoh 3 jam (10,800,000 ms) dianggap masih LIVE sekarang
+                if (difference > -10800000) {
+                    return { 
+                        html: "<span class='text-emerald-400 inline-flex items-center gap-1 bg-emerald-400/5 px-2 py-0.5 rounded border border-emerald-400/10 text-[10px]'><span class='w-1 h-1 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>", 
+                        isExpired: false 
+                    };
                 }
-                return "<span class='text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800/80 text-[10px] uppercase font-medium tracking-wider'>Selesai</span>";
+                // Jika sudah lebih dari 3 jam, status dikira Expired (Selesai)
+                return { html: "", isExpired: true };
             }
 
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -76,10 +91,13 @@
             if (days > 0) countdownText += `${days}h `;
             countdownText += `${hours.toString().padStart(2, '0')}j ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
 
-            return `<span class="text-amber-400/90 font-mono text-[11px] font-semibold bg-amber-400/5 px-2 py-0.5 rounded border border-amber-400/10 inline-flex items-center gap-1"><i class="fa-regular fa-clock text-[9px]"></i> Mula: ${countdownText}</span>`;
+            return { 
+                html: `<span class="text-amber-400/90 font-mono text-[11px] font-semibold bg-amber-400/5 px-2 py-0.5 rounded border border-amber-400/10 inline-flex items-center gap-1"><i class="fa-regular fa-clock text-[9px]"></i> Mula: ${countdownText}</span>`, 
+                isExpired: false 
+            };
         }
 
-        // FUNGSI UTAMA: GABUNG, SUSUN, DAN PAPAR KAD
+        // FUNGSI UTAMA: GABUNG, TAPIS, SUSUN KRONOLOGI, DAN PAPAR
         function renderGabunganCards() {
             const container = document.getElementById('makluman-container');
             if (!container) return;
@@ -88,41 +106,50 @@
             const senaraiProgram = typeof programData !== 'undefined' ? programData : [];
             const senaraiTalkshow = typeof talkshowData !== 'undefined' ? talkshowData : [];
 
-            // 1. GABUNGKAN KEDUA-DUA DATA MENJADI SATU ARRAY
+            // 1. GABUNGKAN DATA
             let gabunganData = [...senaraiProgram, ...senaraiTalkshow];
 
-            // 2. SUSUN DATA: UTAMAKAN TARIKH TERAWAL
-            // Mengambil kira kemungkinan atribut bernama 'date' atau 'dateMula'
-            gabunganData.sort((a, b) => {
+            // 2. TAPIS DATA AUTOmatic (Buang yang sudah 'Expired/Selesai/Siaran Ulang')
+            let dataAktif Sahaja = gabunganData.filter(item => {
+                const tarikhEksplisit = item.date || item.dateMula;
+                const status = checkEventStatus(tarikhEksplisit);
+                return !status.isExpired; // Hanya simpan jika isExpired = false
+            });
+
+            // 3. SUSUN DATA KRONOLOGI (Tarikh terawal/paling dekat berada di atas sekali)
+            dataAktifSahaja.sort((a, b) => {
                 const tarikhA = a.date || a.dateMula;
                 const tarikhB = b.date || b.dateMula;
-                
                 const dateA = tarikhA ? new Date(tarikhA).getTime() : Infinity;
                 const dateB = tarikhB ? new Date(tarikhB).getTime() : Infinity;
                 return dateA - dateB;
             });
 
-            if (gabunganData.length === 0) {
-                container.innerHTML = `<p class="text-xs text-zinc-600 text-center py-8">Tiada makluman atau talkshow buat masa ini.</p>`;
+            // Jika tiada langsung program yang aktif/LIVE
+            if (dataAktifSahaja.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 border border-dashed border-zinc-800 rounded-2xl bg-zinc-900/20">
+                        <i class="fa-solid fa-calendar-xmark text-zinc-600 text-2xl mb-2 block"></i>
+                        <p class="text-xs text-zinc-500">Tiada program atau talkshow terkini buat masa ini.</p>
+                    </div>`;
                 return;
             }
 
-            // 3. JANA HTML UNTUK SETIAP KAD YANG DAH DISUSUN
-            gabunganData.forEach(item => {
+            // 4. JANA HTML KAD
+            dataAktifSahaja.forEach(item => {
                 const card = document.createElement('div');
                 card.className = "bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 shadow-xl backdrop-blur-sm hover:border-zinc-700/80 transition-all duration-300 flex flex-col justify-between";
                 
-                // Mengesan pautan butang dinamik (linkLanjut / linkLive untuk talkshow atau link biasa untuk program)
                 const pautanAktif = item.link || item.linkLanjut || '#';
                 const tarikhEksplisit = item.date || item.dateMula || '';
-                const countdownHTML = getCountdownString(tarikhEksplisit);
+                const status = checkEventStatus(tarikhEksplisit);
 
                 card.innerHTML = `
                     <div>
                         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
                             <h3 class="text-sm font-bold text-white leading-snug">${item.title}</h3>
                             <div class="card-countdown-ticker shrink-0" data-date="${tarikhEksplisit}">
-                                ${countdownHTML}
+                                ${status.html}
                             </div>
                         </div>
                         <p class="text-xs text-zinc-500 leading-relaxed text-justify">
@@ -139,20 +166,34 @@
             });
         }
 
-        // ENGINE LIVE REFRESH COUNTDOWN
+        // ENGINE LIVE REFRESH COUNTDOWN SETIAP SAAT
         function startLiveCountdowns() {
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
+                let adaYangExpired = false;
+
                 document.querySelectorAll('.card-countdown-ticker').forEach(el => {
                     const targetDate = el.getAttribute('data-date');
                     if (targetDate) {
-                        el.innerHTML = getCountdownString(targetDate);
+                        const status = checkEventStatus(targetDate);
+                        // Jika semasa sedang dibuka, ada event yang bertukar status jadi 'Expired/Selesai'
+                        if (status.isExpired) {
+                            adaYangExpired = true;
+                        } else {
+                            el.innerHTML = status.html;
+                        }
                     }
                 });
+
+                // Jika ada program bertukar selesai, jalankan semula render untuk padam kad tersebut secara real-time
+                if (adaYangExpired) {
+                    renderGabunganCards();
+                }
             }, 1000);
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        // Jalankan sistem selepas kedua-dua fail JS selamat dimuatkan
+        window.addEventListener('load', () => {
             renderGabunganCards();
             startLiveCountdowns();
         });
