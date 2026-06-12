@@ -109,6 +109,67 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 28px rgba(0,0,0,.45);
     }
+
+    /* ── Coffee Bubble ── */
+    #coffee-bubble {
+      position: absolute;
+      right: 44px;
+      top: 50%;
+      transform: translateY(-50%) scale(0.85);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1), transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      z-index: 60;
+    }
+    #coffee-bubble.bubble-show {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+    #coffee-bubble .bubble-inner {
+      background: linear-gradient(135deg, #1c1917 0%, #292524 100%);
+      border: 1px solid rgba(251,191,36,0.45);
+      border-radius: 20px 20px 4px 20px;
+      padding: 7px 13px 7px 11px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow:
+        0 0 0 1px rgba(251,191,36,0.08),
+        0 4px 20px rgba(0,0,0,0.55),
+        0 0 18px rgba(251,191,36,0.12);
+    }
+    #coffee-bubble .bubble-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fbbf24;
+      box-shadow: 0 0 6px rgba(251,191,36,0.8);
+      flex-shrink: 0;
+      animation: bubble-dot-pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes bubble-dot-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.75); }
+    }
+    #coffee-bubble .bubble-text {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #fef3c7;
+      line-height: 1;
+    }
+    #coffee-bubble .bubble-tail {
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 6px solid rgba(251,191,36,0.45);
+    }
   </style>
 </head>
 <body class="min-h-screen pb-16 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
@@ -141,6 +202,15 @@
             </svg>
           </div>
         </button>
+
+        <!-- Coffee Bubble -->
+        <div id="coffee-bubble">
+          <div class="bubble-inner">
+            <span class="bubble-dot"></span>
+            <span class="bubble-text">Nak Simpan Emas?</span>
+            <div class="bubble-tail"></div>
+          </div>
+        </div>
 
         <div id="coffee-dropdown"
           class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
@@ -247,7 +317,7 @@
     ──────────────────────────────────────────── */
     let activeTab = "video";
 
-    function switchTab(tab) {
+    function switchTab(tab, pushState) {
       activeTab = tab;
 
       const panelWrap  = document.getElementById("panel-wrap");
@@ -279,6 +349,30 @@
         aFilters.style.maxHeight = "200px";
         aFilters.style.opacity   = "1";
       }
+
+      /* ── Update URL hash for tab link sharing ── */
+      if (pushState !== false) {
+        const newHash = "#" + tab;
+        if (window.location.hash !== newHash) {
+          history.replaceState(null, "", newHash);
+        }
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       TAB HASH ROUTING (#video / #artikel)
+    ──────────────────────────────────────────── */
+    function resolveTabFromHash() {
+      const hash = window.location.hash.replace("#", "").toLowerCase();
+      if (hash === "artikel") {
+        switchTab("artikel", false);
+        return true;
+      }
+      if (hash === "video") {
+        switchTab("video", false);
+        return true;
+      }
+      return false;
     }
 
     /* ────────────────────────────────────────────
@@ -307,6 +401,53 @@
         dd.classList.remove("show");
       }
     });
+
+    /* ────────────────────────────────────────────
+       COFFEE BUBBLE  — muncul 5s, ulang 10s
+    ──────────────────────────────────────────── */
+    (function initCoffeeBubble() {
+      const bubble   = document.getElementById("coffee-bubble");
+      const coffeeBtn = document.getElementById("coffee-btn");
+      let bubbleTimer = null;
+      let dismissed   = false;
+
+      function showBubble() {
+        if (dismissed) return;
+        bubble.classList.add("bubble-show");
+        bubbleTimer = setTimeout(() => {
+          hideBubble();
+        }, 3500); // kekal nampak ~3.5s sebelum fade
+      }
+
+      function hideBubble() {
+        bubble.classList.remove("bubble-show");
+      }
+
+      function scheduleBubble(delayMs) {
+        setTimeout(() => {
+          showBubble();
+          // Ulang setiap 10 saat selepas muncul pertama
+          if (!dismissed) {
+            setInterval(() => { showBubble(); }, 10000);
+          }
+        }, delayMs);
+      }
+
+      // Muncul 5 saat selepas halaman dimuatkan
+      scheduleBubble(5000);
+
+      // Klik pada coffee button — sembunyi bubble, tidak ulang lagi semasa dropdown terbuka
+      coffeeBtn.addEventListener("click", () => {
+        dismissed = false; // masih benarkan ulang
+        hideBubble();
+      });
+
+      // Klik pada bubble sendiri — buka dropdown
+      bubble.addEventListener("click", () => {
+        hideBubble();
+        document.getElementById("coffee-dropdown").classList.add("show");
+      }, true);
+    })();
 
     /* ────────────────────────────────────────────
        VIDEO SECTION
@@ -476,10 +617,13 @@
       if (!hash) return;
       const targetId = hash.replace("#", "");
 
+      /* Tab-only hashes — handled by resolveTabFromHash, skip highlight */
+      if (targetId === "video" || targetId === "artikel") return;
+
       // Try video first
       const linkedVideo = KISAH_KEJAYAAN_DATA.find(v => v.id === targetId);
       if (linkedVideo) {
-        if (activeTab !== "video") switchTab("video");
+        if (activeTab !== "video") switchTab("video", false);
         if (currentVideoFilter !== "all" && currentVideoFilter !== linkedVideo.category) {
           currentVideoFilter = linkedVideo.category;
           buildVideoFilterBar();
@@ -498,7 +642,7 @@
       // Try artikel
       const linkedArt = ARTIKEL_KISAH_KEJAYAAN.find(a => a.id === targetId);
       if (linkedArt) {
-        if (activeTab !== "artikel") switchTab("artikel");
+        if (activeTab !== "artikel") switchTab("artikel", false);
         if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArt.category) {
           currentActiveCategory = linkedArt.category;
           renderCategoryTabs();
@@ -524,10 +668,18 @@
     renderArticles();
 
     // Memastikan data dipaparkan dahulu, kemudian tunggu 300ms sebelum skrol automatik
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(handleHashHighlight, 300);
-});
-window.addEventListener("hashchange", handleHashHighlight);
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Resolve tab dari hash (#video / #artikel) dahulu
+      const isTabHash = resolveTabFromHash();
+      // 2. Kemudian buat highlight jika ada ID spesifik
+      setTimeout(() => {
+        if (!isTabHash) handleHashHighlight();
+      }, 300);
+    });
+    window.addEventListener("hashchange", () => {
+      resolveTabFromHash();
+      handleHashHighlight();
+    });
   </script>
 </body>
 </html>
