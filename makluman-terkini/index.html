@@ -10,12 +10,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #09090b; }
-        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #09090b;
+        }
         /* Custom Scrollbar Premium Fintech */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #09090b; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body class="bg-zinc-950 text-gray-400 min-h-screen">
@@ -24,24 +34,44 @@
         <a href="../index.html" class="text-amber-400 font-black text-xl tracking-wider uppercase flex items-center gap-2">
             <i class="fa-solid fa-chevron-left text-sm text-gray-400"></i> Ilmu Emas
         </a>
+        <div class="flex gap-2 text-xs">
+            <a href="?type=program" id="btn-program" class="px-2 py-1 rounded border border-zinc-800 hover:border-amber-400 transition">Program</a>
+            <a href="?type=talkshow" id="btn-talkshow" class="px-2 py-1 rounded border border-zinc-800 hover:border-amber-400 transition">Talkshow</a>
+        </div>
     </nav>
 
     <main class="max-w-md mx-auto px-4 pt-6 md:max-w-xl pb-16">
         <header class="mb-8">
-            <h1 class="text-2xl font-extrabold text-white">Log Makluman Terkini</h1>
-            <p class="text-xs text-gray-500 mt-1">Info terbaru dan makluman terkini.</p>
+            <h1 id="main-title" class="text-2xl font-extrabold text-white">Log Makluman Terkini</h1>
+            <p id="main-subtitle" class="text-xs text-gray-500 mt-1">Info terbaru dan makluman terkini.</p>
         </header>
 
         <div class="space-y-4" id="makluman-container">
             </div>
     </main>
 
-    <script src="../js/program-data.js"></script>
-    
     <script>
+        // 1. SEMAK URL PARAMETER UNTUK TENTUKAN SUMBER DATA
+        const urlParams = new URLSearchParams(window.location.search);
+        const programType = urlParams.get('type') || 'program'; // Default ialah 'program' jika tiada parameter
+
+        // Tukar rupa butang aktif & Tajuk berdasarkan jenis program
+        if (programType === 'talkshow') {
+            document.getElementById('btn-talkshow').classList.add('bg-amber-400/10', 'text-amber-400', 'border-amber-400/20');
+            document.getElementById('main-title').innerText = "Log Talkshow Terkini";
+            document.getElementById('main-subtitle').innerText = "Info terbaru dan jadual talkshow terkini.";
+        } else {
+            document.getElementById('btn-program').classList.add('bg-amber-400/10', 'text-amber-400', 'border-amber-400/20');
+        }
+
+        // 2. SUNTIK FAIL JS YANG BETUL KE DALAM HTML SECARA DINAMIK
+        const scriptElement = document.createElement('script');
+        scriptElement.src = programType === 'talkshow' ? '../js/talkshow-data.js' : '../js/program-data.js';
+        document.head.appendChild(scriptElement);
+
         let countdownInterval;
 
-        // FUNGSI UTAMA: MENGIRA UNDURAN MASA SECARA REAL-TIME DENGAN FORMAT FINTECH PREMIUM
+        // FUNGSI UTAMA: MENGIRA UNDURAN MASA SECARA REAL-TIME
         function getCountdownString(targetDateStr) {
             if (!targetDateStr) return "<span class='text-zinc-600'><i class='fa-regular fa-clock mr-1'></i>Masa Tiada</span>";
             
@@ -52,7 +82,7 @@
             // Jika masa program sudah berlalu
             if (difference <= 0) {
                 // Selesai dalam tempoh 3 jam dianggap masih LIVE sekarang
-                if (difference > -10800000) { 
+                if (difference > -10800000) {
                     return "<span class='text-emerald-400 inline-flex items-center gap-1 bg-emerald-400/5 px-2 py-0.5 rounded border border-emerald-400/10 text-[10px]'><span class='w-1 h-1 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>";
                 }
                 return "<span class='text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800/80 text-[10px] uppercase font-medium tracking-wider'>Selesai</span>";
@@ -70,14 +100,13 @@
             return `<span class="text-amber-400/90 font-mono text-[11px] font-semibold bg-amber-400/5 px-2 py-0.5 rounded border border-amber-400/10 inline-flex items-center gap-1"><i class="fa-regular fa-clock text-[9px]"></i> Mula: ${countdownText}</span>`;
         }
 
-        // FUNGSI UTAMA: MENJANA PAPARAN KAD BERPANDUKAN DATA PROGRAM-DATA.JS
+        // FUNGSI UTAMA: MENJANA PAPARAN KAD
         function renderMaklumanCards() {
             const container = document.getElementById('makluman-container');
             if (!container) return;
-            
             container.innerHTML = '';
 
-            // Semak sekiranya data tersedia
+            // Semak sekiranya data tersedia (pastikan nama variable dalam fail talkshow-data.js juga menggunakan 'programData')
             if (typeof programData === 'undefined' || programData.length === 0) {
                 container.innerHTML = `<p class="text-xs text-zinc-600 text-center py-8">Tiada makluman terkini buat masa ini.</p>`;
                 return;
@@ -87,7 +116,6 @@
                 const card = document.createElement('div');
                 card.className = "bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 shadow-xl backdrop-blur-sm hover:border-zinc-700/80 transition-all duration-300 flex flex-col justify-between";
                 
-                // Ambil nilai pengiraan masa terkini
                 const countdownHTML = getCountdownString(item.date);
 
                 card.innerHTML = `
@@ -102,11 +130,9 @@
                             ${item.caption}
                         </p>
                     </div>
-                    
                     <div class="mt-4 pt-3 border-t border-zinc-800/60 flex justify-end">
                         <a href="${item.link || '#'}" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-400 bg-amber-400/10 hover:bg-amber-400 hover:text-zinc-950 px-3 py-1.5 rounded-lg transition-all duration-200 group">
-                            Lihat 
-                            <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                            Lihat <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
                         </a>
                     </div>
                 `;
@@ -114,10 +140,9 @@
             });
         }
 
-        // ENGINE LIVE REFRESH UNTUK DETIK COUNTDOWN SETIAP SAAT SECARA BERTERUSAN
+        // ENGINE LIVE REFRESH COUNTDOWN
         function startLiveCountdowns() {
             if (countdownInterval) clearInterval(countdownInterval);
-            
             countdownInterval = setInterval(() => {
                 document.querySelectorAll('.card-countdown-ticker').forEach(el => {
                     const targetDate = el.getAttribute('data-date');
@@ -128,11 +153,11 @@
             }, 1000);
         }
 
-        // Jalankan semua modul sebaik sahaja struktur halaman siap dimuatkan
-        window.addEventListener('DOMContentLoaded', () => {
+        // Jalankan render hanya SELEPAS fail data JS selesai dimuatkan sepenuhnya
+        scriptElement.onload = () => {
             renderMaklumanCards();
             startLiveCountdowns();
-        });
+        };
     </script>
 </body>
 </html>
