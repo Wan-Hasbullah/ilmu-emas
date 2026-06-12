@@ -386,23 +386,69 @@
   <script src="js/program-data.js"></script>
 
   <script>
-    /* ── Makluman Terkini: Render dari programData ── */
-    document.addEventListener("DOMContentLoaded", function renderMakluman() {
-      const container = document.getElementById("makluman-container");
-      if (!container || typeof programData === "undefined") return;
+    const timestampHome = new Date().getTime();
+    
+    const scriptP = document.createElement('script');
+    scriptP.src = "js/program-data.js?v=" + timestampHome;
+    document.head.appendChild(scriptP);
 
-      const items = programData.slice(0, 2);
+    const scriptT = document.createElement('script');
+    scriptT.src = "js/talkshow-data.js?v=" + timestampHome;
+    document.head.appendChild(scriptT);
+  </script>
+
+  <script>
+    /* ── Makluman Terkini: Render Gabungan dari programData & talkshowData ── */
+    window.addEventListener("load", function renderMakluman() {
+      const container = document.getElementById("makluman-container");
+      if (!container) return;
+      container.innerHTML = ''; // Bersihkan container asal
+
+      const dataProg = typeof programData !== 'undefined' ? programData : [];
+      const dataTalk = typeof talkshowData !== 'undefined' ? talkshowData : [];
+
+      // 1. Gabungkan kedua-dua fail data
+      let gabungData = [...dataProg, ...dataTalk];
+
+      // 2. Tapis: Buang program yang sudah tamat sepenuhnya (Melebihi 3 jam selepas waktu mula)
+      let aktifSahaja = gabungData.filter(item => {
+        const targetDate = new Date(item.date || item.dateMula);
+        const now = new Date();
+        // Selesai dalam tempoh 3 jam (10,800,000 ms) masih dianggap aktif/LIVE
+        return (targetDate - now) > -10800000;
+      });
+
+      // 3. Susun mengikut kronologi (Tarikh terawal/paling dekat diletakkan di atas sekali)
+      aktifSahaja.sort((a, b) => {
+        const dateA = new Date(a.date || a.dateMula).getTime();
+        const dateB = new Date(b.date || b.dateMula).getTime();
+        return dateA - dateB;
+      });
+
+      // 4. Hadkan paparan kepada 2 kad teratas sahaja untuk halaman utama
+      const items = aktifSahaja.slice(0, 2);
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-zinc-600 text-xs border border-dashed border-zinc-800 rounded-2xl mx-4">
+            Tiada makluman atau program terkini buat masa ini.
+          </div>`;
+        return;
+      }
 
       items.forEach((item, idx) => {
         const isLast = idx === items.length - 1;
-        const targetDate = new Date(item.date);
+        const tarikhAsal = item.date || item.dateMula;
+        const targetDate = new Date(tarikhAsal);
         const countdownId = "countdown-" + item.id;
+        const pautanAktif = item.link || item.linkLanjut || '#';
 
-        const categoryColor = item.category.startsWith("G100")
+        // Mengekalkan logik warna kategori asal anda
+        const categoryColor = item.category && item.category.startsWith("G100")
           ? "text-amber-400 bg-amber-400/10 border border-amber-400/20"
           : "text-cyan-400 bg-cyan-400/10 border border-cyan-400/20";
 
-        const iconHtml = item.category.startsWith("G100")
+        const iconHtml = item.category && item.category.startsWith("G100")
           ? `<i class="fa-solid fa-tower-broadcast text-[9px]"></i>`
           : `<i class="fa-solid fa-graduation-cap text-[9px]"></i>`;
 
@@ -416,20 +462,19 @@
               <div class="space-y-1.5 flex-1 min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
                   <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${categoryColor}">
-                    ${iconHtml} ${item.category}
+                    ${iconHtml} ${item.category || 'INFO'}
                   </span>
                 </div>
                 <h4 class="text-sm font-bold text-zinc-100 group-hover:text-amber-400 transition-colors line-clamp-2 leading-snug">${item.title}</h4>
                 <p class="text-xs text-zinc-500/80 leading-relaxed line-clamp-2">${item.caption}</p>
 
-                <!-- Countdown -->
                 <div id="${countdownId}" class="mt-2 flex items-center gap-1.5 flex-wrap">
                   <i class="fa-regular fa-clock text-[10px] text-zinc-600"></i>
                   <span class="text-[10px] text-zinc-500 font-medium countdown-label">Mengira...</span>
                 </div>
               </div>
 
-              <a href="${item.link}" target="_blank"
+              <a href="${pautanAktif}" target="_blank"
                 class="p-2 bg-zinc-800/60 hover:bg-amber-400 hover:text-zinc-950 rounded-xl text-amber-400 transition-all flex-shrink-0 mt-0.5">
                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
               </a>
@@ -440,7 +485,7 @@
 
         container.insertAdjacentHTML("beforeend", block);
 
-        // Start countdown for this item
+        // Fungsi countdown real-time asal anda dengan sokongan status LIVE
         function updateCountdown() {
           const el = document.querySelector(`#${countdownId} .countdown-label`);
           if (!el) return;
@@ -449,8 +494,15 @@
           const diff = targetDate - now;
 
           if (diff <= 0) {
-            el.textContent = "Selesai";
-            el.closest("div").querySelector("i").className = "fa-solid fa-circle text-[8px] text-emerald-400 animate-pulse";
+            if (diff > -10800000) { // Jika dalam tempoh 3 jam waktu siaran
+              el.textContent = "LIVE SEKARANG";
+              el.className = "text-[10px] font-bold text-emerald-400 countdown-label animate-pulse";
+              el.closest("div").querySelector("i").className = "fa-solid fa-circle text-[8px] text-emerald-400 animate-pulse";
+            } else {
+              // Jika sudah tamat sepenuhnya, jalankan renderSemula untuk hilangkan kad ini secara automatik
+              renderMakluman();
+              return;
+            }
             return;
           }
 
@@ -467,7 +519,7 @@
 
           el.textContent = label;
 
-          // Colour urgency
+          // Pengekalan logik warna kecemasan (urgency) asal anda
           if (diff < 3600000) {
             el.className = "text-[10px] font-bold text-rose-400 countdown-label";
           } else if (diff < 86400000) {
@@ -481,7 +533,7 @@
 
         updateCountdown();
       });
-    })();
+    });
   </script>
 
   <script>
