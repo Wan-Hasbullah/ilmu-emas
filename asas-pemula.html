@@ -23,7 +23,8 @@
 
     /* ── Panel Slide ── */
     .panel-wrap { display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform; }
-    .panel { flex:0 0 100%;min-width:0; }
+    .panel { flex:0 0 100%;min-width:0;overflow:hidden; }
+    .panel:not(.panel-active) { pointer-events:none; }
 
     /* ── Scrollbar hide ── */
     .no-scrollbar::-webkit-scrollbar { display:none; }
@@ -140,10 +141,10 @@
     .m-video-pill i { font-size: 9px; }
 
     /* Divider */
-    .m-divider { height:1px; background: linear-gradient(90deg,transparent,rgba(212,175,55,.2),transparent); margin: 4px 24px 20px; }
+    .m-divider { height:1px; background: linear-gradient(90deg,transparent,rgba(212,175,55,.2),transparent); margin: 4px 24px 16px; }
 
-    /* FIX 3: CTA section — kurangkan padding bawah supaya tiada ruang kosong berlebihan */
-    .m-cta-section { padding: 0 24px 24px; text-align: center; }
+    /* CTA section */
+    .m-cta-section { padding: 0 24px 20px; text-align: center; }
     .m-cta-label {
       font-size: 11px; color: #4B5563; font-weight: 600;
       text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;
@@ -254,7 +255,7 @@
     @media(max-width:599px){.ap-btn-group{grid-template-columns:1fr!important;}.ap-card{padding:22px;}}
   </style>
 </head>
-<body class="min-h-screen pb-16 bg-zinc-950">
+<body class="bg-zinc-950">
 <div class="max-w-md mx-auto border-x border-zinc-900/40 relative">
 
   <!-- ═══ HEADER ═══ -->
@@ -541,16 +542,21 @@
       const tabBg        = document.getElementById("tab-bg");
       const tabMulakan   = document.getElementById("tab-mulakan");
       const tabChecklist = document.getElementById("tab-checklist");
+      const panels       = panelWrap.querySelectorAll(".panel");
       if (tab === "mulakan") {
         panelWrap.style.transform = "translateX(0%)";
         tabBg.style.left = "4px";
         tabMulakan.classList.replace("text-zinc-400","text-zinc-950");
         tabChecklist.classList.replace("text-zinc-950","text-zinc-400");
+        panels[0].classList.add("panel-active");
+        panels[1].classList.remove("panel-active");
       } else {
         panelWrap.style.transform = "translateX(-100%)";
         tabBg.style.left = "calc(50% + 0px)";
         tabChecklist.classList.replace("text-zinc-400","text-zinc-950");
         tabMulakan.classList.replace("text-zinc-950","text-zinc-400");
+        panels[0].classList.remove("panel-active");
+        panels[1].classList.add("panel-active");
       }
       if (pushState !== false) {
         const h = "#" + tab;
@@ -610,7 +616,12 @@
       setTimeout(function () { document.getElementById("youtube-popup").classList.add("show"); }, 4000);
     });
 
-    document.addEventListener("DOMContentLoaded", () => { resolveHashOnLoad(); });
+    document.addEventListener("DOMContentLoaded", () => {
+      // Set panel aktif pada load
+      const panels = document.getElementById("panel-wrap").querySelectorAll(".panel");
+      panels[0].classList.add("panel-active");
+      resolveHashOnLoad();
+    });
     window.addEventListener("hashchange", resolveHashOnLoad);
   </script>
 
