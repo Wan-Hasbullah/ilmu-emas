@@ -14,7 +14,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #09090b;
         }
-        /* Custom Scrollbar Premium Fintech */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -86,18 +85,20 @@
             if (!container) return;
             container.innerHTML = '';
 
-            // Pastikan array wujud, jika tiada setkan sebagai array kosong []
             const senaraiProgram = typeof programData !== 'undefined' ? programData : [];
             const senaraiTalkshow = typeof talkshowData !== 'undefined' ? talkshowData : [];
 
             // 1. GABUNGKAN KEDUA-DUA DATA MENJADI SATU ARRAY
             let gabunganData = [...senaraiProgram, ...senaraiTalkshow];
 
-            // 2. SUSUN DATA: UTAMAKAN TARIKH TERAWAL (Kronologi)
-            // Nota: Menggunakan getTime() untuk menyusun nilai tarikh terawal ke terbaru
+            // 2. SUSUN DATA: UTAMAKAN TARIKH TERAWAL
+            // Mengambil kira kemungkinan atribut bernama 'date' atau 'dateMula'
             gabunganData.sort((a, b) => {
-                const dateA = a.date ? new Date(a.date).getTime() : Infinity;
-                const dateB = b.date ? new Date(b.date).getTime() : Infinity;
+                const tarikhA = a.date || a.dateMula;
+                const tarikhB = b.date || b.dateMula;
+                
+                const dateA = tarikhA ? new Date(tarikhA).getTime() : Infinity;
+                const dateB = tarikhB ? new Date(tarikhB).getTime() : Infinity;
                 return dateA - dateB;
             });
 
@@ -111,13 +112,16 @@
                 const card = document.createElement('div');
                 card.className = "bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 shadow-xl backdrop-blur-sm hover:border-zinc-700/80 transition-all duration-300 flex flex-col justify-between";
                 
-                const countdownHTML = getCountdownString(item.date);
+                // Mengesan pautan butang dinamik (linkLanjut / linkLive untuk talkshow atau link biasa untuk program)
+                const pautanAktif = item.link || item.linkLanjut || '#';
+                const tarikhEksplisit = item.date || item.dateMula || '';
+                const countdownHTML = getCountdownString(tarikhEksplisit);
 
                 card.innerHTML = `
                     <div>
                         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
                             <h3 class="text-sm font-bold text-white leading-snug">${item.title}</h3>
-                            <div class="card-countdown-ticker shrink-0" data-date="${item.date || ''}">
+                            <div class="card-countdown-ticker shrink-0" data-date="${tarikhEksplisit}">
                                 ${countdownHTML}
                             </div>
                         </div>
@@ -126,7 +130,7 @@
                         </p>
                     </div>
                     <div class="mt-4 pt-3 border-t border-zinc-800/60 flex justify-end">
-                        <a href="${item.link || '#'}" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-400 bg-amber-400/10 hover:bg-amber-400 hover:text-zinc-950 px-3 py-1.5 rounded-lg transition-all duration-200 group">
+                        <a href="${pautanAktif}" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-400 bg-amber-400/10 hover:bg-amber-400 hover:text-zinc-950 px-3 py-1.5 rounded-lg transition-all duration-200 group">
                             Lihat <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
                         </a>
                     </div>
@@ -148,7 +152,6 @@
             }, 1000);
         }
 
-        // Jalankan fungsi sebaik sahaja tetingkap selesai dimuatkan
         window.addEventListener('DOMContentLoaded', () => {
             renderGabunganCards();
             startLiveCountdowns();
