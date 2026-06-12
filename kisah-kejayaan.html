@@ -390,7 +390,7 @@
               <span class="text-[9px] font-bold text-amber-400 uppercase tracking-widest bg-amber-400/8 border border-amber-400/15 px-2 py-0.5 rounded-md">
                 ${video.category.replace(/-/g, " ")}
               </span>
-              <button onclick="copyGlobalLink('Kisah-Kejayaan.html#${video.id}')"
+              <button onclick="copyGlobalLink('kisah-kejayaan.html#${video.id}')"
                 class="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1 transition-colors">
                 <i class="fa-solid fa-copy text-[9px]"></i> Kongsi
               </button>
@@ -523,8 +523,11 @@
     renderCategoryTabs();
     renderArticles();
 
-    document.addEventListener("DOMContentLoaded", handleHashHighlight);
-    window.addEventListener("hashchange", handleHashHighlight);
+    // Memastikan data dipaparkan dahulu, kemudian tunggu 300ms sebelum skrol automatik
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(handleHashHighlight, 300);
+});
+window.addEventListener("hashchange", handleHashHighlight);
   </script>
 </body>
 </html>
