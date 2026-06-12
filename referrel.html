@@ -6,253 +6,578 @@
   <title>Program Referral Public Gold</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  
+
   <style>
-    /* Premium Fintech Theme Global Styles */
+    /* ── Coffee Cup Animation ── */
+    .coffee-cup-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 44px;
+    }
+    .coffee-cup-wrap svg {
+      width: 26px;
+      height: 26px;
+      position: absolute;
+      bottom: 9px;
+    }
+    .steam {
+      stroke: #fbbf24;
+      stroke-width: 2;
+      stroke-linecap: round;
+      fill: none;
+      opacity: 0;
+      animation: steam-svg 1.8s ease-in-out infinite;
+    }
+    .steam-1 { animation-delay: 0s; }
+    .steam-2 { animation-delay: 0.5s; }
+    @keyframes steam-svg {
+      0%   { opacity: 0; transform: translateY(0px); }
+      30%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-7px); }
+    }
+
+    /* ── Dropdown ── */
+    #coffee-dropdown {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    #coffee-dropdown.show {
+      display: block !important;
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    /* ── Gold gradient divider ── */
+    .gold-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(251,191,36,.35), transparent);
+    }
+
+    /* ── Coffee Bubble ── */
+    #coffee-bubble {
+      position: absolute;
+      right: 44px;
+      top: 50%;
+      transform: translateY(-50%) scale(0.85);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1), transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      z-index: 60;
+    }
+    #coffee-bubble.bubble-show {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+    #coffee-bubble .bubble-inner {
+      background: linear-gradient(135deg, #1c1917 0%, #292524 100%);
+      border: 1px solid rgba(251,191,36,0.45);
+      border-radius: 20px 20px 4px 20px;
+      padding: 7px 13px 7px 11px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow:
+        0 0 0 1px rgba(251,191,36,0.08),
+        0 4px 20px rgba(0,0,0,0.55),
+        0 0 18px rgba(251,191,36,0.12);
+    }
+    #coffee-bubble .bubble-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fbbf24;
+      box-shadow: 0 0 6px rgba(251,191,36,0.8);
+      flex-shrink: 0;
+      animation: bubble-dot-pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes bubble-dot-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.75); }
+    }
+    #coffee-bubble .bubble-text {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #fef3c7;
+      line-height: 1;
+    }
+    #coffee-bubble .bubble-tail {
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 6px solid rgba(251,191,36,0.45);
+    }
+
+    /* ── Global ── */
+    *, *::before, *::after { box-sizing: border-box; }
+
     body {
-      background-color: #0f172a; /* Slate Dark Background */
+      background-color: #09090b;
       color: #f8fafc;
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+      border-left: 1px solid rgba(39,39,42,0.4);
+      border-right: 1px solid rgba(39,39,42,0.4);
     }
 
-    .container {
-      max-width: 800px;
-      width: 100%;
-      background: linear-gradient(145deg, #1e293b, #0f172a);
-      margin: 40px 20px;
-      padding: 40px 30px;
-      border-radius: 24px;
-      border: 1px solid rgba(212, 175, 55, 0.2); /* Soft Gold Border */
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      box-sizing: border-box;
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid #18181b;
+      position: sticky;
+      top: 0;
+      background: rgba(9,9,11,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 40;
+    }
+    .header-top {
+      padding: 16px 16px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: #18181b;
+      border: 1px solid #27272a;
+      color: #a1a1aa;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-size: 13px;
+    }
+    .back-btn:hover { color: #fbbf24; border-color: rgba(251,191,36,0.4); }
+    .header-title { font-size: 14px; font-weight: 700; line-height: 1; letter-spacing: 0.03em; color: #f4f4f5; }
+    .header-sub { font-size: 10px; color: #52525b; margin-top: 3px; line-height: 1; }
+
+    /* ── Content Area ── */
+    .content {
+      padding: 28px 20px 60px;
     }
 
-    /* Typography & Headers */
-    h1 {
-      color: #d4af37; /* Premium Gold */
-      font-size: 28px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      text-align: center;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-
-    h2 {
-      color: #e2e8f0;
-      font-size: 20px;
-      font-weight: 600;
-      border-left: 4px solid #d4af37;
-      padding-left: 12px;
-      margin-top: 35px;
-      margin-bottom: 20px;
-    }
-
-    p {
-      color: #cbd5e1;
-      font-size: 16px;
-      line-height: 1.7;
-      margin: 15px 0;
-    }
-
-    b {
-      color: #fff;
-      font-weight: 600;
-    }
-
-    /* List styling */
-    ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 20px 0;
-    }
-
-    ul li {
-      position: relative;
-      padding-left: 30px;
-      margin-bottom: 12px;
-      font-size: 15px;
-      color: #cbd5e1;
-      line-height: 1.5;
-    }
-
-    ul li::before {
-      content: "\f058"; /* FontAwesome Check Circle */
-      font-family: "Font Awesome 6 Free";
-      font-weight: 900;
-      position: absolute;
-      left: 0;
-      top: 2px;
-      color: #d4af37; /* Gold Checkmark */
-      font-size: 18px;
-    }
-
-    /* Images Container */
+    /* ── Hero Banner ── */
     .image-container {
       text-align: center;
-      margin: 30px 0;
+      margin: 0 0 28px;
     }
-
+    .image-container a { display: block; }
     .image-container img {
       max-width: 100%;
       height: auto;
-      border-radius: 16px;
-      border: 1px solid rgba(212, 175, 55, 0.15);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border-radius: 18px;
+      border: 1px solid rgba(251,191,36,0.12);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
       transition: transform 0.3s ease;
     }
+    .image-container img:hover { transform: scale(1.01); }
 
-    .image-container img:hover {
-      transform: scale(1.02);
+    /* ── Page Title ── */
+    .page-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fbbf24;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+      margin: 0 0 20px;
+      line-height: 1.3;
     }
 
-    /* CTA BUTTON SECTION */
+    /* ── Gold divider ── */
+    .gold-divider-content {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(251,191,36,.3), transparent);
+      margin: 24px 0;
+    }
+
+    /* ── Prose ── */
+    .prose-text {
+      color: #a1a1aa;
+      font-size: 15px;
+      line-height: 1.75;
+      margin: 0 0 12px;
+    }
+    .prose-text b, .prose-text strong {
+      color: #f4f4f5;
+      font-weight: 600;
+    }
+
+    /* ── Status lines ── */
+    .status-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: #a1a1aa;
+      margin: 10px 0;
+      line-height: 1.55;
+    }
+    .status-line .icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .status-line.no .icon { color: #ef4444; }
+    .status-line.yes .icon { color: #10b981; }
+
+    /* ── Section Header ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 28px 0 16px;
+    }
+    .section-header .bar {
+      width: 4px;
+      height: 20px;
+      background: linear-gradient(180deg, #fbbf24, #d97706);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #e4e4e7;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Syarat List ── */
+    .syarat-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .syarat-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(39,39,42,0.6);
+      font-size: 14px;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+    .syarat-list li:last-child { border-bottom: none; }
+    .syarat-list li::before {
+      content: "\f058";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: #fbbf24;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Insentif Highlight ── */
+    .insentif-highlight {
+      background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(217,119,6,0.05));
+      border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .insentif-highlight .amount {
+      font-size: 36px;
+      font-weight: 700;
+      color: #fbbf24;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+    .insentif-highlight .label {
+      font-size: 12px;
+      color: #78716c;
+      margin-top: 6px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── CTA Buttons ── */
     .cta-container {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 40px;
+      gap: 12px;
+      margin-top: 32px;
     }
 
     .cta-btn {
       width: 100%;
       text-align: center;
-      padding: 18px 25px;
+      padding: 17px 20px;
       border-radius: 14px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
-      color: #1e293b;
+      font-family: 'Montserrat', sans-serif;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      gap: 10px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-sizing: border-box;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
+      border: none;
+      cursor: pointer;
     }
 
-    /* Modern Premium Color Palette */
     .btn-red {
-      background: linear-gradient(135deg, #ef4444, #b91c1c); /* Elegant Crimson */
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
       color: #ffffff;
+      animation: pulseGlow 2s infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0%   { box-shadow: 0 4px 15px rgba(239,68,68,0.35); }
+      100% { box-shadow: 0 8px 30px rgba(239,68,68,0.65); }
     }
 
     .btn-green {
-      background: linear-gradient(135deg, #10b981, #047857); /* Emerald Green */
+      background: linear-gradient(135deg, #10b981, #047857);
       color: #ffffff;
+      box-shadow: 0 4px 15px rgba(16,185,129,0.2);
     }
 
     .btn-yellow {
-      background: linear-gradient(135deg, #fbbf24, #d97706); /* Wealth Amber/Gold */
+      background: linear-gradient(135deg, #fbbf24, #d97706);
       color: #0f172a;
+      box-shadow: 0 4px 15px rgba(251,191,36,0.2);
     }
 
     .cta-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-      filter: brightness(1.1);
+      transform: translateY(-3px);
+      filter: brightness(1.08);
     }
 
-    /* Premium Glow Animation for Main Button */
-    .blink {
-      animation: pulseGlow 2s infinite alternate;
-      border: 1px solid rgba(255,255,255,0.2);
+    /* ── Footer note ── */
+    .footer-note {
+      text-align: center;
+      font-size: 11px;
+      color: #3f3f46;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #18181b;
     }
 
-    @keyframes pulseGlow {
-      0% {
-        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-      }
-      100% {
-        box-shadow: 0 8px 30px rgba(239, 68, 68, 0.8);
-      }
-    }
-
-    /* Desktop Responsive View */
-    @media (min-width: 768px) {
-      .cta-container {
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-      .cta-btn {
-        flex: 1;
-        min-width: 230px;
-      }
+    @media (min-width: 480px) {
+      body { border-left: 1px solid #18181b; border-right: 1px solid #18181b; }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header>
+    <div class="header-top">
+      <div class="header-left">
+        <a href="index.html" class="back-btn">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div>
+          <div class="header-title">Program Referral</div>
+          <div class="header-sub">Public Gold · Insentif RM50</div>
+        </div>
+      </div>
 
-  <div class="image-container">
-    <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjri6HuOp9mySwMPNkZutxDzzVCwQ8lFd1RfDeZ1ANS2EoOYFGMuSc75AFhMtLqdXxsP-P3vA4DHraAJtdcf4Czb-odGdKuu0c3ojKC8hh9xvHReMr6fV5F7HwqC4-rTKzxTyAMYUoYUeIbIVCrbhHANTkt_BHPW-qtQOhN-C4Ol8EXgQDYcHoqzfbWwqk">
-      <img alt="Banner Public Gold" data-original-height="1536" data-original-width="1024" src="https://blogger.googleusercontent.com/img/a/AVvXsEjri6HuOp9mySwMPNkZutxDzzVCwQ8lFd1RfDeZ1ANS2EoOYFGMuSc75AFhMtLqdXxsP-P3vA4DHraAJtdcf4Czb-odGdKuu0c3ojKC8hh9xvHReMr6fV5F7HwqC4-rTKzxTyAMYUoYUeIbIVCrbhHANTkt_BHPW-qtQOhN-C4Ol8EXgQDYcHoqzfbWwqk=s16000" />
-    </a>
+      <!-- Coffee menu -->
+      <div style="position:relative;">
+        <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+          style="background:none; border:none; padding:0; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fbbf24; transition:color 0.2s;">
+          <div class="coffee-cup-wrap">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+              <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+              <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24"/>
+              <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+        </button>
+
+        <!-- Coffee Bubble -->
+        <div id="coffee-bubble">
+          <div class="bubble-inner">
+            <span class="bubble-dot"></span>
+            <span class="bubble-text">Nak Simpan Emas?</span>
+            <div class="bubble-tail"></div>
+          </div>
+        </div>
+
+        <div id="coffee-dropdown"
+          style="position:absolute; right:0; margin-top:12px; width:208px; background:#18181b; border:1px solid #27272a; border-radius:16px; padding:8px; display:none; opacity:0; transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,0.5); z-index:50;">
+          <a href="https://www.publicgoldofficial.com/referrer/register/wanhasbullah" target="_blank"
+            style="display:flex; align-items:center; gap:12px; padding:10px 16px; font-size:14px; color:#e4e4e7; text-decoration:none; border-radius:12px; transition:background 0.15s; font-family:'Montserrat',sans-serif;"
+            onmouseover="this.style.background='#27272a'" onmouseout="this.style.background='none'">
+            <i class="fa-solid fa-user-plus" style="color:#fbbf24;"></i>
+            <span>Daftar Referrer</span>
+          </a>
+          <a href="http://www.wasap.my/601126704897/ProgramReferrel" target="_blank"
+            style="display:flex; align-items:center; gap:12px; padding:10px 16px; font-size:14px; color:#e4e4e7; text-decoration:none; border-radius:12px; transition:background 0.15s; font-family:'Montserrat',sans-serif;"
+            onmouseover="this.style.background='#27272a'" onmouseout="this.style.background='none'">
+            <i class="fa-brands fa-whatsapp" style="color:#fbbf24;"></i>
+            <span>Pertanyaan</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="gold-divider" style="margin: 0 16px;"></div>
+  </header>
+
+  <!-- ═══════════════ CONTENT ═══════════════ -->
+  <div class="content">
+
+    <!-- Banner -->
+    <div class="image-container">
+      <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjri6HuOp9mySwMPNkZutxDzzVCwQ8lFd1RfDeZ1ANS2EoOYFGMuSc75AFhMtLqdXxsP-P3vA4DHraAJtdcf4Czb-odGdKuu0c3ojKC8hh9xvHReMr6fV5F7HwqC4-rTKzxTyAMYUoYUeIbIVCrbhHANTkt_BHPW-qtQOhN-C4Ol8EXgQDYcHoqzfbWwqk" target="_blank">
+        <img alt="Banner Public Gold" src="https://blogger.googleusercontent.com/img/a/AVvXsEjri6HuOp9mySwMPNkZutxDzzVCwQ8lFd1RfDeZ1ANS2EoOYFGMuSc75AFhMtLqdXxsP-P3vA4DHraAJtdcf4Czb-odGdKuu0c3ojKC8hh9xvHReMr6fV5F7HwqC4-rTKzxTyAMYUoYUeIbIVCrbhHANTkt_BHPW-qtQOhN-C4Ol8EXgQDYcHoqzfbWwqk=s16000" />
+      </a>
+    </div>
+
+    <!-- Title -->
+    <h1 class="page-title">Program Referral<br>Insentif Setinggi RM50</h1>
+
+    <!-- Intro -->
+    <p class="prose-text">
+      Jana pendapatan sampingan sebagai referral — <strong>perkenalkan kenalan atau stranger kepada saya untuk simpan emas di Public Gold.</strong>
+    </p>
+
+    <p class="prose-text">Program Referral ini <strong>seperti affiliate</strong> :</p>
+
+    <div class="status-line no">
+      <span class="icon"><i class="fa-solid fa-circle-xmark"></i></span>
+      <span>Tidak perlu servis atau uruskan pelanggan.</span>
+    </div>
+    <div class="status-line yes">
+      <span class="icon"><i class="fa-solid fa-circle-check"></i></span>
+      <span>100% saya yang servis &amp; uruskan pelanggan anda.</span>
+    </div>
+    <div class="status-line yes">
+      <span class="icon"><i class="fa-solid fa-circle-check"></i></span>
+      <span>Anda hanya promot (di status WhatsApp atau Facebook) ataupun perkenalkan kepada kenalan &amp; stranger sahaja.</span>
+    </div>
+
+    <div class="gold-divider-content"></div>
+
+    <!-- Syarat -->
+    <div class="section-header">
+      <div class="bar"></div>
+      <h2>Syaratnya, setiap yang diperkenalkan :</h2>
+    </div>
+
+    <ul class="syarat-list">
+      <li>Belum pernah register Public Gold</li>
+      <li>Berumur 18 tahun ke atas</li>
+      <li>Berjaya buat simpanan pertama (walaupun minimum RM100)</li>
+    </ul>
+
+    <!-- Insentif highlight -->
+    <div class="insentif-highlight">
+      <div class="amount">RM 50</div>
+      <div class="label">Insentif setiap referral berjaya</div>
+    </div>
+
+    <p class="prose-text">
+      Daftar sebagai Referrer dahulu — klik butang <strong>"Daftar Referrer"</strong> di bawah untuk dapatkan link unik anda.
+    </p>
+
+    <div class="gold-divider-content"></div>
+
+    <!-- Jadual Insentif -->
+    <div class="section-header">
+      <div class="bar"></div>
+      <h2>Jadual Insentif</h2>
+    </div>
+
+    <div class="image-container">
+      <a href="https://blogger.googleusercontent.com/img/a/AVvXsEiOlK9O3oZH4lU_KWTRMr1sIfp8R0xVes9-MmF9r1JkD3BP9Qndt0IXnBkuw1qYjJbutWZLQW3MY3jgpJ_JsGQ16HnYAZ8zGdsRbh1kyeqCdWNCToT6E0nHEaMRx5f4DU3mIaxF9DNMcJhqr3u85XdH39NnmynsXDX-Jg__MkKoElr4pNDPy6ibQTNDJCQ" target="_blank">
+        <img alt="Jadual Komisen" src="https://blogger.googleusercontent.com/img/a/AVvXsEiOlK9O3oZH4lU_KWTRMr1sIfp8R0xVes9-MmF9r1JkD3BP9Qndt0IXnBkuw1qYjJbutWZLQW3MY3jgpJ_JsGQ16HnYAZ8zGdsRbh1kyeqCdWNCToT6E0nHEaMRx5f4DU3mIaxF9DNMcJhqr3u85XdH39NnmynsXDX-Jg__MkKoElr4pNDPy6ibQTNDJCQ=s16000" />
+      </a>
+    </div>
+
+    <p class="prose-text">
+      Jika ada adik beradik, kawan atau kenalan yang nak simpan emas di Public Gold, boleh bagitahu saya atau join Program Referral ini.
+    </p>
+
+    <div class="gold-divider-content"></div>
+
+    <!-- CTA Buttons -->
+    <div class="cta-container">
+
+      <a class="cta-btn btn-red" href="https://www.publicgoldofficial.com/referrer/register/wanhasbullah" target="_blank">
+        <i class="fas fa-user-plus"></i>
+        Daftar Referrer
+      </a>
+
+      <a class="cta-btn btn-green" href="http://www.wasap.my/601126704897/ProgramReferrel" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        Pertanyaan via WhatsApp
+      </a>
+
+      <a class="cta-btn btn-yellow" href="https://www.publicgoldofficial.com/wanhasbullah/pgdealer" target="_blank">
+        <i class="fas fa-user-tie"></i>
+        Potensi Sebagai Dealer / Introducer
+      </a>
+
+    </div>
+
+    <div class="footer-note">
+      © Public Gold · Program Referral Eksklusif
+    </div>
+
   </div>
 
-  <h1>Program Referrel : Insentif Setinggi RM50</h1>
-  
-  <p>Jana pendapatan sampingan sebagai referrel <b>(perkenalkan kenalan/stranger kepada saya untuk simpan emas di Public Gold).</b></p>
-  
-  <p>Program Referrel ini <b>seperti affiliate</b>:</p>
-  
-  <p>❌ Tidak perlu servis atau uruskan pelanggan.</p>
-  <p>✅ 100% saya yang servis &amp; uruskan pelanggan anda.</p>
-  <p>✅ Anda hanya promot (di status wasap atau facebook) ataupun perkenalkan kepada kenalan &amp; stranger sahaja.</p>
+  <script>
+    // ── Coffee Dropdown ──
+    let coffeeOpen = false;
+    const dropdown = document.getElementById('coffee-dropdown');
+    const bubble = document.getElementById('coffee-bubble');
 
-  <h2>Syaratnya, setiap yang diperkenalkan :-</h2>
-  <ul>
-    <li>Belum pernah register PG</li>
-    <li>Berumur 18 tahun ke atas</li>
-    <li>Berjaya buat simpanan pertama (walaupun minimum Rm100)</li>
-  </ul>
+    // Show bubble after 1.5s
+    setTimeout(() => bubble.classList.add('bubble-show'), 1500);
+    setTimeout(() => bubble.classList.remove('bubble-show'), 5000);
 
-  <p>Anda akan terima insentif (komisen) setinggi <b>Rm50</b> untuk seorang yang diperkenalkan melalui link referrel anda.</p>
-  
-  <p>Daftar sebagai Referrer dahulu (klik butang <b>"Daftar Referrer"</b> dibawah untuk dapatkan link anda).</p>
+    function toggleCoffeeMenu() {
+      coffeeOpen = !coffeeOpen;
+      bubble.classList.remove('bubble-show');
+      if (coffeeOpen) {
+        dropdown.style.display = 'block';
+        requestAnimationFrame(() => {
+          dropdown.style.opacity = '1';
+          dropdown.style.transform = 'translateY(0)';
+        });
+      } else {
+        dropdown.style.opacity = '0';
+        dropdown.style.transform = 'translateY(-8px)';
+        setTimeout(() => { dropdown.style.display = 'none'; }, 200);
+      }
+    }
 
-  <h2>Jadual Insentif :-</h2>
-  <div class="image-container">
-    <a href="https://blogger.googleusercontent.com/img/a/AVvXsEiOlK9O3oZH4lU_KWTRMr1sIfp8R0xVes9-MmF9r1JkD3BP9Qndt0IXnBkuw1qYjJbutWZLQW3MY3jgpJ_JsGQ16HnYAZ8zGdsRbh1kyeqCdWNCToT6E0nHEaMRx5f4DU3mIaxF9DNMcJhqr3u85XdH39NnmynsXDX-Jg__MkKoElr4pNDPy6ibQTNDJCQ" target="_blank">
-      <img alt="Komisen" src="https://blogger.googleusercontent.com/img/a/AVvXsEiOlK9O3oZH4lU_KWTRMr1sIfp8R0xVes9-MmF9r1JkD3BP9Qndt0IXnBkuw1qYjJbutWZLQW3MY3jgpJ_JsGQ16HnYAZ8zGdsRbh1kyeqCdWNCToT6E0nHEaMRx5f4DU3mIaxF9DNMcJhqr3u85XdH39NnmynsXDX-Jg__MkKoElr4pNDPy6ibQTNDJCQ=s16000" />
-    </a>
-  </div>
-
-  <p>Jika ada adik beradik, kawan atau kenalan yang nak simpan emas di Public Gold, boleh bagitahu saya atau join Referrel Program ini. 
-  <br><br>
-  Klik butang daftar referrer dibawah :</p>
-
-  <div class="cta-container">
-
-    <a class="cta-btn btn-red blink" href="https://www.publicgoldofficial.com/referrer/register/wanhasbullah" target="_blank">
-      <i class="fas fa-user-plus"></i>
-      Daftar Referrer
-    </a>
-
-    <a class="cta-btn btn-green" href="http://www.wasap.my/601126704897/ProgramReferrel" target="_blank">
-      <i class="fab fa-whatsapp"></i>
-      Pertanyaan
-    </a>
-
-    <a class="cta-btn btn-yellow" href="https://www.publicgoldofficial.com/wanhasbullah/pgdealer" target="_blank">
-      <i class="fas fa-user-tie"></i>
-      Potensi Sebagai Dealer / Introducer
-    </a>
-
-  </div>
-  </div>
+    document.addEventListener('click', (e) => {
+      if (!document.getElementById('coffee-btn').contains(e.target) && !dropdown.contains(e.target)) {
+        if (coffeeOpen) {
+          coffeeOpen = false;
+          dropdown.style.opacity = '0';
+          dropdown.style.transform = 'translateY(-8px)';
+          setTimeout(() => { dropdown.style.display = 'none'; }, 200);
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
