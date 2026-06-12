@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Petikan - Pesan Mentor</title>
+  <title>Petikan - Ilmu Emas</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -67,12 +67,14 @@
 
     /* ── Premium Highlight Pulse (Kesan Denyut Kad) ── */
     @keyframes highlight-pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0.0), 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.7); }
-      33%  { box-shadow: 0 0 0 5px rgba(251,191,36,0.25), 0 10px 30px rgba(251,191,36,0.2); border-color: rgba(251,191,36,0.8); }
-      66%  { box-shadow: 0 0 0 2px rgba(251,191,36,0.1), 0 4px 15px rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.4); }
-      100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.0), 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.7); }
+      0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0.0), 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.7); opacity: 1; }
+      20%  { box-shadow: 0 0 0 6px rgba(251,191,36,0.3), 0 12px 32px rgba(251,191,36,0.25); border-color: rgba(251,191,36,0.9); opacity: 0.85; }
+      40%  { box-shadow: 0 0 0 2px rgba(251,191,36,0.1), 0 4px 12px rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.4); opacity: 1; }
+      60%  { box-shadow: 0 0 0 5px rgba(251,191,36,0.25), 0 8px 24px rgba(251,191,36,0.2); border-color: rgba(251,191,36,0.8); opacity: 0.88; }
+      80%  { box-shadow: 0 0 0 2px rgba(251,191,36,0.08), 0 4px 10px rgba(251,191,36,0.06); border-color: rgba(251,191,36,0.35); opacity: 1; }
+      100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.0), 0 0 0 0 rgba(251,191,36,0.0); border-color: rgba(63,63,70,0.7); opacity: 1; }
     }
-    .highlight-anim { animation: highlight-pulse 1.4s ease 3; scroll-margin-top: 100px; }
+    .highlight-anim { animation: highlight-pulse 1s ease forwards; scroll-margin-top: 100px; }
 
     /* ── Category badge colours ── */
     .badge-tips-emas     { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
@@ -149,6 +151,52 @@
       100% { opacity: 0; transform: translateY(-7px); }
     }
 
+    /* ── Bubbles ── */
+    .coffee-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(251,191,36,0.55);
+      pointer-events: none;
+      animation: bubble-rise 1s ease-out forwards;
+    }
+    @keyframes bubble-rise {
+      0%   { opacity: 0.9; transform: translateY(0) scale(1); }
+      60%  { opacity: 0.6; }
+      100% { opacity: 0; transform: translateY(-22px) scale(0.5); }
+    }
+
+    /* ── Tooltip "Nak simpan emas?" ── */
+    .coffee-tooltip {
+      position: absolute;
+      right: 44px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, #1c1917, #18181b);
+      border: 1px solid rgba(251,191,36,0.35);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      padding: 5px 11px;
+      border-radius: 20px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 4px 16px rgba(251,191,36,0.12);
+      letter-spacing: 0.02em;
+    }
+    .coffee-tooltip::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 6px solid rgba(251,191,36,0.35);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+    .coffee-tooltip.visible { opacity: 1; }
+
     /* Dropdown Transition */
     #coffee-dropdown {
       transition: opacity 0.2s ease, transform 0.2s ease;
@@ -179,7 +227,9 @@
       <button onclick="toggleCoffeeMenu()" id="coffee-btn"
         class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
         style="background:none; border:none; padding:0;">
-        <div class="coffee-cup-wrap">
+        <div class="coffee-cup-wrap" id="coffee-cup-wrap">
+          <div class="coffee-tooltip" id="coffee-tooltip">Nak simpan emas?</div>
+          <div id="bubble-container" style="position:absolute;bottom:9px;left:0;width:26px;height:26px;pointer-events:none;overflow:visible;"></div>
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
             <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
@@ -270,6 +320,43 @@
       dropdown.classList.toggle("show");
     }
 
+    // ── Coffee Bubble & Tooltip Animation ──
+    (function initCoffeeBubbles() {
+      const container = document.getElementById('bubble-container');
+      const tooltip   = document.getElementById('coffee-tooltip');
+      if (!container) return;
+
+      function spawnBubble() {
+        const b = document.createElement('div');
+        const size = 3 + Math.random() * 4;
+        b.className = 'coffee-bubble';
+        b.style.cssText = `
+          width:${size}px;height:${size}px;
+          left:${4 + Math.random()*14}px;
+          bottom:${2 + Math.random()*6}px;
+          animation-duration:${0.7 + Math.random()*0.5}s;
+          animation-delay:${Math.random()*0.3}s;
+        `;
+        container.appendChild(b);
+        setTimeout(() => b.remove(), 1200);
+      }
+
+      // Phase 1: burst of bubbles for first 5s
+      let phase1 = setInterval(spawnBubble, 280);
+      setTimeout(() => {
+        clearInterval(phase1);
+        // Phase 2: gentle bubbles from 5s–15s (every 10s cycle)
+        let phase2 = setInterval(spawnBubble, 900);
+        setTimeout(() => clearInterval(phase2), 10000);
+      }, 5000);
+
+      // Tooltip "Nak simpan emas?" — show at 1.5s for 3s
+      setTimeout(() => {
+        tooltip.classList.add('visible');
+        setTimeout(() => tooltip.classList.remove('visible'), 3000);
+      }, 1500);
+    })();
+
     // Fungsi untuk membuka Modal Daftar Percuma
     function triggerDaftarPopup() {
       const dropdown = document.getElementById("coffee-dropdown");
@@ -347,20 +434,20 @@
             <p class="text-zinc-100 text-[15px] font-medium leading-relaxed pt-4">${item.petikan}</p>
           </div>
 
-          <div class="flex items-center gap-2 mt-3">
+          <div class="flex gap-2 mt-3 items-center">
             ${item.link ? `
             <a href="${item.link}" target="_blank" rel="noopener"
-              class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/25 text-amber-400 text-xs font-semibold transition-all">
-              <i class="fa-solid fa-comments text-xs"></i> Baca Komentar
+              class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold transition-all">
+              <i class="fa-solid fa-comments text-amber-400"></i> Baca Komen
             </a>` : ''}
             <button onclick="saveImage('${item.id}')"
               title="Simpan Imej"
-              class="w-10 h-10 flex items-center justify-center rounded-xl bg-zinc-800 hover:bg-zinc-700 text-amber-400 transition-all flex-shrink-0">
+              class="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-amber-400 transition-all">
               <i class="fa-solid fa-image text-sm"></i>
             </button>
             <button onclick="openShare('${item.id}')"
               title="Kongsi"
-              class="w-10 h-10 flex items-center justify-center rounded-xl bg-zinc-800 hover:bg-zinc-700 text-amber-400 transition-all flex-shrink-0">
+              class="flex items-center justify-center w-10 h-10 rounded-xl bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/25 text-amber-400 transition-all">
               <i class="fa-solid fa-share-nodes text-sm"></i>
             </button>
           </div>
@@ -493,8 +580,8 @@
           '</div>' +
         '</div>' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:36px;padding-top:20px;border-top:1px solid rgba(63,63,70,0.5);">' +
-          '<span style="color:#fbbf24;font-size:15px;font-weight:800;letter-spacing:-0.02em;">Ilmu Emas</span>' +
-          '<span style="color:#52525b;font-size:11px;">ilmuemas.my</span>' +
+          '<span style="color:#71717a;font-size:11px;">ilmu-emas.pages.dev</span>' +
+          '<span></span>' +
         '</div>';
 
       showToast('Menjana imej...');
