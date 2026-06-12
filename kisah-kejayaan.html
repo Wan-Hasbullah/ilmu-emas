@@ -81,13 +81,9 @@
       scroll-margin-top: 140px;
     }
 
-    /* ── Article highlight ── */
-    @keyframes premiumGlow {
-      0%,100% { border-color: rgb(39,39,42); box-shadow: 0 0 0 0 rgba(251,191,36,0); }
-      50%      { border-color: rgb(251,191,36); box-shadow: 0 0 20px 2px rgba(251,191,36,.25); }
-    }
-    .highlight-pulse { 
-      animation: premiumGlow 2s ease-in-out 2; 
+    /* ── Article highlight — sama animasi dengan video ── */
+    .artikel-highlight-anim {
+      animation: video-highlight 1.6s ease 3;
       scroll-margin-top: 140px;
     }
 
@@ -316,7 +312,7 @@
 
   <script>
     /* ────────────────────────────────────────────
-        TAB STATE
+       TAB STATE
     ──────────────────────────────────────────── */
     let activeTab = "video";
 
@@ -363,23 +359,7 @@
     }
 
     /* ────────────────────────────────────────────
-        TAB HASH ROUTING (#video / #artikel)
-    ──────────────────────────────────────────── */
-    function resolveTabFromHash() {
-      const hash = window.location.hash.replace("#", "").toLowerCase();
-      if (hash === "artikel") {
-        switchTab("artikel", false);
-        return true;
-      }
-      if (hash === "video") {
-        switchTab("video", false);
-        return true;
-      }
-      return false;
-    }
-
-    /* ────────────────────────────────────────────
-        COFFEE MENU
+       COFFEE MENU
     ──────────────────────────────────────────── */
     function toggleCoffeeMenu() {
       document.getElementById("coffee-dropdown").classList.toggle("show");
@@ -406,46 +386,31 @@
     });
 
     /* ────────────────────────────────────────────
-        COFFEE BUBBLE  — muncul 5s, ulang 10s
+       COFFEE BUBBLE  — muncul 5s, ulang 10s
     ──────────────────────────────────────────── */
     (function initCoffeeBubble() {
-      const bubble   = document.getElementById("coffee-bubble");
+      const bubble    = document.getElementById("coffee-bubble");
       const coffeeBtn = document.getElementById("coffee-btn");
-      let bubbleTimer = null;
       let dismissed   = false;
 
       function showBubble() {
         if (dismissed) return;
         bubble.classList.add("bubble-show");
-        bubbleTimer = setTimeout(() => {
-          hideBubble();
-        }, 3500); // kekal nampak ~3.5s sebelum fade
+        setTimeout(() => hideBubble(), 3500);
       }
 
       function hideBubble() {
         bubble.classList.remove("bubble-show");
       }
 
-      function scheduleBubble(delayMs) {
-        setTimeout(() => {
-          showBubble();
-          // Ulang setiap 10 saat selepas muncul pertama
-          if (!dismissed) {
-            setInterval(() => { showBubble(); }, 10000);
-          }
-        }, delayMs);
-      }
+      // Muncul 5 saat selepas halaman dimuatkan, ulang setiap 10 saat
+      setTimeout(() => {
+        showBubble();
+        setInterval(() => showBubble(), 10000);
+      }, 5000);
 
-      // Muncul 5 saat selepas halaman dimuatkan
-      scheduleBubble(5000);
+      coffeeBtn.addEventListener("click", () => hideBubble());
 
-      // Klik pada coffee button — sembunyi bubble, tidak ulang lagi semasa dropdown terbuka
-      coffeeBtn.addEventListener("click", () => {
-        dismissed = false; // masih benarkan ulang
-        hideBubble();
-      });
-
-      // Klik pada bubble sendiri — buka dropdown
       bubble.addEventListener("click", () => {
         hideBubble();
         document.getElementById("coffee-dropdown").classList.add("show");
@@ -453,7 +418,7 @@
     })();
 
     /* ────────────────────────────────────────────
-        VIDEO SECTION
+       VIDEO SECTION
     ──────────────────────────────────────────── */
     let currentVideoFilter = "all";
     let currentTypeFilter  = "all";
@@ -480,9 +445,9 @@
       const bar = document.getElementById("type-filter-bar");
       bar.innerHTML = "";
       const types = [
-        { id: "all",     label: "Semua Format",          icon: "fa-border-all" },
+        { id: "all",     label: "Semua Format",           icon: "fa-border-all" },
         { id: "menegak", label: "Menegak (TikTok/Reels)", icon: "fa-mobile-screen-button" },
-        { id: "lurus",   label: "Lurus (YouTube)",        icon: "fa-desktop" }
+        { id: "lurus",   label: "Lurus (YouTube)",         icon: "fa-desktop" }
       ];
       types.forEach(type => {
         const btn = document.createElement("button");
@@ -503,7 +468,7 @@
       container.innerHTML = "";
 
       const filtered = KISAH_KEJAYAAN_DATA.filter(v => {
-        const matchCat = catFilter === "all" || v.category === catFilter;
+        const matchCat  = catFilter === "all" || v.category === catFilter;
         let matchType   = true;
         if (typeFilter === "menegak") matchType = v.embedCode.includes("tiktok.com") || v.embedCode.includes("shorts");
         else if (typeFilter === "lurus") matchType = v.embedCode.includes("youtube.com") && !v.embedCode.includes("shorts");
@@ -546,7 +511,7 @@
     }
 
     /* ────────────────────────────────────────────
-        ARTIKEL SECTION (Dikemaskini: Huruf Kecil)
+       ARTIKEL SECTION
     ──────────────────────────────────────────── */
     let currentActiveCategory = "Semua";
 
@@ -600,7 +565,6 @@
             <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
           </div>
           <div class="flex justify-between items-center pt-3 border-t border-zinc-800/60">
-            <!-- DI SINI: Ditukar kepada kisah-kejayaan.html (huruf kecil) -->
             <button onclick="copyGlobalLink('kisah-kejayaan.html#${art.id}')"
               class="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1.5 transition-colors font-medium">
               <i class="fa-solid fa-copy text-[9px]"></i> Salin
@@ -614,25 +578,33 @@
     }
 
     /* ────────────────────────────────────────────
-        HASH HIGHLIGHT
+       HASH HIGHLIGHT  — berfungsi untuk VIDEO & ARTIKEL
     ──────────────────────────────────────────── */
     function handleHashHighlight() {
       const hash = window.location.hash;
-      if (!hash) return;
+      if (!hash) return false;
       const targetId = hash.replace("#", "");
 
-      /* Tab-only hashes — handled by resolveTabFromHash, skip highlight */
-      if (targetId === "video" || targetId === "artikel") return;
+      /* Hash tab biasa — skip highlight */
+      if (targetId === "video" || targetId === "artikel") {
+        switchTab(targetId, false);
+        return true;
+      }
 
-      // Try video first
+      /* ── Cuba cari dalam data VIDEO ── */
       const linkedVideo = KISAH_KEJAYAAN_DATA.find(v => v.id === targetId);
       if (linkedVideo) {
-        if (activeTab !== "video") switchTab("video", false);
+        /* Tukar ke tab video */
+        switchTab("video", false);
+
+        /* Reset filter supaya video pasti dirender */
         if (currentVideoFilter !== "all" && currentVideoFilter !== linkedVideo.category) {
           currentVideoFilter = linkedVideo.category;
           buildVideoFilterBar();
           executeCombinedFilter();
         }
+
+        /* Scroll + blink selepas DOM render */
         setTimeout(() => {
           const el = document.getElementById(targetId);
           if (!el) return;
@@ -640,30 +612,38 @@
           el.classList.add("video-highlight-anim");
           el.addEventListener("animationend", () => el.classList.remove("video-highlight-anim"), { once: true });
         }, 400);
-        return;
+        return true;
       }
 
-      // Try artikel
+      /* ── Cuba cari dalam data ARTIKEL ── */
       const linkedArt = ARTIKEL_KISAH_KEJAYAAN.find(a => a.id === targetId);
       if (linkedArt) {
-        if (activeTab !== "artikel") switchTab("artikel", false);
+        /* Tukar ke tab artikel DAHULU */
+        switchTab("artikel", false);
+
+        /* Pastikan kategori betul supaya artikel dirender */
         if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArt.category) {
           currentActiveCategory = linkedArt.category;
           renderCategoryTabs();
           renderArticles();
         }
+
+        /* Scroll + blink — animasi SAMA seperti video */
         setTimeout(() => {
           const el = document.getElementById(targetId);
           if (!el) return;
           el.scrollIntoView({ behavior: "smooth", block: "center" });
-          el.classList.add("highlight-pulse");
-          setTimeout(() => el.classList.remove("highlight-pulse"), 4200);
+          el.classList.add("artikel-highlight-anim");
+          el.addEventListener("animationend", () => el.classList.remove("artikel-highlight-anim"), { once: true });
         }, 400);
+        return true;
       }
+
+      return false;
     }
 
     /* ────────────────────────────────────────────
-        INIT & DELEGASI HASH (Dikemaskini)
+       INIT
     ──────────────────────────────────────────── */
     buildVideoFilterBar();
     buildTypeFilterBar();
@@ -671,20 +651,13 @@
     renderCategoryTabs();
     renderArticles();
 
-    // Memastikan data dipaparkan dahulu, kemudian tunggu 400ms sebelum skrol automatik dijalankan tanpa sekatan
     document.addEventListener("DOMContentLoaded", () => {
-      resolveTabFromHash();
-      
-      // Mengeluarkan syarat !isTabHash supaya fungsi highlight artikel sentiasa berjalan dipanggil
-      setTimeout(() => {
-        handleHashHighlight();
-      }, 400);
+      /* Biar DOM render penuh dulu, kemudian proses hash */
+      setTimeout(() => handleHashHighlight(), 300);
     });
 
-    window.addEventListener("hashchange", () => {
-      resolveTabFromHash();
-      handleHashHighlight();
-    });
+    /* Tangani jika hash berubah semasa halaman sudah terbuka */
+    window.addEventListener("hashchange", () => handleHashHighlight());
   </script>
 </body>
 </html>
