@@ -1,6 +1,6 @@
 // Data Artikel Kisah Kejayaan - Sedia dipanggil secara global oleh fail pengurusan artikel
 const ARTIKEL_KISAH_KEJAYAAN = [
-  const ARTIKEL_KISAH_KEJAYAAN = [
+  
   {
     id: "mohd-zulkifli-shafie",
     title: "Dari Akauntan Bertauliah Kepada Peneraju Pendapatan Pasif Bertaraf Antarabangsa",
