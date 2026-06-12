@@ -59,6 +59,13 @@ const PETIKAN = [
     kategori: "tips-emas",
     oleh: "Mohd Zulkifli Shafie",
     petikan: "Harga emas confirm naik dalam jangka panjang. Ini disebabkan kuasa beli duit semakin menurun. Harga turun naik dalam jangka pendek itu perkara biasa biasa. Penyimpan emas yang berilmu, dia akan beli emas menggunkan duit simpanan jangka panjang, sekurang-kurangnya untuk jangka waktu 2 - 3 tahun."
+  },
+  {
+    id: "q7",
+    kategori: "tips-kewangan",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Masalah hutang tak akan selesai dengan bayar hutang saja. Bila habis satu hutang, dia akan buat hutang baru, lagi dan lagi sampai habis limit. Nak selesaikan masalah, kena tukar mindset; daripada hidup dengan hutang, kepada hidup dengan tabungan. Menabung dulu.",
+    link: "https://www.facebook.com/share/p/1BigiyJ8kk/"
   }
 ];
 
