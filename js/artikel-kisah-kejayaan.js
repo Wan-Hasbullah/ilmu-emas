@@ -16,7 +16,7 @@ const ARTIKEL_KISAH_KEJAYAAN = [
     category: "Mahasiswa",
     summary: "Menembus Batas Fizikal: Impian Bersara Sebelum Bekerja Melalui Emas.",
     path: "kandungan-artikel-kisah-kejayaan/rahman-ismail.html"
-  }
+  },
 
   {
     id: "shara-ismail",
