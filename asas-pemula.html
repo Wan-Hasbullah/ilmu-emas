@@ -24,7 +24,8 @@
     /* ── Panel Slide ── */
     .panel-wrap { display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform; }
     .panel { flex:0 0 100%;min-width:0;overflow:hidden; }
-    .panel:not(.panel-active) { pointer-events:none; }
+    /* FIX: Buang pointer-events:none — ini punca butang tidak berfungsi */
+    /* .panel:not(.panel-active) { pointer-events:none; } — DIBUANG */
 
     /* ── Scrollbar hide ── */
     .no-scrollbar::-webkit-scrollbar { display:none; }
@@ -157,10 +158,7 @@
     }
 
     /* 3-step teaser strip */
-    .m-steps {
-      display: flex; gap: 6px;
-      margin-bottom: 24px;
-    }
+    .m-steps { display: flex; gap: 6px; margin-bottom: 24px; }
     .m-step {
       flex: 1; background: rgba(255,255,255,0.03);
       border: 1px solid rgba(212,175,55,0.12);
@@ -175,7 +173,7 @@
     }
     .m-step-label { font-size: 10px; color: #6B7280; margin-top: 4px; line-height: 1.3; }
 
-    /* Main CTA button */
+    /* FIX: Butang CTA — buang animasi pulse yang ganggu klik, ganti glow statik */
     .m-btn-cta {
       display: flex; align-items: center; justify-content: center; gap: 10px;
       width: 100%;
@@ -183,28 +181,31 @@
       color: #080C14; font-weight: 700; font-size: 14px;
       padding: 16px 24px; border-radius: 14px;
       border: none; cursor: pointer;
-      box-shadow: 0 6px 24px rgba(212,175,55,0.3), 0 0 0 1px rgba(212,175,55,0.2);
-      transition: transform .2s ease, box-shadow .2s ease;
-      animation: cta-pulse 2.2s ease-in-out infinite;
+      /* FIX: translateZ(0) pastikan klik betul, glow statik ganti animasi */
+      box-shadow: 0 6px 28px rgba(212,175,55,0.40), 0 0 0 1px rgba(212,175,55,0.25);
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
       text-decoration: none;
+      position: relative;
+      z-index: 1;
+      -webkit-tap-highlight-color: transparent;
     }
-    .m-btn-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(212,175,55,0.4); }
-    @keyframes cta-pulse {
-      0%,100% { box-shadow: 0 6px 24px rgba(212,175,55,0.3), 0 0 0 1px rgba(212,175,55,0.2); }
-      50%      { box-shadow: 0 6px 32px rgba(212,175,55,0.55), 0 0 0 1px rgba(212,175,55,0.35); }
-    }
+    .m-btn-cta:hover { transform: translateY(-2px) translateZ(0); box-shadow: 0 10px 36px rgba(212,175,55,0.50), 0 0 0 1px rgba(212,175,55,0.35); }
+    .m-btn-cta:active { transform: translateY(0) translateZ(0); opacity: .92; }
     .m-btn-cta i { font-size: 12px; }
     .m-btn-sub { font-size: 10.5px; color: #4B5563; margin-top: 10px; }
 
-    /* YouTube Popup — 100% unchanged */
+    /* YouTube Popup */
     #youtube-popup {
       position:fixed;top:50%;left:50%;transform:translate(-50%,100px);
       background:#FF3B3B;color:#fff;width:340px;max-width:90%;border-radius:20px;
       box-shadow:0 12px 35px rgba(0,0,0,.25);display:flex;flex-direction:column;
       align-items:center;padding:25px 20px;z-index:9999;opacity:0;
       transition:all .6s ease-out;text-align:center;
+      pointer-events: none;
     }
-    #youtube-popup.show { opacity:1;transform:translate(-50%,-50%); }
+    #youtube-popup.show { opacity:1;transform:translate(-50%,-50%); pointer-events: auto; }
     #youtube-popup img { width:70px;height:70px;border-radius:50%;margin-bottom:15px; }
     #youtube-popup .popup-text strong { display:block;font-size:1.3em;margin-bottom:8px; }
     #youtube-popup .popup-buttons { display:flex;flex-direction:column;gap:10px;margin-top:15px;width:100%;align-items:center; }
@@ -213,6 +214,7 @@
       background:#fff;color:#FF3B3B;border:none;padding:10px 18px;border-radius:12px;
       font-weight:bold;cursor:pointer;font-size:1em;text-decoration:none;
       width:80%;transition:all .3s;text-align:center;
+      -webkit-tap-highlight-color: transparent;
     }
     #youtube-popup .popup-buttons a:hover,
     #youtube-popup .popup-buttons button:hover { background:#f0f0f0; }
@@ -240,16 +242,32 @@
     .ap-bullet-list li { position:relative;padding-left:24px;margin-bottom:12px;font-size:15px;color:#D1D5DB; }
     .ap-bullet-list li::before { content:"→";position:absolute;left:0;color:#D4AF37;font-weight:bold; }
 
-    /* FIX 4: Kecilkan butang tab 2 */
+    /* Butang Tab 2 */
     .ap-btn-group { margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;width:100%; }
     .ap-btn-group.single-btn { grid-template-columns:1fr;max-width:300px; }
-    .ap-btn { display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;font-size:12.5px;font-weight:600;text-decoration:none;border-radius:9px;transition:all .25s cubic-bezier(.4,0,.2,1);cursor:pointer;text-align:center;width:100%; }
+    /* FIX: Butang — tambah transform:translateZ(0) dan tap-highlight buang */
+    .ap-btn {
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 16px;font-size:12.5px;font-weight:600;
+      text-decoration:none;border-radius:9px;
+      transition:all .25s cubic-bezier(.4,0,.2,1);
+      cursor:pointer;text-align:center;width:100%;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      z-index: 1;
+    }
     .ap-btn-primary { background:linear-gradient(135deg,#D4AF37,#AA7C11);color:#0B0F19;box-shadow:0 3px 10px rgba(212,175,55,.2); }
-    .ap-btn-primary:hover { opacity:.95;transform:translateY(-2px);box-shadow:0 5px 16px rgba(212,175,55,.3); }
+    .ap-btn-primary:hover { opacity:.95;transform:translateY(-2px) translateZ(0);box-shadow:0 5px 16px rgba(212,175,55,.3); }
+    .ap-btn-primary:active { transform:translateY(0) translateZ(0); opacity:.88; }
     .ap-btn-outline { background:rgba(212,175,55,.02);color:#D4AF37;border:1px solid rgba(212,175,55,.3); }
-    .ap-btn-outline:hover { background:rgba(212,175,55,.1);border-color:#D4AF37;transform:translateY(-2px); }
+    .ap-btn-outline:hover { background:rgba(212,175,55,.1);border-color:#D4AF37;transform:translateY(-2px) translateZ(0); }
+    .ap-btn-outline:active { transform:translateY(0) translateZ(0); }
+    /* FIX: WhatsApp butang — direct <a href> tanpa JS trigger, tak kena popup blocker */
     .ap-btn-whatsapp { background:linear-gradient(135deg,#25D366,#1CBD56);color:#FFF;box-shadow:0 3px 10px rgba(37,211,102,.2);border:none; }
-    .ap-btn-whatsapp:hover { transform:translateY(-2px);box-shadow:0 5px 16px rgba(37,211,102,.3); }
+    .ap-btn-whatsapp:hover { transform:translateY(-2px) translateZ(0);box-shadow:0 5px 16px rgba(37,211,102,.3); }
+    .ap-btn-whatsapp:active { transform:translateY(0) translateZ(0); opacity:.9; }
     .ap-footer { text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid rgba(212,175,55,.15);color:#9CA3AF;font-size:13px; }
     @media(min-width:600px){.ap-btn-group-4{grid-template-columns:repeat(4,1fr);}}
     @media(max-width:599px){.ap-btn-group{grid-template-columns:1fr!important;}.ap-card{padding:22px;}}
@@ -323,7 +341,7 @@
   <div class="overflow-hidden">
     <div class="panel-wrap" id="panel-wrap">
 
-      <!-- ═══ TAB 1 : MULAKAN — Premium Fintech ═══ -->
+      <!-- ═══ TAB 1 : MULAKAN ═══ -->
       <div class="panel">
         <div class="m-page">
 
@@ -344,7 +362,7 @@
           <div class="m-section">
             <div class="m-section-label"><i class="fa-solid fa-circle-play" style="color:#D4AF37;font-size:11px"></i>Video Wajib Tonton</div>
             <div class="m-video-wrap">
-              <iframe src="https://www.youtube.com/embed/SlzjujKtxYE" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/SlzjujKtxYE" allowfullscreen loading="lazy"></iframe>
             </div>
             <div class="m-video-meta">
               <div class="m-video-pill"><i class="fa-brands fa-youtube" style="color:#FF3B3B"></i> YouTube · Wan Hasbullah</div>
@@ -354,7 +372,7 @@
 
           <div class="m-divider"></div>
 
-          <!-- CTA -->
+          <!-- CTA — FIX: guna <button> biasa, bukan <a> supaya tidak kena popup blocker -->
           <div class="m-cta-section">
             <button onclick="switchTab('checklist')" class="m-btn-cta">
               <i class="fa-solid fa-list-check"></i>
@@ -382,6 +400,7 @@
             </div>
             <main>
 
+              <!-- Langkah 1 -->
               <section class="ap-card" id="langkah-1">
                 <div class="ap-step-number">01</div>
                 <div class="ap-card-header"><div class="ap-index-badge">1</div><h2 class="ap-h2">Muat Turun Aplikasi Public Gold dan Buat Belian Pertama</h2></div>
@@ -392,15 +411,17 @@
                     <li>Anda perlu buat belian pertama supaya anda mempunyai tanda aras harga emas (benchmark price).</li>
                     <li>Anda akan lebih faham tentang naik turun harga emas bila sudah buat belian pertama.</li>
                   </ul>
+                  <!-- FIX: Semua <a> buka URL terus — tiada JS trigger, tiada popup blocker -->
                   <div class="ap-btn-group ap-btn-group-4">
-                    <a href="https://play.google.com/store/apps/details?id=com.pgmapp.publicgold" target="_blank" class="ap-btn ap-btn-outline">Android</a>
-                    <a href="https://apps.apple.com/my/app/public-gold/id1591580964" target="_blank" class="ap-btn ap-btn-outline">IOS</a>
-                    <a href="https://appgallery.huawei.com/app/C104917075" target="_blank" class="ap-btn ap-btn-outline">Huawei</a>
-                    <a href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" class="ap-btn ap-btn-primary">Cara Bermula</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.pgmapp.publicgold" target="_blank" rel="noopener" class="ap-btn ap-btn-outline">Android</a>
+                    <a href="https://apps.apple.com/my/app/public-gold/id1591580964" target="_blank" rel="noopener" class="ap-btn ap-btn-outline">iOS</a>
+                    <a href="https://appgallery.huawei.com/app/C104917075" target="_blank" rel="noopener" class="ap-btn ap-btn-outline">Huawei</a>
+                    <a href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" rel="noopener" class="ap-btn ap-btn-primary">Cara Bermula</a>
                   </div>
                 </div>
               </section>
 
+              <!-- Langkah 2 -->
               <section class="ap-card" id="langkah-2">
                 <div class="ap-step-number">02</div>
                 <div class="ap-card-header"><div class="ap-index-badge">2</div><h2 class="ap-h2">Join Whatsapp Group</h2></div>
@@ -410,12 +431,14 @@
                     <li>Saya kongsikan ilmu emas &amp; kewangan.</li>
                     <li>Saya kongsikan info terkini dan promosi semasa.</li>
                   </ul>
+                  <!-- FIX: wa.me dengan nombor penuh — gantikan 60XXXXXXXXX dengan nombor anda -->
                   <div class="ap-btn-group single-btn">
-                    <a href="https://wa.me/60XXXXXXXXX?text=Assalamulaikum,%20boleh%20saya%20dapatkan%20link%20grup%20whatsapp" target="_blank" class="ap-btn ap-btn-whatsapp">💬 Hubungi saya</a>
+                    <a href="https://wa.me/60XXXXXXXXX?text=Assalamulaikum%2C%20boleh%20saya%20dapatkan%20link%20grup%20whatsapp" target="_blank" rel="noopener" class="ap-btn ap-btn-whatsapp">💬 Hubungi saya</a>
                   </div>
                 </div>
               </section>
 
+              <!-- Langkah 3 -->
               <section class="ap-card" id="langkah-3">
                 <div class="ap-step-number">03</div>
                 <div class="ap-card-header"><div class="ap-index-badge">3</div><h2 class="ap-h2">Baca Customer Handbook dan rujuk link Tutorial</h2></div>
@@ -425,12 +448,13 @@
                     <li>Tutorial untuk semua urusan (beli, jual, pajak, keluarkan emas, etc) boleh rujuk tutorial dibawah.</li>
                   </ul>
                   <div class="ap-btn-group">
-                    <a href="https://pg2u.my/handbook/customer-handbook" target="_blank" class="ap-btn ap-btn-outline">Customer Handbook</a>
-                    <a href="https://pg2u.my/wanhasbullah/tutorial" target="_blank" class="ap-btn ap-btn-primary">Tutorial</a>
+                    <a href="https://pg2u.my/handbook/customer-handbook" target="_blank" rel="noopener" class="ap-btn ap-btn-outline">Customer Handbook</a>
+                    <a href="https://pg2u.my/wanhasbullah/tutorial" target="_blank" rel="noopener" class="ap-btn ap-btn-primary">Tutorial</a>
                   </div>
                 </div>
               </section>
 
+              <!-- Langkah 4 -->
               <section class="ap-card" id="langkah-4">
                 <div class="ap-step-number">04</div>
                 <div class="ap-card-header"><div class="ap-index-badge">4</div><h2 class="ap-h2">Beli dan baca buku Wang Emas &amp; Misi Bebas Hutang</h2></div>
@@ -440,12 +464,13 @@
                     <li>Kedua-dua buku ini saling melengkapi dan paling cepat pandai pasal emas + kewangan.</li>
                   </ul>
                   <div class="ap-btn-group">
-                    <a href="https://g100.my/combo-buku/" target="_blank" class="ap-btn ap-btn-outline">Testimoni</a>
-                    <a href="https://pgmall.my/p/P108/0071?rpc=pgbyweh@gmail.com" target="_blank" class="ap-btn ap-btn-primary">Buku Harga Promosi</a>
+                    <a href="https://g100.my/combo-buku/" target="_blank" rel="noopener" class="ap-btn ap-btn-outline">Testimoni</a>
+                    <a href="https://pgmall.my/p/P108/0071?rpc=pgbyweh@gmail.com" target="_blank" rel="noopener" class="ap-btn ap-btn-primary">Buku Harga Promosi</a>
                   </div>
                 </div>
               </section>
 
+              <!-- Langkah 5 -->
               <section class="ap-card" id="langkah-5">
                 <div class="ap-step-number">05</div>
                 <div class="ap-card-header"><div class="ap-index-badge">5</div><h2 class="ap-h2">Subscribe GAP Auto-debit selama 5 tahun</h2></div>
@@ -454,11 +479,12 @@
                     <li>Konsisten menyimpan emas dengan cara menabung di dalam akaun GAP secara autodebit.</li>
                   </ul>
                   <div class="ap-btn-group single-btn">
-                    <a href="https://pg2u.my/wanhasbullah/gap-autodebit" target="_blank" class="ap-btn ap-btn-primary">Tutorial GAP Auto-debit</a>
+                    <a href="https://pg2u.my/wanhasbullah/gap-autodebit" target="_blank" rel="noopener" class="ap-btn ap-btn-primary">Tutorial GAP Auto-debit</a>
                   </div>
                 </div>
               </section>
 
+              <!-- Langkah 6 -->
               <section class="ap-card" id="langkah-6">
                 <div class="ap-step-number">06</div>
                 <div class="ap-card-header"><div class="ap-index-badge">6</div><h2 class="ap-h2">Join Private Webinar : Membina 1 Juta Pertama</h2></div>
@@ -466,12 +492,14 @@
                   <ul class="ap-bullet-list">
                     <li>Ketahui ilmu penting dan perkara asas dalam membina simpanan 1 Juta Pertama.</li>
                   </ul>
+                  <!-- FIX: wa.me dengan nombor penuh -->
                   <div class="ap-btn-group single-btn">
-                    <a href="https://wa.me/60XXXXXXXXX?text=Assalamulaikum,%20boleh%20saya%20dapatkan%20info%20seminar%20M1JP" target="_blank" class="ap-btn ap-btn-whatsapp">📊 Hubungi saya</a>
+                    <a href="https://wa.me/60XXXXXXXXX?text=Assalamulaikum%2C%20boleh%20saya%20dapatkan%20info%20seminar%20M1JP" target="_blank" rel="noopener" class="ap-btn ap-btn-whatsapp">📊 Hubungi saya</a>
                   </div>
                 </div>
               </section>
 
+              <!-- Langkah 7 -->
               <section class="ap-card" id="langkah-7">
                 <div class="ap-step-number">07</div>
                 <div class="ap-card-header"><div class="ap-index-badge">7</div><h2 class="ap-h2">Join training dealer PG Leadership Training (PLT) atau join Kempen Sebarkan Manfaat Emas untuk jana pendapatan sambil simpan emas</h2></div>
@@ -482,8 +510,9 @@
                     <li>Untuk menjadi dealer Public Gold dan terima pasif income RM2,500 dalam tempoh 12 bulan, anda perlu menghadiri program latihan sebulan sekali PG Leadership Training (PLT) setiap Sabtu pertama dan latihan seminggu sekali Weekly Business Meeting (WBM) dan Weekly Group Coaching (WGC) setiap Ahad.</li>
                     <li>Bagi yang rasa join training satu cabaran yang besar, saya tak sarankan jadi dealer - supaya tak menyusahkan orang lain (samada customer, staff PG atau dealer lain). Join sahaja "Kempen Sebar Manfaat Emas" dengan refer penyimpan emas dan terima saguhati.</li>
                   </ul>
+                  <!-- FIX: wa.me dengan nombor penuh -->
                   <div class="ap-btn-group single-btn">
-                    <a href="https://wa.me/60XXXXXXXXX?text=Assalamulaikum,%20saya%20berminat%20tahu%20lebih%20lanjut%20tentang%20Dealer%20dan%20Kempen%20Emas" target="_blank" class="ap-btn ap-btn-primary">Hubungi saya</a>
+                    <a href="https://wa.me/60XXXXXXXXX?text=Assalamulaikum%2C%20saya%20berminat%20tahu%20lebih%20lanjut%20tentang%20Dealer%20dan%20Kempen%20Emas" target="_blank" rel="noopener" class="ap-btn ap-btn-primary">Hubungi saya</a>
                   </div>
                 </div>
               </section>
@@ -506,11 +535,11 @@
       <h4 class="font-bold text-lg text-white">Kategori Pendaftaran Akaun</h4>
       <p class="text-xs text-zinc-400">Pilih kategori umur pemohon di bawah:</p>
       <div class="space-y-3 pt-1">
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank"
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-adult" target="_blank" rel="noopener"
           class="flex items-center justify-center gap-2 w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">
           <i class="fa-solid fa-user text-current opacity-70 text-xs"></i>Dewasa (18 Tahun Ke Atas)
         </a>
-        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank"
+        <a href="https://pgdealer-wanhasbullah.pages.dev/pendaftaran-junior" target="_blank" rel="noopener"
           class="flex items-center justify-center gap-2 w-full py-3 bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 font-semibold text-sm rounded-xl transition-all">
           <i class="fa-solid fa-child text-current opacity-70 text-xs"></i>Junior (17 Tahun Ke Bawah)
         </a>
@@ -519,7 +548,7 @@
     </div>
   </div>
 
-  <!-- ═══ YOUTUBE POPUP — 100% unchanged ═══ -->
+  <!-- ═══ YOUTUBE POPUP ═══ -->
   <div id="youtube-popup">
     <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube Logo">
     <div class="popup-text">
@@ -527,7 +556,7 @@
       Saya aktif berkongsi tips emas melalui video pendek. Setiap kali saya upload video tips emas terbaru akan keluar notification di HP anda.
     </div>
     <div class="popup-buttons">
-      <a href="https://www.youtube.com/@wanhasbullah?sub_confirmation=1" target="_blank">Subscribe PERCUMA Sekarang!</a>
+      <a href="https://www.youtube.com/@wanhasbullah?sub_confirmation=1" target="_blank" rel="noopener">Subscribe PERCUMA Sekarang!</a>
       <button onclick="document.getElementById('youtube-popup').classList.remove('show')">Saya mahu tonton video dulu</button>
     </div>
   </div>
@@ -542,21 +571,17 @@
       const tabBg        = document.getElementById("tab-bg");
       const tabMulakan   = document.getElementById("tab-mulakan");
       const tabChecklist = document.getElementById("tab-checklist");
-      const panels       = panelWrap.querySelectorAll(".panel");
+
       if (tab === "mulakan") {
         panelWrap.style.transform = "translateX(0%)";
         tabBg.style.left = "4px";
         tabMulakan.classList.replace("text-zinc-400","text-zinc-950");
         tabChecklist.classList.replace("text-zinc-950","text-zinc-400");
-        panels[0].classList.add("panel-active");
-        panels[1].classList.remove("panel-active");
       } else {
         panelWrap.style.transform = "translateX(-100%)";
         tabBg.style.left = "calc(50% + 0px)";
         tabChecklist.classList.replace("text-zinc-400","text-zinc-950");
         tabMulakan.classList.replace("text-zinc-950","text-zinc-400");
-        panels[0].classList.remove("panel-active");
-        panels[1].classList.add("panel-active");
       }
       if (pushState !== false) {
         const h = "#" + tab;
@@ -570,56 +595,86 @@
       if (hash === "mulakan")   { switchTab("mulakan",false); return; }
       if (hash.startsWith("langkah-")) {
         switchTab("checklist",false);
-        setTimeout(() => { const el = document.getElementById(hash); if(el) el.scrollIntoView({behavior:"smooth",block:"center"}); }, 350);
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({behavior:"smooth",block:"center"});
+        }, 350);
       }
     }
 
-    function toggleCoffeeMenu() { document.getElementById("coffee-dropdown").classList.toggle("show"); }
+    function toggleCoffeeMenu() {
+      document.getElementById("coffee-dropdown").classList.toggle("show");
+    }
+
     function triggerDaftarPopup() {
       document.getElementById("coffee-dropdown").classList.remove("show");
       const modal = document.getElementById("daftar-pilihan-modal");
-      modal.classList.remove("hidden"); void modal.offsetWidth; modal.classList.remove("opacity-0");
+      modal.classList.remove("hidden");
+      void modal.offsetWidth;
+      modal.classList.remove("opacity-0");
     }
+
     function closeDaftarPopup() {
       const modal = document.getElementById("daftar-pilihan-modal");
       modal.classList.add("opacity-0");
       setTimeout(() => modal.classList.add("hidden"), 300);
     }
+
+    /* Tutup dropdown coffee bila klik luar */
     window.addEventListener("click", (e) => {
       const btn = document.getElementById("coffee-btn");
       const dd  = document.getElementById("coffee-dropdown");
-      if (btn && dd && !btn.contains(e.target) && !dd.contains(e.target)) dd.classList.remove("show");
+      if (btn && dd && !btn.contains(e.target) && !dd.contains(e.target)) {
+        dd.classList.remove("show");
+      }
     });
 
+    /* Coffee bubble */
     (function initCoffeeBubble() {
       const bubble = document.getElementById("coffee-bubble");
       const coffeeBtn = document.getElementById("coffee-btn");
-      function showBubble() { bubble.classList.add("bubble-show"); setTimeout(() => bubble.classList.remove("bubble-show"), 3500); }
+      function showBubble() {
+        bubble.classList.add("bubble-show");
+        setTimeout(() => bubble.classList.remove("bubble-show"), 3500);
+      }
       setTimeout(() => { showBubble(); setInterval(showBubble, 10000); }, 5000);
       coffeeBtn.addEventListener("click", () => bubble.classList.remove("bubble-show"));
-      bubble.addEventListener("click", () => { bubble.classList.remove("bubble-show"); document.getElementById("coffee-dropdown").classList.add("show"); }, true);
+      bubble.addEventListener("click", () => {
+        bubble.classList.remove("bubble-show");
+        document.getElementById("coffee-dropdown").classList.add("show");
+      }, true);
     })();
 
+    /* Swipe gesture */
     (function initSwipe() {
       const wrap = document.getElementById("panel-wrap");
-      let startX = 0;
-      wrap.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
+      let startX = 0, startY = 0;
+      wrap.addEventListener("touchstart", e => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
       wrap.addEventListener("touchend", e => {
-        const diff = startX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) < 50) return;
-        if (diff > 0 && activeTab === "mulakan")   switchTab("checklist");
-        if (diff < 0 && activeTab === "checklist") switchTab("mulakan");
+        const diffX = startX - e.changedTouches[0].clientX;
+        const diffY = Math.abs(startY - e.changedTouches[0].clientY);
+        /* FIX: Abaikan swipe jika lebih banyak scroll menegak */
+        if (diffY > Math.abs(diffX)) return;
+        if (Math.abs(diffX) < 50) return;
+        if (diffX > 0 && activeTab === "mulakan")   switchTab("checklist");
+        if (diffX < 0 && activeTab === "checklist") switchTab("mulakan");
       }, { passive: true });
     })();
 
+    /* FIX: YouTube popup — papar selepas 5s, dan hanya sekali per sesi */
     window.addEventListener("load", function () {
-      setTimeout(function () { document.getElementById("youtube-popup").classList.add("show"); }, 4000);
+      if (!sessionStorage.getItem("yt_shown")) {
+        setTimeout(function () {
+          document.getElementById("youtube-popup").classList.add("show");
+          sessionStorage.setItem("yt_shown", "1");
+        }, 5000);
+      }
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Set panel aktif pada load
-      const panels = document.getElementById("panel-wrap").querySelectorAll(".panel");
-      panels[0].classList.add("panel-active");
       resolveHashOnLoad();
     });
     window.addEventListener("hashchange", resolveHashOnLoad);
