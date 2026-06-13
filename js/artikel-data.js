@@ -1,12 +1,12 @@
 // Data Artikel - Sedia dipanggil secara global oleh fail pengurusan artikel
 const ARTIKEL_DATA = [
   {
-    id: "panduan-simpanan-emas",
-    title: "Panduan Langkah Demi Langkah Simpanan Emas Fizikal Beruntung",
-    author: "Wan Hasbullah",
-    category: "Panduan Emas",
-    summary: "Fahami cara memulakan simpanan emas fizikal dengan strategi memaksimumkan keuntungan jangka masa panjang.",
-    path: "kandungan-artikel/panduan-simpanan-emas.html"
+    id: "bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada",
+    title: "Bukan Sibuk Dengan Harga, Tapi Berapa Gram Yang Kita Sudah Ada?",
+    author: "Syarif Jamil",
+    category: "Simpanan Emas",
+    summary: "Fokus utama dalam pelaburan emas adalah mengumpul seberapa banyak gram emas, bukannya bimbang tentang turun naik harga semasa untuk membina kekayaan sebenar.",
+    path: "kandungan-artikel/bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada.html"
   }, // <-- Ditambah koma di sini untuk memisahkan objek pertama dan kedua
   
   {
