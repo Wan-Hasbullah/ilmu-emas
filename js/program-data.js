@@ -11,9 +11,7 @@ const programData = [
     link: "https://maps.google.com/maps?vet=10CAAQoqAOahcKEwiAw_GuwIKVAxUAAAAAHQAAAAAQCQ..i&pvq=CgsvZy8xdGp2MF9wbCIPCglsaW5rIG1hcHMQAhgD&lqi=ChxsaW5rIG1hcHMgbWVuYXJhIHB1YmxpYyBnb2xkSLL9gY3mgICACFosEAAQARgCGAMYBCIcbGluayBtYXBzIG1lbmFyYSBwdWJsaWMgZ29sZDICZW6SAQZvZmZpY2WaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVTnVObkJFYzFsM0VBRfoBBAgAEC0&fvr=1&cs=0&um=1&ie=UTF-8&fb=1&gl=my&sa=X&ftid=0x31cc3630545275eb:0xd4556924b6a9fc5c",
     date: "2026-06-28T09:00:00" // Tarikh & Masa Mula Program (Format ISO)
 },
-
   {
-    {
     id: "wkde-pg-1",
     title: "Workshop Kaya Dengan Emas",
     category: "WKDE", // Ditukar kepada huruf besar untuk konsistensi dengan KKDE
