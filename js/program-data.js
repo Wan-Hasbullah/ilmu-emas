@@ -14,10 +14,10 @@ const programData = [
   {
     id: "wkde-pg-1",
     title: "Workshop Kaya Dengan Emas",
-    category: "WKDE", // Ditukar kepada huruf besar untuk konsistensi dengan KKDE
-    image: "poster-program/workshop-kaya-dengan-emas.jpg", // Sila tukar nama fail mengikut poster sebenar anda
-    caption: "Alang-alang simpan emas, biar sampai jadi kaya.\n\nSiapa yang nak belajar secara bersemuka, teknik sebenar \"kaya dengan emas\";\n\n✅ Capai target TABUNGAN 12 bulan gaji\n✅ Selesaikan masalah HUTANG\n✅ Kembangkan HARTA (rumah, tanah, bisnes dsb).\n\nJemput datang belajar di dalam Workshop Kaya Dengan Emas ni.\n\n🗓️ 17 Jun 2026 (Rabu)\n⏰ 8.00 - 10.00 malam\n📍 G100 Academy, Level 7, Menara Public Gold @ TRX, KL\n\n*Yuran RM29.00*.\nSeat terhad kepada 30 peserta saja.\n\n*NOTA: Workshop ini eksklusif untuk penyimpan emas berdaftar (sudah ada PG Code) di bawah dealer aktif G100 Network & 5G Associates saja.*",
+    category: "WKDE",
+    image: "poster-program/workshop-kaya-dengan-emas.jpg", // Sila tukar nama fail poster sebenar jika ada
+    caption: "💰 Alang-alang simpan emas, biar sampai jadi kaya.\n\nSiapa yang nak belajar secara bersemuka, teknik sebenar \"kaya dengan emas\";\n\n✅ Capai target TABUNGAN 12 bulan gaji\n✅ Selesaikan masalah HUTANG\n✅ Kembangkan HARTA (rumah, tanah, bisnes dsb).\n\nJemput datang belajar di dalam Workshop Kaya Dengan Emas ni.\n\n📅 **17 Jun 2026 (Rabu)**\n⏰ **8.00 - 10.00 malam**\n📍 **G100 Academy, Level 7, Menara Public Gold @ TRX, KL**\n\n💵 **Yuran RM29.00**.\nSeat terhad kepada 30 peserta saja.\n\nRegister segera : \"Klik butang lanjut dibawah\"\n\n⚠️ **NOTA: Workshop ini eksklusif untuk penyimpan emas berdaftar (sudah ada PG Code) di bawah dealer aktif G100 Network & 5G Associates saja.**",
     link: "https://pg2u.my/app/workshop/reg/3/wanhasbullah",
-    date: "2026-06-17T20:00:00" // Tarikh & Masa Mula Program (8.00 Malam format ISO)
-  }
+    date: "2026-06-17T20:00:00" // Tarikh & Masa Mula Program (Format ISO)
+}
 ];
