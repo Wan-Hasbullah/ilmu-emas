@@ -34,6 +34,64 @@
     /* ── Gold gradient divider ── */
     .gold-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(251,191,36,.35),transparent); }
 
+    /* ── Floating Back Button (bulatan kanan tengah) ── */
+    .fab-back {
+      position: fixed;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      gap: 1px;
+      background: linear-gradient(145deg, #14181F 0%, #0A0D12 100%);
+      border: 1px solid rgba(212,175,55,0.35);
+      color: #D4AF37;
+      text-decoration: none;
+      z-index: 70;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow:
+        0 0 0 1px rgba(212,175,55,0.10),
+        0 8px 24px rgba(0,0,0,0.5),
+        0 0 26px rgba(212,175,55,0.65);
+      animation: fab-glow-fade 3.2s ease-out 1 forwards;
+      transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s ease, border-color .25s ease;
+    }
+    .fab-back i { font-size: 13px; line-height:1; }
+    .fab-back span { font-size: 8.5px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; line-height:1; }
+    .fab-back:hover, .fab-back:focus-visible {
+      transform: translateY(-50%) translateY(-2px) scale(1.05);
+      border-color: rgba(212,175,55,0.6);
+      box-shadow:
+        0 0 0 1px rgba(212,175,55,0.18),
+        0 10px 28px rgba(0,0,0,0.55),
+        0 0 22px rgba(212,175,55,0.55);
+    }
+    .fab-back:active { transform: translateY(-50%) scale(0.96); }
+    @keyframes fab-glow-fade {
+      0% {
+        box-shadow:
+          0 0 0 1px rgba(212,175,55,0.25),
+          0 8px 26px rgba(0,0,0,0.5),
+          0 0 38px 6px rgba(212,175,55,0.85);
+        border-color: rgba(212,175,55,0.9);
+      }
+      100% {
+        box-shadow:
+          0 0 0 1px rgba(212,175,55,0.08),
+          0 8px 22px rgba(0,0,0,0.45),
+          0 0 10px rgba(212,175,55,0.25);
+        border-color: rgba(212,175,55,0.28);
+      }
+    }
+    @media (max-width: 380px) {
+      .fab-back { width: 46px; height: 46px; right: 10px; }
+      .fab-back i { font-size: 12px; }
+      .fab-back span { font-size: 8px; }
+    }
+
     /* ── Coffee Bubble ── */
     #coffee-bubble { position:absolute;right:44px;top:50%;transform:translateY(-50%) scale(0.85);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1);z-index:60; }
     #coffee-bubble.bubble-show { opacity:1;transform:translateY(-50%) scale(1); }
@@ -445,6 +503,13 @@
   </style>
 </head>
 <body class="bg-zinc-950">
+
+<!-- ═══ FLOATING BACK BUTTON ═══ -->
+<a href="https://ilmu-emas.pages.dev" class="fab-back" aria-label="Kembali ke halaman utama">
+  <i class="fa-solid fa-chevron-left"></i>
+  <span>Back</span>
+</a>
+
 <div class="max-w-md mx-auto border-x border-zinc-900/40 relative">
 
   <!-- ═══ HEADER ═══ -->
@@ -742,10 +807,6 @@
               <div class="m-poster-body">
                 <div class="m-poster-title">G100 Business Roadmap</div>
                 <div class="m-poster-sub">Lihat laluan penuh untuk jana pendapatan sambil simpan emas bersama Public Gold.</div>
-                <a href="https://pg2u.my/wanhasbullah/pgdealer" target="_blank" rel="noopener" class="m-btn-poster">
-                  <i class="fa-solid fa-chart-line"></i>
-                  Potensi Pendapatan Dealer
-                </a>
               </div>
             </div>
           </div>
