@@ -66,7 +66,8 @@ const PETIKAN = [
     oleh: "Mohd Zulkifli Shafie",
     petikan: "Masalah hutang tak akan selesai dengan bayar hutang saja. Bila habis satu hutang, dia akan buat hutang baru, lagi dan lagi sampai habis limit. Nak selesaikan masalah, kena tukar mindset; daripada hidup dengan hutang, kepada hidup dengan tabungan. Menabung dulu.",
     link: "https://www.facebook.com/share/p/1BigiyJ8kk/"
-  }{
+  },
+  {
     id: "q8",
     kategori: "tips-emas",
     oleh: "Mohd Zulkifli Shafie",
