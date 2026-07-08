@@ -66,6 +66,78 @@ const PETIKAN = [
     oleh: "Mohd Zulkifli Shafie",
     petikan: "Masalah hutang tak akan selesai dengan bayar hutang saja. Bila habis satu hutang, dia akan buat hutang baru, lagi dan lagi sampai habis limit. Nak selesaikan masalah, kena tukar mindset; daripada hidup dengan hutang, kepada hidup dengan tabungan. Menabung dulu.",
     link: "https://www.facebook.com/share/p/1BigiyJ8kk/"
+  }{
+    id: "q8",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Pesan guru emas saya, siapa nak simpan duit yang banyak, jangan simpan semua dalam bentuk tunai (duit) tapi simpanlah dalam bentuk emas fizikal.
+
+Apa yang berlaku di India pada November 2016 adalah bukti, nilai duit kertas bukan terletak pada kertasnya.
+
+Walau berapa banyak pun duit kertas yang kita ada, hakikatnya kekayaan itu bukan di dalam kawalan kita, sebaliknya terletak pada jaminan kerajaan.
+
+Kerajaan boleh meletakkan tarikh luput pada duit itu. Pada bila-bila masa ianya boleh jadi TAK LAKU.
+
+Tetapi perkara begini tak sekali-kali berlaku kepada emas.
+
+Emas adalah aset yang nilainya berdiri dengan sendiri. Ia tak perlu jaminan sesiapa. Ia laku sepanjang zaman.`,
+    link: ""
+  },
+  {
+    id: "q9",
+    kategori: "tips-kewangan",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Duit yang kita ada hari ni bukan hanya untuk hidup hari ni, tapi untuk masa depan yang belum tentu untung nasib kita.
+
+Jadi sebahagian duit gaji yang kita terima setiap bulan kena simpan untuk 3 tujuan asas, iaitu kecemasan, perbelanjaan masa depan, dan pelaburan.`,
+    link: ""
+  },
+  {
+    id: "q10",
+    kategori: "tips-kewangan",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Salah satu faktor kenapa perlu menabung adalah kalau ada kecemasan, tak perlu buat pinjaman. Guna je Dana Kecemasan tu.
+
+Guru-guru kewangan cadangkan setiap kita mesti simpan Dana Kecemasan paling minimum berjumlah 3 bulan gaji.
+
+Kalau hilang pekerjaan atau hilang upaya untuk bekerja, at least kita masih ada tempoh 3 bulan untuk survive sebelum dapat kerja baru.`,
+    link: ""
+  },
+  {
+    id: "q11",
+    kategori: "tips-kewangan",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Pentingnya menabung adalah kita perlu bersedia jika ada kecemasan yang kita sendiri tak tahu bila akan berlaku.
+
+Tiada notifikasi akan beritahu bila akan berlakunya kecemasan tersebut.
+
+Selain itu, menabung boleh dijadikan untuk perbelanjaan masa depan seperti deposit beli rumah, nak pergi haji, pendidikan anak-anak dan yang paling penting ialah dana persaraan.`,
+    link: ""
+  },
+  {
+    id: "q12",
+    kategori: "tips-kewangan",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Pesan guru, bila simpanan dah minimum 3-6 bulan gaji, masa tu fokus kembangkan dana tu samada melalui bisnes atau pelaburan yang kita ada ilmu tentangnya.
+
+Tak perlu buat pinjaman untuk mulakan bisnes. Dan tak perlu meminjam untuk melabur (melainkan bagi yang betul-betul faham cara gandakan kekayaan dengan hutang positif).`,
+    link: ""
+  },
+  {
+    id: "q13",
+    kategori: "tips-kewangan",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Tak kisah berapa besar pun gaji yang diterima setiap bulan, selagi tak menyimpan dan tak mampu disiplinkan diri menyimpan setiap bulan, selagi itulah kita akan memudaratkan kewangan kita dimasa akan datang.`,
+    link: ""
+  },
+  {
+    id: "q14",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Emas tak pernah murah! Kalau nak tunggu harga emas murah, memang sampai bila-bila kita tak kan simpan emas sebab emas sentiasa akan mahal.
+
+Bahkan kalau tanya nenek kita pun, dulu emas pun mahal juga, RM30 per gram katanya.`,
+    link: ""
   }
 ];
 
