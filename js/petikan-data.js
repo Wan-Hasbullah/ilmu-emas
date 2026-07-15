@@ -140,6 +140,67 @@ Tak perlu buat pinjaman untuk mulakan bisnes. Dan tak perlu meminjam untuk melab
 Bahkan kalau tanya nenek kita pun, dulu emas pun mahal juga, RM30 per gram katanya.`,
     link: ""
   }
+  {
+    id: "q15",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Harga emas confirm naik dalam jangka panjang. Ini disebabkan kuasa beli duit semakin menurun.
+Harga turun naik dalam jangka pendek itu perkara biasa. Penyimpan emas yang berilmu, dia akan beli emas menggunkan duit simpanan jangka panjang, sekurang-kurangnya untuk jangka waktu 2 - 3 tahun.`,
+    link: ""
+  },
+  {
+    id: "q16",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Emas adalah duit tunai. Siapa ada emas, maksudnya dia ada duit juga!
+Kalau perlukan duit tunai, dia boleh jual emas atau gadai sahaja dulu di ar-rahnu untuk dapat duit on-the-spot!`,
+    link: ""
+  },
+  {
+    id: "q17",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Harga barang naik, harga emas turut sama naik.
+Harga barang naik (i.e. inflasi) itu petanda kuasa beli duit kertas menurun. Kita perlu bayar duit yang lebih banyak untuk dapat barang yang sama.
+
+Orang simpan emas, kekayaan dia selamat dari dimakan oleh inflasi.`,
+    link: ""
+  },
+  {
+    id: "q18",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Harga emas tak ada risiko jatuh lingkup macam saham.
+Emas satu-satu aset kewangan yang nilainya tak akan jatuh KOSONG. Belum pernah ada dalam sejarah orang bangkrap sebab simpan emas.`,
+    link: ""
+  },
+  {
+    id: "q19",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Orang yang tak ada ilmu, "dia takut beli emas". Sedangkan orang ada ilmu, "dia takut tidak memiliki emas".
+Sebab dia tahu kekayaan dia lebih terjamin kalau disimpan dalam bentuk emas!`,
+    link: ""
+  },
+  {
+    id: "q20",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Waktu tak ada duit, jangan sibuk nak melabur. Nanti duit yang ada tu akan cepat lebur.
+Bila tak ada duit, fokus simpan duit-duit tu dulu, dan tambah ilmu kewangan banyak-banyak.
+Labur pada diri sendiri dulu dengan banyak membaca buku-buku kewangan, bisnes, dan pelaburan.
+
+Nanti bila ada ilmu, barulah duit akan datang. Kalau tak ada ilmu, duit yang ada di tangan itu pun akan terbang!`,
+    link: ""
+  },
+  {
+    id: "q21",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Emas bagi saya lebih kepada "simpanan" berbanding "pelaburan".
+Bila simpan duit dalam bentuk emas, duit simpanan kita lebih bertahan lama sebab kita terpaksa ambil "tempoh bertenang" sebelum berbelanja; samada kena jual atau gadai dulu emas tu untuk dapatkan tunai segera.`,
+    link: ""
+  }
 ];
 
 /**
