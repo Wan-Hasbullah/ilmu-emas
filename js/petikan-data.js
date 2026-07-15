@@ -139,7 +139,7 @@ Tak perlu buat pinjaman untuk mulakan bisnes. Dan tak perlu meminjam untuk melab
 
 Bahkan kalau tanya nenek kita pun, dulu emas pun mahal juga, RM30 per gram katanya.`,
     link: ""
-  }
+  },
   {
     id: "q15",
     kategori: "tips-emas",
