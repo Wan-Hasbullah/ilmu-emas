@@ -22,8 +22,8 @@ const VIDEO_DATA = [
   {
     id: "video-001",
     category: "ilmu-kewangan",
-    title: "Ciri-Ciri Emas Paling Untung",
-    videoSrc: "https://raw.githubusercontent.com/Wan-Hasbullah/ilmu-emas/main/video/ciri-ciri-emas-paling-untung.mp4",
+    title: "Emas Sorokkan Kekayaan",
+    videoSrc: "https://raw.githubusercontent.com/Wan-Hasbullah/ilmu-emas/main/multimedia/emas-sorokkan-kekayaan.mp4",
     poster: "https://cdn.contohdomain.com/thumbnails/motivasi-mindset-01.jpg"
   },
   {
