@@ -21,9 +21,9 @@
 const VIDEO_DATA = [
   {
     id: "video-001",
-    category: "motivasi",
-    title: "3 Mindset Wajib Sebelum Mula Berniaga",
-    videoSrc: "https://cdn.contohdomain.com/videos/motivasi-mindset-01.mp4",
+    category: "ilmu-kewangan",
+    title: "Ciri-Ciri Emas Paling Unutng",
+    videoSrc: "video/ciri-ciri-emas-paling-untung.mp4",
     poster: "https://cdn.contohdomain.com/thumbnails/motivasi-mindset-01.jpg"
   },
   {
