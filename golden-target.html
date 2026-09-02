@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white selection:bg-amber-500 selection:text-zinc-950">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoldenTarget - Rancang Target. Simpan Emas. Capai Impian.</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+  tailwind.config = {
+    theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+  }
+</script>
+<style>
+  body { background: #09090b; }
+
+  /* ── Premium card ── */
+  .gt-card {
+    background: linear-gradient(145deg, #18181b 60%, #1c1917 100%);
+    border: 1px solid rgba(63,63,70,0.7);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Radial gold glow ── */
+  .gold-glow {
+    position: absolute;
+    top: -80px; right: -60px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(251,191,36,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Inputs ── */
+  .gt-input {
+    background: rgba(9,9,11,0.6);
+    border: 1px solid rgba(63,63,70,0.7);
+    border-radius: 14px;
+    color: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .gt-input:focus {
+    outline: none;
+    border-color: rgba(251,191,36,0.6);
+    box-shadow: 0 0 0 3px rgba(251,191,36,0.12);
+  }
+  .gt-input.error {
+    border-color: rgba(248,113,113,0.7);
+  }
+  select.gt-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23a1a1aa'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 18px;
+  }
+
+  /* ── Primary gold button ── */
+  .gt-btn-primary {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #09090b;
+    font-weight: 700;
+    border-radius: 16px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    box-shadow: 0 8px 24px rgba(245,158,11,0.18);
+  }
+  .gt-btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(245,158,11,0.32);
+  }
+  .gt-btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* ── Secondary button ── */
+  .gt-btn-secondary {
+    background: rgba(39,39,42,0.7);
+    border: 1px solid rgba(63,63,70,0.7);
+    color: #e4e4e7;
+    border-radius: 16px;
+    transition: all 0.2s;
+  }
+  .gt-btn-secondary:hover { background: rgba(63,63,70,0.7); border-color: rgba(251,191,36,0.3); color: #fbbf24; }
+
+  /* ── Fade up animation ── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fade-up 0.45s ease both; }
+
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card-fade { animation: card-in 0.3s ease both; }
+
+  /* ── Coffee Cup Animation (identiti daripada petikan.html) ── */
+  .coffee-cup-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 44px;
+  }
+  .coffee-cup-wrap svg {
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    bottom: 9px;
+  }
+  .steam {
+    stroke: #fbbf24;
+    stroke-width: 2;
+    stroke-linecap: round;
+    fill: none;
+    opacity: 0;
+    animation: steam-svg 1.8s ease-in-out infinite;
+  }
+  .steam-1 { animation-delay: 0s; }
+  .steam-2 { animation-delay: 0.5s; }
+  @keyframes steam-svg {
+    0%   { opacity: 0; transform: translateY(0px); }
+    30%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-7px); }
+  }
+
+  .coffee-tooltip {
+    position: absolute;
+    right: 44px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #1c1917, #18181b);
+    border: 1px solid rgba(251,191,36,0.35);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    padding: 5px 11px;
+    border-radius: 20px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 16px rgba(251,191,36,0.12);
+    letter-spacing: 0.02em;
+  }
+  .coffee-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 6px solid rgba(251,191,36,0.35);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+  .coffee-tooltip.visible { opacity: 1; }
+
+  #coffee-dropdown {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  #coffee-dropdown.show {
+    display: block !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* ── Toast ── */
+  #toast {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  /* ── Slim scrollbar ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+
+  .field-error {
+    color: #f87171;
+    font-size: 12px;
+    margin-top: 6px;
+    display: none;
+  }
+  .field-error.show { display: flex; }
+</style>
+</head>
+<body class="min-h-screen pb-14 font-sans antialiased bg-zinc-950">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-800/60 p-4 max-w-md mx-auto w-full flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="#" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+      <h1 class="text-base font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent tracking-tight">GoldenTarget</h1>
+    </div>
+
+    <div class="relative">
+      <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+        class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
+        style="background:none; border:none; padding:0;">
+        <div class="coffee-cup-wrap" id="coffee-cup-wrap" onmouseenter="showTooltip()" onmouseleave="hideTooltip()">
+          <div class="coffee-tooltip" id="coffee-tooltip">Nak capai target?</div>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          </svg>
+        </div>
+      </button>
+
+      <div id="coffee-dropdown"
+        class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+        <a href="https://pg2u.my/wanhasbullah/" target="_blank" rel="noopener"
+          class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+          <i class="fa-solid fa-user-plus text-amber-400"></i>
+          <span>Daftar Percuma</span>
+        </a>
+        <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" rel="noopener"
+          class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+          <i class="fa-solid fa-comments text-amber-400"></i>
+          <span>Pertanyaan</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-md mx-auto px-4 mt-6 space-y-6">
+
+    <!-- HERO -->
+    <div class="text-center space-y-3 relative">
+      <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-40px;"></div>
+      <p class="text-xs text-amber-400/90 uppercase tracking-widest font-semibold relative">Perancangan Target</p>
+      <h2 class="text-2xl font-extrabold text-white leading-snug relative">Berapa emas anda perlu simpan untuk capai impian?</h2>
+      <p class="text-sm text-zinc-400 leading-relaxed relative">Rancang target kewangan anda dan ketahui anggaran simpanan emas bulanan yang diperlukan untuk mencapai impian anda.</p>
+    </div>
+
+    <!-- CALCULATOR CARD -->
+    <div class="gt-card p-5 card-fade">
+      <div class="gold-glow"></div>
+      <div class="relative space-y-5">
+        <div>
+          <h3 class="text-lg font-bold text-white">Rancang Target Anda</h3>
+          <p class="text-sm text-zinc-400 mt-1">Masukkan maklumat di bawah untuk mendapatkan anggaran pelan simpanan emas anda.</p>
+        </div>
+
+        <!-- SOALAN 1 -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-200 mb-2">1. Apa target anda?</label>
+          <select id="target-select" class="gt-input w-full px-4 py-3.5 text-sm">
+            <option value="" disabled selected>Pilih target anda</option>
+            <option value="Kahwin">Kahwin</option>
+            <option value="Beli Kereta">Beli Kereta</option>
+            <option value="Beli Motor">Beli Motor</option>
+            <option value="Deposit Beli Rumah">Deposit Beli Rumah</option>
+            <option value="Beli Tanah">Beli Tanah</option>
+            <option value="Dana Pendidikan Anak">Dana Pendidikan Anak</option>
+            <option value="Dana Umrah">Dana Umrah</option>
+            <option value="Dana Haji">Dana Haji</option>
+            <option value="Lain-lain">Lain-lain</option>
+          </select>
+          <input id="target-custom" type="text" placeholder="Contoh: Modal Perniagaan, Percutian Keluarga"
+            class="gt-input w-full px-4 py-3.5 text-sm mt-2.5 hidden" />
+          <div class="field-error" id="err-target"><i class="fa-solid fa-triangle-exclamation mr-1.5 mt-0.5"></i><span>Sila pilih atau nyatakan target anda.</span></div>
+        </div>
+
+        <!-- SOALAN 2 -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-200 mb-2">2. Bilakah anda ingin capai?</label>
+          <select id="period-select" class="gt-input w-full px-4 py-3.5 text-sm">
+            <option value="" disabled selected>Pilih tempoh anda</option>
+            <option value="2">2 Tahun</option>
+            <option value="3">3 Tahun</option>
+            <option value="4">4 Tahun</option>
+            <option value="5">5 Tahun</option>
+            <option value="Lain-lain">Lain-lain</option>
+          </select>
+          <div class="relative mt-2.5 hidden" id="period-custom-wrap">
+            <input id="period-custom" type="text" inputmode="numeric" placeholder="7"
+              class="gt-input w-full pl-4 pr-16 py-3.5 text-sm" />
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-500">Tahun</span>
+          </div>
+          <div class="field-error" id="err-period"><i class="fa-solid fa-triangle-exclamation mr-1.5 mt-0.5"></i><span>Tempoh minimum ialah 2 tahun.</span></div>
+        </div>
+
+        <!-- SOALAN 3 -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-200 mb-2">3. Berapakah jumlah target anda?</label>
+          <select id="amount-select" class="gt-input w-full px-4 py-3.5 text-sm">
+            <option value="" disabled selected>Pilih jumlah target</option>
+            <option value="1000">RM1,000</option>
+            <option value="2000">RM2,000</option>
+            <option value="3000">RM3,000</option>
+            <option value="4000">RM4,000</option>
+            <option value="5000">RM5,000</option>
+            <option value="Lain-lain">Lain-lain</option>
+          </select>
+          <div class="relative mt-2.5 hidden" id="amount-custom-wrap">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-zinc-500">RM</span>
+            <input id="amount-custom" type="text" inputmode="numeric" placeholder="10,000"
+              class="gt-input w-full pl-11 pr-4 py-3.5 text-sm" />
+          </div>
+          <div class="field-error" id="err-amount"><i class="fa-solid fa-triangle-exclamation mr-1.5 mt-0.5"></i><span>Jumlah target mesti lebih daripada RM0.</span></div>
+        </div>
+
+        <!-- SOALAN 4 -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-200 mb-2">4. Berapakah harga emas 1 gram hari ini?</label>
+          <p class="text-xs text-zinc-500 mb-2.5">Semak harga emas terkini sebelum membuat kiraan.</p>
+          <a href="https://publicgold.com.my/" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-400 hover:text-yellow-300 transition-colors mb-2.5">
+            Semak Harga Public Gold <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          </a>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-zinc-500">RM</span>
+            <input id="gold-price" type="text" inputmode="decimal" placeholder="614"
+              class="gt-input w-full pl-11 pr-16 py-3.5 text-sm" />
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-500">/gram</span>
+          </div>
+          <div class="field-error" id="err-price"><i class="fa-solid fa-triangle-exclamation mr-1.5 mt-0.5"></i><span>Harga emas mesti lebih daripada RM0.</span></div>
+          <p class="text-xs text-zinc-500 mt-2.5">Harga emas boleh berubah mengikut harga semasa.</p>
+        </div>
+
+        <!-- BUTTON UTAMA -->
+        <button id="calc-btn" onclick="calculatePlan()" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2.5 text-sm">
+          <i class="fa-solid fa-calculator" id="calc-icon"></i>
+          <span id="calc-label">Kira Pelan Saya</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULT SECTION -->
+    <div id="result-section" class="space-y-5 hidden">
+
+      <!-- SUMMARY -->
+      <div class="gt-card p-5 fade-up">
+        <div class="relative grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Target Anda</p>
+            <p class="text-sm font-bold text-white" id="sum-target">-</p>
+          </div>
+          <div>
+            <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Tempoh</p>
+            <p class="text-sm font-bold text-white" id="sum-period">-</p>
+          </div>
+          <div>
+            <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Jumlah Target</p>
+            <p class="text-sm font-bold text-white" id="sum-amount">-</p>
+          </div>
+          <div>
+            <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Harga Emas Semasa</p>
+            <p class="text-sm font-bold text-white" id="sum-price">-</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULT UTAMA -->
+      <div class="gt-card p-6 text-center fade-up">
+        <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-60px;"></div>
+        <div class="relative space-y-5">
+          <p class="text-sm text-zinc-300 leading-relaxed" id="result-sentence">-</p>
+
+          <div>
+            <p class="text-4xl font-extrabold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent" id="result-gram">0.00 gram</p>
+            <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wide mt-1">setiap bulan</p>
+          </div>
+
+          <p class="text-xs text-zinc-500">atau kira-kira</p>
+
+          <div>
+            <p class="text-4xl font-extrabold text-white" id="result-rm">RM0.00</p>
+            <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wide mt-1">sebulan</p>
+          </div>
+
+          <div class="pt-4 border-t border-zinc-800/70">
+            <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Jumlah Emas Diperlukan</p>
+            <p class="text-lg font-bold text-amber-400" id="result-total-gram">0.00 gram</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOMENTUM CARD -->
+      <div class="gt-card p-5 fade-up">
+        <div class="relative space-y-3">
+          <div class="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center">
+            <i class="fa-solid fa-chart-line text-amber-400"></i>
+          </div>
+          <h4 class="text-base font-bold text-white leading-snug">Konsisten Lebih Penting Daripada Bermula Besar</h4>
+          <p class="text-sm text-zinc-400 leading-relaxed">Kaedah yang terbaik untuk membantu anda mengekalkan momentum dan konsisten menabung adalah melalui <span class="text-amber-400 font-semibold">GAP Auto Debit</span>.</p>
+          <p class="text-sm text-zinc-400 leading-relaxed">Dengan simpanan secara automatik, anda boleh membina disiplin dan momentum secara konsisten tanpa perlu mengingatinya setiap bulan.</p>
+          <a href="https://pg2u.my/wanhasbullah/gap-autodebit-all" target="_blank" rel="noopener"
+            class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2.5 text-sm mt-2">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Aktifkan GAP Auto Debit</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="grid grid-cols-2 gap-3 fade-up">
+        <button onclick="copyPlan()" class="gt-btn-secondary py-3.5 flex items-center justify-center gap-2 text-sm font-semibold">
+          <i class="fa-regular fa-copy text-amber-400"></i> Salin Pelan Saya
+        </button>
+        <button onclick="sharePlan()" class="gt-btn-secondary py-3.5 flex items-center justify-center gap-2 text-sm font-semibold">
+          <i class="fa-solid fa-share-nodes text-amber-400"></i> Kongsi Pelan
+        </button>
+      </div>
+
+      <button onclick="resetPlan()" class="w-full text-center text-sm font-semibold text-zinc-500 hover:text-amber-400 transition-colors py-2">
+        Kira Target Baru
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="max-w-md mx-auto px-4 mt-10 pt-6 border-t border-zinc-800/60 text-center space-y-2">
+    <p class="text-sm font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">GoldenTarget</p>
+    <p class="text-xs text-zinc-500">Rancang Target. Simpan Emas. Capai Impian.</p>
+    <p class="text-[11px] text-zinc-600 leading-relaxed pt-1">Harga emas boleh berubah mengikut pasaran. Kalkulator ini adalah untuk tujuan perancangan dan anggaran simpanan.</p>
+    <p class="text-[11px] text-zinc-700">&copy; 2026 GoldenTarget</p>
+  </footer>
+
+  <!-- SHARE MODAL -->
+  <div id="share-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-end justify-center px-4 pb-8 hidden opacity-0" style="transition:opacity 0.3s ease;">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 w-full max-w-sm space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h4 class="font-bold text-base text-white">Kongsi Pelan</h4>
+        <button onclick="closeShareModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-all">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="copyPlan(); closeShareModal();" class="flex items-center justify-center gap-2 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm font-semibold text-zinc-200 transition-all">
+          <i class="fa-regular fa-copy text-amber-400"></i> Salin
+        </button>
+        <button onclick="shareWhatsapp()" class="flex items-center justify-center gap-2 py-3 bg-[#1a3d2b] hover:bg-[#1f4a33] border border-[#25D366]/20 rounded-xl text-sm font-semibold text-[#25D366] transition-all">
+          <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-zinc-900 border border-amber-400/30 text-amber-300 text-sm font-semibold px-5 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none flex items-center gap-2">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-text">Berjaya</span>
+  </div>
+
+  <script>
+    // ── Coffee dropdown ──
+    function toggleCoffeeMenu() {
+      document.getElementById('coffee-dropdown').classList.toggle('show');
+    }
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('coffee-dropdown');
+      const btn = document.getElementById('coffee-btn');
+      if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+    function showTooltip() { document.getElementById('coffee-tooltip').classList.add('visible'); }
+    function hideTooltip() { document.getElementById('coffee-tooltip').classList.remove('visible'); }
+
+    // ── Element refs ──
+    const targetSelect = document.getElementById('target-select');
+    const targetCustom = document.getElementById('target-custom');
+    const periodSelect = document.getElementById('period-select');
+    const periodCustomWrap = document.getElementById('period-custom-wrap');
+    const periodCustom = document.getElementById('period-custom');
+    const amountSelect = document.getElementById('amount-select');
+    const amountCustomWrap = document.getElementById('amount-custom-wrap');
+    const amountCustom = document.getElementById('amount-custom');
+    const goldPrice = document.getElementById('gold-price');
+
+    targetSelect.addEventListener('change', () => {
+      targetCustom.classList.toggle('hidden', targetSelect.value !== 'Lain-lain');
+      clearError('target');
+    });
+    periodSelect.addEventListener('change', () => {
+      periodCustomWrap.classList.toggle('hidden', periodSelect.value !== 'Lain-lain');
+      clearError('period');
+    });
+    amountSelect.addEventListener('change', () => {
+      amountCustomWrap.classList.toggle('hidden', amountSelect.value !== 'Lain-lain');
+      clearError('amount');
+    });
+
+    // Numeric-only, comma-formatted for amount
+    amountCustom.addEventListener('input', () => {
+      let raw = amountCustom.value.replace(/[^0-9]/g, '');
+      amountCustom.value = raw ? Number(raw).toLocaleString('en-US') : '';
+      clearError('amount');
+    });
+
+    // Period: digits only, no decimals
+    periodCustom.addEventListener('input', () => {
+      periodCustom.value = periodCustom.value.replace(/[^0-9]/g, '');
+      clearError('period');
+    });
+
+    // Gold price: numeric + one decimal point
+    goldPrice.addEventListener('input', () => {
+      let v = goldPrice.value.replace(/[^0-9.]/g, '');
+      const parts = v.split('.');
+      if (parts.length > 2) v = parts[0] + '.' + parts.slice(1).join('');
+      goldPrice.value = v;
+      clearError('price');
+    });
+
+    function showError(field, message) {
+      const el = document.getElementById('err-' + field);
+      if (message) el.querySelector('span').textContent = message;
+      el.classList.add('show');
+      const input = document.getElementById(field === 'target' ? 'target-select' : field === 'period' ? 'period-select' : field === 'amount' ? 'amount-select' : 'gold-price');
+    }
+    function clearError(field) {
+      document.getElementById('err-' + field).classList.remove('show');
+    }
+
+    let lastResult = null;
+
+    function getTargetName() {
+      if (targetSelect.value === 'Lain-lain') return targetCustom.value.trim();
+      return targetSelect.value;
+    }
+    function getPeriodYears() {
+      if (periodSelect.value === 'Lain-lain') return periodCustom.value.trim();
+      return periodSelect.value;
+    }
+    function getAmount() {
+      if (amountSelect.value === 'Lain-lain') return amountCustom.value.replace(/,/g, '');
+      return amountSelect.value;
+    }
+
+    function validateAll() {
+      let valid = true;
+
+      // Target
+      const targetName = getTargetName();
+      if (!targetSelect.value) {
+        showError('target', 'Sila pilih target anda.');
+        valid = false;
+      } else if (targetSelect.value === 'Lain-lain' && !targetName) {
+        showError('target', 'Sila nyatakan nama target anda.');
+        valid = false;
+      } else {
+        clearError('target');
+      }
+
+      // Period
+      const periodRaw = getPeriodYears();
+      if (!periodSelect.value) {
+        showError('period', 'Sila pilih tempoh anda.');
+        valid = false;
+      } else if (periodSelect.value === 'Lain-lain') {
+        if (periodRaw === '' || !/^\d+$/.test(periodRaw)) {
+          showError('period', 'Tempoh mesti nombor bulat, tiada huruf atau desimal.');
+          valid = false;
+        } else if (parseInt(periodRaw, 10) < 2) {
+          showError('period', '⚠ Tempoh minimum ialah 2 tahun.');
+          valid = false;
+        } else {
+          clearError('period');
+        }
+      } else {
+        clearError('period');
+      }
+
+      // Amount
+      const amountRaw = getAmount();
+      if (!amountSelect.value) {
+        showError('amount', 'Sila pilih jumlah target.');
+        valid = false;
+      } else if (amountSelect.value === 'Lain-lain') {
+        if (amountRaw === '' || isNaN(amountRaw) || parseFloat(amountRaw) < 1) {
+          showError('amount', 'Jumlah target mesti lebih daripada RM0.');
+          valid = false;
+        } else {
+          clearError('amount');
+        }
+      } else {
+        clearError('amount');
+      }
+
+      // Gold price
+      const priceRaw = goldPrice.value.trim();
+      if (priceRaw === '' || isNaN(priceRaw) || parseFloat(priceRaw) <= 0) {
+        showError('price', 'Harga emas mesti lebih daripada RM0.');
+        valid = false;
+      } else {
+        clearError('price');
+      }
+
+      return valid;
+    }
+
+    function formatRM(n) {
+      return 'RM' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function formatGram(n) {
+      return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' gram';
+    }
+
+    function calculatePlan() {
+      if (!validateAll()) {
+        const firstError = document.querySelector('.field-error.show');
+        if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const btn = document.getElementById('calc-btn');
+      const icon = document.getElementById('calc-icon');
+      const label = document.getElementById('calc-label');
+      btn.disabled = true;
+      icon.className = 'fa-solid fa-spinner fa-spin';
+      label.textContent = 'Mengira...';
+
+      setTimeout(() => {
+        const targetName = getTargetName();
+        const years = parseInt(getPeriodYears(), 10);
+        const amount = parseFloat(getAmount());
+        const price = parseFloat(goldPrice.value);
+
+        const totalGramNeeded = amount / price;
+        const totalMonths = years * 12;
+        const gramPerMonth = totalGramNeeded / totalMonths;
+        const rmPerMonth = amount / totalMonths;
+
+        lastResult = { targetName, years, amount, price, totalGramNeeded, totalMonths, gramPerMonth, rmPerMonth };
+
+        document.getElementById('sum-target').textContent = targetName;
+        document.getElementById('sum-period').textContent = years + ' Tahun';
+        document.getElementById('sum-amount').textContent = formatRM(amount);
+        document.getElementById('sum-price').textContent = formatRM(price) + ' / gram';
+
+        document.getElementById('result-sentence').innerHTML =
+          `Untuk mencapai target <span class="text-amber-400 font-semibold">${escapeHtml(targetName)}</span> bernilai <span class="text-white font-semibold">${formatRM(amount)}</span> dalam tempoh <span class="text-white font-semibold">${years} tahun</span>, berdasarkan harga emas semasa <span class="text-white font-semibold">${formatRM(price)} per gram</span>, anda disarankan menyimpan:`;
+
+        document.getElementById('result-gram').textContent = formatGram(gramPerMonth);
+        document.getElementById('result-rm').textContent = formatRM(rmPerMonth);
+        document.getElementById('result-total-gram').textContent = formatGram(totalGramNeeded);
+
+        btn.disabled = false;
+        icon.className = 'fa-solid fa-calculator';
+        label.textContent = 'Kira Pelan Saya';
+
+        const resultSection = document.getElementById('result-section');
+        resultSection.classList.remove('hidden');
+        resultSection.querySelectorAll('.fade-up').forEach((el, i) => {
+          el.style.animationDelay = (i * 0.08) + 's';
+        });
+
+        setTimeout(() => {
+          resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }, 550);
+    }
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    function buildPlanText() {
+      if (!lastResult) return '';
+      const r = lastResult;
+      return `GOLDENTARGET
+
+PELAN SIMPANAN EMAS SAYA
+
+Target: ${r.targetName}
+Tempoh: ${r.years} Tahun
+Jumlah Target: ${formatRM(r.amount)}
+Harga Emas: ${formatRM(r.price)} / gram
+
+Jumlah Emas Diperlukan:
+${formatGram(r.totalGramNeeded)}
+
+Simpanan Disarankan:
+${formatGram(r.gramPerMonth)} sebulan
+
+Anggaran Nilai:
+${formatRM(r.rmPerMonth)} sebulan
+
+Rancang Target. Simpan Emas. Capai Impian.`;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-text').textContent = message;
+      toast.classList.remove('pointer-events-none');
+      toast.style.opacity = '1';
+      toast.style.transform = 'translate(-50%, -6px)';
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translate(-50%, 0)';
+        toast.classList.add('pointer-events-none');
+      }, 2200);
+    }
+
+    function copyPlan() {
+      const text = buildPlanText();
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Pelan berjaya disalin!');
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('Pelan berjaya disalin!');
+      } catch (e) {
+        showToast('Gagal menyalin. Sila cuba lagi.');
+      }
+      document.body.removeChild(ta);
+    }
+
+    function sharePlan() {
+      const text = buildPlanText();
+      if (!text) return;
+      if (navigator.share) {
+        navigator.share({ title: 'GoldenTarget - Pelan Simpanan Emas Saya', text: text })
+          .then(() => showToast('Pelan berjaya dikongsi!'))
+          .catch(() => {});
+      } else {
+        openShareModal();
+      }
+    }
+    function openShareModal() {
+      const modal = document.getElementById('share-modal');
+      modal.classList.remove('hidden');
+      requestAnimationFrame(() => { modal.style.opacity = '1'; });
+    }
+    function closeShareModal() {
+      const modal = document.getElementById('share-modal');
+      modal.style.opacity = '0';
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+    function shareWhatsapp() {
+      const text = buildPlanText();
+      const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+      window.open(url, '_blank');
+      closeShareModal();
+      showToast('Membuka WhatsApp...');
+    }
+
+    function resetPlan() {
+      targetSelect.value = '';
+      targetCustom.value = '';
+      targetCustom.classList.add('hidden');
+      periodSelect.value = '';
+      periodCustom.value = '';
+      periodCustomWrap.classList.add('hidden');
+      amountSelect.value = '';
+      amountCustom.value = '';
+      amountCustomWrap.classList.add('hidden');
+      goldPrice.value = '';
+      ['target', 'period', 'amount', 'price'].forEach(clearError);
+
+      document.getElementById('result-section').classList.add('hidden');
+      lastResult = null;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
