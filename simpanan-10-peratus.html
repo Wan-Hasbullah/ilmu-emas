@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simpanan 10% | Kalkulator Simpanan</title>
+<meta name="description" content="Kira sasaran simpanan kecemasan 3 bulan pendapatan dan cadangan simpanan 10% menggunakan nisbah 5% tunai dan 5% emas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --bg:#09090b;
+    --bg2:#18181b;
+    --card:#18181b;
+    --card2:#1c1917;
+    --gold:#fbbf24;
+    --gold2:#f59e0b;
+    --white:#ffffff;
+    --text2:#a1a1aa;
+    --border:#27272a;
+    --border2:#3f3f46;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1.5;
+  }
+
+  ::selection{ background:var(--gold); color:#09090b; }
+
+  ::-webkit-scrollbar{ width:6px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{ background:var(--border2); border-radius:4px; }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  .container{
+    width:100%;
+    max-width:1140px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+    border-radius:6px;
+  }
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(9,9,11,0.85);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(63,63,70,0.6);
+  }
+  .header-inner{
+    max-width:1140px;
+    margin:0 auto;
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .header-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .back-btn{
+    color:var(--text2);
+    background:none;
+    border:none;
+    font-size:17px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    transition:color .2s ease, background .2s ease;
+  }
+  .back-btn:hover{ color:var(--gold); background:rgba(251,191,36,0.08); }
+
+  .brand-title{
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    background:linear-gradient(90deg, var(--gold), #fde047);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+
+  .coffee-wrap{ position:relative; }
+  .coffee-btn{
+    background:none;
+    border:none;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:color .2s ease;
+  }
+  .coffee-btn:hover{ color:#fde68a; }
+  .coffee-cup{
+    position:relative;
+    width:36px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .coffee-cup svg{
+    width:26px;
+    height:26px;
+    position:absolute;
+    bottom:9px;
+  }
+  .steam{
+    stroke:#fbbf24;
+    stroke-width:2;
+    stroke-linecap:round;
+    fill:none;
+    opacity:0;
+    animation:steam-rise 1.8s ease-in-out infinite;
+  }
+  .steam-1{ animation-delay:0s; }
+  .steam-2{ animation-delay:.5s; }
+  @keyframes steam-rise{
+    0%{ opacity:0; transform:translateY(0); }
+    30%{ opacity:1; }
+    100%{ opacity:0; transform:translateY(-7px); }
+  }
+
+  .dropdown{
+    position:absolute;
+    right:0;
+    top:calc(100% + 12px);
+    width:220px;
+    background:#18181b;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:8px;
+    box-shadow:0 20px 45px rgba(0,0,0,0.45);
+    opacity:0;
+    transform:translateY(-8px);
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:60;
+  }
+  .dropdown.show{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .dropdown-item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 14px;
+    background:none;
+    border:none;
+    border-radius:12px;
+    color:#e4e4e7;
+    font-size:14px;
+    font-weight:500;
+    text-align:left;
+    transition:background .15s ease;
+  }
+  .dropdown-item:hover{ background:#27272a; }
+  .dropdown-item i{ color:var(--gold); width:16px; }
+
+  /* ============ HERO ============ */
+  .hero{
+    padding:56px 0 40px;
+    position:relative;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;
+    top:-40px;
+    right:-10%;
+    width:420px;
+    height:420px;
+    background:radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 14px;
+    border-radius:999px;
+    background:rgba(251,191,36,0.1);
+    border:1px solid rgba(251,191,36,0.25);
+    color:var(--gold);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    margin-bottom:22px;
+  }
+  .badge i{ font-size:11px; }
+
+  .hero h1{
+    font-size:clamp(28px, 5vw, 44px);
+    font-weight:800;
+    line-height:1.15;
+    letter-spacing:-0.02em;
+    max-width:640px;
+    margin-bottom:22px;
+  }
+  .hero p{
+    font-size:16px;
+    color:var(--text2);
+    max-width:560px;
+    margin-bottom:10px;
+    line-height:1.65;
+  }
+  .hero .critical-line{
+    color:#fbbf24;
+    font-weight:600;
+    margin-top:14px;
+    margin-bottom:30px;
+  }
+
+  .indicators{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .indicator{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 16px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    font-size:13px;
+    font-weight:600;
+    color:#d4d4d8;
+  }
+  .indicator i{ color:var(--gold); font-size:14px; }
+
+  /* ============ SECTION SHARED ============ */
+  section{ padding:64px 0; }
+  .section-head{
+    max-width:600px;
+    margin-bottom:32px;
+  }
+  .section-head h2{
+    font-size:clamp(22px, 3.4vw, 30px);
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin-bottom:10px;
+  }
+  .section-head p{
+    color:var(--text2);
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  .card{
+    background:linear-gradient(150deg, #18181b 55%, #1c1917 100%);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:26px;
+  }
+
+  /* ============ CALCULATOR SHARED ============ */
+  .field-label{
+    display:block;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .field-hint{
+    display:block;
+    font-size:12.5px;
+    color:var(--text2);
+    margin-bottom:12px;
+  }
+  .input-wrap{
+    position:relative;
+    display:flex;
+    align-items:center;
+  }
+  .input-prefix{
+    position:absolute;
+    left:18px;
+    font-weight:700;
+    color:var(--gold);
+    font-size:18px;
+    pointer-events:none;
+  }
+  .money-input{
+    width:100%;
+    background:#0f0f10;
+    border:1.5px solid var(--border2);
+    border-radius:14px;
+    padding:16px 18px 16px 46px;
+    font-size:20px;
+    font-weight:700;
+    color:var(--white);
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  .money-input::placeholder{ color:#52525b; font-weight:500; }
+  .money-input:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 4px rgba(251,191,36,0.12);
+  }
+
+  /* result card - emergency */
+  .result-card{
+    margin-top:22px;
+    padding:28px;
+    border-radius:20px;
+    background:linear-gradient(135deg, rgba(251,191,36,0.1), rgba(24,24,27,0.4));
+    border:1px solid rgba(251,191,36,0.25);
+    text-align:left;
+  }
+  .result-label{
+    font-size:12px;
+    font-weight:700;
+    color:var(--gold);
+    letter-spacing:0.04em;
+    margin-bottom:10px;
+  }
+  .result-value{
+    font-size:clamp(32px, 6vw, 44px);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin-bottom:8px;
+    transition:transform .25s ease;
+  }
+  .result-value.pulse{ transform:scale(1.03); }
+  .result-sub{
+    font-size:13px;
+    color:var(--text2);
+  }
+  .formula-line{
+    margin-top:16px;
+    font-size:13px;
+    color:#a1a1aa;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .formula-line b{ color:var(--white); }
+
+  /* ============ 10% CTA BUTTON ============ */
+  .cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 26px;
+    background:linear-gradient(90deg, var(--gold), var(--gold2));
+    color:#09090b;
+    font-weight:800;
+    font-size:15px;
+    border:none;
+    border-radius:14px;
+    letter-spacing:0.01em;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 8px 24px rgba(251,191,36,0.18);
+  }
+  .cta-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(251,191,36,0.28); }
+
+  /* ============ RATIO VISUAL ============ */
+  .ratio-visual{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    margin:34px 0 8px;
+    color:var(--text2);
+    font-size:13px;
+    font-weight:600;
+  }
+  .ratio-visual .top-tag{
+    padding:8px 18px;
+    border-radius:999px;
+    border:1px solid var(--border2);
+    color:var(--white);
+    font-weight:700;
+  }
+  .ratio-visual i{ color:var(--border2); font-size:14px; }
+  .ratio-split{
+    display:flex;
+    gap:10px;
+    font-weight:700;
+    color:var(--gold);
+  }
+
+  .ratio-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+    margin-top:20px;
+  }
+  @media (min-width:720px){
+    .ratio-grid{ grid-template-columns:1fr 1fr; }
+  }
+
+  .ratio-card{
+    padding:24px;
+    border-radius:18px;
+    border:1px solid var(--border);
+    background:var(--card);
+    position:relative;
+    overflow:hidden;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .ratio-card:hover{ transform:translateY(-3px); }
+  .ratio-card.cash{ border-color:var(--border2); }
+  .ratio-card.gold{ border-color:rgba(251,191,36,0.3); background:linear-gradient(150deg, #1c1917, #18181b); }
+
+  .ratio-card .top-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .ratio-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+  }
+  .ratio-card.cash .ratio-icon{ background:rgba(161,161,170,0.12); color:#d4d4d8; }
+  .ratio-card.gold .ratio-icon{ background:rgba(251,191,36,0.14); color:var(--gold); }
+
+  .ratio-pct{
+    font-size:13px;
+    font-weight:800;
+    padding:5px 12px;
+    border-radius:999px;
+  }
+  .ratio-card.cash .ratio-pct{ background:rgba(161,161,170,0.12); color:#d4d4d8; }
+  .ratio-card.gold .ratio-pct{ background:rgba(251,191,36,0.14); color:var(--gold); }
+
+  .ratio-card .label{
+    font-size:12px;
+    color:var(--text2);
+    font-weight:700;
+    letter-spacing:0.03em;
+    margin-bottom:6px;
+  }
+  .ratio-card .value{
+    font-size:30px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    transition:transform .25s ease;
+  }
+  .ratio-card .value.pulse{ transform:scale(1.04); }
+
+  .total-card{
+    margin-top:16px;
+    padding:24px 26px;
+    border-radius:18px;
+    background:linear-gradient(90deg, rgba(251,191,36,0.1), rgba(245,158,11,0.04));
+    border:1px solid rgba(251,191,36,0.3);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .total-card .label{
+    font-size:12px;
+    font-weight:700;
+    color:var(--gold);
+    letter-spacing:0.04em;
+    margin-bottom:6px;
+  }
+  .total-card .value{
+    font-size:32px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .total-card .pct-tag{
+    font-size:20px;
+    font-weight:800;
+    color:var(--gold);
+  }
+
+  /* conclusion card */
+  .conclusion-card{
+    margin-top:22px;
+    padding:26px;
+    border-radius:18px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:3px solid var(--gold);
+  }
+  .conclusion-card h3{
+    font-size:16px;
+    font-weight:800;
+    margin-bottom:12px;
+  }
+  .conclusion-card p{
+    font-size:14.5px;
+    color:#d4d4d8;
+    line-height:1.7;
+    margin-bottom:10px;
+  }
+  .conclusion-card p:last-child{ margin-bottom:0; }
+  .conclusion-card b{ color:var(--gold); }
+
+  /* ============ MENGAPA / ACCORDION ============ */
+  .accordion-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 24px;
+    background:var(--card);
+    border:1px solid var(--border2);
+    color:var(--white);
+    font-weight:700;
+    font-size:14.5px;
+    border-radius:14px;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .accordion-btn:hover{ border-color:var(--gold); background:#1f1f22; }
+  .accordion-btn i{ color:var(--gold); transition:transform .3s ease; }
+  .accordion-btn.open i{ transform:rotate(180deg); }
+
+  .accordion-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s ease;
+  }
+  .accordion-inner{
+    padding-top:24px;
+  }
+  .accordion-inner p{
+    color:#d4d4d8;
+    font-size:15px;
+    line-height:1.75;
+    max-width:640px;
+    margin-bottom:14px;
+  }
+
+  .explain-visual{
+    margin-top:32px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+  .explain-flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    color:var(--text2);
+    font-size:13px;
+    font-weight:700;
+  }
+  .explain-flow .node{
+    padding:10px 20px;
+    border-radius:12px;
+    border:1px solid var(--border2);
+    color:var(--white);
+  }
+  .explain-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+    margin-top:18px;
+    width:100%;
+  }
+  @media (min-width:640px){
+    .explain-grid{ grid-template-columns:1fr 1fr; max-width:520px; }
+  }
+  .explain-box{
+    padding:22px;
+    border-radius:16px;
+    text-align:center;
+    border:1px solid var(--border);
+    background:var(--card);
+  }
+  .explain-box.gold{ border-color:rgba(251,191,36,0.3); }
+  .explain-box .pct{ font-size:20px; font-weight:800; margin-bottom:6px; }
+  .explain-box.gold .pct{ color:var(--gold); }
+  .explain-box .tag{ font-size:12px; color:var(--text2); font-weight:700; letter-spacing:0.03em; }
+
+  /* ============ PERTANYAAN ============ */
+  .pertanyaan-card{
+    padding:34px;
+    border-radius:22px;
+    background:linear-gradient(135deg, #18181b, #1c1917);
+    border:1px solid var(--border);
+    text-align:center;
+  }
+  .pertanyaan-card h2{
+    font-size:24px;
+    font-weight:800;
+    margin-bottom:12px;
+  }
+  .pertanyaan-card p{
+    color:var(--text2);
+    font-size:14.5px;
+    max-width:460px;
+    margin:0 auto 22px;
+    line-height:1.65;
+  }
+
+  footer{
+    padding:30px 0 50px;
+    text-align:center;
+    color:#52525b;
+    font-size:12.5px;
+  }
+
+  /* fade-up on view */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (max-width:640px){
+    .hero{ padding:40px 0 32px; }
+    section{ padding:48px 0; }
+    .card{ padding:20px; }
+    .result-card{ padding:22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="back-btn" id="scrollTopBtn" aria-label="Kembali ke atas">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <h1 class="brand-title">SIMPANAN 10%</h1>
+    </div>
+
+    <div class="coffee-wrap">
+      <button class="coffee-btn" id="coffeeBtn" aria-haspopup="true" aria-expanded="false" aria-label="Buka menu">
+        <span class="coffee-cup">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          </svg>
+        </span>
+      </button>
+
+      <div class="dropdown" id="coffeeDropdown">
+        <button class="dropdown-item" id="menuPanduan">
+          <i class="fa-solid fa-book-open"></i>
+          <span>Panduan Simpanan</span>
+        </button>
+        <button class="dropdown-item" id="menuPertanyaan">
+          <i class="fa-solid fa-comments"></i>
+          <span>Pertanyaan</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge reveal"><i class="fa-solid fa-chart-line"></i> PENILAIAN KEWANGAN PERIBADI</span>
+      <h1 class="reveal">Adakah Simpanan Anda Sudah Bersedia Untuk Kecemasan?</h1>
+      <p class="reveal">Adakah anda sudah mempunyai simpanan kecemasan 3 bulan gaji? Atau anda belum mempunyai simpanan walaupun RM1,000?</p>
+      <p class="critical-line reveal">Jika tiada, bermakna kewangan anda dalam keadaan kritikal.</p>
+
+      <div class="indicators reveal">
+        <div class="indicator"><i class="fa-solid fa-shield-heart"></i> Simpanan Kecemasan</div>
+        <div class="indicator"><i class="fa-solid fa-scale-balanced"></i> Kewangan Lebih Teratur</div>
+        <div class="indicator"><i class="fa-solid fa-arrow-trend-up"></i> Simpanan Konsisten</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAHAGIAN 2: KALKULATOR KECEMASAN -->
+  <section id="kecemasan">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Kalkulator Simpanan Kecemasan</h2>
+        <p>Ketahui sasaran simpanan kecemasan berdasarkan 3 bulan pendapatan anda.</p>
+      </div>
+
+      <div class="card reveal" style="max-width:520px;">
+        <label class="field-label" for="incomeEmergency">Berapa pendapatan kasar anda?</label>
+        <span class="field-hint">Termasuk pendapatan sampingan</span>
+        <div class="input-wrap">
+          <span class="input-prefix">RM</span>
+          <input type="text" inputmode="decimal" id="incomeEmergency" class="money-input" placeholder="0" aria-label="Pendapatan kasar untuk simpanan kecemasan">
+        </div>
+
+        <div class="formula-line">
+          <i class="fa-solid fa-calculator"></i>
+          <span>Pendapatan Kasar <b>× 3 bulan</b></span>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">SASARAN SIMPANAN KECEMASAN</div>
+          <div class="result-value" id="emergencyResult">RM0</div>
+          <div class="result-sub" id="emergencySub">Masukkan pendapatan anda untuk melihat sasaran simpanan kecemasan.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAHAGIAN 3: SIMPANAN 10% -->
+  <section id="sepuluh-peratus">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Kalkulator Simpanan 10% Daripada Pendapatan</h2>
+        <p>Bahagikan 10% pendapatan anda kepada nisbah 5% tunai dan 5% emas — strategi mudah untuk kekal konsisten menyimpan.</p>
+      </div>
+
+      <button class="cta-btn reveal" id="ctaTenPercent">
+        <i class="fa-solid fa-coins"></i> SIMPANAN 10%
+      </button>
+
+      <div class="card reveal" style="max-width:520px; margin-top:28px;">
+        <label class="field-label" for="incomeTen">Berapa pendapatan kasar anda?</label>
+        <span class="field-hint">Termasuk pendapatan sampingan</span>
+        <div class="input-wrap">
+          <span class="input-prefix">RM</span>
+          <input type="text" inputmode="decimal" id="incomeTen" class="money-input" placeholder="0" aria-label="Pendapatan kasar untuk simpanan 10%">
+        </div>
+      </div>
+
+      <div id="nisbah" class="reveal">
+        <div class="ratio-visual">
+          <span class="top-tag">SIMPANAN 10%</span>
+          <i class="fa-solid fa-chevron-down"></i>
+          <div class="ratio-split"><span>5%</span><span>:</span><span>5%</span></div>
+        </div>
+
+        <div class="ratio-grid">
+          <div class="ratio-card cash">
+            <div class="top-row">
+              <div class="ratio-icon"><i class="fa-solid fa-wallet"></i></div>
+              <span class="ratio-pct">5%</span>
+            </div>
+            <div class="label">SIMPANAN TUNAI</div>
+            <div class="value" id="cashValue">RM0</div>
+          </div>
+
+          <div class="ratio-card gold">
+            <div class="top-row">
+              <div class="ratio-icon"><i class="fa-solid fa-coins"></i></div>
+              <span class="ratio-pct">5%</span>
+            </div>
+            <div class="label">SIMPANAN EMAS</div>
+            <div class="value" id="goldValue">RM0</div>
+          </div>
+        </div>
+
+        <div class="total-card">
+          <div>
+            <div class="label">JUMLAH SIMPANAN BULANAN</div>
+            <div class="value" id="totalValue">RM0</div>
+          </div>
+          <div class="pct-tag">10%</div>
+        </div>
+
+        <div class="conclusion-card">
+          <h3>Cadangan Simpanan Anda</h3>
+          <p id="conclusionText">Masukkan pendapatan anda di atas untuk melihat cadangan simpanan yang sesuai.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAHAGIAN 4: MENGAPA PERLU BEGINI -->
+  <section id="mengapa">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Mengapa Perlu Begini?</h2>
+        <p>Fahami sebab di sebalik pembahagian nisbah 5% tunai dan 5% emas.</p>
+      </div>
+
+      <button class="accordion-btn reveal" id="accordionBtn" aria-expanded="false" aria-controls="accordionPanel">
+        <span>MENGAPA PERLU BEGINI?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+
+      <div class="accordion-panel reveal" id="accordionPanel">
+        <div class="accordion-inner">
+          <p>Ramai menyediakan simpanan dalam bentuk tunai, tetapi akhirnya simpanan tersebut bocor juga.</p>
+          <p>Jadi, pertimbangkan kaedah pembahagian simpanan 5:5 ini.</p>
+          <p>Jika simpanan tunai bocor atau digunakan untuk perkara yang tidak dirancang, paling tidak simpanan emas anda masih kekal dan terus bertambah.</p>
+
+          <div class="explain-visual">
+            <div class="explain-flow">
+              <div class="node">PENDAPATAN</div>
+              <i class="fa-solid fa-chevron-down"></i>
+              <div class="node">SIMPANAN 10%</div>
+            </div>
+            <div class="explain-grid">
+              <div class="explain-box">
+                <div class="pct">5% TUNAI</div>
+                <div class="tag">KECEMASAN</div>
+              </div>
+              <div class="explain-box gold">
+                <div class="pct">5% EMAS</div>
+                <div class="tag">KONSISTENSI</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERTANYAAN -->
+  <section id="pertanyaan">
+    <div class="container">
+      <div class="pertanyaan-card reveal">
+        <h2>Ada Pertanyaan?</h2>
+        <p>Jika anda mempunyai pertanyaan mengenai strategi simpanan tunai dan emas, gunakan saluran pertanyaan yang disediakan.</p>
+        <a href="#" class="cta-btn"><i class="fa-solid fa-paper-plane"></i> TANYA SEKARANG</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Simpanan 10% — Bina Simpanan. Kukuhkan Masa Depan.
+</footer>
+
+<script>
+(function(){
+
+  /* ---------- Currency helpers ---------- */
+  function parseAmount(raw){
+    if(!raw) return 0;
+    var cleaned = raw.toString().replace(/[^0-9.]/g, '');
+    var val = parseFloat(cleaned);
+    if(isNaN(val) || val < 0) return 0;
+    return val;
+  }
+
+  function formatRM(amount){
+    if(!amount || amount <= 0) return 'RM0';
+    var hasCents = Math.round(amount * 100) % 100 !== 0;
+    var opts = hasCents
+      ? { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+      : { minimumFractionDigits: 0, maximumFractionDigits: 0 };
+    return 'RM' + amount.toLocaleString('en-MY', opts);
+  }
+
+  function pulse(el){
+    el.classList.remove('pulse');
+    void el.offsetWidth;
+    el.classList.add('pulse');
+  }
+
+  /* ---------- Header: back to top ---------- */
+  document.getElementById('scrollTopBtn').addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- Coffee dropdown ---------- */
+  var coffeeBtn = document.getElementById('coffeeBtn');
+  var dropdown = document.getElementById('coffeeDropdown');
+
+  function closeDropdown(){
+    dropdown.classList.remove('show');
+    coffeeBtn.setAttribute('aria-expanded', 'false');
+  }
+  function toggleDropdown(e){
+    e.stopPropagation();
+    var isOpen = dropdown.classList.toggle('show');
+    coffeeBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+  coffeeBtn.addEventListener('click', toggleDropdown);
+
+  document.addEventListener('click', function(e){
+    if(!dropdown.contains(e.target) && e.target !== coffeeBtn){
+      closeDropdown();
+    }
+  });
+
+  function scrollToId(id){
+    var el = document.getElementById(id);
+    if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.getElementById('menuPanduan').addEventListener('click', function(){
+    scrollToId('mengapa');
+    closeDropdown();
+  });
+  document.getElementById('menuPertanyaan').addEventListener('click', function(){
+    scrollToId('pertanyaan');
+    closeDropdown();
+  });
+
+  /* ---------- CTA scroll to nisbah ---------- */
+  document.getElementById('ctaTenPercent').addEventListener('click', function(){
+    scrollToId('nisbah');
+  });
+
+  /* ---------- Kalkulator Kecemasan ---------- */
+  var incomeEmergency = document.getElementById('incomeEmergency');
+  var emergencyResult = document.getElementById('emergencyResult');
+  var emergencySub = document.getElementById('emergencySub');
+
+  incomeEmergency.addEventListener('input', function(){
+    var income = parseAmount(incomeEmergency.value);
+    var target = income * 3;
+    if(income > 0){
+      emergencyResult.textContent = formatRM(target);
+      emergencySub.textContent = 'Berdasarkan 3 bulan pendapatan kasar.';
+    } else {
+      emergencyResult.textContent = 'RM0';
+      emergencySub.textContent = 'Masukkan pendapatan anda untuk melihat sasaran simpanan kecemasan.';
+    }
+    pulse(emergencyResult);
+  });
+
+  /* ---------- Kalkulator 10% (5:5) ---------- */
+  var incomeTen = document.getElementById('incomeTen');
+  var cashValue = document.getElementById('cashValue');
+  var goldValue = document.getElementById('goldValue');
+  var totalValue = document.getElementById('totalValue');
+  var conclusionText = document.getElementById('conclusionText');
+
+  function updateTenPercent(){
+    var income = parseAmount(incomeTen.value);
+    var cash = income * 0.05;
+    var gold = income * 0.05;
+    var total = income * 0.10;
+
+    cashValue.textContent = formatRM(cash);
+    goldValue.textContent = formatRM(gold);
+    totalValue.textContent = formatRM(total);
+    pulse(cashValue);
+    pulse(goldValue);
+
+    if(income > 0){
+      conclusionText.innerHTML =
+        'Anda perlu membuat simpanan tunai <b>' + formatRM(cash) + '</b> ke akaun yang sukar dibelanjakan dan tidak terlalu susah untuk dikeluarkan jika berlaku kecemasan.<br><br>' +
+        'Bagi fasa ini, anda boleh memilih salah satu platform simpanan yang sesuai seperti Tabung Haji atau ASB.<br><br>' +
+        'Anda juga perlu membuat simpanan emas <b>' + formatRM(gold) + '</b> secara automatik supaya anda kekal konsisten menyimpan.';
+    } else {
+      conclusionText.textContent = 'Masukkan pendapatan anda di atas untuk melihat cadangan simpanan yang sesuai.';
+    }
+  }
+
+  incomeTen.addEventListener('input', updateTenPercent);
+  updateTenPercent();
+
+  /* ---------- Accordion ---------- */
+  var accordionBtn = document.getElementById('accordionBtn');
+  var accordionPanel = document.getElementById('accordionPanel');
+
+  accordionBtn.addEventListener('click', function(){
+    var isOpen = accordionBtn.classList.toggle('open');
+    accordionBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if(isOpen){
+      accordionPanel.style.maxHeight = accordionPanel.scrollHeight + 'px';
+    } else {
+      accordionPanel.style.maxHeight = '0px';
+    }
+  });
+
+  window.addEventListener('resize', function(){
+    if(accordionBtn.classList.contains('open')){
+      accordionPanel.style.maxHeight = accordionPanel.scrollHeight + 'px';
+    }
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+})();
+</script>
+
+</body>
+</html>
