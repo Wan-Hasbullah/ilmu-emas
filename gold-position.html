@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white selection:bg-amber-500 selection:text-zinc-950">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Position — Kenali Kedudukan Anda Dalam Simpanan Emas</title>
+<meta name="description" content="Kenali kategori anda dan fahami bagaimana simpanan emas boleh menjadi sebahagian daripada strategi simpanan dan diversifikasi jangka panjang.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } } }
+</script>
+<style>
+  body { background: #09090b; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .gp-card {
+    background: linear-gradient(145deg, #18181b 60%, #1c1917 100%);
+    border: 1px solid rgba(63,63,70,0.7);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .gp-card.active {
+    border-color: rgba(251,191,36,0.55);
+    box-shadow: 0 12px 40px rgba(251,191,36,0.12);
+    transform: translateY(-2px);
+  }
+  .gold-glow {
+    position: absolute; top: -80px; right: -60px; width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(251,191,36,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .gt-btn-primary {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #09090b; font-weight: 700; border-radius: 16px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 8px 24px rgba(245,158,11,0.18);
+  }
+  .gt-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(245,158,11,0.32); }
+  .gt-btn-secondary {
+    background: rgba(39,39,42,0.7); border: 1px solid rgba(63,63,70,0.7);
+    color: #e4e4e7; border-radius: 16px; transition: all 0.2s;
+  }
+  .gt-btn-secondary:hover { background: rgba(63,63,70,0.7); border-color: rgba(251,191,36,0.3); color: #fbbf24; }
+
+  .coffee-cup-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 44px; }
+  .coffee-cup-wrap svg { width: 26px; height: 26px; position: absolute; bottom: 9px; }
+  .steam { stroke: #fbbf24; stroke-width: 2; stroke-linecap: round; fill: none; opacity: 0; animation: steam-svg 1.8s ease-in-out infinite; }
+  .steam-1 { animation-delay: 0s; } .steam-2 { animation-delay: 0.5s; }
+  @keyframes steam-svg { 0% { opacity:0; transform:translateY(0);} 30%{opacity:1;} 100%{opacity:0; transform:translateY(-7px);} }
+  .coffee-tooltip {
+    position: absolute; right: 44px; top: 50%; transform: translateY(-50%);
+    background: linear-gradient(135deg, #1c1917, #18181b); border: 1px solid rgba(251,191,36,0.35);
+    color: #fbbf24; font-size: 11px; font-weight: 700; white-space: nowrap; padding: 5px 11px;
+    border-radius: 20px; pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
+    box-shadow: 0 4px 16px rgba(251,191,36,0.12); letter-spacing: 0.02em;
+  }
+  .coffee-tooltip::after { content:''; position:absolute; right:-6px; top:50%; transform:translateY(-50%); border-left:6px solid rgba(251,191,36,0.35); border-top:5px solid transparent; border-bottom:5px solid transparent; }
+  .coffee-tooltip.visible { opacity: 1; }
+  #coffee-dropdown { transition: opacity 0.2s ease, transform 0.2s ease; }
+  #coffee-dropdown.show { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
+
+  @keyframes fade-up { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+  .fade-up { animation: fade-up 0.5s ease both; }
+  .fade-up-delay-1 { animation-delay: .08s; } .fade-up-delay-2 { animation-delay: .16s; } .fade-up-delay-3 { animation-delay: .24s; }
+
+  .position-num {
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .selector-pill {
+    border: 1px solid rgba(63,63,70,0.7); border-radius: 18px; background: rgba(24,24,27,0.6);
+    transition: all 0.25s ease; cursor: pointer;
+  }
+  .selector-pill:hover { border-color: rgba(251,191,36,0.35); }
+  .selector-pill.active {
+    border-color: rgba(251,191,36,0.6); background: rgba(251,191,36,0.06);
+    box-shadow: 0 0 0 1px rgba(251,191,36,0.15) inset;
+  }
+
+  .prose-narrow { max-width: 640px; }
+
+  .quote-card {
+    background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
+    color: #1c1917; border-radius: 24px;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased bg-zinc-950">
+
+  <!-- HEADER (identiti sama seperti petikan.html / GoldenTarget) -->
+  <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-800/60 p-4 max-w-md mx-auto w-full flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="https://ilmu-emas.pages.dev/" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+      <h1 class="text-base font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent tracking-tight">Gold Position</h1>
+    </div>
+    <div class="relative">
+      <button onclick="toggleCoffeeMenu()" id="coffee-btn" class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300" style="background:none; border:none; padding:0;">
+        <div class="coffee-cup-wrap" id="coffee-cup-wrap" onmouseenter="showTooltip()" onmouseleave="hideTooltip()">
+          <div class="coffee-tooltip" id="coffee-tooltip">Kenali kedudukan anda</div>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
+            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
+            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
+            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          </svg>
+        </div>
+      </button>
+      <div id="coffee-dropdown" class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+        <a href="https://pg2u.my/wanhasbullah/" target="_blank" rel="noopener" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+          <i class="fa-solid fa-user-plus text-amber-400"></i><span>Daftar Percuma</span>
+        </a>
+        <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+          <i class="fa-solid fa-comments text-amber-400"></i><span>Pertanyaan</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-md mx-auto px-4">
+
+    <!-- HERO -->
+    <section class="text-center pt-10 pb-8 relative">
+      <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-30px;"></div>
+      <p class="text-xs text-amber-400/90 uppercase tracking-widest font-bold relative mb-4">Gold Position &middot; Gold Savings Insight</p>
+      <h2 class="text-3xl font-extrabold leading-tight relative">ANDA BERADA DI<br><span class="bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">KEDUDUKAN YANG MANA?</span></h2>
+      <p class="text-sm text-zinc-400 leading-relaxed mt-4 relative">Kenali kategori anda dan fahami bagaimana simpanan emas mungkin memainkan peranan dalam perjalanan kewangan anda.</p>
+      <p class="text-sm text-zinc-500 leading-relaxed mt-3 relative">Tidak semua orang perlu menyimpan emas. Tetapi berdasarkan keadaan dan kedudukan kewangan tertentu, sesetengah individu mungkin mendapat manfaat daripada menjadikan emas sebahagian daripada strategi simpanan dan diversifikasi mereka.</p>
+      <button onclick="scrollToId('categories')" class="gt-btn-primary w-full py-4 mt-6 text-sm relative">KENALI KEDUDUKAN SAYA</button>
+    </section>
+
+    <!-- INTRO -->
+    <section class="py-8 border-t border-zinc-800/60 text-center">
+      <h3 class="text-lg font-extrabold text-white">TAK SEMUA ORANG PERLU SIMPAN EMAS.</h3>
+      <p class="text-sm text-zinc-400 leading-relaxed mt-3">Tidak semua individu mempunyai keperluan kewangan yang sama. Dalam sesetengah keadaan, simpanan tunai atau instrumen simpanan lain mungkin lebih sesuai.</p>
+      <p class="text-sm text-zinc-400 leading-relaxed mt-3">Namun, berdasarkan pengalaman dan pemerhatian terhadap corak simpanan, terdapat beberapa kategori individu yang mungkin mendapat manfaat besar daripada menjadikan emas sebahagian daripada simpanan mereka.</p>
+      <div class="mt-5 text-xs font-bold tracking-widest text-amber-400/90 space-y-1">
+        <p>3 KEDUDUKAN.</p><p>3 SITUASI.</p><p>3 CARA MELIHAT SIMPANAN.</p>
+      </div>
+    </section>
+
+    <!-- CATEGORY CARDS -->
+    <section id="categories" class="py-8 border-t border-zinc-800/60">
+      <h3 class="text-lg font-extrabold text-white text-center">KENALI GOLD POSITION ANDA</h3>
+      <p class="text-sm text-zinc-400 text-center mt-2 mb-6">Setiap orang mempunyai kedudukan kewangan yang berbeza. Pilih kategori yang paling hampir dengan keadaan anda sekarang.</p>
+      <div class="space-y-4" id="category-cards"></div>
+    </section>
+
+    <!-- INTERACTIVE SELECTOR -->
+    <section class="py-8 border-t border-zinc-800/60 text-center">
+      <h3 class="text-lg font-extrabold text-white leading-snug">ANDA TERGOLONG DALAM<br>GOLD POSITION YANG MANA?</h3>
+      <p class="text-sm text-zinc-400 mt-2 mb-6">Pilih kedudukan yang paling hampir dengan keadaan kewangan anda hari ini.</p>
+      <div class="space-y-3" id="selector-pills"></div>
+    </section>
+
+    <!-- DETAIL SECTION -->
+    <section id="detail-section" class="py-8 border-t border-zinc-800/60 prose-narrow mx-auto"></section>
+
+    <!-- FINAL CTA -->
+    <section class="py-10 border-t border-zinc-800/60 text-center relative">
+      <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-30px;"></div>
+      <h3 class="text-xl font-extrabold text-white leading-snug relative">SEDIAKAN PAYUNG<br>SEBELUM HUJAN.</h3>
+      <p class="text-sm text-zinc-400 leading-relaxed mt-3 relative">Kita sentiasa mengharapkan yang terbaik. Tetapi perancangan kewangan juga bermula dengan persediaan terhadap perkara yang tidak dijangka.</p>
+      <p class="text-sm text-zinc-400 leading-relaxed mt-2 relative">Kenali kedudukan anda hari ini. Kemudian bina langkah kecil untuk masa depan anda.</p>
+      <p class="text-xs font-bold tracking-widest text-amber-400/90 mt-6 relative">ANDA BERADA DI KEDUDUKAN YANG MANA?</p>
+      <div class="space-y-3 mt-4 relative" id="final-selector-pills"></div>
+
+      <div class="gp-card p-5 mt-8 relative text-left">
+        <div class="gold-glow"></div>
+        <div class="relative">
+          <h4 class="text-base font-bold text-white">MULAKAN DENGAN LANGKAH KECIL.</h4>
+          <p class="text-sm text-zinc-400 mt-2 leading-relaxed">Konsistensi boleh menjadi sebahagian penting dalam membina tabungan jangka panjang.</p>
+          <a href="https://www.publicgoldofficial.com/zulkifli/gap-autodebit" target="_blank" rel="noopener" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm mt-4">
+            <i class="fa-solid fa-bolt"></i> TEROKA SIMPANAN EMAS GAP
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="max-w-md mx-auto px-4 mt-4 pt-6 pb-14 border-t border-zinc-800/60 text-center space-y-2">
+    <p class="text-sm font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">GOLD POSITION</p>
+    <p class="text-xs text-zinc-500">Kenali Kedudukan Anda.<br>Bina Masa Depan Anda.</p>
+    <p class="text-[11px] text-zinc-600 leading-relaxed pt-2">Maklumat dalam aplikasi ini adalah untuk tujuan pendidikan dan perkongsian umum. Setiap individu mempunyai keadaan kewangan, matlamat dan tahap risiko yang berbeza. Kandungan ini bukan merupakan nasihat kewangan peribadi dan bukan jaminan pulangan.</p>
+    <p class="text-[11px] text-zinc-700 pt-1">&copy; 2026 Gold Position</p>
+  </footer>
+
+<script>
+  // ── Coffee dropdown ──
+  function toggleCoffeeMenu(){ document.getElementById('coffee-dropdown').classList.toggle('show'); }
+  document.addEventListener('click', e=>{
+    const d=document.getElementById('coffee-dropdown'), b=document.getElementById('coffee-btn');
+    if(!d.contains(e.target) && !b.contains(e.target)) d.classList.remove('show');
+  });
+  function showTooltip(){ document.getElementById('coffee-tooltip').classList.add('visible'); }
+  function hideTooltip(){ document.getElementById('coffee-tooltip').classList.remove('visible'); }
+  function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+
+  // ── Category data ──
+  const categories = [
+    {
+      id: 1,
+      label: 'GOLD POSITION 01',
+      title: 'TAK BOLEH MENABUNG',
+      subtitle: 'Kerja bertahun-tahun tetapi simpanan masih belum menjadi.',
+      shortDescription: 'Duit simpanan sering bocor walaupun sudah mencuba pelbagai cara menabung.',
+      icon: 'fa-wallet',
+      story: 'Kerja bertahun-tahun tapi tak ada tabungan. Walaupun gaji makin lama makin naik, tapi simpanan kecemasan 3 bulan gaji pun belum ada.\n\nBila menabung, duit tabungan selalu bocor. Dah guna macam-macam teknik menabung, tapi bila nampak duit simpanan makin banyak, akhirnya digunakan juga.',
+      problemLabel: 'MASALAH UTAMA',
+      problem: 'Simpanan sukar kekal kerana wang terlalu mudah diakses.',
+      approachLabel: 'PENDEKATAN YANG BOLEH DIPERTIMBANGKAN',
+      approach: 'Bagi individu yang sukar mengekalkan disiplin simpanan, sistem simpanan yang konsisten dan automatik mungkin dapat membantu.',
+      highlightTitle: 'AKAUN EMAS GAP',
+      highlightText: 'Menabung secara automatik boleh membantu membina disiplin dan mengurangkan kecenderungan menggunakan wang simpanan secara spontan.',
+      ctaText: 'TEROKA GAP AUTO DEBIT',
+      ctaLink: 'https://www.publicgoldofficial.com/zulkifli/gap-autodebit',
+      closingText: 'Apabila simpanan emas semakin bertambah, ia boleh menjadi salah satu bentuk aset yang boleh digunakan apabila diperlukan melalui pilihan seperti menjual atau memajak emas.',
+      relatedReading: [{ title: 'PAJAK EMAS ATAU JUAL EMAS. MANA YANG LEBIH BAIK?', link: 'https://www.mohdzulkifli.com/2021/05/pajak-emas-atau-jual-emas-mana-yang-lebih-baik.html' }]
+    },
+    {
+      id: 2,
+      label: 'GOLD POSITION 02',
+      title: 'BOLEH MENABUNG, TETAPI HANYA DALAM ASB & TABUNG HAJI',
+      subtitle: 'Mempunyai disiplin menabung tetapi belum mempertimbangkan diversifikasi simpanan jangka panjang.',
+      shortDescription: 'Nombor simpanan mungkin bertambah, tetapi kuasa beli wang boleh berubah akibat inflasi dan perubahan nilai mata wang.',
+      icon: 'fa-building-columns',
+      story: 'Mereka dapat menabung dengan baik, tetapi tidak menyedari bahawa nilai sebenar simpanan boleh dipengaruhi oleh inflasi dan perubahan kuasa beli ringgit.\n\nWalaupun angka simpanan bertambah, nilai atau kuasa beli wang tersebut boleh berubah dari semasa ke semasa.\n\nDividen yang diterima juga perlu dilihat bersama kesan inflasi dan perubahan nilai mata wang.',
+      problemLabel: 'JANGAN HANYA MELIHAT NOMBOR.',
+      problem: 'Lihat juga kepada kuasa beli, inflasi, nilai jangka panjang dan diversifikasi.',
+      approachLabel: 'PENDEKATAN YANG BOLEH DIPERTIMBANGKAN',
+      approach: 'Bagi simpanan jangka panjang, pertimbangkan untuk mempelbagaikan sebahagian simpanan kepada bentuk aset lain seperti emas.\n\nSimpanan kecemasan dan wang yang diperlukan dalam masa terdekat boleh dikekalkan dalam bentuk yang mudah diakses. Bagi perancangan jangka panjang, sesetengah individu memilih emas sebagai salah satu komponen diversifikasi simpanan mereka.',
+      quote: { text: 'Dulu pilih ubi, sekarang pilih beras.\nDulu pilih ASB, sekarang pilih emas!', author: 'Azizi Ali' }
+    },
+    {
+      id: 3,
+      label: 'GOLD POSITION 03',
+      title: 'KAYA RAYA, TETAPI TIADA TABUNGAN EMAS',
+      subtitle: 'Mempunyai kekayaan tetapi belum menyediakan sebahagian kekayaan dalam bentuk emas.',
+      shortDescription: 'Kekayaan yang besar juga memerlukan perlindungan, diversifikasi dan pelan kecemasan.',
+      icon: 'fa-vault',
+      keyStatement: 'Kekayaan yang besar juga memerlukan perlindungan dan pelan kecemasan.',
+      analogy: 'Orang kaya tanpa simpanan emas ibarat kapal besar yang tidak mempunyai life boat yang mencukupi.',
+      story: 'Kapal sebesar mana pun tetap mempunyai risiko. Sebab itu kapal besar tetap memerlukan pelan kecemasan.\n\nBegitu juga dengan kekayaan. Mempunyai aset yang besar tidak bermaksud semua risiko telah hilang.\n\nDiversifikasi boleh menjadi salah satu strategi untuk mengurangkan risiko bergantung kepada hanya satu jenis aset.',
+      approachLabel: 'SEDIAKAN PAYUNG KETIKA LANGIT MASIH CERAH',
+      approach: 'Walaupun keadaan kewangan baik, seseorang masih boleh membuat persediaan terhadap situasi yang tidak dijangka — seperti payung sebelum hujan, life boat sebelum kapal menghadapi masalah, dan diversifikasi sebelum risiko berlaku.',
+      relatedReading: [
+        { title: 'EMAS MENYELAMATKAN SAYA KETIKA AKAUN BANK DIBEKUKAN', link: 'https://www.mohdzulkifli.com/2022/07/emas-menyelamatkan-saya-ketika-akaun-bank-dibekukan.html' },
+        { title: 'KAPAL MEWAH STAR CRUISE PUN PERLUKAN LIFE BOAT!', link: 'https://www.facebook.com/mohdzulkifli.shafie/posts/pfbid0zeuf9D5Nsx9TKL86iGG5udZoBq5pWG76Uh4uuFL2BWPH1q59WpujKeqJxnuHuJo5l' }
+      ],
+      recommendation: {
+        title: 'PERTIMBANGKAN DIVERSIFIKASI KEKAYAAN',
+        text: 'Sesetengah pakar kewangan menyarankan sebahagian portfolio dipelbagaikan kepada pelbagai kelas aset, termasuk emas.',
+        stat1: '10%', stat1Note: 'Contoh peruntukan yang disebut dalam bahan rujukan. Peruntukan aset bergantung kepada keadaan kewangan, matlamat dan tahap risiko setiap individu.',
+        stat2: '1 KG', stat2Note: 'Contoh sasaran simpanan emas keluarga yang disebut sebagai konsep "life boat" atau perlindungan kekayaan — bukan kewajipan atau nasihat kewangan universal.'
+      }
+    }
+  ];
+
+  let activeId = null;
+
+  function renderCards(){
+    const wrap = document.getElementById('category-cards');
+    wrap.innerHTML = categories.map(c => `
+      <div class="gp-card p-5 fade-up" id="card-${c.id}">
+        <div class="gold-glow"></div>
+        <div class="relative">
+          <p class="text-xs font-bold text-amber-400/80 tracking-widest mb-2">${c.label}</p>
+          <div class="flex items-start gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid ${c.icon} text-amber-400 text-sm"></i>
+            </div>
+            <h4 class="text-base font-bold text-white leading-snug pt-1.5">${c.title}</h4>
+          </div>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-4">${c.shortDescription}</p>
+          <button onclick="selectCategory(${c.id})" class="gt-btn-secondary w-full py-3 text-sm font-semibold">LIHAT KEDUDUKAN INI</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderPills(containerId){
+    const wrap = document.getElementById(containerId);
+    wrap.innerHTML = categories.map(c => `
+      <button onclick="selectCategory(${c.id})" class="selector-pill w-full text-left p-4 flex items-center gap-4" id="${containerId}-${c.id}">
+        <span class="text-2xl font-extrabold position-num">${String(c.id).padStart(2,'0')}</span>
+        <span class="text-sm font-semibold text-zinc-200 leading-snug">${c.title}</span>
+      </button>
+    `).join('');
+  }
+
+  function updateActiveStates(){
+    categories.forEach(c => {
+      document.getElementById(`card-${c.id}`)?.classList.toggle('active', activeId === c.id);
+      document.getElementById(`selector-pills-${c.id}`)?.classList.toggle('active', activeId === c.id);
+      document.getElementById(`final-selector-pills-${c.id}`)?.classList.toggle('active', activeId === c.id);
+    });
+  }
+
+  function relatedReadingHtml(items){
+    if(!items) return '';
+    return `<div class="mt-6 space-y-2">
+      <p class="text-xs font-bold text-zinc-500 tracking-widest">BACAAN BERKAITAN</p>
+      ${items.map(r => `<a href="${r.link}" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">${r.title} <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>`).join('')}
+    </div>`;
+  }
+
+  function renderDetail(c){
+    const section = document.getElementById('detail-section');
+    let body = '';
+
+    if (c.id === 1) {
+      body = `
+        <p class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">${c.story}</p>
+        <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
+          <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">${c.problemLabel}</p>
+          <p class="text-sm text-zinc-200 font-medium">${c.problem}</p>
+        </div></div>
+        <p class="text-xs font-bold text-zinc-500 tracking-widest mt-6 mb-2">${c.approachLabel}</p>
+        <p class="text-sm text-zinc-400 leading-relaxed">${c.approach}</p>
+        <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
+          <p class="text-sm font-bold text-amber-400 mb-2">${c.highlightTitle}</p>
+          <p class="text-sm text-zinc-300 leading-relaxed mb-4">${c.highlightText}</p>
+          <a href="${c.ctaLink}" target="_blank" rel="noopener" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm"><i class="fa-solid fa-bolt"></i> ${c.ctaText}</a>
+        </div></div>
+        <p class="text-sm text-zinc-400 leading-relaxed mt-5">${c.closingText}</p>
+        ${relatedReadingHtml(c.relatedReading)}
+      `;
+    } else if (c.id === 2) {
+      body = `
+        <p class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">${c.story}</p>
+        <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
+          <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">${c.problemLabel}</p>
+          <p class="text-sm text-zinc-200 font-medium">${c.problem}</p>
+        </div></div>
+        <p class="text-xs font-bold text-zinc-500 tracking-widest mt-6 mb-2">${c.approachLabel}</p>
+        <p class="text-sm text-zinc-400 leading-relaxed whitespace-pre-line">${c.approach}</p>
+        <div class="quote-card p-6 mt-6 text-center">
+          <i class="fa-solid fa-quote-left text-amber-700/40 text-2xl mb-3"></i>
+          <p class="text-base font-bold leading-relaxed whitespace-pre-line">${c.quote.text}</p>
+          <p class="text-xs font-semibold text-amber-800 mt-3">— ${c.quote.author}</p>
+        </div>
+      `;
+    } else {
+      body = `
+        <p class="text-sm font-semibold text-amber-400 mb-3">${c.keyStatement}</p>
+        <p class="text-sm text-zinc-300 leading-relaxed italic mb-4">"${c.analogy}"</p>
+        <p class="text-sm text-zinc-400 leading-relaxed whitespace-pre-line">${c.story}</p>
+        <p class="text-xs font-bold text-zinc-500 tracking-widest mt-6 mb-2">${c.approachLabel}</p>
+        <p class="text-sm text-zinc-400 leading-relaxed">${c.approach}</p>
+        <div class="gp-card p-5 mt-6"><div class="gold-glow"></div><div class="relative">
+          <p class="text-sm font-bold text-white mb-2">${c.recommendation.title}</p>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-5">${c.recommendation.text}</p>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-3xl font-extrabold position-num">${c.recommendation.stat1}</p>
+              <p class="text-[11px] text-zinc-500 leading-relaxed mt-1">${c.recommendation.stat1Note}</p>
+            </div>
+            <div>
+              <p class="text-3xl font-extrabold position-num">${c.recommendation.stat2}</p>
+              <p class="text-[11px] text-zinc-500 leading-relaxed mt-1">${c.recommendation.stat2Note}</p>
+            </div>
+          </div>
+        </div></div>
+        ${relatedReadingHtml(c.relatedReading)}
+      `;
+    }
+
+    section.innerHTML = `
+      <div class="fade-up">
+        <p class="text-xs font-bold text-amber-400/80 tracking-widest mb-2">${c.label}</p>
+        <h3 class="text-xl font-extrabold text-white leading-snug mb-5">${c.title}</h3>
+        ${body}
+      </div>
+    `;
+  }
+
+  function selectCategory(id){
+    activeId = id;
+    updateActiveStates();
+    const c = categories.find(x => x.id === id);
+    renderDetail(c);
+    setTimeout(() => scrollToId('detail-section'), 60);
+  }
+
+  renderCards();
+  renderPills('selector-pills');
+  renderPills('final-selector-pills');
+</script>
+</body>
+</html>
