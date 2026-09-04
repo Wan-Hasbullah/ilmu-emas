@@ -88,6 +88,111 @@
     #gold-drop-notification {
       transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
+    /* ── Video Wajib Tonton (Kemaskini 1) ── */
+    .m-section {
+      background: linear-gradient(180deg, rgba(24,24,27,0.9), rgba(9,9,11,0.9));
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .m-section-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #D4AF37;
+      margin-bottom: 10px;
+    }
+    .m-video-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(212,175,55,0.25);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .m-video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    .m-video-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .m-video-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #d4d4d8;
+      background: rgba(39,39,42,0.7);
+      border: 1px solid rgba(63,63,70,0.8);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .m-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,175,55,0.35), transparent);
+      margin: 4px 0;
+    }
+
+    /* ── Kotak Premium 3 Butang Bulat (Kemaskini 2) ── */
+    .m-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .m-quick-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      padding: 6px 2px;
+    }
+    .m-quick-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #D4AF37;
+      background: radial-gradient(circle at 30% 25%, rgba(212,175,55,0.18), rgba(24,24,27,0.9));
+      border: 1px solid rgba(212,175,55,0.35);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+    .m-quick-btn:hover .m-quick-circle,
+    .m-quick-btn:active .m-quick-circle {
+      transform: translateY(-3px) scale(1.05);
+      border-color: #D4AF37;
+      box-shadow: 0 10px 22px rgba(212,175,55,0.25);
+      background: radial-gradient(circle at 30% 25%, rgba(212,175,55,0.35), rgba(24,24,27,0.95));
+    }
+    .m-quick-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #d4d4d8;
+      text-align: center;
+      line-height: 1.25;
+      transition: color 0.2s ease;
+    }
+    .m-quick-btn:hover .m-quick-label { color: #D4AF37; }
   </style>
 </head>
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
@@ -159,25 +264,64 @@
       <h2 class="text-2xl font-extrabold tracking-tight leading-tight bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
         Tingkatkan Kewangan dan Lindungi Kekayaan Anda Dengan Simpanan Emas
       </h2>
-      <p class="text-sm text-zinc-500 leading-relaxed max-w-xs mx-auto">
-        Mulakan perjalanan kewangan anda hari ini — belajar, simpan, dan lindungi masa depan bersama komuniti Ilmu Emas.
-      </p>
     </section>
 
-    <section class="grid grid-cols-2 gap-4">
-  <a href="https://ilmu-emas.pages.dev/asas-pemula" class="col-span-2 bg-zinc-900 border border-amber-500/30 p-5 rounded-2xl flex flex-col justify-between group hover:border-amber-400 transition-all duration-300 animate-pulse shadow-[0_0_15px_rgba(251,191,36,0.05)]">
-    <div class="w-10 h-10 bg-amber-400/20 border border-amber-400/40 text-amber-400 rounded-xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform w-fit">
-      <i class="fa-solid fa-seedling"></i>
-    </div>
-    <div class="mt-6">
-      <h4 class="font-bold text-amber-400 text-base flex items-center gap-1.5">
-        Asas Pemula 
-        <span class="w-2 h-2 rounded-full bg-amber-400 inline-block animate-ping"></span>
-      </h4>
-      <p class="text-xs text-zinc-400 mt-1">Langkah Pertama Memulakan Simpanan</p>
-    </div>
-  </a>
+    <!-- Video -->
+    <div class="m-section">
+      <div class="m-section-label">
+        <i class="fa-solid fa-circle-play" style="color:#D4AF37;font-size:11px"></i>
+        Video Wajib Tonton
+      </div>
 
+      <div class="m-video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/SlzjujKtxYE"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+
+      <div class="m-video-meta">
+        <div class="m-video-pill">
+          <i class="fa-brands fa-youtube" style="color:#FF3B3B"></i>
+          YouTube · Wan Hasbullah
+        </div>
+
+        <div class="m-video-pill">
+          <i class="fa-regular fa-clock"></i>
+          1.15 minit
+        </div>
+      </div>
+    </div>
+
+    <div class="m-divider"></div>
+
+    <!-- Kotak Premium: 3 Butang Bulat -->
+    <div class="m-section">
+      <div class="m-section-label">
+        <i class="fa-solid fa-bolt" style="color:#D4AF37;font-size:11px"></i>
+        Akses Pantas
+      </div>
+
+      <div class="m-quick-grid">
+        <a href="https://ilmu-emas.pages.dev/gold-position" class="m-quick-btn">
+          <div class="m-quick-circle"><i class="fa-solid fa-user-tag"></i></div>
+          <span class="m-quick-label">Kategori Anda?</span>
+        </a>
+
+        <a href="https://ilmu-emas.pages.dev/kalkulator-10-peratus" class="m-quick-btn">
+          <div class="m-quick-circle"><i class="fa-solid fa-calculator"></i></div>
+          <span class="m-quick-label">Kalkulator 10%</span>
+        </a>
+
+        <a href="https://ilmu-emas.pages.dev/golden-target" class="m-quick-btn">
+          <div class="m-quick-circle"><i class="fa-solid fa-bullseye"></i></div>
+          <span class="m-quick-label">Target Emas</span>
+        </a>
+      </div>
+    </div>
+
+    <section class="grid grid-cols-2 gap-4">
   <a href="video.html" class="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl flex flex-col justify-between group hover:border-amber-500/40 transition-all duration-300">
     <div class="w-10 h-10 bg-amber-400/10 border border-amber-400/20 text-amber-400 rounded-xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform w-fit">
       <i class="fa-solid fa-play"></i>
@@ -359,6 +503,11 @@
       <a href="faq.html" class="flex flex-col items-center group">
         <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-circle-question text-lg"></i></div>
         <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">FAQ</span>
+      </a>
+
+      <a href="https://ilmu-emas.pages.dev/asas-pemula" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-seedling text-lg"></i></div>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Asas Pemula</span>
       </a>
 
     </div>
