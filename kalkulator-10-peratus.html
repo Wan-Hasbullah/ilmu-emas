@@ -239,25 +239,6 @@
     margin-bottom:30px;
   }
 
-  .indicators{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-  }
-  .indicator{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 16px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    font-size:13px;
-    font-weight:600;
-    color:#d4d4d8;
-  }
-  .indicator i{ color:var(--gold); font-size:14px; }
-
   /* ============ SECTION SHARED ============ */
   section{ padding:64px 0; }
   .section-head{
@@ -527,6 +508,16 @@
   .conclusion-card p:last-child{ margin-bottom:0; }
   .conclusion-card b{ color:var(--gold); }
 
+  /* ============ NISBAH COLLAPSE (auto keluar bila klik SIMPANAN 10%) ============ */
+  .nisbah-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s ease;
+  }
+  .nisbah-inner{
+    padding-top:34px;
+  }
+
   /* ============ MENGAPA / ACCORDION ============ */
   .accordion-btn{
     display:inline-flex;
@@ -659,10 +650,10 @@
 <header>
   <div class="header-inner">
     <div class="header-left">
-      <button class="back-btn" id="scrollTopBtn" aria-label="Kembali ke atas">
+      <a class="back-btn" href="https://ilmu-emas.pages.dev/" aria-label="Kembali ke Ilmu Emas">
         <i class="fa-solid fa-arrow-left"></i>
-      </button>
-      <h1 class="brand-title">SIMPANAN 10%</h1>
+      </a>
+      <h1 class="brand-title">KALKULATOR 10%</h1>
     </div>
 
     <div class="coffee-wrap">
@@ -678,14 +669,14 @@
       </button>
 
       <div class="dropdown" id="coffeeDropdown">
-        <button class="dropdown-item" id="menuPanduan">
+        <a class="dropdown-item" href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" rel="noopener">
           <i class="fa-solid fa-book-open"></i>
-          <span>Panduan Simpanan</span>
-        </button>
-        <button class="dropdown-item" id="menuPertanyaan">
+          <span>Daftar Percuma</span>
+        </a>
+        <a class="dropdown-item" href="https://pgdealer-wanhasbullah.pages.dev/faq-assistant" target="_blank" rel="noopener">
           <i class="fa-solid fa-comments"></i>
           <span>Pertanyaan</span>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -700,12 +691,6 @@
       <h1 class="reveal">Adakah Simpanan Anda Sudah Bersedia Untuk Kecemasan?</h1>
       <p class="reveal">Adakah anda sudah mempunyai simpanan kecemasan 3 bulan gaji? Atau anda belum mempunyai simpanan walaupun RM1,000?</p>
       <p class="critical-line reveal">Jika tiada, bermakna kewangan anda dalam keadaan kritikal.</p>
-
-      <div class="indicators reveal">
-        <div class="indicator"><i class="fa-solid fa-shield-heart"></i> Simpanan Kecemasan</div>
-        <div class="indicator"><i class="fa-solid fa-scale-balanced"></i> Kewangan Lebih Teratur</div>
-        <div class="indicator"><i class="fa-solid fa-arrow-trend-up"></i> Simpanan Konsisten</div>
-      </div>
     </div>
   </section>
 
@@ -760,44 +745,46 @@
         </div>
       </div>
 
-      <div id="nisbah" class="reveal">
-        <div class="ratio-visual">
-          <span class="top-tag">SIMPANAN 10%</span>
-          <i class="fa-solid fa-chevron-down"></i>
-          <div class="ratio-split"><span>5%</span><span>:</span><span>5%</span></div>
-        </div>
+      <div class="nisbah-panel" id="nisbah">
+        <div class="nisbah-inner">
+          <div class="ratio-visual">
+            <span class="top-tag">SIMPANAN 10%</span>
+            <i class="fa-solid fa-chevron-down"></i>
+            <div class="ratio-split"><span>5%</span><span>:</span><span>5%</span></div>
+          </div>
 
-        <div class="ratio-grid">
-          <div class="ratio-card cash">
-            <div class="top-row">
-              <div class="ratio-icon"><i class="fa-solid fa-wallet"></i></div>
-              <span class="ratio-pct">5%</span>
+          <div class="ratio-grid">
+            <div class="ratio-card cash">
+              <div class="top-row">
+                <div class="ratio-icon"><i class="fa-solid fa-wallet"></i></div>
+                <span class="ratio-pct">5%</span>
+              </div>
+              <div class="label">SIMPANAN TUNAI</div>
+              <div class="value" id="cashValue">RM0</div>
             </div>
-            <div class="label">SIMPANAN TUNAI</div>
-            <div class="value" id="cashValue">RM0</div>
-          </div>
 
-          <div class="ratio-card gold">
-            <div class="top-row">
-              <div class="ratio-icon"><i class="fa-solid fa-coins"></i></div>
-              <span class="ratio-pct">5%</span>
+            <div class="ratio-card gold">
+              <div class="top-row">
+                <div class="ratio-icon"><i class="fa-solid fa-coins"></i></div>
+                <span class="ratio-pct">5%</span>
+              </div>
+              <div class="label">SIMPANAN EMAS</div>
+              <div class="value" id="goldValue">RM0</div>
             </div>
-            <div class="label">SIMPANAN EMAS</div>
-            <div class="value" id="goldValue">RM0</div>
           </div>
-        </div>
 
-        <div class="total-card">
-          <div>
-            <div class="label">JUMLAH SIMPANAN BULANAN</div>
-            <div class="value" id="totalValue">RM0</div>
+          <div class="total-card">
+            <div>
+              <div class="label">JUMLAH SIMPANAN BULANAN</div>
+              <div class="value" id="totalValue">RM0</div>
+            </div>
+            <div class="pct-tag">10%</div>
           </div>
-          <div class="pct-tag">10%</div>
-        </div>
 
-        <div class="conclusion-card">
-          <h3>Cadangan Simpanan Anda</h3>
-          <p id="conclusionText">Masukkan pendapatan anda di atas untuk melihat cadangan simpanan yang sesuai.</p>
+          <div class="conclusion-card">
+            <h3>Cadangan Simpanan Anda</h3>
+            <p id="conclusionText">Masukkan pendapatan anda di atas untuk melihat cadangan simpanan yang sesuai.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -888,11 +875,6 @@
     el.classList.add('pulse');
   }
 
-  /* ---------- Header: back to top ---------- */
-  document.getElementById('scrollTopBtn').addEventListener('click', function(){
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
   /* ---------- Coffee dropdown ---------- */
   var coffeeBtn = document.getElementById('coffeeBtn');
   var dropdown = document.getElementById('coffeeDropdown');
@@ -919,18 +901,17 @@
     if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  document.getElementById('menuPanduan').addEventListener('click', function(){
-    scrollToId('mengapa');
-    closeDropdown();
-  });
-  document.getElementById('menuPertanyaan').addEventListener('click', function(){
-    scrollToId('pertanyaan');
-    closeDropdown();
+  document.querySelectorAll('.dropdown-item').forEach(function(item){
+    item.addEventListener('click', function(){
+      closeDropdown();
+    });
   });
 
-  /* ---------- CTA scroll to nisbah ---------- */
+  /* ---------- CTA: buka panel nisbah lalu scroll ---------- */
+  var nisbahPanel = document.getElementById('nisbah');
   document.getElementById('ctaTenPercent').addEventListener('click', function(){
-    scrollToId('nisbah');
+    nisbahPanel.style.maxHeight = nisbahPanel.scrollHeight + 'px';
+    setTimeout(function(){ scrollToId('nisbah'); }, 60);
   });
 
   /* ---------- Kalkulator Kecemasan ---------- */
@@ -978,6 +959,10 @@
     } else {
       conclusionText.textContent = 'Masukkan pendapatan anda di atas untuk melihat cadangan simpanan yang sesuai.';
     }
+
+    if(nisbahPanel.style.maxHeight && nisbahPanel.style.maxHeight !== '0px'){
+      nisbahPanel.style.maxHeight = nisbahPanel.scrollHeight + 'px';
+    }
   }
 
   incomeTen.addEventListener('input', updateTenPercent);
@@ -1000,6 +985,9 @@
   window.addEventListener('resize', function(){
     if(accordionBtn.classList.contains('open')){
       accordionPanel.style.maxHeight = accordionPanel.scrollHeight + 'px';
+    }
+    if(nisbahPanel.style.maxHeight && nisbahPanel.style.maxHeight !== '0px'){
+      nisbahPanel.style.maxHeight = nisbahPanel.scrollHeight + 'px';
     }
   });
 
