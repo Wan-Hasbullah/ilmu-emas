@@ -135,37 +135,13 @@
       <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-30px;"></div>
       <p class="text-xs text-amber-400/90 uppercase tracking-widest font-bold relative mb-4">Gold Position &middot; Gold Savings Insight</p>
       <h2 class="text-3xl font-extrabold leading-tight relative">ANDA BERADA DI<br><span class="bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">KEDUDUKAN YANG MANA?</span></h2>
-      <p class="text-sm text-zinc-400 leading-relaxed mt-4 relative">Kenali kategori anda dan fahami bagaimana simpanan emas mungkin memainkan peranan dalam perjalanan kewangan anda.</p>
-      <p class="text-sm text-zinc-500 leading-relaxed mt-3 relative">Tidak semua orang perlu menyimpan emas. Tetapi berdasarkan keadaan dan kedudukan kewangan tertentu, sesetengah individu mungkin mendapat manfaat daripada menjadikan emas sebahagian daripada strategi simpanan dan diversifikasi mereka.</p>
       <button onclick="scrollToId('categories')" class="gt-btn-primary w-full py-4 mt-6 text-sm relative">KENALI KEDUDUKAN SAYA</button>
-    </section>
-
-    <!-- INTRO -->
-    <section class="py-8 border-t border-zinc-800/60 text-center">
-      <h3 class="text-lg font-extrabold text-white">TAK SEMUA ORANG PERLU SIMPAN EMAS.</h3>
-      <p class="text-sm text-zinc-400 leading-relaxed mt-3">Tidak semua individu mempunyai keperluan kewangan yang sama. Dalam sesetengah keadaan, simpanan tunai atau instrumen simpanan lain mungkin lebih sesuai.</p>
-      <p class="text-sm text-zinc-400 leading-relaxed mt-3">Namun, berdasarkan pengalaman dan pemerhatian terhadap corak simpanan, terdapat beberapa kategori individu yang mungkin mendapat manfaat besar daripada menjadikan emas sebahagian daripada simpanan mereka.</p>
-      <div class="mt-5 text-xs font-bold tracking-widest text-amber-400/90 space-y-1">
-        <p>3 KEDUDUKAN.</p><p>3 SITUASI.</p><p>3 CARA MELIHAT SIMPANAN.</p>
-      </div>
     </section>
 
     <!-- CATEGORY CARDS -->
     <section id="categories" class="py-8 border-t border-zinc-800/60">
-      <h3 class="text-lg font-extrabold text-white text-center">KENALI GOLD POSITION ANDA</h3>
-      <p class="text-sm text-zinc-400 text-center mt-2 mb-6">Setiap orang mempunyai kedudukan kewangan yang berbeza. Pilih kategori yang paling hampir dengan keadaan anda sekarang.</p>
       <div class="space-y-4" id="category-cards"></div>
     </section>
-
-    <!-- INTERACTIVE SELECTOR -->
-    <section class="py-8 border-t border-zinc-800/60 text-center">
-      <h3 class="text-lg font-extrabold text-white leading-snug">ANDA TERGOLONG DALAM<br>GOLD POSITION YANG MANA?</h3>
-      <p class="text-sm text-zinc-400 mt-2 mb-6">Pilih kedudukan yang paling hampir dengan keadaan kewangan anda hari ini.</p>
-      <div class="space-y-3" id="selector-pills"></div>
-    </section>
-
-    <!-- DETAIL SECTION -->
-    <section id="detail-section" class="py-8 border-t border-zinc-800/60 prose-narrow mx-auto"></section>
 
     <!-- FINAL CTA -->
     <section class="py-10 border-t border-zinc-800/60 text-center relative">
@@ -269,7 +245,7 @@
     }
   ];
 
-  let activeId = null;
+  let expandedId = null;
 
   function renderCards(){
     const wrap = document.getElementById('category-cards');
@@ -285,7 +261,14 @@
             <h4 class="text-base font-bold text-white leading-snug pt-1.5">${c.title}</h4>
           </div>
           <p class="text-sm text-zinc-400 leading-relaxed mb-4">${c.shortDescription}</p>
-          <button onclick="selectCategory(${c.id})" class="gt-btn-secondary w-full py-3 text-sm font-semibold">LIHAT KEDUDUKAN INI</button>
+          <button onclick="toggleCategory(${c.id})" class="gt-btn-secondary w-full py-3 text-sm font-semibold" id="card-btn-${c.id}">LIHAT KEDUDUKAN INI</button>
+
+          <div class="hidden mt-5 pt-5 border-t border-zinc-800/70 relative" id="detail-wrap-${c.id}">
+            <button onclick="toggleCategory(${c.id})" class="absolute -top-1 right-0 w-8 h-8 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition-all z-10" aria-label="Tutup penerangan">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+            <div id="detail-body-${c.id}" class="pr-9"></div>
+          </div>
         </div>
       </div>
     `).join('');
@@ -294,7 +277,7 @@
   function renderPills(containerId){
     const wrap = document.getElementById(containerId);
     wrap.innerHTML = categories.map(c => `
-      <button onclick="selectCategory(${c.id})" class="selector-pill w-full text-left p-4 flex items-center gap-4" id="${containerId}-${c.id}">
+      <button onclick="openCategory(${c.id})" class="selector-pill w-full text-left p-4 flex items-center gap-4" id="${containerId}-${c.id}">
         <span class="text-2xl font-extrabold position-num">${String(c.id).padStart(2,'0')}</span>
         <span class="text-sm font-semibold text-zinc-200 leading-snug">${c.title}</span>
       </button>
@@ -303,9 +286,8 @@
 
   function updateActiveStates(){
     categories.forEach(c => {
-      document.getElementById(`card-${c.id}`)?.classList.toggle('active', activeId === c.id);
-      document.getElementById(`selector-pills-${c.id}`)?.classList.toggle('active', activeId === c.id);
-      document.getElementById(`final-selector-pills-${c.id}`)?.classList.toggle('active', activeId === c.id);
+      document.getElementById(`card-${c.id}`)?.classList.toggle('active', expandedId === c.id);
+      document.getElementById(`final-selector-pills-${c.id}`)?.classList.toggle('active', expandedId === c.id);
     });
   }
 
@@ -317,12 +299,9 @@
     </div>`;
   }
 
-  function renderDetail(c){
-    const section = document.getElementById('detail-section');
-    let body = '';
-
+  function buildDetailBody(c){
     if (c.id === 1) {
-      body = `
+      return `
         <p class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">${c.story}</p>
         <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
           <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">${c.problemLabel}</p>
@@ -339,7 +318,7 @@
         ${relatedReadingHtml(c.relatedReading)}
       `;
     } else if (c.id === 2) {
-      body = `
+      return `
         <p class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">${c.story}</p>
         <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
           <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">${c.problemLabel}</p>
@@ -354,7 +333,7 @@
         </div>
       `;
     } else {
-      body = `
+      return `
         <p class="text-sm font-semibold text-amber-400 mb-3">${c.keyStatement}</p>
         <p class="text-sm text-zinc-300 leading-relaxed italic mb-4">"${c.analogy}"</p>
         <p class="text-sm text-zinc-400 leading-relaxed whitespace-pre-line">${c.story}</p>
@@ -377,26 +356,48 @@
         ${relatedReadingHtml(c.relatedReading)}
       `;
     }
-
-    section.innerHTML = `
-      <div class="fade-up">
-        <p class="text-xs font-bold text-amber-400/80 tracking-widest mb-2">${c.label}</p>
-        <h3 class="text-xl font-extrabold text-white leading-snug mb-5">${c.title}</h3>
-        ${body}
-      </div>
-    `;
   }
 
-  function selectCategory(id){
-    activeId = id;
+  function toggleCategory(id){
+    const wrap = document.getElementById(`detail-wrap-${id}`);
+    const btn = document.getElementById(`card-btn-${id}`);
+    const card = document.getElementById(`card-${id}`);
+    const isOpen = expandedId === id;
+
+    if (isOpen) {
+      wrap.classList.add('hidden');
+      btn.classList.remove('hidden');
+      card.classList.remove('active');
+      expandedId = null;
+      updateActiveStates();
+      return;
+    }
+
+    if (expandedId !== null) {
+      const prevWrap = document.getElementById(`detail-wrap-${expandedId}`);
+      const prevBtn = document.getElementById(`card-btn-${expandedId}`);
+      prevWrap.classList.add('hidden');
+      prevBtn.classList.remove('hidden');
+    }
+
+    if (!wrap.dataset.rendered) {
+      document.getElementById(`detail-body-${id}`).innerHTML = buildDetailBody(categories.find(c => c.id === id));
+      wrap.dataset.rendered = '1';
+    }
+    wrap.classList.remove('hidden');
+    wrap.classList.add('fade-up');
+    btn.classList.add('hidden');
+    expandedId = id;
     updateActiveStates();
-    const c = categories.find(x => x.id === id);
-    renderDetail(c);
-    setTimeout(() => scrollToId('detail-section'), 60);
+    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  }
+
+  function openCategory(id){
+    if (expandedId !== id) toggleCategory(id);
+    else document.getElementById(`card-${id}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   renderCards();
-  renderPills('selector-pills');
   renderPills('final-selector-pills');
 </script>
 </body>
