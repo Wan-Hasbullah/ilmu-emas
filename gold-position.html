@@ -100,6 +100,27 @@
   @keyframes modal-pop { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
   .modal-pop { animation: modal-pop 0.22s ease both; }
 
+  /* Page-number pagination (chapter reader style) */
+  #modal-page-numbers { scrollbar-width: none; }
+  #modal-page-numbers::-webkit-scrollbar { display: none; }
+  .page-num-btn {
+    flex-shrink: 0; min-width: 30px; height: 30px; padding: 0 6px;
+    border-radius: 9px; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(63,63,70,0.7); color: #a1a1aa; background: rgba(24,24,27,0.6);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .page-num-btn:hover { border-color: rgba(251,191,36,0.35); color: #fbbf24; }
+  .page-num-btn.active {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #09090b; border-color: transparent;
+  }
+  .page-num-ellipsis { flex-shrink: 0; width: 20px; text-align: center; color: #52525b; font-size: 11px; font-weight: 700; }
+
+  /* Poster lightbox */
+  #poster-lightbox.hidden { display: none; }
+
+  #coffee-btn, #quiz-toggle-btn { -webkit-tap-highlight-color: transparent; }
+
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
@@ -170,25 +191,10 @@
     <!-- FINAL CTA -->
     <section class="py-10 border-t border-zinc-800/60 text-center relative">
       <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-30px;"></div>
-      <h3 class="text-xl font-extrabold text-white leading-snug relative">SEDIAKAN PAYUNG<br>SEBELUM HUJAN.</h3>
-      <p class="text-sm text-zinc-400 leading-relaxed mt-3 relative">Kita sentiasa mengharapkan yang terbaik. Tetapi perancangan kewangan juga bermula dengan persediaan terhadap perkara yang tidak dijangka.</p>
-      <p class="text-sm text-zinc-400 leading-relaxed mt-2 relative">Kenali kedudukan anda hari ini. Kemudian bina langkah kecil untuk masa depan anda.</p>
-
-      <button onclick="scrollToId('categories'); openQuizOptions();" class="gt-btn-secondary w-full py-4 mt-6 text-sm font-semibold relative flex items-center justify-center gap-2">
+      <button onclick="scrollToId('categories'); openQuizOptions();" class="gt-btn-secondary w-full py-4 text-sm font-semibold relative flex items-center justify-center gap-2">
         <i class="fa-solid fa-arrows-rotate text-xs text-amber-400"></i>
         SEMAK SEMULA KEDUDUKAN SAYA
       </button>
-
-      <div class="gp-card p-5 mt-8 relative text-left">
-        <div class="gold-glow"></div>
-        <div class="relative">
-          <h4 class="text-base font-bold text-white">MULAKAN DENGAN LANGKAH KECIL.</h4>
-          <p class="text-sm text-zinc-400 mt-2 leading-relaxed">Konsistensi boleh menjadi sebahagian penting dalam membina tabungan jangka panjang.</p>
-          <a href="https://www.publicgoldofficial.com/zulkifli/gap-autodebit" target="_blank" rel="noopener" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm mt-4">
-            <i class="fa-solid fa-bolt"></i> TEROKA SIMPANAN EMAS GAP
-          </a>
-        </div>
-      </div>
     </section>
 
   </main>
@@ -201,27 +207,37 @@
     <p class="text-[11px] text-zinc-700 pt-1">&copy; 2026 Gold Position</p>
   </footer>
 
-  <!-- STORY MODAL (poster + swipeable slides) -->
+  <!-- STORY MODAL (cover + swipeable / paginated slides) -->
   <div id="story-modal" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-zinc-950/95 backdrop-blur-sm" onclick="closeModal()"></div>
     <div class="relative h-full max-w-md mx-auto flex flex-col modal-pop">
-      <div class="flex items-center justify-between px-4 pt-4 pb-1 flex-shrink-0">
-        <p class="text-xs font-bold text-amber-400/90 tracking-widest" id="modal-label"></p>
+
+      <!-- Header: eyebrow + title, close -->
+      <div class="flex items-start justify-between gap-3 px-4 pt-4 pb-2 flex-shrink-0">
+        <div class="min-w-0">
+          <p class="text-[10px] font-bold text-amber-400/90 tracking-widest" id="modal-eyebrow"></p>
+          <p class="text-sm font-extrabold text-white mt-1 leading-snug" id="modal-label"></p>
+        </div>
         <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white flex items-center justify-center flex-shrink-0" aria-label="Tutup">
           <i class="fa-solid fa-xmark text-sm"></i>
         </button>
+      </div>
+
+      <!-- Thin progress dots -->
+      <div class="px-4 pb-3 flex-shrink-0">
+        <div class="flex items-center gap-1.5" id="modal-dots"></div>
       </div>
 
       <div class="flex-1 overflow-hidden relative" id="slides-viewport">
         <div class="flex h-full" id="slides-track"></div>
       </div>
 
-      <div class="px-4 pb-2 pt-2 flex-shrink-0">
-        <div class="flex items-center justify-center gap-1.5" id="modal-dots"></div>
-        <p class="text-center text-[11px] text-zinc-600 mt-2" id="modal-page-label"></p>
+      <!-- Numbered page pagination -->
+      <div class="px-4 pt-2 flex-shrink-0">
+        <div class="flex items-center gap-2 overflow-x-auto" id="modal-page-numbers"></div>
       </div>
 
-      <div class="px-4 pb-6 pt-1 flex items-center gap-3 flex-shrink-0">
+      <div class="px-4 pb-6 pt-3 flex items-center gap-3 flex-shrink-0">
         <button onclick="goPrevSlide()" id="modal-prev-btn" class="gt-btn-secondary w-14 h-14 flex items-center justify-center rounded-2xl flex-shrink-0" aria-label="Sebelumnya">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
@@ -230,6 +246,19 @@
           <i class="fa-solid fa-arrow-right text-xs"></i>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- POSTER LIGHTBOX (klik "Infografik" untuk lihat poster penuh) -->
+  <div id="poster-lightbox" class="fixed inset-0 z-[60] hidden">
+    <div class="absolute inset-0 bg-zinc-950/97 backdrop-blur-sm" onclick="closePoster()"></div>
+    <div class="relative h-full max-w-md mx-auto flex flex-col items-center justify-center px-4 modal-pop">
+      <button onclick="closePoster()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white flex items-center justify-center z-10" aria-label="Tutup">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+      <img id="poster-lightbox-img" src="" alt="" class="w-full h-auto rounded-2xl border border-zinc-800/70" />
+      <p class="text-xs font-bold text-amber-400/80 tracking-widest mt-5" id="poster-lightbox-label"></p>
+      <p class="text-sm font-extrabold text-white text-center mt-1 leading-snug" id="poster-lightbox-title"></p>
     </div>
   </div>
 
@@ -274,10 +303,6 @@
          </div></div>`,
         `<div class="py-2">
            <p class="text-sm text-zinc-400 leading-relaxed">Apabila simpanan emas semakin bertambah, ia boleh menjadi salah satu bentuk aset yang boleh digunakan apabila diperlukan melalui pilihan seperti menjual atau memajak emas.</p>
-           <div class="mt-6 space-y-2">
-             <p class="text-xs font-bold text-zinc-500 tracking-widest">BACAAN BERKAITAN</p>
-             <a href="https://www.mohdzulkifli.com/2021/05/pajak-emas-atau-jual-emas-mana-yang-lebih-baik.html" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">PAJAK EMAS ATAU JUAL EMAS. MANA YANG LEBIH BAIK? <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>
-           </div>
          </div>`
       ]
     },
@@ -344,14 +369,7 @@
                <p class="text-[11px] text-zinc-500 leading-relaxed mt-1">Contoh sasaran simpanan emas keluarga yang disebut sebagai konsep "life boat" atau perlindungan kekayaan — bukan kewajipan atau nasihat kewangan universal.</p>
              </div>
            </div>
-         </div></div>`,
-        `<div class="py-2">
-           <p class="text-xs font-bold text-zinc-500 tracking-widest mb-3">BACAAN BERKAITAN</p>
-           <div class="space-y-2">
-             <a href="https://www.mohdzulkifli.com/2022/07/emas-menyelamatkan-saya-ketika-akaun-bank-dibekukan.html" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">EMAS MENYELAMATKAN SAYA KETIKA AKAUN BANK DIBEKUKAN <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>
-             <a href="https://www.facebook.com/mohdzulkifli.shafie/posts/pfbid0zeuf9D5Nsx9TKL86iGG5udZoBq5pWG76Uh4uuFL2BWPH1q59WpujKeqJxnuHuJo5l" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">KAPAL MEWAH STAR CRUISE PUN PERLUKAN LIFE BOAT! <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>
-           </div>
-         </div>`
+         </div></div>`
       ]
     }
   ];
@@ -390,27 +408,41 @@
     if(opts.classList.contains('hidden')) toggleQuizOptions();
   }
 
-  // ── Story modal / swipeable slides ──
+  // ── Story modal / cover + paginated slides ──
   let currentCategory = null;
   let currentSlide = 0;
 
-  function buildSlides(c){
-    const posterSlide = `
-      <div class="w-full h-full flex flex-col items-center justify-center py-4">
-        <div class="w-full rounded-2xl overflow-hidden border border-zinc-800/70">
-          <img src="${c.poster}" alt="${c.title}" class="w-full h-auto block" loading="lazy" />
+  function buildCoverSlide(c){
+    return `
+      <div class="w-full h-full flex flex-col items-center justify-center text-center py-4">
+        <div class="w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center mb-5">
+          <i class="fa-solid ${c.icon} text-amber-400 text-xl"></i>
         </div>
-        <p class="text-xs font-bold text-amber-400/80 tracking-widest mt-5">${c.label}</p>
-        <h4 class="text-lg font-extrabold text-white text-center mt-2 leading-snug">${c.title}</h4>
+        <p class="text-xs font-bold text-amber-400/80 tracking-widest">${c.label}</p>
+        <h4 class="text-xl font-extrabold text-white text-center mt-3 leading-snug max-w-xs">${c.title}</h4>
+        <p class="text-xs text-zinc-500 mt-2">${c.rangeLabel}</p>
+
+        <div class="flex items-center gap-3 mt-8 w-full max-w-xs">
+          <button onclick="openPoster()" class="gt-btn-secondary flex-1 py-3.5 text-xs font-bold flex items-center justify-center gap-2">
+            <i class="fa-solid fa-image text-amber-400"></i> INFOGRAFIK
+          </button>
+          <button onclick="goNextSlide()" class="gt-btn-primary flex-1 py-3.5 text-xs font-bold flex items-center justify-center gap-2">
+            SETERUSNYA <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
       </div>
     `;
-    return [posterSlide, ...c.contentSlides];
+  }
+
+  function buildSlides(c){
+    return [buildCoverSlide(c), ...c.contentSlides];
   }
 
   function selectCategory(id){
     currentCategory = categories.find(c => c.id === id);
     currentSlide = 0;
-    document.getElementById('modal-label').textContent = currentCategory.label;
+    document.getElementById('modal-eyebrow').textContent = currentCategory.label;
+    document.getElementById('modal-label').textContent = currentCategory.title;
     renderSlideTrack();
     document.getElementById('story-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
@@ -435,10 +467,32 @@
     `).join('');
   }
 
+  function renderPageNumbers(){
+    const wrap = document.getElementById('modal-page-numbers');
+    const total = currentCategory.totalSlides;
+    const labelFor = i => i === 0 ? 'i' : String(i);
+
+    let items = [];
+    if(total <= 8){
+      items = Array.from({length: total}, (_, i) => i);
+    } else {
+      const set = new Set([0, 1, total - 1, currentSlide - 1, currentSlide, currentSlide + 1]);
+      items = Array.from(set).filter(i => i >= 0 && i < total).sort((a,b) => a-b);
+    }
+
+    let html = '';
+    let prev = null;
+    items.forEach(i => {
+      if(prev !== null && i - prev > 1){ html += `<span class="page-num-ellipsis">&hellip;</span>`; }
+      html += `<button class="page-num-btn ${i===currentSlide ? 'active' : ''}" onclick="goToSlide(${i})">${labelFor(i)}</button>`;
+      prev = i;
+    });
+    wrap.innerHTML = html;
+  }
+
   function updateSlidePosition(){
     const track = document.getElementById('slides-track');
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    document.getElementById('modal-page-label').textContent = `Muka surat ${currentSlide + 1} / ${currentCategory.totalSlides}`;
     document.getElementById('modal-prev-btn').style.visibility = currentSlide === 0 ? 'hidden' : 'visible';
 
     const isLast = currentSlide === currentCategory.totalSlides - 1;
@@ -446,6 +500,7 @@
     document.getElementById('modal-next-btn').onclick = isLast ? closeModal : goNextSlide;
 
     renderDots();
+    renderPageNumbers();
   }
 
   function goNextSlide(){
@@ -467,6 +522,19 @@
   function closeModal(){
     document.getElementById('story-modal').classList.add('hidden');
     document.body.style.overflow = '';
+  }
+
+  // ── Poster lightbox (Infografik) ──
+  function openPoster(){
+    if(!currentCategory) return;
+    document.getElementById('poster-lightbox-img').src = currentCategory.poster;
+    document.getElementById('poster-lightbox-img').alt = currentCategory.title;
+    document.getElementById('poster-lightbox-label').textContent = currentCategory.label;
+    document.getElementById('poster-lightbox-title').textContent = currentCategory.title;
+    document.getElementById('poster-lightbox').classList.remove('hidden');
+  }
+  function closePoster(){
+    document.getElementById('poster-lightbox').classList.add('hidden');
   }
 
   // Swipe (touch) support for the slide viewport
@@ -491,6 +559,10 @@
 
   // Keyboard support while modal is open
   document.addEventListener('keydown', e => {
+    if(!document.getElementById('poster-lightbox').classList.contains('hidden')){
+      if(e.key === 'Escape') closePoster();
+      return;
+    }
     if(document.getElementById('story-modal').classList.contains('hidden')) return;
     if(e.key === 'ArrowRight') goNextSlide();
     else if(e.key === 'ArrowLeft') goPrevSlide();
