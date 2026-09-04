@@ -363,6 +363,12 @@
     box-shadow:0 8px 24px rgba(251,191,36,0.18);
   }
   .cta-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(251,191,36,0.28); }
+  .cta-chevron{
+    transition:transform .3s ease;
+  }
+  .cta-btn.open .cta-chevron{
+    transform:rotate(180deg);
+  }
 
   /* ============ RATIO VISUAL ============ */
   .ratio-visual{
@@ -733,114 +739,116 @@
       </div>
 
       <button class="cta-btn reveal" id="ctaTenPercent">
-        <i class="fa-solid fa-coins"></i> SIMPANAN 10%
+        <i class="fa-solid fa-coins"></i> SIMPANAN 10% <i class="fa-solid fa-chevron-down cta-chevron" id="ctaChevron"></i>
       </button>
-
-      <div class="card reveal" style="max-width:520px; margin-top:28px;">
-        <label class="field-label" for="incomeTen">Berapa pendapatan kasar anda?</label>
-        <span class="field-hint">Termasuk pendapatan sampingan</span>
-        <div class="input-wrap">
-          <span class="input-prefix">RM</span>
-          <input type="text" inputmode="decimal" id="incomeTen" class="money-input" placeholder="0" aria-label="Pendapatan kasar untuk simpanan 10%">
-        </div>
-      </div>
-
-      <div class="nisbah-panel" id="nisbah">
-        <div class="nisbah-inner">
-          <div class="ratio-visual">
-            <span class="top-tag">SIMPANAN 10%</span>
-            <i class="fa-solid fa-chevron-down"></i>
-            <div class="ratio-split"><span>5%</span><span>:</span><span>5%</span></div>
-          </div>
-
-          <div class="ratio-grid">
-            <div class="ratio-card cash">
-              <div class="top-row">
-                <div class="ratio-icon"><i class="fa-solid fa-wallet"></i></div>
-                <span class="ratio-pct">5%</span>
-              </div>
-              <div class="label">SIMPANAN TUNAI</div>
-              <div class="value" id="cashValue">RM0</div>
-            </div>
-
-            <div class="ratio-card gold">
-              <div class="top-row">
-                <div class="ratio-icon"><i class="fa-solid fa-coins"></i></div>
-                <span class="ratio-pct">5%</span>
-              </div>
-              <div class="label">SIMPANAN EMAS</div>
-              <div class="value" id="goldValue">RM0</div>
-            </div>
-          </div>
-
-          <div class="total-card">
-            <div>
-              <div class="label">JUMLAH SIMPANAN BULANAN</div>
-              <div class="value" id="totalValue">RM0</div>
-            </div>
-            <div class="pct-tag">10%</div>
-          </div>
-
-          <div class="conclusion-card">
-            <h3>Cadangan Simpanan Anda</h3>
-            <p id="conclusionText">Masukkan pendapatan anda di atas untuk melihat cadangan simpanan yang sesuai.</p>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- BAHAGIAN 4: MENGAPA PERLU BEGINI -->
-  <section id="mengapa">
-    <div class="container">
-      <div class="section-head reveal">
-        <h2>Mengapa Perlu Begini?</h2>
-        <p>Fahami sebab di sebalik pembahagian nisbah 5% tunai dan 5% emas.</p>
-      </div>
+  <div class="nisbah-panel" id="nisbah">
+    <div class="nisbah-inner">
+      <div class="container">
+        <div class="card reveal" style="max-width:520px; margin-top:28px;">
+          <label class="field-label" for="incomeTen">Berapa pendapatan kasar anda?</label>
+          <span class="field-hint">Termasuk pendapatan sampingan</span>
+          <div class="input-wrap">
+            <span class="input-prefix">RM</span>
+            <input type="text" inputmode="decimal" id="incomeTen" class="money-input" placeholder="0" aria-label="Pendapatan kasar untuk simpanan 10%">
+          </div>
+        </div>
 
-      <button class="accordion-btn reveal" id="accordionBtn" aria-expanded="false" aria-controls="accordionPanel">
-        <span>MENGAPA PERLU BEGINI?</span>
-        <i class="fa-solid fa-chevron-down"></i>
-      </button>
+        <div class="ratio-visual">
+          <span class="top-tag">SIMPANAN 10%</span>
+          <i class="fa-solid fa-chevron-down"></i>
+          <div class="ratio-split"><span>5%</span><span>:</span><span>5%</span></div>
+        </div>
 
-      <div class="accordion-panel reveal" id="accordionPanel">
-        <div class="accordion-inner">
-          <p>Ramai menyediakan simpanan dalam bentuk tunai, tetapi akhirnya simpanan tersebut bocor juga.</p>
-          <p>Jadi, pertimbangkan kaedah pembahagian simpanan 5:5 ini.</p>
-          <p>Jika simpanan tunai bocor atau digunakan untuk perkara yang tidak dirancang, paling tidak simpanan emas anda masih kekal dan terus bertambah.</p>
-
-          <div class="explain-visual">
-            <div class="explain-flow">
-              <div class="node">PENDAPATAN</div>
-              <i class="fa-solid fa-chevron-down"></i>
-              <div class="node">SIMPANAN 10%</div>
+        <div class="ratio-grid">
+          <div class="ratio-card cash">
+            <div class="top-row">
+              <div class="ratio-icon"><i class="fa-solid fa-wallet"></i></div>
+              <span class="ratio-pct">5%</span>
             </div>
-            <div class="explain-grid">
-              <div class="explain-box">
-                <div class="pct">5% TUNAI</div>
-                <div class="tag">TABUNG KECEMASAN</div>
+            <div class="label">SIMPANAN TUNAI</div>
+            <div class="value" id="cashValue">RM0</div>
+          </div>
+
+          <div class="ratio-card gold">
+            <div class="top-row">
+              <div class="ratio-icon"><i class="fa-solid fa-coins"></i></div>
+              <span class="ratio-pct">5%</span>
+            </div>
+            <div class="label">SIMPANAN EMAS</div>
+            <div class="value" id="goldValue">RM0</div>
+          </div>
+        </div>
+
+        <div class="total-card">
+          <div>
+            <div class="label">JUMLAH SIMPANAN BULANAN</div>
+            <div class="value" id="totalValue">RM0</div>
+          </div>
+          <div class="pct-tag">10%</div>
+        </div>
+
+        <div class="conclusion-card">
+          <h3>Cadangan Simpanan Anda</h3>
+          <p id="conclusionText">Masukkan pendapatan anda di atas untuk melihat cadangan simpanan yang sesuai.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BAHAGIAN 4: MENGAPA PERLU BEGINI -->
+    <section id="mengapa">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Mengapa Perlu Begini?</h2>
+          <p>Fahami sebab di sebalik pembahagian nisbah 5% tunai dan 5% emas.</p>
+        </div>
+
+        <button class="accordion-btn reveal" id="accordionBtn" aria-expanded="false" aria-controls="accordionPanel">
+          <span>MENGAPA PERLU BEGINI?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+
+        <div class="accordion-panel reveal" id="accordionPanel">
+          <div class="accordion-inner">
+            <p>Ramai menyediakan simpanan dalam bentuk tunai, tetapi akhirnya simpanan tersebut bocor juga.</p>
+            <p>Jadi, pertimbangkan kaedah pembahagian simpanan 5:5 ini.</p>
+            <p>Jika simpanan tunai bocor atau digunakan untuk perkara yang tidak dirancang, paling tidak simpanan emas anda masih kekal dan terus bertambah.</p>
+
+            <div class="explain-visual">
+              <div class="explain-flow">
+                <div class="node">PENDAPATAN</div>
+                <i class="fa-solid fa-chevron-down"></i>
+                <div class="node">SIMPANAN 10%</div>
               </div>
-              <div class="explain-box gold">
-                <div class="pct">5% EMAS</div>
-                <div class="tag">TABUNG IMPIAN</div>
+              <div class="explain-grid">
+                <div class="explain-box">
+                  <div class="pct">5% TUNAI</div>
+                  <div class="tag">TABUNG KECEMASAN</div>
+                </div>
+                <div class="explain-box gold">
+                  <div class="pct">5% EMAS</div>
+                  <div class="tag">TABUNG IMPIAN</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PERTANYAAN -->
-  <section id="pertanyaan">
-    <div class="container">
-      <div class="pertanyaan-card reveal">
-        <h2>Auto-Menabung Emas Setiap Bulan</h2>
-        <p>Untuk pastikan kita menabung emas secara KONSISTEN, Public Gold sediakan kaedah menabung emas secara GAP AUTO-DEBIT.<br><br>Setiap bulan kita tak perlu dah nak fikir atau nak buat decision - samada nak menabung atau tak.<br><br>Belum duit tu masuk ke poket kita (dan dibelanjakan), kita boleh set siap-siap untuk potong terus dari akaun bank kita dan top-up ke akaun GAP - auto-menabung setiap bulan.<br><br>Menabung secara AUTO maksudnya kita auto-kaya setiap bulan, insyaAllah.<br><br>Tak perlu bajet besar. Boleh set potongan serendah RM100 untuk tempoh 1 - 5 tahun terus!</p>
-        <a href="https://pg2u.my/wanhasbullah/gap-autodebit-all" target="_blank" rel="noopener" class="cta-btn"><i class="fa-solid fa-paper-plane"></i> GAP AUTO DEBIT</a>
+    <!-- PERTANYAAN -->
+    <section id="pertanyaan">
+      <div class="container">
+        <div class="pertanyaan-card reveal">
+          <h2>Auto-Menabung Emas Setiap Bulan</h2>
+          <p>Untuk pastikan kita menabung emas secara KONSISTEN, Public Gold sediakan kaedah menabung emas secara GAP AUTO-DEBIT.<br><br>Setiap bulan kita tak perlu dah nak fikir atau nak buat decision - samada nak menabung atau tak.<br><br>Belum duit tu masuk ke poket kita (dan dibelanjakan), kita boleh set siap-siap untuk potong terus dari akaun bank kita dan top-up ke akaun GAP - auto-menabung setiap bulan.<br><br>Menabung secara AUTO maksudnya kita auto-kaya setiap bulan, insyaAllah.<br><br>Tak perlu bajet besar. Boleh set potongan serendah RM100 untuk tempoh 1 - 5 tahun terus!</p>
+          <a href="https://pg2u.my/wanhasbullah/gap-autodebit-all" target="_blank" rel="noopener" class="cta-btn"><i class="fa-solid fa-paper-plane"></i> GAP AUTO DEBIT</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
 </main>
 
@@ -907,10 +915,12 @@
     });
   });
 
-  /* ---------- CTA: buka panel nisbah lalu scroll ---------- */
+  /* ---------- CTA: buka panel nisbah (dan kandungan berkaitan) lalu scroll ---------- */
   var nisbahPanel = document.getElementById('nisbah');
-  document.getElementById('ctaTenPercent').addEventListener('click', function(){
+  var ctaBtn = document.getElementById('ctaTenPercent');
+  ctaBtn.addEventListener('click', function(){
     nisbahPanel.style.maxHeight = nisbahPanel.scrollHeight + 'px';
+    ctaBtn.classList.add('open');
     setTimeout(function(){ scrollToId('nisbah'); }, 60);
   });
 
@@ -979,6 +989,9 @@
       accordionPanel.style.maxHeight = accordionPanel.scrollHeight + 'px';
     } else {
       accordionPanel.style.maxHeight = '0px';
+    }
+    if(nisbahPanel.style.maxHeight && nisbahPanel.style.maxHeight !== '0px'){
+      nisbahPanel.style.maxHeight = nisbahPanel.scrollHeight + 'px';
     }
   });
 
