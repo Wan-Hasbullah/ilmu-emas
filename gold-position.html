@@ -77,13 +77,10 @@
 
   .selector-pill {
     border: 1px solid rgba(63,63,70,0.7); border-radius: 18px; background: rgba(24,24,27,0.6);
-    transition: all 0.25s ease; cursor: pointer;
+    transition: all 0.25s ease; cursor: pointer; width: 100%; text-align: left;
   }
   .selector-pill:hover { border-color: rgba(251,191,36,0.35); }
-  .selector-pill.active {
-    border-color: rgba(251,191,36,0.6); background: rgba(251,191,36,0.06);
-    box-shadow: 0 0 0 1px rgba(251,191,36,0.15) inset;
-  }
+  .selector-pill:active { transform: scale(0.98); }
 
   .prose-narrow { max-width: 640px; }
 
@@ -91,6 +88,17 @@
     background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
     color: #1c1917; border-radius: 24px;
   }
+
+  /* Quiz launcher */
+  #quiz-toggle-icon { transition: transform 0.25s ease; }
+
+  /* Story modal / slide carousel */
+  #story-modal.hidden { display: none; }
+  #slides-track { transition: transform 0.35s cubic-bezier(.22,.68,0,1); }
+  #slides-viewport { touch-action: pan-y; }
+  .modal-dot { transition: width 0.25s ease, background-color 0.25s ease; height: 6px; border-radius: 999px; cursor: pointer; }
+  @keyframes modal-pop { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+  .modal-pop { animation: modal-pop 0.22s ease both; }
 
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -138,9 +146,25 @@
       <button onclick="scrollToId('categories')" class="gt-btn-primary w-full py-4 mt-6 text-sm relative">KENALI KEDUDUKAN SAYA</button>
     </section>
 
-    <!-- CATEGORY CARDS -->
+    <!-- QUIZ LAUNCHER -->
     <section id="categories" class="py-8 border-t border-zinc-800/60">
-      <div class="space-y-4" id="category-cards"></div>
+      <div class="gp-card p-6 text-center relative">
+        <div class="gold-glow"></div>
+        <div class="relative">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-coins text-amber-400 text-xl"></i>
+          </div>
+          <h3 class="text-lg font-extrabold text-white leading-snug">ANDA KATEGORI MANA?</h3>
+          <p class="text-sm text-zinc-400 mt-2 leading-relaxed">Pilih jumlah simpanan yang paling hampir dengan anda sekarang, dan kenali kedudukan anda dalam beberapa saat.</p>
+
+          <button onclick="toggleQuizOptions()" id="quiz-toggle-btn" class="gt-btn-primary w-full py-4 mt-5 text-sm flex items-center justify-center gap-2">
+            <span>ANDA KATEGORI MANA?</span>
+            <i class="fa-solid fa-chevron-down text-xs" id="quiz-toggle-icon"></i>
+          </button>
+
+          <div id="quiz-options" class="hidden mt-4 space-y-3 text-left"></div>
+        </div>
+      </div>
     </section>
 
     <!-- FINAL CTA -->
@@ -149,8 +173,11 @@
       <h3 class="text-xl font-extrabold text-white leading-snug relative">SEDIAKAN PAYUNG<br>SEBELUM HUJAN.</h3>
       <p class="text-sm text-zinc-400 leading-relaxed mt-3 relative">Kita sentiasa mengharapkan yang terbaik. Tetapi perancangan kewangan juga bermula dengan persediaan terhadap perkara yang tidak dijangka.</p>
       <p class="text-sm text-zinc-400 leading-relaxed mt-2 relative">Kenali kedudukan anda hari ini. Kemudian bina langkah kecil untuk masa depan anda.</p>
-      <p class="text-xs font-bold tracking-widest text-amber-400/90 mt-6 relative">ANDA BERADA DI KEDUDUKAN YANG MANA?</p>
-      <div class="space-y-3 mt-4 relative" id="final-selector-pills"></div>
+
+      <button onclick="scrollToId('categories'); openQuizOptions();" class="gt-btn-secondary w-full py-4 mt-6 text-sm font-semibold relative flex items-center justify-center gap-2">
+        <i class="fa-solid fa-arrows-rotate text-xs text-amber-400"></i>
+        SEMAK SEMULA KEDUDUKAN SAYA
+      </button>
 
       <div class="gp-card p-5 mt-8 relative text-left">
         <div class="gold-glow"></div>
@@ -174,6 +201,38 @@
     <p class="text-[11px] text-zinc-700 pt-1">&copy; 2026 Gold Position</p>
   </footer>
 
+  <!-- STORY MODAL (poster + swipeable slides) -->
+  <div id="story-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-zinc-950/95 backdrop-blur-sm" onclick="closeModal()"></div>
+    <div class="relative h-full max-w-md mx-auto flex flex-col modal-pop">
+      <div class="flex items-center justify-between px-4 pt-4 pb-1 flex-shrink-0">
+        <p class="text-xs font-bold text-amber-400/90 tracking-widest" id="modal-label"></p>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white flex items-center justify-center flex-shrink-0" aria-label="Tutup">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-hidden relative" id="slides-viewport">
+        <div class="flex h-full" id="slides-track"></div>
+      </div>
+
+      <div class="px-4 pb-2 pt-2 flex-shrink-0">
+        <div class="flex items-center justify-center gap-1.5" id="modal-dots"></div>
+        <p class="text-center text-[11px] text-zinc-600 mt-2" id="modal-page-label"></p>
+      </div>
+
+      <div class="px-4 pb-6 pt-1 flex items-center gap-3 flex-shrink-0">
+        <button onclick="goPrevSlide()" id="modal-prev-btn" class="gt-btn-secondary w-14 h-14 flex items-center justify-center rounded-2xl flex-shrink-0" aria-label="Sebelumnya">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button id="modal-next-btn" class="gt-btn-primary flex-1 py-4 text-sm flex items-center justify-center gap-2">
+          <span id="modal-next-label">SETERUSNYA</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
 <script>
   // ── Coffee dropdown ──
   function toggleCoffeeMenu(){ document.getElementById('coffee-dropdown').classList.toggle('show'); }
@@ -186,219 +245,257 @@
   function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
 
   // ── Category data ──
+  // Poster images live in the GitHub repo folder: notagrafik-kategori/
   const categories = [
     {
       id: 1,
       label: 'GOLD POSITION 01',
       title: 'TAK BOLEH MENABUNG',
-      subtitle: 'Kerja bertahun-tahun tetapi simpanan masih belum menjadi.',
-      shortDescription: 'Duit simpanan sering bocor walaupun sudah mencuba pelbagai cara menabung.',
+      rangeLabel: 'Tiada simpanan / bawah RM1,000',
       icon: 'fa-wallet',
-      story: 'Kerja bertahun-tahun tapi tak ada tabungan. Walaupun gaji makin lama makin naik, tapi simpanan kecemasan 3 bulan gaji pun belum ada.\n\nBila menabung, duit tabungan selalu bocor. Dah guna macam-macam teknik menabung, tapi bila nampak duit simpanan makin banyak, akhirnya digunakan juga.',
-      problemLabel: 'MASALAH UTAMA',
-      problem: 'Simpanan sukar kekal kerana wang terlalu mudah diakses.',
-      approachLabel: 'PENDEKATAN YANG BOLEH DIPERTIMBANGKAN',
-      approach: 'Bagi individu yang sukar mengekalkan disiplin simpanan, sistem simpanan yang konsisten dan automatik mungkin dapat membantu.',
-      highlightTitle: 'AKAUN EMAS GAP',
-      highlightText: 'Menabung secara automatik boleh membantu membina disiplin dan mengurangkan kecenderungan menggunakan wang simpanan secara spontan.',
-      ctaText: 'TEROKA GAP AUTO DEBIT',
-      ctaLink: 'https://www.publicgoldofficial.com/zulkifli/gap-autodebit',
-      closingText: 'Apabila simpanan emas semakin bertambah, ia boleh menjadi salah satu bentuk aset yang boleh digunakan apabila diperlukan melalui pilihan seperti menjual atau memajak emas.',
-      relatedReading: [{ title: 'PAJAK EMAS ATAU JUAL EMAS. MANA YANG LEBIH BAIK?', link: 'https://www.mohdzulkifli.com/2021/05/pajak-emas-atau-jual-emas-mana-yang-lebih-baik.html' }]
+      poster: 'notagrafik-kategori/tak-boleh-menabung.jpg',
+      contentSlides: [
+        `<div class="py-2">
+           <p class="text-sm text-zinc-300 leading-relaxed">Kerja bertahun-tahun tapi tak ada tabungan. Walaupun gaji makin lama makin naik, tapi simpanan kecemasan 3 bulan gaji pun belum ada.</p>
+           <p class="text-sm text-zinc-300 leading-relaxed mt-4">Bila menabung, duit tabungan selalu bocor. Dah guna macam-macam teknik menabung, tapi bila nampak duit simpanan makin banyak, akhirnya digunakan juga.</p>
+         </div>`,
+        `<div class="gp-card p-5"><div class="gold-glow"></div><div class="relative">
+           <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">MASALAH UTAMA</p>
+           <p class="text-sm text-zinc-200 font-medium leading-relaxed">Simpanan sukar kekal kerana wang terlalu mudah diakses.</p>
+         </div></div>`,
+        `<div class="py-2">
+           <p class="text-xs font-bold text-zinc-500 tracking-widest mb-2">PENDEKATAN YANG BOLEH DIPERTIMBANGKAN</p>
+           <p class="text-sm text-zinc-400 leading-relaxed">Bagi individu yang sukar mengekalkan disiplin simpanan, sistem simpanan yang konsisten dan automatik mungkin dapat membantu.</p>
+         </div>`,
+        `<div class="gp-card p-5"><div class="gold-glow"></div><div class="relative">
+           <p class="text-sm font-bold text-amber-400 mb-2">AKAUN EMAS GAP</p>
+           <p class="text-sm text-zinc-300 leading-relaxed mb-4">Menabung secara automatik boleh membantu membina disiplin dan mengurangkan kecenderungan menggunakan wang simpanan secara spontan.</p>
+           <a href="https://www.publicgoldofficial.com/zulkifli/gap-autodebit" target="_blank" rel="noopener" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm"><i class="fa-solid fa-bolt"></i> TEROKA GAP AUTO DEBIT</a>
+         </div></div>`,
+        `<div class="py-2">
+           <p class="text-sm text-zinc-400 leading-relaxed">Apabila simpanan emas semakin bertambah, ia boleh menjadi salah satu bentuk aset yang boleh digunakan apabila diperlukan melalui pilihan seperti menjual atau memajak emas.</p>
+           <div class="mt-6 space-y-2">
+             <p class="text-xs font-bold text-zinc-500 tracking-widest">BACAAN BERKAITAN</p>
+             <a href="https://www.mohdzulkifli.com/2021/05/pajak-emas-atau-jual-emas-mana-yang-lebih-baik.html" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">PAJAK EMAS ATAU JUAL EMAS. MANA YANG LEBIH BAIK? <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>
+           </div>
+         </div>`
+      ]
     },
     {
       id: 2,
       label: 'GOLD POSITION 02',
       title: 'BOLEH MENABUNG, TETAPI HANYA DALAM ASB & TABUNG HAJI',
-      subtitle: 'Mempunyai disiplin menabung tetapi belum mempertimbangkan diversifikasi simpanan jangka panjang.',
-      shortDescription: 'Nombor simpanan mungkin bertambah, tetapi kuasa beli wang boleh berubah akibat inflasi dan perubahan nilai mata wang.',
+      rangeLabel: 'Simpanan melebihi RM10,000',
       icon: 'fa-building-columns',
-      story: 'Mereka dapat menabung dengan baik, tetapi tidak menyedari bahawa nilai sebenar simpanan boleh dipengaruhi oleh inflasi dan perubahan kuasa beli ringgit.\n\nWalaupun angka simpanan bertambah, nilai atau kuasa beli wang tersebut boleh berubah dari semasa ke semasa.\n\nDividen yang diterima juga perlu dilihat bersama kesan inflasi dan perubahan nilai mata wang.',
-      problemLabel: 'JANGAN HANYA MELIHAT NOMBOR.',
-      problem: 'Lihat juga kepada kuasa beli, inflasi, nilai jangka panjang dan diversifikasi.',
-      approachLabel: 'PENDEKATAN YANG BOLEH DIPERTIMBANGKAN',
-      approach: 'Bagi simpanan jangka panjang, pertimbangkan untuk mempelbagaikan sebahagian simpanan kepada bentuk aset lain seperti emas.\n\nSimpanan kecemasan dan wang yang diperlukan dalam masa terdekat boleh dikekalkan dalam bentuk yang mudah diakses. Bagi perancangan jangka panjang, sesetengah individu memilih emas sebagai salah satu komponen diversifikasi simpanan mereka.',
-      quote: { text: 'Dulu pilih ubi, sekarang pilih beras.\nDulu pilih ASB, sekarang pilih emas!', author: 'Azizi Ali' }
+      poster: 'notagrafik-kategori/boleh-menabung-tapi-dalam-bank.jpg',
+      contentSlides: [
+        `<div class="py-2">
+           <p class="text-sm text-zinc-300 leading-relaxed">Mereka dapat menabung dengan baik, tetapi tidak menyedari bahawa nilai sebenar simpanan boleh dipengaruhi oleh inflasi dan perubahan kuasa beli ringgit.</p>
+           <p class="text-sm text-zinc-300 leading-relaxed mt-4">Walaupun angka simpanan bertambah, nilai atau kuasa beli wang tersebut boleh berubah dari semasa ke semasa.</p>
+           <p class="text-sm text-zinc-300 leading-relaxed mt-4">Dividen yang diterima juga perlu dilihat bersama kesan inflasi dan perubahan nilai mata wang.</p>
+         </div>`,
+        `<div class="gp-card p-5"><div class="gold-glow"></div><div class="relative">
+           <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">JANGAN HANYA MELIHAT NOMBOR.</p>
+           <p class="text-sm text-zinc-200 font-medium leading-relaxed">Lihat juga kepada kuasa beli, inflasi, nilai jangka panjang dan diversifikasi.</p>
+         </div></div>`,
+        `<div class="py-2">
+           <p class="text-xs font-bold text-zinc-500 tracking-widest mb-2">PENDEKATAN YANG BOLEH DIPERTIMBANGKAN</p>
+           <p class="text-sm text-zinc-400 leading-relaxed">Bagi simpanan jangka panjang, pertimbangkan untuk mempelbagaikan sebahagian simpanan kepada bentuk aset lain seperti emas.</p>
+           <p class="text-sm text-zinc-400 leading-relaxed mt-4">Simpanan kecemasan dan wang yang diperlukan dalam masa terdekat boleh dikekalkan dalam bentuk yang mudah diakses. Bagi perancangan jangka panjang, sesetengah individu memilih emas sebagai salah satu komponen diversifikasi simpanan mereka.</p>
+         </div>`,
+        `<div class="quote-card p-6 text-center">
+           <i class="fa-solid fa-quote-left text-amber-700/40 text-2xl mb-3"></i>
+           <p class="text-base font-bold leading-relaxed">Dulu pilih ubi, sekarang pilih beras.<br>Dulu pilih ASB, sekarang pilih emas!</p>
+           <p class="text-xs font-semibold text-amber-800 mt-3">— Azizi Ali</p>
+         </div>`
+      ]
     },
     {
       id: 3,
       label: 'GOLD POSITION 03',
       title: 'KAYA RAYA, TETAPI TIADA TABUNGAN EMAS',
-      subtitle: 'Mempunyai kekayaan tetapi belum menyediakan sebahagian kekayaan dalam bentuk emas.',
-      shortDescription: 'Kekayaan yang besar juga memerlukan perlindungan, diversifikasi dan pelan kecemasan.',
+      rangeLabel: 'Simpanan mencecah RM1.2 juta',
       icon: 'fa-vault',
-      keyStatement: 'Kekayaan yang besar juga memerlukan perlindungan dan pelan kecemasan.',
-      analogy: 'Orang kaya tanpa simpanan emas ibarat kapal besar yang tidak mempunyai life boat yang mencukupi.',
-      story: 'Kapal sebesar mana pun tetap mempunyai risiko. Sebab itu kapal besar tetap memerlukan pelan kecemasan.\n\nBegitu juga dengan kekayaan. Mempunyai aset yang besar tidak bermaksud semua risiko telah hilang.\n\nDiversifikasi boleh menjadi salah satu strategi untuk mengurangkan risiko bergantung kepada hanya satu jenis aset.',
-      approachLabel: 'SEDIAKAN PAYUNG KETIKA LANGIT MASIH CERAH',
-      approach: 'Walaupun keadaan kewangan baik, seseorang masih boleh membuat persediaan terhadap situasi yang tidak dijangka — seperti payung sebelum hujan, life boat sebelum kapal menghadapi masalah, dan diversifikasi sebelum risiko berlaku.',
-      relatedReading: [
-        { title: 'EMAS MENYELAMATKAN SAYA KETIKA AKAUN BANK DIBEKUKAN', link: 'https://www.mohdzulkifli.com/2022/07/emas-menyelamatkan-saya-ketika-akaun-bank-dibekukan.html' },
-        { title: 'KAPAL MEWAH STAR CRUISE PUN PERLUKAN LIFE BOAT!', link: 'https://www.facebook.com/mohdzulkifli.shafie/posts/pfbid0zeuf9D5Nsx9TKL86iGG5udZoBq5pWG76Uh4uuFL2BWPH1q59WpujKeqJxnuHuJo5l' }
-      ],
-      recommendation: {
-        title: 'PERTIMBANGKAN DIVERSIFIKASI KEKAYAAN',
-        text: 'Sesetengah pakar kewangan menyarankan sebahagian portfolio dipelbagaikan kepada pelbagai kelas aset, termasuk emas.',
-        stat1: '10%', stat1Note: 'Contoh peruntukan yang disebut dalam bahan rujukan. Peruntukan aset bergantung kepada keadaan kewangan, matlamat dan tahap risiko setiap individu.',
-        stat2: '1 KG', stat2Note: 'Contoh sasaran simpanan emas keluarga yang disebut sebagai konsep "life boat" atau perlindungan kekayaan — bukan kewajipan atau nasihat kewangan universal.'
-      }
+      poster: 'notagrafik-kategori/kaya-tapi-tiada-emas.jpg',
+      contentSlides: [
+        `<div class="py-2">
+           <p class="text-sm font-semibold text-amber-400 mb-3">Kekayaan yang besar juga memerlukan perlindungan dan pelan kecemasan.</p>
+           <p class="text-sm text-zinc-300 leading-relaxed italic">"Orang kaya tanpa simpanan emas ibarat kapal besar yang tidak mempunyai life boat yang mencukupi."</p>
+         </div>`,
+        `<div class="py-2">
+           <p class="text-sm text-zinc-400 leading-relaxed">Kapal sebesar mana pun tetap mempunyai risiko. Sebab itu kapal besar tetap memerlukan pelan kecemasan.</p>
+           <p class="text-sm text-zinc-400 leading-relaxed mt-4">Begitu juga dengan kekayaan. Mempunyai aset yang besar tidak bermaksud semua risiko telah hilang.</p>
+           <p class="text-sm text-zinc-400 leading-relaxed mt-4">Diversifikasi boleh menjadi salah satu strategi untuk mengurangkan risiko bergantung kepada hanya satu jenis aset.</p>
+         </div>`,
+        `<div class="py-2">
+           <p class="text-xs font-bold text-zinc-500 tracking-widest mb-2">SEDIAKAN PAYUNG KETIKA LANGIT MASIH CERAH</p>
+           <p class="text-sm text-zinc-400 leading-relaxed">Walaupun keadaan kewangan baik, seseorang masih boleh membuat persediaan terhadap situasi yang tidak dijangka — seperti payung sebelum hujan, life boat sebelum kapal menghadapi masalah, dan diversifikasi sebelum risiko berlaku.</p>
+         </div>`,
+        `<div class="gp-card p-5"><div class="gold-glow"></div><div class="relative">
+           <p class="text-sm font-bold text-white mb-2">PERTIMBANGKAN DIVERSIFIKASI KEKAYAAN</p>
+           <p class="text-sm text-zinc-400 leading-relaxed mb-5">Sesetengah pakar kewangan menyarankan sebahagian portfolio dipelbagaikan kepada pelbagai kelas aset, termasuk emas.</p>
+           <div class="grid grid-cols-2 gap-4">
+             <div>
+               <p class="text-3xl font-extrabold position-num">10%</p>
+               <p class="text-[11px] text-zinc-500 leading-relaxed mt-1">Contoh peruntukan yang disebut dalam bahan rujukan. Peruntukan aset bergantung kepada keadaan kewangan, matlamat dan tahap risiko setiap individu.</p>
+             </div>
+             <div>
+               <p class="text-3xl font-extrabold position-num">1 KG</p>
+               <p class="text-[11px] text-zinc-500 leading-relaxed mt-1">Contoh sasaran simpanan emas keluarga yang disebut sebagai konsep "life boat" atau perlindungan kekayaan — bukan kewajipan atau nasihat kewangan universal.</p>
+             </div>
+           </div>
+         </div></div>`,
+        `<div class="py-2">
+           <p class="text-xs font-bold text-zinc-500 tracking-widest mb-3">BACAAN BERKAITAN</p>
+           <div class="space-y-2">
+             <a href="https://www.mohdzulkifli.com/2022/07/emas-menyelamatkan-saya-ketika-akaun-bank-dibekukan.html" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">EMAS MENYELAMATKAN SAYA KETIKA AKAUN BANK DIBEKUKAN <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>
+             <a href="https://www.facebook.com/mohdzulkifli.shafie/posts/pfbid0zeuf9D5Nsx9TKL86iGG5udZoBq5pWG76Uh4uuFL2BWPH1q59WpujKeqJxnuHuJo5l" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">KAPAL MEWAH STAR CRUISE PUN PERLUKAN LIFE BOAT! <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>
+           </div>
+         </div>`
+      ]
     }
   ];
 
-  let expandedId = null;
-
-  function renderCards(){
-    const wrap = document.getElementById('category-cards');
-    wrap.innerHTML = categories.map(c => `
-      <div class="gp-card p-5 fade-up" id="card-${c.id}">
-        <div class="gold-glow"></div>
-        <div class="relative">
-          <p class="text-xs font-bold text-amber-400/80 tracking-widest mb-2">${c.label}</p>
-          <div class="flex items-start gap-3 mb-2">
-            <div class="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center flex-shrink-0">
-              <i class="fa-solid ${c.icon} text-amber-400 text-sm"></i>
+  // ── Quiz launcher (dropdown of 3 savings ranges) ──
+  function toggleQuizOptions(){
+    const opts = document.getElementById('quiz-options');
+    const icon = document.getElementById('quiz-toggle-icon');
+    const isHidden = opts.classList.contains('hidden');
+    if(isHidden){
+      if(!opts.dataset.rendered){
+        opts.innerHTML = categories.map(c => `
+          <button onclick="selectCategory(${c.id})" class="selector-pill p-4 flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid ${c.icon} text-amber-400"></i>
             </div>
-            <h4 class="text-base font-bold text-white leading-snug pt-1.5">${c.title}</h4>
-          </div>
-          <p class="text-sm text-zinc-400 leading-relaxed mb-4">${c.shortDescription}</p>
-          <button onclick="toggleCategory(${c.id})" class="gt-btn-secondary w-full py-3 text-sm font-semibold" id="card-btn-${c.id}">LIHAT KEDUDUKAN INI</button>
-
-          <div class="hidden mt-5 pt-5 border-t border-zinc-800/70 relative" id="detail-wrap-${c.id}">
-            <button onclick="toggleCategory(${c.id})" class="absolute -top-1 right-0 w-8 h-8 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition-all z-10" aria-label="Tutup penerangan">
-              <i class="fa-solid fa-xmark text-sm"></i>
-            </button>
-            <div id="detail-body-${c.id}" class="pr-9"></div>
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function renderPills(containerId){
-    const wrap = document.getElementById(containerId);
-    wrap.innerHTML = categories.map(c => `
-      <button onclick="openCategory(${c.id})" class="selector-pill w-full text-left p-4 flex items-center gap-4" id="${containerId}-${c.id}">
-        <span class="text-2xl font-extrabold position-num">${String(c.id).padStart(2,'0')}</span>
-        <span class="text-sm font-semibold text-zinc-200 leading-snug">${c.title}</span>
-      </button>
-    `).join('');
-  }
-
-  function updateActiveStates(){
-    categories.forEach(c => {
-      document.getElementById(`card-${c.id}`)?.classList.toggle('active', expandedId === c.id);
-      document.getElementById(`final-selector-pills-${c.id}`)?.classList.toggle('active', expandedId === c.id);
-    });
-  }
-
-  function relatedReadingHtml(items){
-    if(!items) return '';
-    return `<div class="mt-6 space-y-2">
-      <p class="text-xs font-bold text-zinc-500 tracking-widest">BACAAN BERKAITAN</p>
-      ${items.map(r => `<a href="${r.link}" target="_blank" rel="noopener" class="block gt-btn-secondary px-4 py-3 text-sm font-semibold leading-snug">${r.title} <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 text-amber-400"></i></a>`).join('')}
-    </div>`;
-  }
-
-  function buildDetailBody(c){
-    if (c.id === 1) {
-      return `
-        <p class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">${c.story}</p>
-        <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
-          <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">${c.problemLabel}</p>
-          <p class="text-sm text-zinc-200 font-medium">${c.problem}</p>
-        </div></div>
-        <p class="text-xs font-bold text-zinc-500 tracking-widest mt-6 mb-2">${c.approachLabel}</p>
-        <p class="text-sm text-zinc-400 leading-relaxed">${c.approach}</p>
-        <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
-          <p class="text-sm font-bold text-amber-400 mb-2">${c.highlightTitle}</p>
-          <p class="text-sm text-zinc-300 leading-relaxed mb-4">${c.highlightText}</p>
-          <a href="${c.ctaLink}" target="_blank" rel="noopener" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm"><i class="fa-solid fa-bolt"></i> ${c.ctaText}</a>
-        </div></div>
-        <p class="text-sm text-zinc-400 leading-relaxed mt-5">${c.closingText}</p>
-        ${relatedReadingHtml(c.relatedReading)}
-      `;
-    } else if (c.id === 2) {
-      return `
-        <p class="text-sm text-zinc-300 leading-relaxed whitespace-pre-line">${c.story}</p>
-        <div class="gp-card p-5 mt-5"><div class="gold-glow"></div><div class="relative">
-          <p class="text-xs font-bold text-amber-400/90 tracking-widest mb-2">${c.problemLabel}</p>
-          <p class="text-sm text-zinc-200 font-medium">${c.problem}</p>
-        </div></div>
-        <p class="text-xs font-bold text-zinc-500 tracking-widest mt-6 mb-2">${c.approachLabel}</p>
-        <p class="text-sm text-zinc-400 leading-relaxed whitespace-pre-line">${c.approach}</p>
-        <div class="quote-card p-6 mt-6 text-center">
-          <i class="fa-solid fa-quote-left text-amber-700/40 text-2xl mb-3"></i>
-          <p class="text-base font-bold leading-relaxed whitespace-pre-line">${c.quote.text}</p>
-          <p class="text-xs font-semibold text-amber-800 mt-3">— ${c.quote.author}</p>
-        </div>
-      `;
+            <div class="min-w-0">
+              <p class="text-sm font-bold text-white leading-snug">${c.rangeLabel}</p>
+              <p class="text-xs text-zinc-500 mt-0.5 truncate">${c.title}</p>
+            </div>
+            <i class="fa-solid fa-chevron-right text-zinc-600 text-xs ml-auto flex-shrink-0"></i>
+          </button>
+        `).join('');
+        opts.dataset.rendered = '1';
+      }
+      opts.classList.remove('hidden');
+      opts.classList.add('fade-up');
+      icon.style.transform = 'rotate(180deg)';
     } else {
-      return `
-        <p class="text-sm font-semibold text-amber-400 mb-3">${c.keyStatement}</p>
-        <p class="text-sm text-zinc-300 leading-relaxed italic mb-4">"${c.analogy}"</p>
-        <p class="text-sm text-zinc-400 leading-relaxed whitespace-pre-line">${c.story}</p>
-        <p class="text-xs font-bold text-zinc-500 tracking-widest mt-6 mb-2">${c.approachLabel}</p>
-        <p class="text-sm text-zinc-400 leading-relaxed">${c.approach}</p>
-        <div class="gp-card p-5 mt-6"><div class="gold-glow"></div><div class="relative">
-          <p class="text-sm font-bold text-white mb-2">${c.recommendation.title}</p>
-          <p class="text-sm text-zinc-400 leading-relaxed mb-5">${c.recommendation.text}</p>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <p class="text-3xl font-extrabold position-num">${c.recommendation.stat1}</p>
-              <p class="text-[11px] text-zinc-500 leading-relaxed mt-1">${c.recommendation.stat1Note}</p>
-            </div>
-            <div>
-              <p class="text-3xl font-extrabold position-num">${c.recommendation.stat2}</p>
-              <p class="text-[11px] text-zinc-500 leading-relaxed mt-1">${c.recommendation.stat2Note}</p>
-            </div>
-          </div>
-        </div></div>
-        ${relatedReadingHtml(c.relatedReading)}
-      `;
+      opts.classList.add('hidden');
+      icon.style.transform = 'rotate(0deg)';
     }
   }
-
-  function toggleCategory(id){
-    const wrap = document.getElementById(`detail-wrap-${id}`);
-    const btn = document.getElementById(`card-btn-${id}`);
-    const card = document.getElementById(`card-${id}`);
-    const isOpen = expandedId === id;
-
-    if (isOpen) {
-      wrap.classList.add('hidden');
-      btn.classList.remove('hidden');
-      card.classList.remove('active');
-      expandedId = null;
-      updateActiveStates();
-      return;
-    }
-
-    if (expandedId !== null) {
-      const prevWrap = document.getElementById(`detail-wrap-${expandedId}`);
-      const prevBtn = document.getElementById(`card-btn-${expandedId}`);
-      prevWrap.classList.add('hidden');
-      prevBtn.classList.remove('hidden');
-    }
-
-    if (!wrap.dataset.rendered) {
-      document.getElementById(`detail-body-${id}`).innerHTML = buildDetailBody(categories.find(c => c.id === id));
-      wrap.dataset.rendered = '1';
-    }
-    wrap.classList.remove('hidden');
-    wrap.classList.add('fade-up');
-    btn.classList.add('hidden');
-    expandedId = id;
-    updateActiveStates();
-    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  function openQuizOptions(){
+    const opts = document.getElementById('quiz-options');
+    if(opts.classList.contains('hidden')) toggleQuizOptions();
   }
 
-  function openCategory(id){
-    if (expandedId !== id) toggleCategory(id);
-    else document.getElementById(`card-${id}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // ── Story modal / swipeable slides ──
+  let currentCategory = null;
+  let currentSlide = 0;
+
+  function buildSlides(c){
+    const posterSlide = `
+      <div class="w-full h-full flex flex-col items-center justify-center py-4">
+        <div class="w-full rounded-2xl overflow-hidden border border-zinc-800/70">
+          <img src="${c.poster}" alt="${c.title}" class="w-full h-auto block" loading="lazy" />
+        </div>
+        <p class="text-xs font-bold text-amber-400/80 tracking-widest mt-5">${c.label}</p>
+        <h4 class="text-lg font-extrabold text-white text-center mt-2 leading-snug">${c.title}</h4>
+      </div>
+    `;
+    return [posterSlide, ...c.contentSlides];
   }
 
-  renderCards();
-  renderPills('final-selector-pills');
+  function selectCategory(id){
+    currentCategory = categories.find(c => c.id === id);
+    currentSlide = 0;
+    document.getElementById('modal-label').textContent = currentCategory.label;
+    renderSlideTrack();
+    document.getElementById('story-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function renderSlideTrack(){
+    const slides = buildSlides(currentCategory);
+    const track = document.getElementById('slides-track');
+    track.style.transition = 'none';
+    track.innerHTML = slides.map(s => `<div class="w-full h-full flex-shrink-0 overflow-y-auto px-4">${s}</div>`).join('');
+    currentCategory.totalSlides = slides.length;
+    updateSlidePosition();
+    requestAnimationFrame(() => { track.style.transition = ''; });
+  }
+
+  function renderDots(){
+    const dots = document.getElementById('modal-dots');
+    const total = currentCategory.totalSlides;
+    dots.innerHTML = Array.from({length: total}).map((_, i) => `
+      <span class="modal-dot" onclick="goToSlide(${i})"
+        style="width:${i===currentSlide ? '22px' : '6px'}; background:${i===currentSlide ? '#fbbf24' : 'rgba(63,63,70,0.9)'};"></span>
+    `).join('');
+  }
+
+  function updateSlidePosition(){
+    const track = document.getElementById('slides-track');
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    document.getElementById('modal-page-label').textContent = `Muka surat ${currentSlide + 1} / ${currentCategory.totalSlides}`;
+    document.getElementById('modal-prev-btn').style.visibility = currentSlide === 0 ? 'hidden' : 'visible';
+
+    const isLast = currentSlide === currentCategory.totalSlides - 1;
+    document.getElementById('modal-next-label').textContent = isLast ? 'SELESAI' : 'SETERUSNYA';
+    document.getElementById('modal-next-btn').onclick = isLast ? closeModal : goNextSlide;
+
+    renderDots();
+  }
+
+  function goNextSlide(){
+    if(currentSlide < currentCategory.totalSlides - 1){
+      currentSlide++;
+      updateSlidePosition();
+    }
+  }
+  function goPrevSlide(){
+    if(currentSlide > 0){
+      currentSlide--;
+      updateSlidePosition();
+    }
+  }
+  function goToSlide(i){
+    currentSlide = i;
+    updateSlidePosition();
+  }
+  function closeModal(){
+    document.getElementById('story-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  // Swipe (touch) support for the slide viewport
+  (function initSwipe(){
+    const viewport = document.getElementById('slides-viewport');
+    let startX = 0, startY = 0, tracking = false;
+    viewport.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+    }, { passive: true });
+    viewport.addEventListener('touchend', e => {
+      if(!tracking) return;
+      tracking = false;
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if(Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)){
+        if(dx < 0) goNextSlide(); else goPrevSlide();
+      }
+    }, { passive: true });
+  })();
+
+  // Keyboard support while modal is open
+  document.addEventListener('keydown', e => {
+    if(document.getElementById('story-modal').classList.contains('hidden')) return;
+    if(e.key === 'ArrowRight') goNextSlide();
+    else if(e.key === 'ArrowLeft') goPrevSlide();
+    else if(e.key === 'Escape') closeModal();
+  });
 </script>
 </body>
 </html>
