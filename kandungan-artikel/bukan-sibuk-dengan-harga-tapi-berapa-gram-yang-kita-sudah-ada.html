@@ -6,6 +6,53 @@
   <title>Panduan Simpanan Emas - Artikel Premium</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .page-transition {
+      animation: pageFadeIn 0.32s ease;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: rgb(63 63 70); /* zinc-700 */
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .nav-dot.active {
+      width: 18px;
+      background-color: #fbbf24; /* amber-400 */
+      box-shadow: 0 0 8px 0 rgba(251, 191, 36, 0.5);
+    }
+    .page-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgb(212 212 216); /* zinc-300 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(39 39 42);
+      padding: 8px 16px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .page-nav-btn:hover:not(:disabled) {
+      border-color: rgb(251 191 36 / 0.5);
+      color: #fbbf24;
+    }
+    .page-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    #page-area {
+      min-height: calc(100dvh - 230px);
+    }
+  </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto px-4 border-x border-zinc-900/40">
   
@@ -14,73 +61,222 @@
     <span class="text-xs font-semibold text-zinc-400">Kembali ke Hub</span>
   </header>
 
-  <article class="space-y-4">
-    <header class="space-y-1">
-      <h1 class="text-xl font-extrabold text-zinc-100 leading-tight">Bukan Sibuk Dengan Harga, Tapi Berapa Gram Yang Kita Sudah Ada?</h1>
-      <p class="text-xs text-amber-400 font-medium">Oleh: Syarif Jamil</p>
-    </header>
+  <!-- Dot Navigation -->
+  <div id="dots-container" class="flex items-center justify-center gap-1.5 pb-2 flex-wrap"></div>
 
-    <div class="w-full overflow-hidden rounded-2xl border border-zinc-900">
-      <img 
-        src="https://raw.githubusercontent.com/Wan-Hasbullah/ilmu-emas/main/poster-artikel/bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada.jpg" 
-        alt="Bukan Sibuk Dengan Harga, Tapi Berapa Gram Yang Kita Sudah Ada?" 
-        class="w-full h-auto object-contain block"
-        onerror="this.src='https://placehold.co/600x400/09090b/fbbf24?text=Poster+Simpanan+Emas'"
-      >
+  <!-- Page Area -->
+  <div id="page-area" class="flex items-center justify-center">
+    <div id="page-content" class="page-transition w-full"></div>
+  </div>
+
+  <!-- Page Number + Navigation -->
+  <div class="flex flex-col items-center gap-3 pt-2 pb-4">
+    <div id="page-number-display" class="text-[11px] tracking-widest text-zinc-500 font-medium uppercase"></div>
+    <div class="flex items-center justify-between w-full max-w-xs gap-3">
+      <button id="prev-page-btn" class="page-nav-btn"><i class="fa-solid fa-chevron-left text-[10px]"></i> Sebelum</button>
+      <button id="next-page-btn" class="page-nav-btn">Seterusnya <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
     </div>
-
-    <hr class="border-zinc-800/80">
-
-    <div class="text-sm text-zinc-300 leading-relaxed space-y-4">
-      <p>
-        Harga emas naik susah hati..
-      </p>
-      <p>
-        Harga emas turun susah hati..
-      </p>
-      <p>
-        Nak kaya dengan emas, Pesan Mentor saya Tn Hj Mohd Zulkifli Shafie, Focus kepada berapa gram emas yang sudah kita miliki.
-      </p>
-      <p>
-        Dulu beli 1 dinar harganya cuma RM600 sekeping. Lepas 10 tahun, harga 1 dinar sudah lebih RM2500 sekeping! Naik dah banyak!
-      </p>
-      <p>
-        Tapi malangnya, sejak dulu sampai sekarang yang dia ada cuma 1 dinar!
-      </p>
-      <p>
-        Itu bukan makin kaya namanya…
-      </p>
-      <p>
-        Mereka yang sibuk tengok harga emas naik turun selalunya tak ke mana-mana.
-      </p>
-      <p>
-        Bila simpan emas, yang paling penting sudah berapa banyak emas yang kita simpan. Bukan berapa peratus sudah kenaikan harga.
-      </p>
-      <p>
-        Sama macam orang labur dalam hartanah.
-      </p>
-      <p>
-        Bermula dengan sebuah rumah. Makin tahun jumlah rumah yang mereka miliki makin bertambah.
-      </p>
-      <p class="italic text-zinc-400 border-l-2 border-amber-400 pl-3 my-4">
-        Itu lebih penting berbanding sibuk berapa peratus sudah kenaikan harga rumah.
-      </p>
-      <p>
-        Orang biasa sibuk tengok untung berapa peratus. Tapi orang kaya sibuk kumpul harta.
-      </p>
-      <p>
-        Bila harta sudah banyak, sudah tentu kita semakin kaya… InsyaAllah.
-      </p>
-    </div>
-
-    <footer class="pt-6 mt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-      <span class="text-[11px] text-zinc-500 font-medium">Diterbitkan: 2026-06-13</span>
-      <button onclick="copyGlobalLink('kandungan-artikel/bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada')" class="w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all">
-        <i class="fa-solid fa-share-nodes"></i> Kongsi Artikel
-      </button>
-    </footer>
-  </article>
+  </div>
 
   <script src="../js/main.js"></script>
+  <script>
+    (function () {
+      const pageContent = document.getElementById("page-content");
+      const dotsContainer = document.getElementById("dots-container");
+      const pageNumberDisplay = document.getElementById("page-number-display");
+      const prevBtn = document.getElementById("prev-page-btn");
+      const nextBtn = document.getElementById("next-page-btn");
+      const pageArea = document.getElementById("page-area");
+
+      // Kandungan asal artikel dipecahkan kepada muka surat secara logik.
+      // Teks asal tidak diubah sedikit pun.
+      const ARTICLE_PAGES = [
+        // Page 1 — Tajuk, penulis, poster & intro
+        `
+          <article class="space-y-4">
+            <header class="space-y-1 text-center">
+              <h1 class="text-xl sm:text-2xl font-extrabold text-zinc-100 leading-tight">Bukan Sibuk Dengan Harga, Tapi Berapa Gram Yang Kita Sudah Ada?</h1>
+              <p class="text-xs text-amber-400 font-medium">Oleh: Syarif Jamil</p>
+            </header>
+
+            <div class="w-full overflow-hidden rounded-2xl border border-zinc-900">
+              <img 
+                src="https://raw.githubusercontent.com/Wan-Hasbullah/ilmu-emas/main/poster-artikel/bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada.jpg" 
+                alt="Bukan Sibuk Dengan Harga, Tapi Berapa Gram Yang Kita Sudah Ada?" 
+                class="w-full h-auto object-contain block"
+                onerror="this.src='https://placehold.co/600x400/09090b/fbbf24?text=Poster+Simpanan+Emas'"
+              >
+            </div>
+
+            <hr class="border-zinc-800/80">
+
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Harga emas naik susah hati..
+              </p>
+              <p>
+                Harga emas turun susah hati..
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 2
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Nak kaya dengan emas, Pesan Mentor saya Tn Hj Mohd Zulkifli Shafie, Focus kepada berapa gram emas yang sudah kita miliki.
+              </p>
+              <p>
+                Dulu beli 1 dinar harganya cuma RM600 sekeping. Lepas 10 tahun, harga 1 dinar sudah lebih RM2500 sekeping! Naik dah banyak!
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 3
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Tapi malangnya, sejak dulu sampai sekarang yang dia ada cuma 1 dinar!
+              </p>
+              <p>
+                Itu bukan makin kaya namanya…
+              </p>
+              <p>
+                Mereka yang sibuk tengok harga emas naik turun selalunya tak ke mana-mana.
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 4
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Bila simpan emas, yang paling penting sudah berapa banyak emas yang kita simpan. Bukan berapa peratus sudah kenaikan harga.
+              </p>
+              <p>
+                Sama macam orang labur dalam hartanah.
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 5
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Bermula dengan sebuah rumah. Makin tahun jumlah rumah yang mereka miliki makin bertambah.
+              </p>
+              <p class="italic text-zinc-400 border-l-2 border-amber-400 pl-3 my-4">
+                Itu lebih penting berbanding sibuk berapa peratus sudah kenaikan harga rumah.
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 6 — Penutup & Footer
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Orang biasa sibuk tengok untung berapa peratus. Tapi orang kaya sibuk kumpul harta.
+              </p>
+              <p>
+                Bila harta sudah banyak, sudah tentu kita semakin kaya… InsyaAllah.
+              </p>
+            </div>
+
+            <footer class="pt-6 mt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <span class="text-[11px] text-zinc-500 font-medium">Diterbitkan: 2026-06-13</span>
+              <button onclick="copyGlobalLink('kandungan-artikel/bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada')" class="w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-share-nodes"></i> Kongsi Artikel
+              </button>
+            </footer>
+          </article>
+        `
+      ];
+
+      const totalPages = ARTICLE_PAGES.length;
+      let currentPage = 0;
+
+      function pad(num) {
+        return num < 10 ? "0" + num : "" + num;
+      }
+
+      function renderDots() {
+        dotsContainer.innerHTML = "";
+        for (let i = 0; i < totalPages; i++) {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot" + (i === currentPage ? " active" : "");
+          dot.setAttribute("aria-label", `Muka surat ${i + 1}`);
+          dot.onclick = () => goToPage(i);
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      function renderPageNumber() {
+        pageNumberDisplay.innerText = `${pad(currentPage + 1)} / ${pad(totalPages)}`;
+      }
+
+      function renderNavButtons() {
+        prevBtn.disabled = currentPage <= 0;
+        nextBtn.disabled = currentPage >= totalPages - 1;
+      }
+
+      function renderPage() {
+        pageContent.classList.remove("page-transition");
+        void pageContent.offsetWidth;
+        pageContent.innerHTML = ARTICLE_PAGES[currentPage];
+        pageContent.classList.add("page-transition");
+        renderDots();
+        renderPageNumber();
+        renderNavButtons();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+
+      function goToPage(idx) {
+        if (idx < 0 || idx > totalPages - 1) return;
+        currentPage = idx;
+        renderPage();
+      }
+
+      prevBtn.addEventListener("click", () => goToPage(currentPage - 1));
+      nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
+
+      // Keyboard navigation (desktop)
+      window.addEventListener("keydown", (e) => {
+        const tag = document.activeElement ? document.activeElement.tagName : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON" || tag === "A") return;
+        if (e.key === "ArrowLeft") goToPage(currentPage - 1);
+        else if (e.key === "ArrowRight") goToPage(currentPage + 1);
+      });
+
+      // Swipe navigation (mobile) — tidak mengganggu scroll menegak
+      let touchStartX = null;
+      let touchStartY = null;
+      pageArea.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+      pageArea.addEventListener("touchend", (e) => {
+        if (touchStartX === null) return;
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const threshold = 50;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
+          if (deltaX < 0) goToPage(currentPage + 1);
+          else goToPage(currentPage - 1);
+        }
+        touchStartX = null;
+        touchStartY = null;
+      }, { passive: true });
+
+      renderPage();
+    })();
+  </script>
 </body>
 </html>
