@@ -293,6 +293,20 @@
           <div class="mt-3 hidden" id="date-wrap">
             <label class="block text-xs font-semibold text-zinc-400 mb-2">Tarikh sasaran (pilihan)</label>
             <input id="target-date" type="date" class="gt-input w-full px-4 py-3.5 text-sm" />
+
+            <!-- Kalendar chip: paparan tarikh & hari yang lebih jelas -->
+            <div class="mt-2.5 flex items-center gap-3 bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-3">
+              <div class="w-12 h-12 shrink-0 rounded-xl bg-amber-400/10 border border-amber-400/25 flex flex-col items-center justify-center leading-none">
+                <span class="text-[10px] font-bold text-amber-400 uppercase" id="date-chip-month">-</span>
+                <span class="text-lg font-extrabold text-white" id="date-chip-day">-</span>
+              </div>
+              <div class="min-w-0">
+                <p class="text-sm font-semibold text-white truncate" id="date-chip-full">-</p>
+                <p class="text-xs text-zinc-500" id="date-chip-weekday">-</p>
+              </div>
+            </div>
+
+            <div class="field-error" id="err-date"><i class="fa-solid fa-triangle-exclamation mr-1.5 mt-0.5"></i><span>Tarikh sasaran mesti sekurang-kurangnya 2 tahun dari hari ini.</span></div>
             <p class="text-xs text-zinc-500 mt-2 leading-relaxed">Tarikh ini auto ditetapkan mengikut tempoh yang dipilih. Anda boleh tukar kepada tarikh yang lebih spesifik jika mahu &mdash; ini tidak wajib.</p>
           </div>
         </div>
@@ -335,10 +349,8 @@
     <!-- RESULT SECTION -->
     <div id="result-section" class="space-y-5 hidden">
 
-      <div id="capture-area" class="space-y-5">
-
       <!-- SUMMARY -->
-      <div class="gt-card p-5 fade-up">
+      <div id="summary-card" class="gt-card p-5 fade-up">
         <div class="relative grid grid-cols-2 gap-4">
           <div>
             <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Simpanan Bulanan</p>
@@ -398,7 +410,7 @@
       </div>
 
       <!-- POTENSI PERTUMBUHAN NILAI -->
-      <div class="gt-card p-5 fade-up">
+      <div id="growth-card" class="gt-card p-5 fade-up">
         <div class="gold-glow"></div>
         <div class="relative space-y-4">
           <h4 class="text-base font-bold text-white leading-snug">Potensi Pertumbuhan Nilai Emas</h4>
@@ -419,8 +431,6 @@
           <p class="text-xs text-zinc-500 leading-relaxed pt-1">Ini merupakan simulasi berdasarkan andaian kenaikan harga emas sebanyak 10% setahun. Harga emas sebenar boleh naik atau turun.</p>
         </div>
       </div>
-
-      </div><!-- /capture-area -->
 
       <!-- MOMENTUM CARD -->
       <div class="gt-card p-5 fade-up">
@@ -531,6 +541,40 @@
       return pad2(d.getDate()) + '/' + pad2(d.getMonth() + 1) + '/' + d.getFullYear();
     }
 
+    const MS_WEEKDAY = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+    const MS_MONTH_FULL = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+    const MS_MONTH_SHORT = ['JAN', 'FEB', 'MAC', 'APR', 'MEI', 'JUN', 'JUL', 'OGO', 'SEP', 'OKT', 'NOV', 'DIS'];
+
+    function updateDateChip(d) {
+      document.getElementById('date-chip-month').textContent = MS_MONTH_SHORT[d.getMonth()];
+      document.getElementById('date-chip-day').textContent = pad2(d.getDate());
+      document.getElementById('date-chip-full').textContent = d.getDate() + ' ' + MS_MONTH_FULL[d.getMonth()] + ' ' + d.getFullYear();
+      document.getElementById('date-chip-weekday').textContent = MS_WEEKDAY[d.getDay()];
+    }
+
+    function computeMinTargetDate() {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      d.setFullYear(d.getFullYear() + 2);
+      return d;
+    }
+
+    // Validate that a customized target date is at least 2 years from today.
+    function validateTargetDate() {
+      if (!isDateCustomized || !targetDateInput.value) {
+        clearError('date');
+        return true;
+      }
+      const selected = new Date(targetDateInput.value + 'T00:00:00');
+      const minDate = computeMinTargetDate();
+      if (isNaN(selected.getTime()) || selected < minDate) {
+        showError('date', 'Tarikh sasaran mesti sekurang-kurangnya 2 tahun dari hari ini.');
+        return false;
+      }
+      clearError('date');
+      return true;
+    }
+
     function computeDefaultTargetDate(years) {
       const d = new Date();
       d.setHours(0, 0, 0, 0);
@@ -549,6 +593,8 @@
       const def = computeDefaultTargetDate(years);
       targetDateInput.value = formatDateInputValue(def);
       isDateCustomized = false;
+      updateDateChip(def);
+      clearError('date');
       dateWrap.classList.remove('hidden');
     }
 
@@ -592,8 +638,18 @@
     });
 
     // Target date: mark as customized only when the user actually changes it.
-    targetDateInput.addEventListener('input', () => { isDateCustomized = true; });
-    targetDateInput.addEventListener('change', () => { isDateCustomized = true; });
+    targetDateInput.addEventListener('input', () => {
+      isDateCustomized = true;
+      const d = new Date(targetDateInput.value + 'T00:00:00');
+      if (!isNaN(d.getTime())) updateDateChip(d);
+      validateTargetDate();
+    });
+    targetDateInput.addEventListener('change', () => {
+      isDateCustomized = true;
+      const d = new Date(targetDateInput.value + 'T00:00:00');
+      if (!isNaN(d.getTime())) updateDateChip(d);
+      validateTargetDate();
+    });
 
     // Numeric-only, comma-formatted for monthly savings custom input
     monthlyCustom.addEventListener('input', () => {
@@ -692,6 +748,11 @@
         clearError('price');
       }
 
+      // Target date (jika dikustomisasi)
+      if (!validateTargetDate()) {
+        valid = false;
+      }
+
       return valid;
     }
 
@@ -747,7 +808,7 @@
         let endDate;
         if (hasCustomDate) {
           endDate = new Date(targetDateInput.value + 'T00:00:00');
-          if (isNaN(endDate.getTime()) || endDate <= today) {
+          if (isNaN(endDate.getTime()) || endDate <= today || endDate < computeMinTargetDate()) {
             endDate = computeDefaultTargetDate(years);
           }
         } else {
@@ -922,7 +983,7 @@ Bina Masa Depan.`;
       dateWrap.classList.add('hidden');
       isDateCustomized = false;
       goldPrice.value = '';
-      ['monthly', 'period', 'price'].forEach(clearError);
+      ['monthly', 'period', 'price', 'date'].forEach(clearError);
 
       document.getElementById('result-section').classList.add('hidden');
       lastResult = null;
@@ -931,8 +992,9 @@ Bina Masa Depan.`;
     }
 
     function saveAsImage() {
-      const captureArea = document.getElementById('capture-area');
-      if (!captureArea || typeof html2canvas === 'undefined') {
+      const summaryCard = document.getElementById('summary-card');
+      const growthCard = document.getElementById('growth-card');
+      if (!summaryCard || !growthCard || typeof html2canvas === 'undefined') {
         showToast('Gagal menyimpan gambar. Sila cuba lagi.');
         return;
       }
@@ -943,7 +1005,30 @@ Bina Masa Depan.`;
       icon.className = 'fa-solid fa-spinner fa-spin text-amber-400';
       label.textContent = 'Menjana...';
 
-      html2canvas(captureArea, {
+      // Bina bekas sementara (di luar skrin) yang hanya mengandungi
+      // kad ringkasan (atas) dan kad Potensi Pertumbuhan Nilai Emas (bawah).
+      // Kad keputusan utama sengaja tidak disertakan.
+      const temp = document.createElement('div');
+      temp.style.position = 'fixed';
+      temp.style.top = '0';
+      temp.style.left = '-9999px';
+      temp.style.width = '448px';
+      temp.style.background = '#09090b';
+      temp.style.padding = '4px';
+      temp.className = 'space-y-5';
+      const summaryClone = summaryCard.cloneNode(true);
+      const growthClone = growthCard.cloneNode(true);
+      [summaryClone, growthClone].forEach(el => {
+        el.classList.remove('fade-up');
+        el.style.animation = 'none';
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      temp.appendChild(summaryClone);
+      temp.appendChild(growthClone);
+      document.body.appendChild(temp);
+
+      html2canvas(temp, {
         backgroundColor: '#09090b',
         scale: 2,
         useCORS: true
@@ -956,6 +1041,7 @@ Bina Masa Depan.`;
       }).catch(() => {
         showToast('Gagal menyimpan gambar. Sila cuba lagi.');
       }).finally(() => {
+        document.body.removeChild(temp);
         btn.disabled = false;
         icon.className = 'fa-regular fa-image text-amber-400';
         label.textContent = 'Simpan Sebagai Gambar';
