@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAP Auto-Debit, Kaedah Terbaik Menabung Secara Konsisten - Artikel Premium</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .page-transition {
+      animation: pageFadeIn 0.32s ease;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: rgb(63 63 70); /* zinc-700 */
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .nav-dot.active {
+      width: 18px;
+      background-color: #fbbf24; /* amber-400 */
+      box-shadow: 0 0 8px 0 rgba(251, 191, 36, 0.5);
+    }
+    .page-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgb(212 212 216); /* zinc-300 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(39 39 42);
+      padding: 8px 16px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .page-nav-btn:hover:not(:disabled) {
+      border-color: rgb(251 191 36 / 0.5);
+      color: #fbbf24;
+    }
+    .page-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    #page-area {
+      min-height: calc(100dvh - 230px);
+    }
+    .ref-box {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.05);
+      border: 1px solid rgba(251, 191, 36, 0.15);
+      border-radius: 12px;
+      padding: 12px 14px;
+      line-height: 1.5;
+    }
+    a.ref-box:hover {
+      background: rgba(251, 191, 36, 0.1);
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto px-4 border-x border-zinc-900/40">
+  
+  <header class="py-4 border-b border-zinc-900/60 flex items-center gap-3 sticky top-0 bg-zinc-950/90 backdrop-blur-md z-40 mb-6">
+    <a href="../artikel.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left"></i></a>
+    <span class="text-xs font-semibold text-zinc-400">Kembali ke Hub</span>
+  </header>
+
+  <!-- Dot Navigation -->
+  <div id="dots-container" class="flex items-center justify-center gap-1.5 pb-2 flex-wrap"></div>
+
+  <!-- Page Area -->
+  <div id="page-area" class="flex items-center justify-center">
+    <div id="page-content" class="page-transition w-full"></div>
+  </div>
+
+  <!-- Page Number + Navigation -->
+  <div class="flex flex-col items-center gap-3 pt-2 pb-4">
+    <div id="page-number-display" class="text-[11px] tracking-widest text-zinc-500 font-medium uppercase"></div>
+    <div class="flex items-center justify-between w-full max-w-xs gap-3">
+      <button id="prev-page-btn" class="page-nav-btn"><i class="fa-solid fa-chevron-left text-[10px]"></i> Sebelum</button>
+      <button id="next-page-btn" class="page-nav-btn">Seterusnya <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    (function () {
+      const pageContent = document.getElementById("page-content");
+      const dotsContainer = document.getElementById("dots-container");
+      const pageNumberDisplay = document.getElementById("page-number-display");
+      const prevBtn = document.getElementById("prev-page-btn");
+      const nextBtn = document.getElementById("next-page-btn");
+      const pageArea = document.getElementById("page-area");
+
+      // Kandungan asal artikel dipecahkan kepada muka surat secara logik.
+      // Teks asal tidak diubah sedikit pun.
+      const ARTICLE_PAGES = [
+        // Page 1 — Tajuk, penulis, poster & intro
+        `
+          <article class="space-y-4">
+            <header class="space-y-1 text-center">
+              <h1 class="text-xl sm:text-2xl font-extrabold text-zinc-100 leading-tight">GAP Auto-Debit, Kaedah Terbaik Menabung Secara Konsisten</h1>
+              <p class="text-xs text-amber-400 font-medium">Oleh: Mohd Zulkifli Shafie</p>
+            </header>
+
+            <div class="w-full overflow-hidden rounded-2xl border border-zinc-900">
+              <img 
+                src="https://raw.githubusercontent.com/Wan-Hasbullah/ilmu-emas/main/poster-artikel/gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten.jpg" 
+                alt="GAP Auto-Debit, Kaedah Terbaik Menabung Secara Konsisten" 
+                class="w-full h-auto object-contain block"
+                onerror="this.src='https://placehold.co/600x400/09090b/fbbf24?text=Poster+Simpanan+Emas'"
+              >
+            </div>
+
+            <hr class="border-zinc-800/80">
+
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Kalau setiap bulan kena buat 'decision' (keputusan) dulu baru nak menabung, ia tak akan membuatkan kita kaya.
+              </p>
+              <p>
+                Kejayaan ialah tentang buat perkara yang betul berulang-ulang kali tanpa perlu buat decision lagi.
+              </p>
+              <p>
+                Ia tentang rutin dan tabiat, hinggalah kita buat perkara betul secara KONSISTEN. Buat perkara yang betul secara "AUTO", tanpa perlu dipaksa-paksa dan berfikir-fikir lagi.
+              </p>
+              <p>
+                Begitu juga kalau nak berjaya menabung emas.
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 2
+        `
+          <article class="space-y-4">
+            <h2 class="text-lg font-bold text-zinc-100">Auto-menabung emas setiap bulan</h2>
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Untuk pastikan kita menabung emas secara KONSISTEN, Public Gold sediakan kaedah menabung emas secara GAP AUTO-DEBIT.
+              </p>
+              <p>
+                Setiap bulan kita tak perlu dah nak fikir atau nak buat decision - samada nak menabung atau tak.
+              </p>
+              <p>
+                Belum duit tu masuk ke poket kita (dan dibelanjakan), kita boleh set siap-siap untuk potong terus dari akaun bank kita dan top-up ke akaun GAP - auto-menabung setiap bulan.
+              </p>
+              <p>
+                Menabung secara AUTO maksudnya kita auto-kaya setiap bulan, insyaAllah.
+              </p>
+              <p>
+                Tak perlu bajet besar. Boleh set potongan serendah RM100 untuk tempoh 1 - 5 tahun terus!
+              </p>
+              <a href="https://pg2u.my/wanhasbullah/gap-autodebit" target="_blank" class="ref-box">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Sila rujuk : Panduan lengkap menabung emas melalui GAP Auto-Debit
+              </a>
+            </div>
+          </article>
+        `,
+        // Page 3
+        `
+          <article class="space-y-4">
+            <h2 class="text-lg font-bold text-zinc-100">Auto-menabung selama 5 tahun terus!</h2>
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>Saranan saya,</p>
+              <h3 class="text-base font-semibold text-amber-400">1 - Set auto-menabung 5 tahun</h3>
+              <p>
+                Alang-alang buat GAP Auto-Debit, set terus menabung selama 5 tahun terus.
+              </p>
+              <p>
+                Yuran pemprosesan tetap sama (RM1 sekali proses), samada set menabung selama 1 tahun ataupun 5 tahun.
+              </p>
+              <p>
+                Kalau nak stop potongan, boleh terminate sahaja bila-bila masa. Cajnya juga cuma RM1 sekali proses.
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 4
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <h3 class="text-base font-semibold text-amber-400">2 - Menabung minimum RM200 setiap bulan</h3>
+              <p>
+                Kedua, menabunglah minimum RM200 setiap bulan supaya berpeluang menang lucky draw emas setiap bulan.
+              </p>
+              <p>
+                Mudah-mudahan, sambil menabung emas, berpeluang menang gold bar ataupun dinar free setiap bulan! InsyaAllah.
+              </p>
+              <p>
+                Mudah-mudahan kaedah GAP auto-debit ni dapat bantu setiap kita auto-menabung dan auto-kaya setiap bulan, insyaAllah.
+              </p>
+            </div>
+          </article>
+        `,
+        // Page 5
+        `
+          <article class="space-y-4">
+            <h2 class="text-lg font-bold text-zinc-100">Punca tabungan emas tak bertambah</h2>
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Selain disebabkan menabung secara manual (tak konsisten), punca tabungan tak bertambah antaranya;
+              </p>
+              <h3 class="text-base font-semibold text-amber-400">1 - Menabung tanpa ilmu, sekadar ikut-ikut orang</h3>
+              <p>
+                Dia pun tak faham apa yang dia buat. Sebuah buku pasal emas pun tak pernah baca, tapi harapkan dia dapat untung dengan emas.
+              </p>
+              <p>
+                Ia mustahil.
+              </p>
+              <p>
+                Tanpa ilmu, emas tak akan membuatkan kita bertambah kaya.
+              </p>
+              <span class="ref-box">
+                <i class="fa-solid fa-book mr-1"></i> Buku Bestseller Yang Telah Mengubah Kewangan Rakyat Malaysia
+              </span>
+            </div>
+          </article>
+        `,
+        // Page 6
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <h3 class="text-base font-semibold text-amber-400">2 - Nak tunggu harga emas paling rendah baru nak beli</h3>
+              <p>
+                Hakikatnya, tak siapa tahu bila harga emas paling rendah kecuali bila dah jadi sejarah - tak boleh dibeli lagi.
+              </p>
+              <p>
+                Yang pastinya, harga emas sekarang confirm lebih murah berbanding beberapa tahun akan datang - disebabkan faktor inflasi dan penurunan nilai ringgit.
+              </p>
+              <span class="ref-box">
+                <i class="fa-solid fa-chart-line mr-1"></i> Fokus Tambah Gram, Jangan Buang Masa Monitor Harga Emas
+              </span>
+            </div>
+          </article>
+        `,
+        // Page 7
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <h3 class="text-base font-semibold text-amber-400">3 - Beli emas sekadar "buy low sell high"</h3>
+              <p>
+                Dia fikir pelaburan emas ni macam 'trade' saham; beli harga rendah, jual harga tinggi. Bila harga tinggi, terus jual.
+              </p>
+              <p>
+                Duit hasil jualan emas, simpan dalam akaun bank atau belanjakan sampai habis!
+              </p>
+              <p>
+                Dia tak faham cara betul bina kekayaan - bermula dengan tabungan emas pertama.
+              </p>
+              <p>
+                Dia tak sedar dia telah downgrade aset mahal (emas) kepada aset yang murah (bila tukar emas kepada duit kertas), dan sedang berlari di tempat sama bila belanjakan habis hasil tabungan emas tu.
+              </p>
+              <span class="ref-box">
+                <i class="fa-solid fa-coins mr-1"></i> Kenapa Tak Jual Emas Walaupun Harganya Dah Naik Tinggi?
+              </span>
+            </div>
+          </article>
+        `,
+        // Page 8
+        `
+          <article class="space-y-4">
+            <h2 class="text-lg font-bold text-zinc-100">Checklist kaya dengan emas</h2>
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Untuk pastikan tabungan emas bertambah dengan cepat, saya dah buat satu "Checklist Kaya Dengan Emas" khusus untuk penyimpan emas Public Gold di bawah bimbingan saya:
+              </p>
+              <span class="ref-box">
+                <i class="fa-solid fa-list-check mr-1"></i> Sila baca : 7 Checklist Penting Kaya Dengan Emas Tahun 2025
+              </span>
+              <p>
+                Ambil masa 5 minit untuk go thru 7 checklist yang saya senaraikan.
+              </p>
+              <p>
+                Siapa dah lengkapkan dengan 7 checklist, dia akan "on-track" untuk kaya dengan emas, insyaAllah.
+              </p>
+              <p>
+                Tabungan emas dia tu nanti akan membantu dia:
+              </p>
+              <ul class="list-disc list-inside space-y-2 text-zinc-300">
+                <li>Tingkatkan jumlah TABUNGAN sehingga 6 - 12 bulan gaji</li>
+                <li>Jumlah HARTA (yang memberikan pendapatan pasif) bertambah dari tahun ke tahun</li>
+                <li>HUTANG akan langsai satu per satu.</li>
+              </ul>
+            </div>
+          </article>
+        `,
+        // Page 9 — Penutup & Footer
+        `
+          <article class="space-y-4">
+            <h2 class="text-lg font-bold text-zinc-100">Biarlah makin lama makin kaya</h2>
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+                Kalau jumlah tabungan dan harta tak bertambah, serta hutang tak berkurangan setelah menabung emas, itu petanda emas tak menjadikan dia lebih kaya.
+              </p>
+              <p>
+                Dia sekadar sibuk monitor harga emas, walhal tengah berlari di tempat yang sama - tak kaya-kaya.
+              </p>
+              <p>
+                Alang-alang menabung emas, biarlah semakin kaya dari bulan ke bulan, tahun ke tahun.
+              </p>
+              <p>
+                Mudah-mudahan dengan kaedah GAP Auto-Debit dan "Checklist Kaya Dengan Emas" ni dapat bantu penyimpan-penyimpan emas menabung dengan lebih konsisten dan akhirnya bertambah kaya dengan emas.
+              </p>
+              <p>
+                InsyaAllah.
+              </p>
+            </div>
+
+            <footer class="pt-6 mt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <span class="text-[11px] text-zinc-500 font-medium">Diterbitkan: 2026-09-06</span>
+              <button onclick="copyGlobalLink('kandungan-artikel/gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten')" class="w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-share-nodes"></i> Kongsi Artikel
+              </button>
+            </footer>
+          </article>
+        `
+      ];
+
+      const totalPages = ARTICLE_PAGES.length;
+      let currentPage = 0;
+
+      function pad(num) {
+        return num < 10 ? "0" + num : "" + num;
+      }
+
+      function renderDots() {
+        dotsContainer.innerHTML = "";
+        for (let i = 0; i < totalPages; i++) {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot" + (i === currentPage ? " active" : "");
+          dot.setAttribute("aria-label", `Muka surat ${i + 1}`);
+          dot.onclick = () => goToPage(i);
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      function renderPageNumber() {
+        pageNumberDisplay.innerText = `${pad(currentPage + 1)} / ${pad(totalPages)}`;
+      }
+
+      function renderNavButtons() {
+        prevBtn.disabled = currentPage <= 0;
+        nextBtn.disabled = currentPage >= totalPages - 1;
+      }
+
+      function renderPage() {
+        pageContent.classList.remove("page-transition");
+        void pageContent.offsetWidth;
+        pageContent.innerHTML = ARTICLE_PAGES[currentPage];
+        pageContent.classList.add("page-transition");
+        renderDots();
+        renderPageNumber();
+        renderNavButtons();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+
+      function goToPage(idx) {
+        if (idx < 0 || idx > totalPages - 1) return;
+        currentPage = idx;
+        renderPage();
+      }
+
+      prevBtn.addEventListener("click", () => goToPage(currentPage - 1));
+      nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
+
+      // Keyboard navigation (desktop)
+      window.addEventListener("keydown", (e) => {
+        const tag = document.activeElement ? document.activeElement.tagName : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON" || tag === "A") return;
+        if (e.key === "ArrowLeft") goToPage(currentPage - 1);
+        else if (e.key === "ArrowRight") goToPage(currentPage + 1);
+      });
+
+      // Swipe navigation (mobile) — tidak mengganggu scroll menegak
+      let touchStartX = null;
+      let touchStartY = null;
+      pageArea.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+      pageArea.addEventListener("touchend", (e) => {
+        if (touchStartX === null) return;
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const threshold = 50;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
+          if (deltaX < 0) goToPage(currentPage + 1);
+          else goToPage(currentPage - 1);
+        }
+        touchStartX = null;
+        touchStartY = null;
+      }, { passive: true });
+
+      renderPage();
+    })();
+  </script>
+</body>
+</html>
