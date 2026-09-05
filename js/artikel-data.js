@@ -17,6 +17,15 @@ const ARTIKEL_DATA = [
     summary: "Paras harga emas semasa yang sedang rendah merupakan peluang terbaik untuk pelabur menambah simpanan, bukannya untuk berasa takut atau berhenti menyimpan.",
     path: "kandungan-artikel/sejarah-harga-emas-10-tahun.html"
   },
+
+  {
+    id: "gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten",
+    title: "GAP Auto-Debit, Kaedah Terbaik Menabung Secara Konsisten",
+    author: "Mohd Zulkifli Shafie",
+    category: "Simpanan Emas",
+    summary: "GAP Auto-Debit membantu kita menabung emas secara konsisten setiap bulan tanpa perlu buat keputusan berulang, sekali gus mempercepatkan proses menjadi kaya dengan emas.",
+    path: "kandungan-artikel/gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten.html"
+  },
   
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
