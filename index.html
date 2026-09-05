@@ -193,6 +193,40 @@
       transition: color 0.2s ease;
     }
     .m-quick-btn:hover .m-quick-label { color: #D4AF37; }
+
+    /* ── Kemaskini: Butang Aksi Video (Subscribe / Full Skrin / Share) ── */
+    .m-action-pill {
+      font-family: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .m-action-pill:hover {
+      border-color: rgba(212,175,55,0.55);
+      color: #D4AF37;
+      background: rgba(212,175,55,0.08);
+    }
+    .m-action-pill:active {
+      transform: scale(0.95);
+    }
+    .m-action-pill i {
+      font-size: 11px;
+    }
+
+    /* ── Kemaskini: Anchor Scroll & Highlight untuk #elak-kerugian ── */
+    #elak-kerugian {
+      scroll-margin-top: 88px;
+    }
+    #elak-kerugian.anchor-highlight {
+      animation: anchorPulseGold 1.8s ease;
+    }
+    @keyframes anchorPulseGold {
+      0%   { box-shadow: 0 8px 24px rgba(0,0,0,0.35); border-color: rgba(212,175,55,0.18); }
+      15%  { box-shadow: 0 0 0 3px rgba(212,175,55,0.35), 0 0 26px rgba(212,175,55,0.45); border-color: rgba(212,175,55,0.95); }
+      40%  { box-shadow: 0 0 0 1px rgba(212,175,55,0.2), 0 0 14px rgba(212,175,55,0.3); border-color: rgba(212,175,55,0.5); }
+      60%  { box-shadow: 0 0 0 3px rgba(212,175,55,0.3), 0 0 22px rgba(212,175,55,0.4); border-color: rgba(212,175,55,0.9); }
+      100% { box-shadow: 0 8px 24px rgba(0,0,0,0.35); border-color: rgba(212,175,55,0.18); }
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
@@ -267,30 +301,36 @@
     </section>
 
     <!-- Video -->
-    <div class="m-section">
+    <div class="m-section" id="elak-kerugian">
       <div class="m-section-label">
         <i class="fa-solid fa-circle-play" style="color:#D4AF37;font-size:11px"></i>
         Elakkan Kerugian - Wajib Tonton
       </div>
 
-      <div class="m-video-wrap">
+      <div class="m-video-wrap" id="m-video-fullscreen-target">
         <iframe
-          src="https://www.youtube.com/embed/SlzjujKtxYE"
+          id="elak-kerugian-iframe"
+          src="https://www.youtube.com/embed/SlzjujKtxYE?rel=0&modestbranding=1&iv_load_policy=3"
           allowfullscreen
           loading="lazy">
         </iframe>
       </div>
 
       <div class="m-video-meta">
-        <div class="m-video-pill">
+        <a href="https://youtube.com/@wanhasbullah?si=XhrRBn4KBOL9xwfx" target="_blank" rel="noopener noreferrer" class="m-video-pill m-action-pill">
           <i class="fa-brands fa-youtube" style="color:#FF3B3B"></i>
-          YouTube · Wan Hasbullah
-        </div>
+          Subscribe
+        </a>
 
-        <div class="m-video-pill">
-          <i class="fa-regular fa-clock"></i>
-          1.15 minit
-        </div>
+        <button type="button" onclick="toggleFullscreenVideo()" class="m-video-pill m-action-pill">
+          <i class="fa-solid fa-expand"></i>
+          Full Skrin
+        </button>
+
+        <button type="button" onclick="shareElakKerugian()" class="m-video-pill m-action-pill">
+          <i class="fa-solid fa-share-nodes"></i>
+          Share
+        </button>
       </div>
     </div>
 
@@ -981,6 +1021,111 @@ function triggerOneSignalForce() {
       const goldNotif = document.getElementById("gold-drop-notification");
       goldNotif.classList.add("opacity-0", "-translate-y-10");
       setTimeout(() => { goldNotif.classList.add("hidden"); }, 500);
+    }
+  </script>
+
+  <script>
+    /* ── Kemaskini 1: Anchor Scroll + Highlight Premium untuk #elak-kerugian ── */
+    function highlightElakKerugian() {
+      const target = document.getElementById('elak-kerugian');
+      if (!target) return;
+
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      target.classList.remove('anchor-highlight');
+      void target.offsetWidth; // reset animasi jika dipanggil berulang kali
+
+      setTimeout(() => {
+        target.classList.add('anchor-highlight');
+        setTimeout(() => {
+          target.classList.remove('anchor-highlight');
+        }, 1800);
+      }, 450);
+    }
+
+    function checkElakKerugianHash() {
+      if (window.location.hash === '#elak-kerugian') {
+        highlightElakKerugian();
+      }
+    }
+
+    window.addEventListener('load', checkElakKerugianHash);
+    window.addEventListener('hashchange', checkElakKerugianHash);
+
+    /* ── Kemaskini 3: Butang Full Skrin ── */
+    function toggleFullscreenVideo() {
+      const wrap = document.getElementById('m-video-fullscreen-target');
+      if (!wrap) return;
+
+      const requestFs = wrap.requestFullscreen
+        || wrap.webkitRequestFullscreen
+        || wrap.mozRequestFullScreen
+        || wrap.msRequestFullscreen;
+
+      if (requestFs) {
+        try {
+          requestFs.call(wrap);
+          return;
+        } catch (e) {
+          console.error('Ralat fullscreen, guna fallback:', e);
+        }
+      }
+
+      // Fallback: buka video terus di YouTube jika fullscreen API tidak stabil/disokong
+      window.open(
+        'https://www.youtube.com/shorts/SlzjujKtxYE?source_ve_path=MTc3Mjcy&embeds_referring_euri=https%3A%2F%2Filmu-emas.pages.dev%2F',
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
+
+    /* ── Kemaskini 5: Butang Share (Web Share API + Clipboard fallback) ── */
+    function shareElakKerugian() {
+      const shareUrl = 'https://ilmu-emas.pages.dev#elak-kerugian';
+      const shareData = {
+        title: 'Ilmu Emas',
+        text: 'Elakkan Kerugian - Wajib Tonton',
+        url: shareUrl
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => {});
+        return;
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          openDynamicAccessPopup(
+            "fa-solid fa-circle-check",
+            "bg-emerald-500/10 border border-emerald-500/20",
+            "text-emerald-400",
+            "Pautan Berjaya Disalin",
+            "Pautan video 'Elakkan Kerugian - Wajib Tonton' disalin ke papan klip anda. Sedia untuk dikongsi.",
+            shareUrl
+          );
+        }).catch(() => {
+          openDynamicAccessPopup(
+            "fa-solid fa-link",
+            "bg-zinc-800",
+            "text-zinc-200",
+            "Salin Pautan",
+            "Sila salin pautan video di bawah secara manual:",
+            shareUrl
+          );
+        });
+      } else {
+        openDynamicAccessPopup(
+          "fa-solid fa-link",
+          "bg-zinc-800",
+          "text-zinc-200",
+          "Salin Pautan",
+          "Sila salin pautan video di bawah secara manual:",
+          shareUrl
+        );
+      }
     }
   </script>
 </body>
