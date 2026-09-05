@@ -227,6 +227,57 @@
       60%  { box-shadow: 0 0 0 3px rgba(212,175,55,0.3), 0 0 22px rgba(212,175,55,0.4); border-color: rgba(212,175,55,0.9); }
       100% { box-shadow: 0 8px 24px rgba(0,0,0,0.35); border-color: rgba(212,175,55,0.18); }
     }
+
+    /* ── Kemaskini: Anchor Scroll & Highlight untuk #kalkulator-target-simpanan ── */
+    #kalkulator-target-simpanan {
+      scroll-margin-top: 88px;
+    }
+    #kalkulator-target-simpanan.anchor-highlight-target {
+      animation: anchorPulseGoldTarget 1.8s ease;
+    }
+    @keyframes anchorPulseGoldTarget {
+      0%   { box-shadow: 0 8px 24px rgba(0,0,0,0.35); border-color: rgba(212,175,55,0.18); }
+      15%  { box-shadow: 0 0 0 3px rgba(212,175,55,0.35), 0 0 26px rgba(212,175,55,0.45); border-color: rgba(212,175,55,0.95); }
+      40%  { box-shadow: 0 0 0 1px rgba(212,175,55,0.2), 0 0 14px rgba(212,175,55,0.3); border-color: rgba(212,175,55,0.5); }
+      60%  { box-shadow: 0 0 0 3px rgba(212,175,55,0.3), 0 0 22px rgba(212,175,55,0.4); border-color: rgba(212,175,55,0.9); }
+      100% { box-shadow: 0 8px 24px rgba(0,0,0,0.35); border-color: rgba(212,175,55,0.18); }
+    }
+
+    /* ── Kemaskini: Butang Copy Link Minimal (Kalkulator Target Simpanan) ── */
+    .m-copylink-wrap {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 12px;
+    }
+    .m-copylink-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      max-width: 100%;
+      padding: 6px 12px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #a1a1aa;
+      background: rgba(39,39,42,0.6);
+      border: 1px solid rgba(63,63,70,0.8);
+      border-radius: 999px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+    .m-copylink-btn:hover {
+      color: #D4AF37;
+      border-color: rgba(212,175,55,0.55);
+      background: rgba(212,175,55,0.08);
+    }
+    .m-copylink-btn:active {
+      transform: scale(0.95);
+    }
+    .m-copylink-btn i {
+      font-size: 10px;
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
@@ -337,7 +388,7 @@
     <div class="m-divider"></div>
 
     <!-- Kotak Premium: 3 Butang Bulat -->
-    <div class="m-section">
+    <div class="m-section" id="kalkulator-target-simpanan">
       <div class="m-section-label">
         <i class="fa-solid fa-bolt" style="color:#D4AF37;font-size:11px"></i>
         Kalkulator Target Simpanan
@@ -358,6 +409,13 @@
           <div class="m-quick-circle"><i class="fa-solid fa-bullseye"></i></div>
           <span class="m-quick-label">Target Gram</span>
         </a>
+      </div>
+
+      <div class="m-copylink-wrap">
+        <button type="button" onclick="copyKalkulatorTargetLink()" class="m-copylink-btn" title="Salin Pautan Kalkulator Target Simpanan">
+          <i class="fa-solid fa-link"></i>
+          <span>Salin Pautan</span>
+        </button>
       </div>
     </div>
 
@@ -1133,6 +1191,74 @@ function triggerOneSignalForce() {
           "text-zinc-200",
           "Salin Pautan",
           "Sila salin pautan video di bawah secara manual:",
+          shareUrl
+        );
+      }
+    }
+  </script>
+
+  <script>
+    /* ── Kemaskini: Anchor Scroll + Highlight Premium untuk #kalkulator-target-simpanan ── */
+    function highlightKalkulatorTarget() {
+      const target = document.getElementById('kalkulator-target-simpanan');
+      if (!target) return;
+
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      target.classList.remove('anchor-highlight-target');
+      void target.offsetWidth; // reset animasi jika dipanggil berulang kali
+
+      setTimeout(() => {
+        target.classList.add('anchor-highlight-target');
+        setTimeout(() => {
+          target.classList.remove('anchor-highlight-target');
+        }, 1800);
+      }, 450);
+    }
+
+    function checkKalkulatorTargetHash() {
+      if (window.location.hash === '#kalkulator-target-simpanan') {
+        highlightKalkulatorTarget();
+      }
+    }
+
+    window.addEventListener('load', checkKalkulatorTargetHash);
+    window.addEventListener('hashchange', checkKalkulatorTargetHash);
+
+    /* ── Kemaskini: Butang Copy Link (Kalkulator Target Simpanan) ── */
+    function copyKalkulatorTargetLink() {
+      const shareUrl = 'https://ilmu-emas.pages.dev#kalkulator-target-simpanan';
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          openDynamicAccessPopup(
+            "fa-solid fa-circle-check",
+            "bg-emerald-500/10 border border-emerald-500/20",
+            "text-emerald-400",
+            "Pautan Berjaya Disalin",
+            "Pautan Kalkulator Target Simpanan disalin ke papan klip anda. Sedia untuk dikongsi.",
+            shareUrl
+          );
+        }).catch(() => {
+          openDynamicAccessPopup(
+            "fa-solid fa-link",
+            "bg-zinc-800",
+            "text-zinc-200",
+            "Salin Pautan",
+            "Sila salin pautan Kalkulator Target Simpanan di bawah secara manual:",
+            shareUrl
+          );
+        });
+      } else {
+        openDynamicAccessPopup(
+          "fa-solid fa-link",
+          "bg-zinc-800",
+          "text-zinc-200",
+          "Salin Pautan",
+          "Sila salin pautan Kalkulator Target Simpanan di bawah secara manual:",
           shareUrl
         );
       }
