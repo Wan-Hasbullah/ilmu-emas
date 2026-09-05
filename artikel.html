@@ -70,6 +70,52 @@
       opacity: 1 !important;
       transform: translateY(0) !important;
     }
+
+    /* ── Pagination System ── */
+    #artikel-page-area {
+      min-height: calc(100dvh - 220px);
+    }
+    .page-transition {
+      animation: pageFadeIn 0.32s ease;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: rgb(63 63 70); /* zinc-700 */
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .nav-dot.active {
+      width: 18px;
+      background-color: #fbbf24; /* amber-400 */
+      box-shadow: 0 0 8px 0 rgba(251, 191, 36, 0.5);
+    }
+    .page-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgb(212 212 216); /* zinc-300 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(39 39 42);
+      padding: 8px 16px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .page-nav-btn:hover:not(:disabled) {
+      border-color: rgb(251 191 36 / 0.5);
+      color: #fbbf24;
+    }
+    .page-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
@@ -116,8 +162,21 @@
     </div>
   </header>
 
-  <main class="p-4 space-y-4" id="artikel-list-container">
+  <!-- Dot Navigation -->
+  <div id="dots-container" class="flex items-center justify-center gap-1.5 px-4 pt-4 pb-1 flex-wrap"></div>
+
+  <main class="p-4 flex flex-col items-center justify-center" id="artikel-page-area">
+    <div id="artikel-list-container" class="w-full flex items-center justify-center"></div>
   </main>
+
+  <!-- Page Number + Prev/Next Navigation -->
+  <div class="flex flex-col items-center gap-3 px-4 pb-2">
+    <div id="page-number-display" class="text-[11px] tracking-widest text-zinc-500 font-medium uppercase"></div>
+    <div class="flex items-center justify-between w-full max-w-xs gap-3">
+      <button id="prev-page-btn" class="page-nav-btn"><i class="fa-solid fa-chevron-left text-[10px]"></i> Sebelum</button>
+      <button id="next-page-btn" class="page-nav-btn">Seterus <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+    </div>
+  </div>
 
   <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
     <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4">
@@ -172,9 +231,22 @@
     document.addEventListener("DOMContentLoaded", () => {
       const container = document.getElementById("artikel-list-container");
       const tabsContainer = document.getElementById("category-tabs-container");
+      const dotsContainer = document.getElementById("dots-container");
+      const pageNumberDisplay = document.getElementById("page-number-display");
+      const prevBtn = document.getElementById("prev-page-btn");
+      const nextBtn = document.getElementById("next-page-btn");
+
       let currentActiveCategory = "Semua";
+      let currentPage = 0; // index-based (0 = muka surat pertama)
+      let suppressScroll = false; // guna semasa navigasi hash supaya tak ganggu highlight
 
       const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
+
+      function getFilteredData() {
+        return currentActiveCategory === "Semua"
+          ? ARTIKEL_DATA
+          : ARTIKEL_DATA.filter(art => art.category === currentActiveCategory);
+      }
 
       function renderCategoryTabs() {
         tabsContainer.innerHTML = "";
@@ -189,43 +261,148 @@
           }
           
           btn.onclick = () => {
+            if (currentActiveCategory === cat) return;
             currentActiveCategory = cat;
+            currentPage = 0;
             renderCategoryTabs();
-            renderArticles();
+            renderPage();
           };
           
           tabsContainer.appendChild(btn);
         });
       }
 
-      function renderArticles() {
-        container.innerHTML = "";
-        
-        const filteredData = currentActiveCategory === "Semua" 
-          ? ARTIKEL_DATA 
-          : ARTIKEL_DATA.filter(art => art.category === currentActiveCategory);
+      function renderDots() {
+        const filteredData = getFilteredData();
+        dotsContainer.innerHTML = "";
 
-        filteredData.forEach(art => {
-          const box = document.createElement("div");
-          box.className = "bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-sm transition-all duration-300";
-          box.innerHTML = `
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                 <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-400/5 px-2 py-1 rounded-md border border-amber-400/10">${art.category}</span>
-                 <span class="text-[10px] text-zinc-500 font-medium">Oleh: ${art.author}</span>
-              </div>
-              <h3 class="text-base font-bold text-zinc-100 leading-snug">${art.title}</h3>
-              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">${art.summary}</p>
-            </div>
-            <div class="flex justify-between items-center pt-2 border-t border-zinc-800/60">
-              <button onclick="copyGlobalLink('artikel.html#${art.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1"><i class="fa-solid fa-copy"></i> Salin</button>
-              <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors">Baca Penuh</a>
-            </div>
-          `;
-          box.id = art.id;
-          container.appendChild(box);
+        filteredData.forEach((art, idx) => {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot" + (idx === currentPage ? " active" : "");
+          dot.setAttribute("aria-label", `Muka surat ${idx + 1}`);
+          dot.onclick = () => goToPage(idx);
+          dotsContainer.appendChild(dot);
         });
       }
+
+      function renderPageNumber() {
+        const filteredData = getFilteredData();
+        const total = filteredData.length;
+        pageNumberDisplay.innerText = total > 0 ? `Muka ${currentPage + 1} / ${total}` : "";
+      }
+
+      function renderNavButtons() {
+        const filteredData = getFilteredData();
+        const total = filteredData.length;
+        prevBtn.disabled = currentPage <= 0;
+        nextBtn.disabled = currentPage >= total - 1;
+      }
+
+      function renderArticleCard(art) {
+        container.innerHTML = "";
+        const box = document.createElement("div");
+        box.className = "page-transition bg-zinc-900 border border-zinc-800 rounded-2xl p-5 flex flex-col justify-between space-y-5 shadow-sm w-full max-w-sm mx-auto";
+        box.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-3">
+               <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-400/5 px-2 py-1 rounded-md border border-amber-400/10">${art.category}</span>
+               <span class="text-[10px] text-zinc-500 font-medium">Oleh: ${art.author}</span>
+            </div>
+            <h3 class="text-lg font-bold text-zinc-100 leading-snug">${art.title}</h3>
+            <p class="text-sm text-zinc-400 mt-3 leading-relaxed">${art.summary}</p>
+          </div>
+          <div class="flex justify-between items-center pt-3 border-t border-zinc-800/60">
+            <button onclick="copyGlobalLink('artikel.html#${art.id}')" class="text-xs text-zinc-400 hover:text-amber-400 flex items-center gap-1"><i class="fa-solid fa-copy"></i> Salin</button>
+            <a href="${art.path}" class="text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl hover:bg-amber-300 transition-colors">Baca Penuh</a>
+          </div>
+        `;
+        box.id = art.id;
+        container.appendChild(box);
+        return box;
+      }
+
+      function renderPage(highlightId) {
+        const filteredData = getFilteredData();
+
+        if (filteredData.length === 0) {
+          container.innerHTML = `<p class="text-sm text-zinc-500 text-center w-full">Tiada artikel dalam kategori ini.</p>`;
+          dotsContainer.innerHTML = "";
+          pageNumberDisplay.innerText = "";
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+          return;
+        }
+
+        if (currentPage < 0) currentPage = 0;
+        if (currentPage > filteredData.length - 1) currentPage = filteredData.length - 1;
+
+        const art = filteredData[currentPage];
+        const card = renderArticleCard(art);
+        renderDots();
+        renderPageNumber();
+        renderNavButtons();
+
+        if (highlightId && art.id === highlightId) {
+          setTimeout(() => {
+            card.classList.add("highlight-pulse");
+            setTimeout(() => card.classList.remove("highlight-pulse"), 4000);
+          }, 250);
+        }
+      }
+
+      function goToPage(idx) {
+        currentPage = idx;
+        renderPage();
+      }
+
+      prevBtn.addEventListener("click", () => {
+        if (currentPage > 0) {
+          currentPage -= 1;
+          renderPage();
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        const filteredData = getFilteredData();
+        if (currentPage < filteredData.length - 1) {
+          currentPage += 1;
+          renderPage();
+        }
+      });
+
+      // Keyboard navigation (optional enhancement)
+      window.addEventListener("keydown", (e) => {
+        const tag = document.activeElement ? document.activeElement.tagName : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON" || tag === "A") return;
+        if (e.key === "ArrowLeft" && !prevBtn.disabled) {
+          currentPage -= 1;
+          renderPage();
+        } else if (e.key === "ArrowRight" && !nextBtn.disabled) {
+          currentPage += 1;
+          renderPage();
+        }
+      });
+
+      // Swipe navigation (optional enhancement)
+      let touchStartX = null;
+      const pageArea = document.getElementById("artikel-page-area");
+      pageArea.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      pageArea.addEventListener("touchend", (e) => {
+        if (touchStartX === null) return;
+        const touchEndX = e.changedTouches[0].screenX;
+        const delta = touchEndX - touchStartX;
+        const threshold = 50;
+        if (delta > threshold && !prevBtn.disabled) {
+          currentPage -= 1;
+          renderPage();
+        } else if (delta < -threshold && !nextBtn.disabled) {
+          currentPage += 1;
+          renderPage();
+        }
+        touchStartX = null;
+      }, { passive: true });
 
       function handleHashHighlight() {
         const hash = window.location.hash;
@@ -237,25 +414,22 @@
             if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArticle.category) {
               currentActiveCategory = linkedArticle.category;
               renderCategoryTabs();
-              renderArticles();
             }
-            
-            const targetCard = document.getElementById(targetId);
-            if (targetCard) {
-              setTimeout(() => {
-                targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
-                targetCard.classList.add("highlight-pulse");
-                setTimeout(() => {
-                  targetCard.classList.remove("highlight-pulse");
-                }, 4000); 
-              }, 300);
+
+            const filteredData = getFilteredData();
+            const targetIndex = filteredData.findIndex(art => art.id === targetId);
+
+            if (targetIndex !== -1) {
+              currentPage = targetIndex;
+              renderPage(targetId);
+              return;
             }
           }
         }
       }
 
       renderCategoryTabs();
-      renderArticles();
+      renderPage();
       handleHashHighlight();
 
       window.addEventListener("hashchange", handleHashHighlight);
