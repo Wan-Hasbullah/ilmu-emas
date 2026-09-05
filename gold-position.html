@@ -124,6 +124,42 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+
+  /* Calculator inputs (Gold Position 02 / 03) */
+  .calc-label {
+    display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+    color: #a1a1aa; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .calc-input-wrap { position: relative; }
+  .calc-input-prefix {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    color: #fbbf24; font-weight: 700; font-size: 14px; pointer-events: none;
+  }
+  .calc-input {
+    width: 100%; background: rgba(24,24,27,0.8); border: 1px solid rgba(63,63,70,0.8);
+    border-radius: 14px; padding: 14px 16px 14px 42px; color: #fff; font-size: 15px;
+    font-weight: 600; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .calc-input::placeholder { color: #52525b; font-weight: 500; }
+  .calc-input:focus {
+    outline: none; border-color: rgba(251,191,36,0.65);
+    box-shadow: 0 0 0 3px rgba(251,191,36,0.08);
+  }
+  .calc-select-wrap { position: relative; }
+  .calc-select {
+    width: 100%; background: rgba(24,24,27,0.8); border: 1px solid rgba(63,63,70,0.8);
+    border-radius: 14px; padding: 14px 40px 14px 16px; color: #fff; font-size: 15px;
+    font-weight: 600; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    appearance: none; -webkit-appearance: none; cursor: pointer;
+  }
+  .calc-select:focus {
+    outline: none; border-color: rgba(251,191,36,0.65);
+    box-shadow: 0 0 0 3px rgba(251,191,36,0.08);
+  }
+  .calc-result-box {
+    background: linear-gradient(145deg, #18181b 60%, #1c1917 100%);
+    border: 1px solid rgba(251,191,36,0.25); border-radius: 20px;
+  }
 </style>
 </head>
 <body class="min-h-screen font-sans antialiased bg-zinc-950">
@@ -263,6 +299,30 @@
   function hideTooltip(){ document.getElementById('coffee-tooltip').classList.remove('visible'); }
   function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
 
+  // ── Gold Position 02 calculator ──
+  function gp2Calculate(){
+    const amountEl = document.getElementById('gp2-amount');
+    const percentEl = document.getElementById('gp2-percent');
+    const resultEl = document.getElementById('gp2-result');
+    if(!amountEl || !percentEl || !resultEl) return;
+    const amount = parseFloat(amountEl.value) || 0;
+    const percent = parseFloat(percentEl.value) || 10;
+    const result = amount * (percent / 100);
+    resultEl.textContent = 'RM' + result.toLocaleString('ms-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // ── Gold Position 03 calculator (Life Boat) ──
+  function gp3Calculate(){
+    const wealthEl = document.getElementById('gp3-wealth');
+    const percentEl = document.getElementById('gp3-percent');
+    const resultEl = document.getElementById('gp3-result');
+    if(!wealthEl || !percentEl || !resultEl) return;
+    const wealth = parseFloat(wealthEl.value) || 0;
+    const percent = parseFloat(percentEl.value) || 10;
+    const result = wealth * (percent / 100);
+    resultEl.textContent = 'RM' + result.toLocaleString('ms-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   // ── Category data ──
   // Poster images live in the GitHub repo folder: notagrafik-kategori/
   const categories = [
@@ -293,7 +353,15 @@
          </div></div>`,
         `<div class="py-2 w-full">
            <p class="text-base text-zinc-400 leading-relaxed">Apabila simpanan emas semakin bertambah, ia boleh menjadi salah satu bentuk aset yang boleh digunakan apabila diperlukan melalui pilihan seperti menjual atau memajak emas.</p>
-         </div>`
+         </div>`,
+        `<div class="gp-card p-5 w-full"><div class="gold-glow"></div><div class="relative text-center">
+           <div class="w-12 h-12 mx-auto rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center mb-4">
+             <i class="fa-solid fa-calculator text-amber-400 text-lg"></i>
+           </div>
+           <p class="text-base font-bold text-white mb-2">MULAKAN LANGKAH PERTAMA</p>
+           <p class="text-base text-zinc-400 leading-relaxed mb-5">Gunakan kalkulator 10% untuk melihat bagaimana peruntukan kecil secara konsisten boleh membina simpanan emas dari sifar.</p>
+           <a href="https://ilmu-emas.pages.dev/kalkulator-10-peratus" target="_blank" rel="noopener noreferrer" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm"><i class="fa-solid fa-calculator"></i> KALKULATOR 10%</a>
+         </div></div>`
       ]
     },
     {
@@ -322,6 +390,34 @@
            <i class="fa-solid fa-quote-left text-amber-700/40 text-2xl mb-3"></i>
            <p class="text-base font-bold leading-relaxed">Dulu pilih ubi, sekarang pilih beras.<br>Dulu pilih ASB, sekarang pilih emas!</p>
            <p class="text-sm font-semibold text-amber-800 mt-3">— Azizi Ali</p>
+         </div>`,
+        `<div class="w-full text-left py-1">
+           <p class="text-sm font-bold text-amber-400/90 tracking-widest mb-1 text-center">KALKULATOR</p>
+           <p class="text-lg font-extrabold text-white mb-5 text-center leading-snug">KIRA PERUNTUKAN SIMPANAN EMAS ANDA</p>
+
+           <label class="calc-label" for="gp2-amount">JUMLAH SIMPANAN ANDA</label>
+           <p class="text-xs text-zinc-500 mb-2 -mt-1 leading-relaxed">Masukkan jumlah simpanan anda dalam ASB, Tabung Haji, bank atau simpanan lain.</p>
+           <div class="calc-input-wrap mb-4">
+             <span class="calc-input-prefix">RM</span>
+             <input type="number" inputmode="numeric" min="0" placeholder="Contoh: 10000" id="gp2-amount" class="calc-input" oninput="gp2Calculate()">
+           </div>
+
+           <label class="calc-label" for="gp2-percent">PERATUS UNTUK DIALIHKAN KE EMAS</label>
+           <div class="calc-select-wrap mb-5">
+             <select id="gp2-percent" class="calc-select" onchange="gp2Calculate()">
+               <option value="10" selected>10%</option>
+               <option value="20">20%</option>
+               <option value="30">30%</option>
+             </select>
+             <i class="fa-solid fa-chevron-down text-zinc-500 text-xs absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+           </div>
+
+           <div class="calc-result-box p-5 text-center mb-5">
+             <p class="text-xs font-bold text-zinc-500 tracking-widest mb-2">CADANGAN JUMLAH SIMPANAN EMAS</p>
+             <p class="text-3xl font-extrabold position-num" id="gp2-result">RM0.00</p>
+           </div>
+
+           <a href="https://pg2u.my/wanhasbullah/gap-fpx" target="_blank" rel="noopener noreferrer" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm"><i class="fa-solid fa-coins"></i> KAEDAH YANG MUDAH — AKAUN EMAS GAP</a>
          </div>`
       ]
     },
@@ -359,7 +455,35 @@
                <p class="text-xs text-zinc-500 leading-relaxed mt-1">Contoh sasaran simpanan emas keluarga yang disebut sebagai konsep "life boat" atau perlindungan kekayaan — bukan kewajipan atau nasihat kewangan universal.</p>
              </div>
            </div>
-         </div></div>`
+         </div></div>`,
+        `<div class="w-full text-left py-1">
+           <p class="text-sm font-bold text-amber-400/90 tracking-widest mb-1 text-center">KALKULATOR LIFE BOAT</p>
+           <p class="text-lg font-extrabold text-white mb-5 text-center leading-snug">KIRA LIFE BOAT SIMPANAN EMAS ANDA</p>
+
+           <label class="calc-label" for="gp3-wealth">JUMLAH KEKAYAAN</label>
+           <p class="text-xs text-zinc-500 mb-2 -mt-1 leading-relaxed">Masukkan anggaran jumlah kekayaan atau nilai aset yang ingin anda jadikan rujukan.</p>
+           <div class="calc-input-wrap mb-4">
+             <span class="calc-input-prefix">RM</span>
+             <input type="number" inputmode="numeric" min="0" placeholder="1200000" id="gp3-wealth" class="calc-input" oninput="gp3Calculate()">
+           </div>
+
+           <label class="calc-label" for="gp3-percent">PERATUS UNTUK DIALIHKAN KE EMAS</label>
+           <div class="calc-select-wrap mb-5">
+             <select id="gp3-percent" class="calc-select" onchange="gp3Calculate()">
+               <option value="10" selected>10%</option>
+               <option value="20">20%</option>
+               <option value="30">30%</option>
+             </select>
+             <i class="fa-solid fa-chevron-down text-zinc-500 text-xs absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+           </div>
+
+           <div class="calc-result-box p-5 text-center mb-5">
+             <p class="text-xs font-bold text-zinc-500 tracking-widest mb-2">CADANGAN LIFE BOAT DALAM EMAS</p>
+             <p class="text-3xl font-extrabold position-num" id="gp3-result">RM0.00</p>
+           </div>
+
+           <a href="https://pg2u.my/wanhasbullah/pembelian-full" target="_blank" rel="noopener noreferrer" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2 text-sm"><i class="fa-solid fa-bag-shopping"></i> BELIAN OUTRIGHT PURCHASE</a>
+         </div>`
       ]
     }
   ];
@@ -532,6 +656,11 @@
     const viewport = document.getElementById('slides-viewport');
     let startX = 0, startY = 0, tracking = false;
     viewport.addEventListener('touchstart', e => {
+      const tag = e.target.tagName;
+      if(tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA'){
+        tracking = false;
+        return;
+      }
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
       tracking = true;
