@@ -278,6 +278,34 @@
     .m-copylink-btn i {
       font-size: 10px;
     }
+
+    /* ── Kemaskini: Butang Salin Pautan Ikon Sahaja (di sebelah tajuk Kalkulator Target Simpanan) ── */
+    .m-copylink-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+      color: #a1a1aa;
+      background: rgba(39,39,42,0.6);
+      border: 1px solid rgba(63,63,70,0.8);
+      border-radius: 9999px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+    .m-copylink-icon-btn:hover {
+      color: #D4AF37;
+      border-color: rgba(212,175,55,0.55);
+      background: rgba(212,175,55,0.08);
+    }
+    .m-copylink-icon-btn:active {
+      transform: scale(0.9);
+    }
+    .m-copylink-icon-btn i {
+      font-size: 11px;
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
@@ -389,9 +417,14 @@
 
     <!-- Kotak Premium: 3 Butang Bulat -->
     <div class="m-section" id="kalkulator-target-simpanan">
-      <div class="m-section-label">
-        <i class="fa-solid fa-bolt" style="color:#D4AF37;font-size:11px"></i>
-        Kalkulator Target Simpanan
+      <div class="m-section-label justify-between">
+        <span class="flex items-center gap-1.5">
+          <i class="fa-solid fa-bolt" style="color:#D4AF37;font-size:11px"></i>
+          Kalkulator Target Simpanan
+        </span>
+        <button type="button" onclick="copyKalkulatorTargetLink()" class="m-copylink-icon-btn" title="Salin Pautan Kalkulator Target Simpanan" aria-label="Salin Pautan Kalkulator Target Simpanan">
+          <i class="fa-solid fa-link"></i>
+        </button>
       </div>
 
       <div class="m-quick-grid">
@@ -409,13 +442,6 @@
           <div class="m-quick-circle"><i class="fa-solid fa-bullseye"></i></div>
           <span class="m-quick-label">Target Gram</span>
         </a>
-      </div>
-
-      <div class="m-copylink-wrap">
-        <button type="button" onclick="copyKalkulatorTargetLink()" class="m-copylink-btn" title="Salin Pautan Kalkulator Target Simpanan">
-          <i class="fa-solid fa-link"></i>
-          <span>Salin Pautan</span>
-        </button>
       </div>
     </div>
 
