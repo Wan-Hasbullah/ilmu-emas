@@ -150,6 +150,63 @@
       color: #b45309;
       border-color: rgba(180, 83, 9, 0.4);
     }
+
+    /* ===== Kemaskini #2 (baharu): Popup bubble untuk butang theme-toggle ===== */
+    .theme-toggle-wrap {
+      position: relative;
+    }
+    .theme-tooltip {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: -6px;
+      max-width: 190px;
+      width: max-content;
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      color: rgb(228 228 231); /* zinc-200 */
+      font-size: 0.7rem;
+      font-weight: 500;
+      line-height: 1.45;
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 50;
+    }
+    .theme-tooltip.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .theme-tooltip-arrow {
+      position: absolute;
+      top: -5px;
+      right: 14px;
+      width: 10px;
+      height: 10px;
+      background: rgb(24 24 27);
+      border-left: 1px solid rgba(251, 191, 36, 0.25);
+      border-top: 1px solid rgba(251, 191, 36, 0.25);
+      transform: rotate(45deg);
+    }
+    html.light .theme-tooltip {
+      background: #ffffff;
+      border-color: rgba(180, 83, 9, 0.25);
+      color: #3f3f46;
+      box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.14);
+    }
+    html.light .theme-tooltip-arrow {
+      background: #ffffff;
+      border-left-color: rgba(180, 83, 9, 0.25);
+      border-top-color: rgba(180, 83, 9, 0.25);
+    }
+    @media (max-width: 340px) {
+      .theme-tooltip {
+        max-width: 150px;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 text-white max-w-md mx-auto px-4 border-x border-zinc-900/40">
@@ -157,9 +214,15 @@
   <header class="py-4 border-b border-zinc-900/60 flex items-center gap-3 sticky top-0 bg-zinc-950/90 backdrop-blur-md z-40 mb-6">
     <a href="../artikel.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left"></i></a>
     <span class="text-xs font-semibold text-zinc-400">Kembali ke Hub</span>
-    <button id="theme-toggle" aria-label="Tukar tema Light/Dark" class="ml-auto w-9 h-9 flex items-center justify-center rounded-full border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-400/40">
-      <i class="fa-solid fa-moon text-xs" id="theme-icon"></i>
-    </button>
+    <div class="theme-toggle-wrap ml-auto">
+      <button id="theme-toggle" aria-label="Tukar tema Light/Dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-400/40">
+        <i class="fa-solid fa-moon text-xs" id="theme-icon"></i>
+      </button>
+      <div id="theme-tooltip" class="theme-tooltip" role="status" aria-live="polite">
+        <span class="theme-tooltip-arrow"></span>
+        <span>Sesuaikan pencahayaan untuk bacaan yang lebih selesa.</span>
+      </div>
+    </div>
   </header>
 
   <!-- Dot Navigation -->
@@ -218,6 +281,35 @@
           /* localStorage tidak tersedia — abaikan */
         }
       });
+
+      // ===== Kemaskini (baharu): Popup bubble cadangan tukar tema, muncul setiap 5 saat =====
+      const themeTooltip = document.getElementById("theme-tooltip");
+      let tooltipIntervalId = null;
+      let tooltipHideTimeoutId = null;
+
+      function showThemeTooltip() {
+        if (!themeTooltip) return;
+        themeTooltip.classList.add("show");
+        clearTimeout(tooltipHideTimeoutId);
+        tooltipHideTimeoutId = setTimeout(() => {
+          themeTooltip.classList.remove("show");
+        }, 3200);
+      }
+
+      function hideThemeTooltip() {
+        if (!themeTooltip) return;
+        themeTooltip.classList.remove("show");
+        clearTimeout(tooltipHideTimeoutId);
+      }
+
+      function startThemeTooltipCycle() {
+        if (tooltipIntervalId || !themeTooltip) return;
+        tooltipIntervalId = setInterval(showThemeTooltip, 5000);
+      }
+
+      toggleBtn.addEventListener("click", hideThemeTooltip);
+
+      startThemeTooltipCycle();
     })();
   </script>
   <script>
@@ -232,7 +324,7 @@
       // Kandungan asal artikel dipecahkan kepada muka surat secara logik.
       // Teks asal tidak diubah sedikit pun.
       const ARTICLE_PAGES = [
-        // Page 1 — Tajuk, penulis, poster & intro
+        // Page 1a — Tajuk, penulis, poster & intro (bahagian 1)
         `
           <article class="space-y-4">
             <header class="space-y-1 text-center">
@@ -249,6 +341,13 @@
               <p>
                 Kejayaan ialah tentang buat perkara yang betul berulang-ulang kali tanpa perlu buat decision lagi.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 1b — intro (bahagian 2)
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Ia tentang rutin dan tabiat, hinggalah kita buat perkara betul secara KONSISTEN. Buat perkara yang betul secara "AUTO", tanpa perlu dipaksa-paksa dan berfikir-fikir lagi.
               </p>
@@ -258,7 +357,7 @@
             </div>
           </article>
         `,
-        // Page 2
+        // Page 2a
         `
           <article class="space-y-4">
             <h2 class="text-lg font-bold text-zinc-100">Auto-menabung emas setiap bulan</h2>
@@ -269,12 +368,26 @@
               <p>
                 Setiap bulan kita tak perlu dah nak fikir atau nak buat decision - samada nak menabung atau tak.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 2b
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Belum duit tu masuk ke poket kita (dan dibelanjakan), kita boleh set siap-siap untuk potong terus dari akaun bank kita dan top-up ke akaun GAP - auto-menabung setiap bulan.
               </p>
               <p>
                 Menabung secara AUTO maksudnya kita auto-kaya setiap bulan, insyaAllah.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 2c
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Tak perlu bajet besar. Boleh set potongan serendah RM100 untuk tempoh 1 - 5 tahun terus!
               </p>
@@ -284,7 +397,7 @@
             </div>
           </article>
         `,
-        // Page 3
+        // Page 3a
         `
           <article class="space-y-4">
             <h2 class="text-lg font-bold text-zinc-100">Auto-menabung selama 5 tahun terus!</h2>
@@ -294,6 +407,13 @@
               <p>
                 Alang-alang buat GAP Auto-Debit, set terus menabung selama 5 tahun terus.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 3b
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Yuran pemprosesan tetap sama (RM1 sekali proses), samada set menabung selama 1 tahun ataupun 5 tahun.
               </p>
@@ -303,7 +423,7 @@
             </div>
           </article>
         `,
-        // Page 4
+        // Page 4a
         `
           <article class="space-y-4">
             <div class="text-base text-zinc-300 leading-loose space-y-4">
@@ -314,13 +434,20 @@
               <p>
                 Mudah-mudahan, sambil menabung emas, berpeluang menang gold bar ataupun dinar free setiap bulan! InsyaAllah.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 4b
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Mudah-mudahan kaedah GAP auto-debit ni dapat bantu setiap kita auto-menabung dan auto-kaya setiap bulan, insyaAllah.
               </p>
             </div>
           </article>
         `,
-        // Page 5
+        // Page 5a
         `
           <article class="space-y-4">
             <h2 class="text-lg font-bold text-zinc-100">Punca tabungan emas tak bertambah</h2>
@@ -332,6 +459,13 @@
               <p>
                 Dia pun tak faham apa yang dia buat. Sebuah buku pasal emas pun tak pernah baca, tapi harapkan dia dapat untung dengan emas.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 5b
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Ia mustahil.
               </p>
@@ -361,7 +495,7 @@
             </div>
           </article>
         `,
-        // Page 7
+        // Page 7a
         `
           <article class="space-y-4">
             <div class="text-base text-zinc-300 leading-loose space-y-4">
@@ -372,6 +506,13 @@
               <p>
                 Duit hasil jualan emas, simpan dalam akaun bank atau belanjakan sampai habis!
               </p>
+            </div>
+          </article>
+        `,
+        // Page 7b
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Dia tak faham cara betul bina kekayaan - bermula dengan tabungan emas pertama.
               </p>
@@ -384,7 +525,7 @@
             </div>
           </article>
         `,
-        // Page 8
+        // Page 8a
         `
           <article class="space-y-4">
             <h2 class="text-lg font-bold text-zinc-100">Checklist kaya dengan emas</h2>
@@ -395,12 +536,26 @@
               <a href="https://www.mohdzulkifli.com/2024/07/7-checklist-penting-kaya-dengan-emas-tahun-2025.html" target="_blank" class="ref-box">
                 <i class="fa-solid fa-list-check mr-1"></i> Sila baca : 7 Checklist Penting Kaya Dengan Emas Tahun 2025
               </a>
+            </div>
+          </article>
+        `,
+        // Page 8b
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Ambil masa 5 minit untuk go thru 7 checklist yang saya senaraikan.
               </p>
               <p>
                 Siapa dah lengkapkan dengan 7 checklist, dia akan "on-track" untuk kaya dengan emas, insyaAllah.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 8c
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Tabungan emas dia tu nanti akan membantu dia:
               </p>
@@ -412,7 +567,7 @@
             </div>
           </article>
         `,
-        // Page 9 — Penutup & Footer
+        // Page 9a
         `
           <article class="space-y-4">
             <h2 class="text-lg font-bold text-zinc-100">Biarlah makin lama makin kaya</h2>
@@ -423,12 +578,26 @@
               <p>
                 Dia sekadar sibuk monitor harga emas, walhal tengah berlari di tempat yang sama - tak kaya-kaya.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 9b
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 Alang-alang menabung emas, biarlah semakin kaya dari bulan ke bulan, tahun ke tahun.
               </p>
               <p>
                 Mudah-mudahan dengan kaedah GAP Auto-Debit dan "Checklist Kaya Dengan Emas" ni dapat bantu penyimpan-penyimpan emas menabung dengan lebih konsisten dan akhirnya bertambah kaya dengan emas.
               </p>
+            </div>
+          </article>
+        `,
+        // Page 9c — Penutup & Footer
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
                 InsyaAllah.
               </p>
