@@ -186,11 +186,9 @@ Sebab dia tahu kekayaan dia lebih terjamin kalau disimpan dalam bentuk emas!`,
     id: "q20",
     kategori: "tips-emas",
     oleh: "Mohd Zulkifli Shafie",
-    petikan: `Waktu tak ada duit, jangan sibuk nak melabur. Nanti duit yang ada tu akan cepat lebur.
-Bila tak ada duit, fokus simpan duit-duit tu dulu, dan tambah ilmu kewangan banyak-banyak.
-Labur pada diri sendiri dulu dengan banyak membaca buku-buku kewangan, bisnes, dan pelaburan.
+    petikan: `Waktu tak ada duit, jangan sibuk nak melabur. Nanti duit yang ada tu akan cepat lebur. Bila tak ada duit, fokus simpan duit-duit tu dulu, dan tambah ilmu kewangan banyak-banyak.
 
-Nanti bila ada ilmu, barulah duit akan datang. Kalau tak ada ilmu, duit yang ada di tangan itu pun akan terbang!`,
+Labur pada diri sendiri dulu dengan banyak membaca buku-buku kewangan, bisnes, dan pelaburan. Nanti bila ada ilmu, barulah duit akan datang. Kalau tak ada ilmu, duit yang ada di tangan itu pun akan terbang!`,
     link: ""
   },
   {
