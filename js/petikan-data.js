@@ -200,6 +200,87 @@ Nanti bila ada ilmu, barulah duit akan datang. Kalau tak ada ilmu, duit yang ada
     petikan: `Emas bagi saya lebih kepada "simpanan" berbanding "pelaburan".
 Bila simpan duit dalam bentuk emas, duit simpanan kita lebih bertahan lama sebab kita terpaksa ambil "tempoh bertenang" sebelum berbelanja; samada kena jual atau gadai dulu emas tu untuk dapatkan tunai segera.`,
     link: ""
+  },
+  {
+    id: "q22",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Pesan guru saya,
+
+Emas lebih kepada "simpanan" berbanding "pelaburan".
+
+Bila simpan duit dalam bentuk emas, duit simpanan kita lebih bertahan lama sebab kita terpaksa ambil "tempoh bertenang" sebelum berbelanja; samada kena jual atau gadai dulu emas tu untuk dapatkan tunai segera.`,
+    link: ""
+  },
+  {
+    id: "q23",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Duit simpanan kita akan bertahan lebih lama jika disimpan dalam bentuk emas.
+
+Sebab, bila nak jual, rasa sayang pulak nak jual emas tu. Walaupun emas tu kita boleh jualnya pada bila-bila masa sahaja.`,
+    link: ""
+  },
+  {
+    id: "q24",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Kita ada "tempoh bertenang" untuk berbelanja jika simpanan kita dalam bentuk emas.
+
+Sebab, "tempoh bertenang" tu membuatkan kita lebih teliti bila berbelanja, dan banyak menyelamatkan duit kita daripada berbelanja yang bukan-bukan.
+
+Kita hanya akan jual atau gadai emas itu hanya bila ada hal yang benar-benar perlu sahaja.`,
+    link: ""
+  },
+  {
+    id: "q25",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Simpan duit dalam bentuk emas ni dapat elakkan masalah biasa ramai orang bila menyimpan, iaitu
+
+"simpan sedikit-sedikit, lama-lama masih sedikit!".`,
+    link: ""
+  },
+  {
+    id: "q26",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Pesan guru, kalau nak selesaikan masalah simpan yang selalu bocor, dan nak pastikan duit simpanan bertahan lama,
+
+1) Simpananlah tunai (dibank) cukup sekadar 3 bulan pendapatan.
+
+2) Selebihnya lebih baik tukar kepada emas.`,
+    link: ""
+  },
+  {
+    id: "q27",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Simpan emas pada hakikatnya sama seperti simpan wang TUNAI juga. Kalau nak pakai duit segera, kita boleh jual atau gadai sahaja di ar-rahnu.",
+    link: ""
+  },
+  {
+    id: "q28",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Simpan emas pada hakikatnya sama seperti simpan wang TUNAI juga. Kalau nak pakai duit segera, kita boleh jual atau gadai sahaja di ar-rahnu.",
+    link: ""
+  },
+  {
+    id: "q29",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: `Emas fizikal tak sama dengan pelaburan aset kertas (seperti saham, unit trust dsb) yang cuma ada nombor dan kertas sahaja. Emas fizikal tak ada risiko sebenar selagi emas tu ada di tangan kita.
+
+Kalau harganya jatuh, emas dalam simpanan kita masih kekal, ia tak berkurangan walaupun 1 gram. Harga naik turun hanyalah persoalan masa sahaja.`,
+    link: ""
+  },
+  {
+    id: "q30",
+    kategori: "tips-emas",
+    oleh: "Mohd Zulkifli Shafie",
+    petikan: "Pesan guru, disebalik pergerakan harga emas yang ada naik turun, emas pada hakikatnya tak ada risiko, ia tidak akan jatuh lingkup ataupun kehilangan nilai sama sekali.",
+    link: ""
   }
 ];
 
