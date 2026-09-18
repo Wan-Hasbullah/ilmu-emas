@@ -214,6 +214,13 @@
     .card-fade { animation: card-in 0.3s ease both; }
     #empty-state { display: none; }
 
+    /* ── Sticky Pesan Mentor + Kategori (kekal kelihatan semasa scroll) ── */
+    .sticky-mentor {
+      position: sticky;
+      top: var(--header-h, 76px);
+      z-index: 30;
+    }
+
     /* ── Floating Scroll Buttons (Fintech Premium Gold) ── */
     #scroll-fab-container {
       position: fixed;
@@ -294,13 +301,15 @@
     </div>
   </header>
 
-  <main class="max-w-md mx-auto px-4 mt-5 space-y-5">
-    <div class="text-center space-y-1">
-      <p class="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Pesan Mentor</p>
-      <h2 class="text-lg font-extrabold text-white leading-snug">Motivasi Kewangan &amp; Simpanan Emas</h2>
-    </div>
+  <main class="max-w-md mx-auto px-4 space-y-5">
+    <div id="mentor-sticky" class="sticky-mentor pt-5 space-y-5 border-b border-zinc-800/40 bg-zinc-950/95 backdrop-blur-md">
+      <div class="text-center space-y-1">
+        <p class="text-xs text-zinc-500 uppercase tracking-widest font-semibold">Pesan Mentor</p>
+        <h2 class="text-lg font-extrabold text-white leading-snug">Motivasi Kewangan &amp; Simpanan Emas</h2>
+      </div>
 
-    <div id="filter-bar" class="flex gap-2 overflow-x-auto pb-1">
+      <div id="filter-bar" class="flex gap-2 overflow-x-auto pb-1">
+      </div>
     </div>
 
     <div id="quotes-container" class="space-y-4">
@@ -362,6 +371,18 @@
   </div>
 
   <script>
+    // ── Kira tinggi header supaya bar Pesan Mentor + Kategori melekat tepat di bawahnya ──
+    (function initStickyMentorOffset() {
+      function setHeaderHeightVar() {
+        const header = document.querySelector('header');
+        if (header) {
+          document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+        }
+      }
+      setHeaderHeightVar();
+      window.addEventListener('resize', setHeaderHeightVar);
+    })();
+
     // Fungsi Toggle Dropdown Kopi (Sama seperti index.html)
     function toggleCoffeeMenu() {
       const dropdown = document.getElementById("coffee-dropdown");
