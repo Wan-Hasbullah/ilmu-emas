@@ -213,6 +213,44 @@
     }
     .card-fade { animation: card-in 0.3s ease both; }
     #empty-state { display: none; }
+
+    /* ── Floating Scroll Buttons (Fintech Premium Gold) ── */
+    #scroll-fab-container {
+      position: fixed;
+      right: 16px;
+      bottom: 24px;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .scroll-fab {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #18181b 60%, #1c1917 100%);
+      border: 1px solid rgba(251,191,36,0.35);
+      color: #fbbf24;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(251,191,36,0.05);
+      cursor: pointer;
+      transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.15s, color 0.25s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .scroll-fab i { font-size: 13px; }
+    .scroll-fab:hover {
+      background: rgba(251,191,36,0.12);
+      border-color: rgba(251,191,36,0.6);
+      box-shadow: 0 6px 20px rgba(251,191,36,0.18), 0 0 0 1px rgba(251,191,36,0.1);
+    }
+    .scroll-fab:active { transform: scale(0.92); }
+
+    @media (min-width: 640px) {
+      #scroll-fab-container { right: calc(50% - 224px + 16px); }
+      .scroll-fab { width: 42px; height: 42px; }
+    }
   </style>
 </head>
 <body class="min-h-screen pb-10 font-sans antialiased bg-zinc-950">
@@ -311,6 +349,16 @@
 
   <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-zinc-800 border border-zinc-700 text-white text-xs font-semibold px-5 py-3 rounded-full shadow-xl opacity-0 pointer-events-none transition-opacity duration-300 z-[999]">
     Pautan disalin!
+  </div>
+
+  <!-- ── Floating Scroll Buttons (Atas / Bawah) ── -->
+  <div id="scroll-fab-container">
+    <button type="button" onclick="scrollToPageTop()" title="Ke Atas" aria-label="Skrol ke atas" class="scroll-fab">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <button type="button" onclick="scrollToPageBottom()" title="Ke Bawah" aria-label="Skrol ke bawah" class="scroll-fab">
+      <i class="fa-solid fa-arrow-down"></i>
+    </button>
   </div>
 
   <script>
@@ -609,6 +657,15 @@
       t.style.opacity = '1';
       clearTimeout(toastTimer);
       toastTimer = setTimeout(function() { t.style.opacity = '0'; }, 2500);
+    }
+
+    // ── Fungsi Floating Scroll Buttons ──
+    function scrollToPageTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToPageBottom() {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
     }
 
     window.addEventListener('DOMContentLoaded', function() {
