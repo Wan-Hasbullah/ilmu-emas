@@ -729,14 +729,14 @@
     
     <div class="grid grid-cols-3 gap-y-5 gap-x-2 text-center">
       
-      <a href="https://ilmu-emas.pages.dev/talkshow" id="talk-show" class="flex flex-col items-center group">
+      <a href="https://g100.my/talkshow/" id="talk-show" class="flex flex-col items-center group">
         <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-microphone text-lg"></i></div>
         <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Talk Show</span>
       </a>
 
-      <a href="program.html" id="program" class="flex flex-col items-center group">
+      <a href="https://ilmu-emas.pages.dev/event" id="event" class="flex flex-col items-center group">
         <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-calendar-alt text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Program</span>
+        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Event</span>
       </a>
 
       <button onclick="triggerDaftarPopup()" id="daftar" class="flex flex-col items-center group focus:outline-none mx-auto">
@@ -1417,7 +1417,7 @@ function triggerOneSignalForce() {
   </script>
 
   <script>
-    /* ── Kemaskini: Deep-link Anchor Generik untuk Butang/Kad (Talk Show, Program, Daftar, dll.) ──
+    /* ── Kemaskini: Deep-link Anchor Generik untuk Butang/Kad (Talk Show, Event, Daftar, dll.) ──
        Membolehkan pautan seperti https://ilmu-emas.pages.dev#talk-show membawa pengguna
        masuk ke halaman utama (index) dahulu, kemudian auto-scroll + denyut ringan
        terus ke butang/kad berkaitan. ── */
@@ -1431,7 +1431,7 @@ function triggerOneSignalForce() {
       "petikan": { popup: null },
       "kisah-kejayaan": { popup: null },
       "talk-show": { popup: "menu" },
-      "program": { popup: "menu" },
+      "event": { popup: "menu" },
       "daftar": { popup: "menu" },
       "kelebihan-dealer": { popup: "menu" },
       "duit-tepi": { popup: "menu" },
