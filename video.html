@@ -27,8 +27,8 @@
     scrollbar-width: none;
   }
 
-  /* ── Coffee Cup Animation (Sama seperti index.html) ── */
-  .coffee-cup-wrap {
+  /* ── Tabung Emas Animation ── */
+  .tabung-wrap {
     position: relative;
     display: flex;
     align-items: center;
@@ -36,33 +36,109 @@
     width: 36px;
     height: 44px;
   }
-  .coffee-cup-wrap svg {
+  .tabung-wrap svg {
     width: 26px;
     height: 26px;
     position: absolute;
     bottom: 9px;
+    z-index: 2;
+    filter: drop-shadow(0 2px 6px rgba(251,191,36,0.25));
   }
-  .steam {
-    stroke: #fbbf24;
-    stroke-width: 2;
-    stroke-linecap: round;
-    fill: none;
+
+  /* Syiling emas jatuh setiap 3 saat */
+  .coin-drop {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    margin-left: -4.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fef3c7 0%, #fbbf24 55%, #d97706 100%);
+    border: 1px solid #b45309;
+    box-shadow: 0 0 6px rgba(251,191,36,0.6);
     opacity: 0;
-    animation: steam-svg 1.8s ease-in-out infinite;
+    z-index: 1;
+    animation: coin-fall 3s ease-in infinite;
   }
-  .steam-1 { animation-delay: 0s; }
-  .steam-2 { animation-delay: 0.5s; }
-  @keyframes steam-svg {
-    0%   { opacity: 0; transform: translateY(0px); }
-    30%  { opacity: 1; }
-    100% { opacity: 0; transform: translateY(-7px); }
+  @keyframes coin-fall {
+    0%   { opacity: 0; transform: translateY(-2px) scaleX(1); }
+    10%  { opacity: 1; transform: translateY(0px) scaleX(1); }
+    35%  { opacity: 1; transform: translateY(8px) scaleX(0.35); }
+    50%  { opacity: 1; transform: translateY(14px) scaleX(1); }
+    60%  { opacity: 0; transform: translateY(19px) scaleX(0.6); }
+    100% { opacity: 0; transform: translateY(19px) scaleX(0.6); }
+  }
+
+  /* Kilauan emas */
+  .tabung-spark {
+    position: absolute;
+    top: 6px;
+    right: 1px;
+    width: 6px;
+    height: 6px;
+    background: #fde68a;
+    clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+    opacity: 0;
+    z-index: 3;
+    animation: tabung-spark-pulse 3s ease-in-out infinite;
+    animation-delay: 1.5s;
+  }
+  @keyframes tabung-spark-pulse {
+    0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+    20%      { opacity: 1; transform: scale(1.3) rotate(45deg); }
+    40%      { opacity: 0; transform: scale(0.4) rotate(90deg); }
+  }
+
+  /* Tooltip "Daftar Percuma" muncul dari kiri setiap 5 saat */
+  .tabung-tooltip {
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    margin-top: -14px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    color: #1c1917;
+    background: linear-gradient(135deg, #fde68a 0%, #fbbf24 55%, #f59e0b 100%);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(251,191,36,0.28), inset 0 1px 0 rgba(255,255,255,0.5);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 5;
+    animation: tabung-tooltip-loop 5s ease-in-out infinite;
+  }
+  .tabung-tooltip::after {
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -5px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid #f59e0b;
+  }
+  @keyframes tabung-tooltip-loop {
+    0%   { opacity: 0; transform: translateX(-10px); }
+    10%  { opacity: 1; transform: translateX(0); }
+    45%  { opacity: 1; transform: translateX(0); }
+    55%  { opacity: 0; transform: translateX(-6px); }
+    100% { opacity: 0; transform: translateX(-10px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .coin-drop, .tabung-spark, .tabung-tooltip { animation: none; }
+    .tabung-tooltip { opacity: 1; }
   }
 
   /* Dropdown Transition */
-  #coffee-dropdown {
+  #tabung-dropdown {
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  #coffee-dropdown.show {
+  #tabung-dropdown.show {
     display: block !important;
     opacity: 1 !important;
     transform: translateY(0) !important;
@@ -78,20 +154,35 @@
     </div>
     
     <div class="relative">
-      <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+      <button onclick="toggleTabungMenu()" id="tabung-btn" aria-label="Menu Tabung Emas"
         class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
         style="background:none; border:none; padding:0;">
-        <div class="coffee-cup-wrap">
+        <div id="tabung-wrap" class="tabung-wrap">
+          <div class="tabung-tooltip">Daftar Percuma</div>
+          <div class="coin-drop"></div>
+          <div class="tabung-spark"></div>
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
-            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
-            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
-            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+            <defs>
+              <linearGradient id="tabung-gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fde68a" />
+                <stop offset="0.55" stop-color="#fbbf24" />
+                <stop offset="1" stop-color="#d97706" />
+              </linearGradient>
+            </defs>
+            <!-- Badan tabung (kotak) -->
+            <rect x="4" y="8" width="16" height="13" rx="2.5" fill="url(#tabung-gold)" />
+            <!-- Penutup atas -->
+            <rect x="2.5" y="4.5" width="19" height="4.5" rx="2" fill="url(#tabung-gold)" stroke="#b45309" stroke-width="0.8" />
+            <!-- Slot syiling -->
+            <rect x="8" y="5.9" width="8" height="1.7" rx="0.85" fill="#451a03" />
+            <!-- Jalur hiasan -->
+            <rect x="7" y="13" width="10" height="1.4" rx="0.7" fill="#b45309" opacity="0.55" />
+            <rect x="9" y="16" width="6" height="1.4" rx="0.7" fill="#b45309" opacity="0.35" />
           </svg>
         </div>
       </button>
 
-      <div id="coffee-dropdown"
+      <div id="tabung-dropdown"
         class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
 
         <button onclick="triggerDaftarPopup()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
@@ -99,7 +190,7 @@
           <span>Daftar Percuma</span>
         </button>
 
-        <a href="https://pgdealer-wanhasbullah.pages.dev/chat-assist-faq" target="_blank"
+        <a href="https://ilmu-emas.pages.dev/emas-guide" target="_blank"
           class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
           <i class="fa-solid fa-comments text-amber-400"></i>
           <span>Pertanyaan</span>
@@ -113,13 +204,6 @@
       <div>
         <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 px-1">Topik Utama</p>
         <div id="video-filter-bar" class="flex gap-2 overflow-x-auto pb-1 scrollbar-none"></div>
-      </div>
-      
-      <div class="border-t border-zinc-900/80 my-1"></div>
-
-      <div>
-        <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 px-1">Format Paparan</p>
-        <div id="type-filter-bar" class="flex gap-2 overflow-x-auto pb-1 scrollbar-none"></div>
       </div>
     </div>
 
@@ -141,15 +225,15 @@
   <script src="js/video-data.js"></script>
   <script src="js/main.js"></script>
   <script>
-    // Fungsi Toggle Dropdown Kopi (Sama seperti index.html)
-    function toggleCoffeeMenu() {
-      const dropdown = document.getElementById("coffee-dropdown");
+    // Fungsi Toggle Dropdown Tabung Emas
+    function toggleTabungMenu() {
+      const dropdown = document.getElementById("tabung-dropdown");
       dropdown.classList.toggle("show");
     }
 
     // Fungsi untuk membuka Modal Daftar Percuma
     function triggerDaftarPopup() {
-      const dropdown = document.getElementById("coffee-dropdown");
+      const dropdown = document.getElementById("tabung-dropdown");
       if (dropdown) dropdown.classList.remove("show");
 
       const modal = document.getElementById("daftar-pilihan-modal");
@@ -167,22 +251,21 @@
       }, 300);
     }
 
-    // Klik luar untuk menutup dropdown kopi
+    // Klik luar untuk menutup dropdown tabung
     window.addEventListener("click", (e) => {
-      const btn = document.getElementById("coffee-btn");
-      const dropdown = document.getElementById("coffee-dropdown");
+      const btn = document.getElementById("tabung-btn");
+      const dropdown = document.getElementById("tabung-dropdown");
       if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
         dropdown.classList.remove("show");
       }
     });
 
-    // Keadaan Penapisan (Filter States)
+    // Keadaan Penapisan (Filter State)
     let currentVideoFilter = "all";
-    let currentTypeFilter = "all"; // 'all', 'menegak' (tiktok), 'lurus' (youtube)
     
     const videoCategories = ["all", ...new Set(VIDEO_DATA.map(v => v.category))];
 
-    // Membina Baris Penapis 1 (Topik Utama / Kategori)
+    // Membina Baris Penapis (Topik Utama / Kategori)
     function buildVideoFilterBar() {
       const bar = document.getElementById("video-filter-bar");
       bar.innerHTML = "";
@@ -214,63 +297,20 @@
       });
     }
 
-    // Membina Baris Penapis 2 (Format Paparan / Type Video)
-    function buildTypeFilterBar() {
-      const bar = document.getElementById("type-filter-bar");
-      bar.innerHTML = "";
-
-      const types = [
-        { id: "all", label: "Semua Format", icon: "fa-border-all" },
-        { id: "menegak", label: "Menegak (TikTok/Reels)", icon: "fa-mobile-screen-button" },
-        { id: "lurus", label: "Lurus (YouTube Video)", icon: "fa-desktop" }
-      ];
-
-      types.forEach(type => {
-        const btn = document.createElement("button");
-        btn.innerHTML = `<i class="fa-solid ${type.icon} mr-1.5 opacity-80 text-[10px]"></i>${type.label}`;
-
-        if(type.id === currentTypeFilter) {
-          btn.className = "bg-amber-400 text-zinc-950 text-xs px-3.5 py-1.5 rounded-full font-bold shadow-sm whitespace-nowrap transition-all";
-        } else {
-          btn.className = "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-xs px-3.5 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all";
-        }
-
-        btn.onclick = () => {
-          currentTypeFilter = type.id;
-          buildTypeFilterBar();
-          executeCombinedFilter();
-        };
-
-        bar.appendChild(btn);
-      });
-    }
-
-    // Melaksanakan Gabungan Tapisan Kategori + Format Paparan Video
+    // Melaksanakan Tapisan Kategori
     function executeCombinedFilter() {
-      renderVideos(currentVideoFilter, currentTypeFilter);
+      renderVideos(currentVideoFilter);
     }
 
-    function renderVideos(catFilter, typeFilter) {
+    function renderVideos(catFilter) {
       const container = document.getElementById("video-container");
       container.innerHTML = "";
       
       const filtered = VIDEO_DATA.filter(v => {
         if (v.category === "kisah-kejayaan") return false;
         
-        // Tapisan Kategori Pertama
-        const matchCategory = (catFilter === "all" || v.category === catFilter);
-        
-        // Tapisan Format Kedua (Berdasarkan rentetan kod embed)
-        let matchType = true;
-        if (typeFilter === "menegak") {
-          // Mengenal pasti video format menegak (TikTok / Youtube Shorts / Reels)
-          matchType = v.embedCode.includes("tiktok.com") || v.embedCode.includes("shorts");
-        } else if (typeFilter === "lurus") {
-          // Mengenal pasti video format lurus standard Youtube
-          matchType = v.embedCode.includes("youtube.com") && !v.embedCode.includes("shorts");
-        }
-        
-        return matchCategory && matchType;
+        // Tapisan Kategori
+        return (catFilter === "all" || v.category === catFilter);
       });
 
       if(filtered.length === 0) {
@@ -307,7 +347,6 @@
 
     // Inisialisasi Mula Aplikasi
     buildVideoFilterBar();
-    buildTypeFilterBar();
     executeCombinedFilter();
 
     // Mengendalikan Auto-Scroll & Kesan Denyutan Lampu Premium melalui URL Hash
@@ -325,9 +364,6 @@
           buildVideoFilterBar();
         }
         
-        // Tetapkan semula format kepada semua untuk memastikan video sasaran berjaya di-render
-        currentTypeFilter = "all";
-        buildTypeFilterBar();
         executeCombinedFilter();
 
         setTimeout(function () {
