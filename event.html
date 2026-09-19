@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Event & Seminar | Ilmu Emas</title>
+    <meta name="description" content="Senarai seminar, program dan event pilihan Ilmu Emas untuk umum, anak muda, veteran, mahasiswa dan peserta online. Sertai dan bina masa depan kewangan yang lebih kukuh.">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta property="og:title" content="Event & Seminar | Ilmu Emas">
+    <meta property="og:description" content="Temui seminar, program dan event pilihan untuk membantu anda membina masa depan yang lebih kukuh.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ilmu-emas.pages.dev/event/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --event-bg: #0a0a0a;
+            --event-surface: #121212;
+            --event-surface-2: #181818;
+            --event-border: rgba(255, 255, 255, 0.08);
+            --event-border-strong: rgba(212, 175, 55, 0.35);
+            --event-gold: #d4af37;
+            --event-gold-light: #f0d27a;
+            --event-gold-soft: rgba(212, 175, 55, 0.12);
+            --event-text: #f5f5f5;
+            --event-muted: #a3a3a3;
+            --event-radius: 20px;
+            --event-radius-sm: 12px;
+            --event-header-h: 64px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--event-bg);
+            color: var(--event-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212, 175, 55, 0.10), transparent 70%);
+            background-repeat: no-repeat;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; }
+
+        :focus-visible {
+            outline: 2px solid var(--event-gold-light);
+            outline-offset: 3px;
+            border-radius: 8px;
+        }
+
+        .event-sr-only {
+            position: absolute;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .event-skip {
+            position: absolute;
+            left: 16px; top: -60px;
+            background: var(--event-gold);
+            color: #000;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            z-index: 200;
+            transition: top 0.2s ease;
+        }
+        .event-skip:focus { top: 12px; }
+
+        /* ---------- HEADER ---------- */
+        .event-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.78);
+            -webkit-backdrop-filter: blur(16px) saturate(140%);
+            backdrop-filter: blur(16px) saturate(140%);
+            border-bottom: 1px solid var(--event-border);
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        .event-header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: var(--event-header-h);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .event-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            color: var(--event-gold);
+            background: var(--event-gold-soft);
+            border: 1px solid var(--event-border-strong);
+            font-size: 16px;
+            flex-shrink: 0;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .event-back:hover { background: rgba(212, 175, 55, 0.22); transform: translateX(-2px); }
+
+        .event-header-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            color: var(--event-text);
+        }
+
+        /* ---------- HERO ---------- */
+        .event-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .event-hero {
+            padding: 64px 0 40px;
+            max-width: 720px;
+        }
+
+        .event-hero h2 {
+            font-size: clamp(2rem, 6vw, 3.4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 30%, var(--event-gold-light) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: event-rise 0.7s ease both;
+        }
+
+        .event-hero p {
+            margin-top: 16px;
+            font-size: clamp(1rem, 2.4vw, 1.15rem);
+            color: var(--event-muted);
+            max-width: 560px;
+            animation: event-rise 0.7s 0.1s ease both;
+        }
+
+        @keyframes event-rise {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- FILTER ---------- */
+        .event-filter-wrap {
+            position: sticky;
+            top: calc(var(--event-header-h) + env(safe-area-inset-top, 0px));
+            z-index: 50;
+            margin: 0 -20px 28px;
+            padding: 12px 20px;
+            background: linear-gradient(to bottom, var(--event-bg) 70%, rgba(10, 10, 10, 0));
+        }
+
+        .event-filter {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x proximity;
+            padding: 4px 2px;
+        }
+        .event-filter::-webkit-scrollbar { display: none; }
+
+        .event-filter-btn {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+            min-height: 44px;
+            padding: 0 20px;
+            border-radius: 999px;
+            border: 1px solid var(--event-border);
+            background: var(--event-surface);
+            color: var(--event-muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        .event-filter-btn:hover { color: var(--event-text); border-color: var(--event-border-strong); }
+        .event-filter-btn[aria-pressed="true"] {
+            background: var(--event-gold);
+            border-color: var(--event-gold);
+            color: #0a0a0a;
+        }
+
+        .event-count {
+            font-size: 0.85rem;
+            color: var(--event-muted);
+            margin-bottom: 18px;
+            min-height: 1.4em;
+        }
+
+        /* ---------- GRID & CARD ---------- */
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            transition: opacity 0.18s ease;
+        }
+        .event-grid.is-switching { opacity: 0; }
+
+        .event-card {
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, var(--event-surface-2), var(--event-surface));
+            border: 1px solid var(--event-border);
+            border-radius: var(--event-radius);
+            padding: 26px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            min-width: 0;
+        }
+        .event-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--event-border-strong);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.08);
+        }
+
+        .event-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .event-card-icon {
+            width: 52px; height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: var(--event-gold-soft);
+            border: 1px solid var(--event-border-strong);
+            color: var(--event-gold);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .event-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        .event-badge-category {
+            background: var(--event-gold-soft);
+            color: var(--event-gold-light);
+            border: 1px solid var(--event-border-strong);
+        }
+        .event-badge-audience {
+            background: rgba(255, 255, 255, 0.05);
+            color: #d4d4d4;
+            border: 1px solid var(--event-border);
+            white-space: normal;
+            line-height: 1.4;
+            border-radius: 12px;
+        }
+
+        .event-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .event-card-audience { margin-bottom: 14px; }
+
+        .event-card p {
+            font-size: 0.93rem;
+            color: var(--event-muted);
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .event-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 20px;
+            border-radius: var(--event-radius-sm);
+            background: linear-gradient(135deg, var(--event-gold-light), var(--event-gold));
+            color: #0a0a0a;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+        .event-btn:hover { filter: brightness(1.08); }
+        .event-btn:active { transform: scale(0.98); }
+
+        .event-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--event-muted);
+            border: 1px dashed var(--event-border);
+            border-radius: var(--event-radius);
+        }
+
+        /* ---------- FOOTER ---------- */
+        .event-footer {
+            text-align: center;
+            padding: 28px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+            color: var(--event-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--event-border);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 1024px) {
+            .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 640px) {
+            .event-header-inner { padding: 0 16px; }
+            .event-main { padding: 0 16px 64px; }
+            .event-hero { padding: 44px 0 28px; }
+            .event-filter-wrap { margin: 0 -16px 22px; padding: 10px 16px; }
+            .event-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+            .event-card { padding: 22px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-delay: 0s !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="event-skip" href="#event-list">Terus ke senarai event</a>
+
+    <header class="event-header">
+        <div class="event-header-inner">
+            <a class="event-back" href="https://ilmu-emas.pages.dev/" aria-label="Kembali ke laman utama Ilmu Emas">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <h1 class="event-header-title">EVENT</h1>
+        </div>
+    </header>
+
+    <main class="event-main">
+        <section class="event-hero" aria-labelledby="event-hero-title">
+            <h2 id="event-hero-title">EVENT &amp; SEMINAR</h2>
+            <p>Temui seminar, program dan event pilihan untuk membantu anda membina masa depan yang lebih kukuh.</p>
+        </section>
+
+        <div class="event-filter-wrap">
+            <div class="event-filter" id="event-filter" role="group" aria-label="Tapis event mengikut kategori"></div>
+        </div>
+
+        <p class="event-count" id="event-count" aria-live="polite"></p>
+
+        <section id="event-list" class="event-grid" aria-label="Senarai event"></section>
+    </main>
+
+    <footer class="event-footer">
+        &copy; <span id="event-year"></span> Ilmu Emas
+    </footer>
+
+    <script>
+        (function () {
+            'use strict';
+
+            /* ==========================================================
+               DATA EVENT
+               Untuk tambah event baru, tambah satu object di hujung array.
+               category mesti salah satu: Umum, Anak Muda, Veteran,
+               Mahasiswa, Online (atau tambah kategori baru dalam
+               EVENT_FILTERS di bawah).
+               ========================================================== */
+            const events = [
+                {
+                    title: "Seminar Kaya Dengan Emas",
+                    category: "Umum",
+                    audience: "Terbuka",
+                    description: "Seminar yang membimbing anda memahami emas sebagai aset simpanan dan pelaburan jangka panjang.",
+                    url: "https://pg2u.my/app/event/wanhasbullah"
+                },
+                {
+                    title: "Seminar Membina RM1 Juta Pertama",
+                    category: "Umum",
+                    audience: "Terbuka",
+                    description: "Pelajari langkah dan strategi asas untuk membina kekayaan menuju sasaran RM1 juta pertama anda.",
+                    url: "https://g100.my/seminar-membina-satu-juta-pertama/"
+                },
+                {
+                    title: "Seminar Veteran",
+                    category: "Veteran",
+                    audience: "Khas untuk golongan veteran 50 tahun ke atas",
+                    description: "Program khas untuk golongan veteran merancang kewangan dan mengukuhkan masa depan selepas persaraan.",
+                    url: "https://g100.my/g100-veteran/"
+                },
+                {
+                    title: "MILLIONAIRE BY 30",
+                    category: "Anak Muda",
+                    audience: "18–25 tahun",
+                    description: "Program untuk anak muda yang mahu mula membina asas kewangan dan mindset kekayaan seawal usia.",
+                    url: "https://g100.my/millionaireby30/"
+                },
+                {
+                    title: "MENCARI IKON DALAM MEMBINA KERJAYA",
+                    category: "Mahasiswa",
+                    audience: "18–25 tahun",
+                    description: "Program untuk mahasiswa yang mencari inspirasi, bimbingan dan hala tuju dalam membina kerjaya.",
+                    url: "https://g100.my/g100-apprentice/"
+                },
+                {
+                    title: "Karnival Kaya Dengan Emas",
+                    category: "Umum",
+                    audience: "Terbuka",
+                    description: "Karnival yang menghimpunkan ilmu, aktiviti dan komuniti untuk sesiapa yang berminat dengan emas.",
+                    url: "https://g100.my/karnival-kaya-dengan-emas/"
+                },
+                {
+                    title: "Private Webinar",
+                    category: "Online",
+                    audience: "Terbuka",
+                    description: "Sesi webinar secara online yang boleh disertai dari mana sahaja tanpa perlu hadir ke lokasi.",
+                    url: "https://g100.my/privatewebinar/"
+                }
+            ];
+
+            /* Label filter (label paparan) dan kategori sebenar (value) */
+            const EVENT_FILTERS = [
+                { label: "SEMUA",      value: "Semua" },
+                { label: "UMUM",       value: "Umum" },
+                { label: "ANAK MUDA",  value: "Anak Muda" },
+                { label: "VETERAN",    value: "Veteran" },
+                { label: "MAHASISWA",  value: "Mahasiswa" },
+                { label: "ONLINE",     value: "Online" }
+            ];
+
+            /* Icon Font Awesome mengikut kategori */
+            const EVENT_ICONS = {
+                "Umum":      "fa-microphone-lines",
+                "Anak Muda": "fa-rocket",
+                "Veteran":   "fa-medal",
+                "Mahasiswa": "fa-graduation-cap",
+                "Online":    "fa-video"
+            };
+            const EVENT_DEFAULT_ICON = "fa-calendar-days";
+
+            const filterEl = document.getElementById('event-filter');
+            const gridEl = document.getElementById('event-list');
+            const countEl = document.getElementById('event-count');
+            let activeFilter = "Semua";
+            let switchTimer = null;
+
+            function el(tag, className, text) {
+                const node = document.createElement(tag);
+                if (className) node.className = className;
+                if (text !== undefined) node.textContent = text;
+                return node;
+            }
+
+            function buildCard(ev) {
+                const card = el('article', 'event-card');
+
+                const top = el('div', 'event-card-top');
+                const icon = el('div', 'event-card-icon');
+                icon.setAttribute('aria-hidden', 'true');
+                const i = el('i', 'fa-solid ' + (EVENT_ICONS[ev.category] || EVENT_DEFAULT_ICON));
+                icon.appendChild(i);
+                top.appendChild(icon);
+                top.appendChild(el('span', 'event-badge event-badge-category', ev.category));
+                card.appendChild(top);
+
+                card.appendChild(el('h3', '', ev.title));
+
+                const aud = el('div', 'event-card-audience');
+                const audBadge = el('span', 'event-badge event-badge-audience');
+                audBadge.appendChild(el('i', 'fa-solid fa-user-group'));
+                audBadge.firstChild.setAttribute('aria-hidden', 'true');
+                audBadge.firstChild.style.marginRight = '6px';
+                audBadge.appendChild(document.createTextNode('Untuk: ' + ev.audience));
+                aud.appendChild(audBadge);
+                card.appendChild(aud);
+
+                card.appendChild(el('p', '', ev.description));
+
+                const link = el('a', 'event-btn', 'LIHAT EVENT \u2192');
+                link.href = ev.url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.setAttribute('aria-label', 'Lihat event ' + ev.title + ' (buka dalam tab baharu)');
+                card.appendChild(link);
+
+                return card;
+            }
+
+            function render() {
+                const list = activeFilter === "Semua"
+                    ? events
+                    : events.filter(function (ev) { return ev.category === activeFilter; });
+
+                gridEl.textContent = '';
+
+                if (!list.length) {
+                    gridEl.appendChild(el('div', 'event-empty', 'Belum ada event dalam kategori ini. Cuba pilih kategori lain.'));
+                } else {
+                    const frag = document.createDocumentFragment();
+                    list.forEach(function (ev) { frag.appendChild(buildCard(ev)); });
+                    gridEl.appendChild(frag);
+                }
+
+                countEl.textContent = list.length + ' event dipaparkan';
+            }
+
+            function setFilter(value) {
+                if (value === activeFilter) return;
+                activeFilter = value;
+
+                filterEl.querySelectorAll('.event-filter-btn').forEach(function (btn) {
+                    btn.setAttribute('aria-pressed', btn.dataset.value === value ? 'true' : 'false');
+                });
+
+                clearTimeout(switchTimer);
+                gridEl.classList.add('is-switching');
+                switchTimer = setTimeout(function () {
+                    render();
+                    gridEl.classList.remove('is-switching');
+                }, 180);
+            }
+
+            function buildFilters() {
+                EVENT_FILTERS.forEach(function (f) {
+                    const btn = el('button', 'event-filter-btn', f.label);
+                    btn.type = 'button';
+                    btn.dataset.value = f.value;
+                    btn.setAttribute('aria-pressed', f.value === activeFilter ? 'true' : 'false');
+                    btn.addEventListener('click', function () {
+                        setFilter(f.value);
+                        btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    });
+                    filterEl.appendChild(btn);
+                });
+            }
+
+            document.getElementById('event-year').textContent = new Date().getFullYear();
+            buildFilters();
+            render();
+        })();
+    </script>
+</body>
+</html>
