@@ -140,22 +140,6 @@
       transform: translateY(0) !important;
     }
 
-    /* ── Tab Underline Indicator ── */
-    .tab-indicator {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* ── Panel Slide ── */
-    .panel-wrap {
-      display: flex;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform;
-    }
-    .panel {
-      flex: 0 0 100%;
-      min-width: 0;
-    }
-
     /* ── Scrollbar hide ── */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -170,12 +154,8 @@
     }
     .video-highlight-anim {
       animation: video-highlight 1.6s ease 3;
-      scroll-margin-top: 140px;
+      scroll-margin-top: 90px;
     }
-
-    /* ── Premium ambient glow under tabs ── */
-    .tab-glow-video { text-shadow: 0 0 14px rgba(251,191,36,.5); }
-    .tab-glow-artikel { text-shadow: 0 0 14px rgba(251,191,36,.5); }
 
     /* ── Gold gradient divider ── */
     .gold-divider {
@@ -183,7 +163,7 @@
       background: linear-gradient(90deg, transparent, rgba(251,191,36,.35), transparent);
     }
 
-    /* ── Filter chip active glow (retained utility) ── */
+    /* ── Filter chip active glow ── */
     .chip-active { box-shadow: 0 0 10px rgba(251,191,36,.25); }
 
     /* ── Card hover lift ── */
@@ -193,6 +173,25 @@
     .card-lift:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 28px rgba(0,0,0,.45);
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fbbf24;
+    }
+    .section-label i { font-size: 10px; opacity: .85; }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(251,191,36,.35), transparent);
     }
   </style>
 </head>
@@ -257,43 +256,21 @@
 
     <!-- Gold divider -->
     <div class="gold-divider mx-4"></div>
-
-    <!-- Tab switcher: dua butang Video / Artikel -->
-    <div class="px-4 pt-2.5 pb-3">
-      <div class="relative flex bg-zinc-900/60 border border-zinc-800/60 rounded-xl p-1 gap-1">
-        <!-- Sliding background pill -->
-        <div id="tab-bg" class="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-amber-400 rounded-[10px] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md shadow-amber-400/20"></div>
-
-        <button id="tab-video" onclick="switchTab('video')"
-          class="relative z-10 flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-[10px] transition-colors duration-200 text-zinc-950">
-          <i class="fa-solid fa-play-circle text-[11px]"></i>
-          <span>Video</span>
-        </button>
-        <button id="tab-artikel" onclick="switchTab('artikel')"
-          class="relative z-10 flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-[10px] transition-colors duration-200 text-zinc-400">
-          <i class="fa-solid fa-newspaper text-[11px]"></i>
-          <span>Artikel</span>
-        </button>
-      </div>
-    </div>
   </header>
 
-  <!-- ═══════════════ PANELS ═══════════════ -->
-  <div class="overflow-hidden">
-    <div class="panel-wrap" id="panel-wrap">
+  <!-- ═══════════════ A) KISAH TERPILIH — kad link luaran ═══════════════ -->
+  <section class="p-4 space-y-3">
+    <div class="section-label"><i class="fa-solid fa-star"></i><span>Kisah Terpilih</span></div>
+    <div class="space-y-4" id="artikel-list-container"></div>
+  </section>
 
-      <!-- VIDEO PANEL -->
-      <div class="panel">
-        <main class="p-4 space-y-5" id="video-container"></main>
-      </div>
+  <!-- ═══════════════ B) KATEGORI + VIDEO ═══════════════ -->
+  <section class="px-4 pt-1 pb-3 space-y-3">
+    <div class="section-label"><i class="fa-solid fa-play-circle"></i><span>Video Kisah Kejayaan</span></div>
+    <div id="video-filter-bar" class="flex gap-1.5 overflow-x-auto pb-0.5 no-scrollbar"></div>
+  </section>
 
-      <!-- ARTIKEL PANEL -->
-      <div class="panel">
-        <main class="p-4 space-y-4" id="artikel-list-container"></main>
-      </div>
-
-    </div>
-  </div>
+  <main class="p-4 pt-0 space-y-5" id="video-container"></main>
 
   <!-- ═══════════════ DAFTAR MODAL ═══════════════ -->
   <div id="daftar-pilihan-modal" class="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
@@ -325,41 +302,6 @@
 
   <script>
     /* ────────────────────────────────────────────
-       TAB STATE
-    ──────────────────────────────────────────── */
-    let activeTab = "video";
-
-    function switchTab(tab, pushState) {
-      activeTab = tab;
-
-      const panelWrap  = document.getElementById("panel-wrap");
-      const tabBg      = document.getElementById("tab-bg");
-      const tabVideo   = document.getElementById("tab-video");
-      const tabArtikel = document.getElementById("tab-artikel");
-
-      if (tab === "video") {
-        panelWrap.style.transform  = "translateX(0%)";
-        tabBg.style.left           = "4px";
-        tabBg.style.right          = "";
-        tabVideo.classList.replace("text-zinc-400", "text-zinc-950");
-        tabArtikel.classList.replace("text-zinc-950", "text-zinc-400");
-      } else {
-        panelWrap.style.transform  = "translateX(-100%)";
-        tabBg.style.left           = "calc(50% + 0px)";
-        tabArtikel.classList.replace("text-zinc-400", "text-zinc-950");
-        tabVideo.classList.replace("text-zinc-950", "text-zinc-400");
-      }
-
-      /* ── Update URL hash for tab link sharing ── */
-      if (pushState !== false) {
-        const newHash = "#" + tab;
-        if (window.location.hash !== newHash) {
-          history.replaceState(null, "", newHash);
-        }
-      }
-    }
-
-    /* ────────────────────────────────────────────
        TABUNG EMAS MENU
     ──────────────────────────────────────────── */
     function toggleTabungMenu() {
@@ -387,51 +329,7 @@
     });
 
     /* ────────────────────────────────────────────
-       VIDEO SECTION — paparan penuh tanpa filter
-    ──────────────────────────────────────────── */
-    function renderVideos() {
-      const container = document.getElementById("video-container");
-      container.innerHTML = "";
-
-      const list = KISAH_KEJAYAAN_DATA;
-
-      if (!list.length) {
-        container.innerHTML = `
-          <div class="text-center py-16 space-y-3">
-            <div class="w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mx-auto">
-              <i class="fa-solid fa-video-slash text-zinc-600 text-xl"></i>
-            </div>
-            <p class="text-xs text-zinc-500">Tiada video ditemui untuk paparan ini.</p>
-          </div>`;
-        return;
-      }
-
-      list.forEach(video => {
-        const card = document.createElement("div");
-        card.className = "bg-zinc-900 border border-zinc-800/80 rounded-2xl overflow-hidden shadow-md card-lift";
-        card.id = video.id;
-        card.innerHTML = `
-          <div class="overflow-hidden bg-zinc-950">
-            ${video.embedCode}
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-[9px] font-bold text-amber-400 uppercase tracking-widest bg-amber-400/8 border border-amber-400/15 px-2 py-0.5 rounded-md">
-                ${video.category.replace(/-/g, " ")}
-              </span>
-              <button onclick="copyGlobalLink('kisah-kejayaan.html#${video.id}')"
-                class="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1 transition-colors">
-                <i class="fa-solid fa-copy text-[9px]"></i> Kongsi
-              </button>
-            </div>
-            <h3 class="text-sm font-bold leading-snug text-zinc-100">${video.title}</h3>
-          </div>`;
-        container.appendChild(card);
-      });
-    }
-
-    /* ────────────────────────────────────────────
-       ARTIKEL SECTION — kad premium, link luaran statik
+       A) KISAH TERPILIH — kad premium, link luaran statik
     ──────────────────────────────────────────── */
     const KISAH_ARTIKEL_STATIC = [
       {
@@ -489,26 +387,86 @@
     }
 
     /* ────────────────────────────────────────────
-       HASH HIGHLIGHT  — untuk tab & VIDEO sahaja
+       B) VIDEO SECTION — kategori dikembalikan
+    ──────────────────────────────────────────── */
+    let currentVideoFilter = "all";
+
+    const videoCategories = ["all", ...new Set(KISAH_KEJAYAAN_DATA.map(v => v.category))];
+
+    function buildVideoFilterBar() {
+      const bar = document.getElementById("video-filter-bar");
+      bar.innerHTML = "";
+      videoCategories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.innerText = cat === "all" ? "Semua Kisah"
+          : cat.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+        const active = cat === currentVideoFilter;
+        btn.className = active
+          ? "bg-amber-400 text-zinc-950 text-[10px] px-3 py-1.5 rounded-full font-bold whitespace-nowrap transition-all chip-active flex-shrink-0"
+          : "bg-zinc-900 text-zinc-400 hover:text-zinc-200 text-[10px] px-3 py-1.5 rounded-full font-medium border border-zinc-800/60 whitespace-nowrap transition-all flex-shrink-0";
+        btn.onclick = () => { currentVideoFilter = cat; buildVideoFilterBar(); renderVideos(currentVideoFilter); };
+        bar.appendChild(btn);
+      });
+    }
+
+    function renderVideos(catFilter) {
+      const container = document.getElementById("video-container");
+      container.innerHTML = "";
+
+      const filtered = KISAH_KEJAYAAN_DATA.filter(v => catFilter === "all" || v.category === catFilter);
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div class="text-center py-16 space-y-3">
+            <div class="w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mx-auto">
+              <i class="fa-solid fa-video-slash text-zinc-600 text-xl"></i>
+            </div>
+            <p class="text-xs text-zinc-500">Tiada video ditemui untuk paparan ini.</p>
+          </div>`;
+        return;
+      }
+
+      filtered.forEach(video => {
+        const card = document.createElement("div");
+        card.className = "bg-zinc-900 border border-zinc-800/80 rounded-2xl overflow-hidden shadow-md card-lift";
+        card.id = video.id;
+        card.innerHTML = `
+          <div class="overflow-hidden bg-zinc-950">
+            ${video.embedCode}
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] font-bold text-amber-400 uppercase tracking-widest bg-amber-400/8 border border-amber-400/15 px-2 py-0.5 rounded-md">
+                ${video.category.replace(/-/g, " ")}
+              </span>
+              <button onclick="copyGlobalLink('kisah-kejayaan.html#${video.id}')"
+                class="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1 transition-colors">
+                <i class="fa-solid fa-copy text-[9px]"></i> Kongsi
+              </button>
+            </div>
+            <h3 class="text-sm font-bold leading-snug text-zinc-100">${video.title}</h3>
+          </div>`;
+        container.appendChild(card);
+      });
+    }
+
+    /* ────────────────────────────────────────────
+       HASH HIGHLIGHT — untuk video sahaja
     ──────────────────────────────────────────── */
     function handleHashHighlight() {
       const hash = window.location.hash;
       if (!hash) return false;
       const targetId = hash.replace("#", "");
 
-      /* Hash tab biasa — skip highlight */
-      if (targetId === "video" || targetId === "artikel") {
-        switchTab(targetId, false);
-        return true;
-      }
-
-      /* ── Cuba cari dalam data VIDEO ── */
       const linkedVideo = KISAH_KEJAYAAN_DATA.find(v => v.id === targetId);
       if (linkedVideo) {
-        /* Tukar ke tab video */
-        switchTab("video", false);
+        /* Pastikan kategori betul supaya video dirender */
+        if (currentVideoFilter !== "all" && currentVideoFilter !== linkedVideo.category) {
+          currentVideoFilter = "all";
+          buildVideoFilterBar();
+          renderVideos(currentVideoFilter);
+        }
 
-        /* Scroll + blink selepas DOM render */
         setTimeout(() => {
           const el = document.getElementById(targetId);
           if (!el) return;
@@ -525,15 +483,14 @@
     /* ────────────────────────────────────────────
        INIT
     ──────────────────────────────────────────── */
-    renderVideos();
     renderArtikel();
+    buildVideoFilterBar();
+    renderVideos(currentVideoFilter);
 
     document.addEventListener("DOMContentLoaded", () => {
-      /* Biar DOM render penuh dulu, kemudian proses hash */
       setTimeout(() => handleHashHighlight(), 300);
     });
 
-    /* Tangani jika hash berubah semasa halaman sudah terbuka */
     window.addEventListener("hashchange", () => handleHashHighlight());
   </script>
 </body>
