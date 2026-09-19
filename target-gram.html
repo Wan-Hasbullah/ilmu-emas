@@ -107,8 +107,8 @@
   }
   .card-fade { animation: card-in 0.3s ease both; }
 
-  /* ── Coffee Cup Animation (identiti daripada petikan.html) ── */
-  .coffee-cup-wrap {
+  /* ── Tabung Emas Animation (menggantikan coffee cup) ── */
+  .tabung-wrap {
     position: relative;
     display: flex;
     align-items: center;
@@ -116,63 +116,114 @@
     width: 36px;
     height: 44px;
   }
-  .coffee-cup-wrap svg {
+  .tabung-wrap svg {
     width: 26px;
     height: 26px;
     position: absolute;
     bottom: 9px;
-  }
-  .steam {
-    stroke: #fbbf24;
-    stroke-width: 2;
-    stroke-linecap: round;
-    fill: none;
-    opacity: 0;
-    animation: steam-svg 1.8s ease-in-out infinite;
-  }
-  .steam-1 { animation-delay: 0s; }
-  .steam-2 { animation-delay: 0.5s; }
-  @keyframes steam-svg {
-    0%   { opacity: 0; transform: translateY(0px); }
-    30%  { opacity: 1; }
-    100% { opacity: 0; transform: translateY(-7px); }
+    z-index: 2;
+    filter: drop-shadow(0 0 5px rgba(251,191,36,0.3));
   }
 
-  .coffee-tooltip {
+  /* syiling emas jatuh setiap 3 saat */
+  .coin-drop {
     position: absolute;
-    right: 44px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: linear-gradient(135deg, #1c1917, #18181b);
-    border: 1px solid rgba(251,191,36,0.35);
-    color: #fbbf24;
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-    padding: 5px 11px;
-    border-radius: 20px;
-    pointer-events: none;
+    top: -7px;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fde68a, #fbbf24 55%, #f59e0b);
+    box-shadow: 0 0 0 1px rgba(245,158,11,0.6);
     opacity: 0;
-    transition: opacity 0.3s ease;
-    box-shadow: 0 4px 16px rgba(251,191,36,0.12);
-    letter-spacing: 0.02em;
+    z-index: 3;
+    pointer-events: none;
+    animation: coin-fall 3s linear infinite;
   }
-  .coffee-tooltip::after {
+  @keyframes coin-fall {
+    0%   { opacity: 0; transform: translate(-50%, 0) scale(1, 1); }
+    6%   { opacity: 1; transform: translate(-50%, 2px) scale(1, 1); }
+    14%  { opacity: 1; transform: translate(-50%, 7px) scale(.25, 1); }
+    22%  { opacity: 1; transform: translate(-50%, 13px) scale(1, 1); }
+    30%  { opacity: 1; transform: translate(-50%, 20px) scale(1, 1); }
+    36%  { opacity: 0; transform: translate(-50%, 21px) scale(.8, .15); }
+    100% { opacity: 0; transform: translate(-50%, 21px) scale(.8, .15); }
+  }
+
+  /* kilauan gold */
+  .tabung-spark {
+    position: absolute;
+    top: 5px;
+    right: 1px;
+    width: 10px;
+    height: 10px;
+    background: #fde68a;
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    opacity: 0;
+    z-index: 3;
+    pointer-events: none;
+    animation: tabung-spark-pulse 2.4s ease-in-out infinite;
+  }
+  .tabung-wrap::after {
     content: '';
     position: absolute;
-    right: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-left: 6px solid rgba(251,191,36,0.35);
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
+    bottom: 8px;
+    left: 1px;
+    width: 6px;
+    height: 6px;
+    background: #fbbf24;
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    opacity: 0;
+    z-index: 3;
+    pointer-events: none;
+    animation: tabung-spark-pulse 2.4s ease-in-out 1.2s infinite;
   }
-  .coffee-tooltip.visible { opacity: 1; }
+  @keyframes tabung-spark-pulse {
+    0%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); }
+    50%      { opacity: 1; transform: scale(1) rotate(45deg); }
+  }
 
-  #coffee-dropdown {
+  /* tooltip "Daftar Percuma" muncul dari kiri setiap 5 saat */
+  .tabung-tooltip {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 8px);
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    color: #09090b;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+    padding: 6px 12px;
+    border-radius: 10px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+    transform: translate(-10px, -50%);
+    animation: tabung-tooltip-loop 5s ease-in-out infinite;
+  }
+  .tabung-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background: #f59e0b;
+    border-radius: 1px;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  @keyframes tabung-tooltip-loop {
+    0%, 6%    { opacity: 0; transform: translate(-10px, -50%); }
+    14%, 52%  { opacity: 1; transform: translate(0, -50%); }
+    60%, 100% { opacity: 0; transform: translate(-10px, -50%); }
+  }
+  /* sorok tooltip bila menu dibuka */
+  #tabung-btn[aria-expanded="true"] .tabung-tooltip { display: none; }
+
+  #tabung-dropdown {
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  #coffee-dropdown.show {
+  #tabung-dropdown.show {
     display: block !important;
     opacity: 1 !important;
     transform: translateY(0) !important;
@@ -207,28 +258,39 @@
     </div>
 
     <div class="relative">
-      <button onclick="toggleCoffeeMenu()" id="coffee-btn"
+      <button onclick="toggleTabungMenu()" id="tabung-btn" aria-haspopup="true" aria-expanded="false" aria-controls="tabung-dropdown" aria-label="Buka menu"
         class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
         style="background:none; border:none; padding:0;">
-        <div class="coffee-cup-wrap" id="coffee-cup-wrap" onmouseenter="showTooltip()" onmouseleave="hideTooltip()">
-          <div class="coffee-tooltip" id="coffee-tooltip">Nak capai target?</div>
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
-            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
-            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
-            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        <div id="tabung-wrap" class="tabung-wrap">
+          <div class="tabung-tooltip">Daftar Percuma</div>
+          <div class="coin-drop"></div>
+          <div class="tabung-spark"></div>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- tapak -->
+            <rect x="5" y="20.5" width="14" height="2.5" rx="1.25" fill="#f59e0b" />
+            <!-- badan tabung (kotak) -->
+            <rect x="3" y="4" width="18" height="17" rx="3.5" fill="#fbbf24" />
+            <!-- kilat sisi -->
+            <rect x="5" y="5.5" width="1.6" height="12" rx="0.8" fill="#ffffff" opacity="0.22" />
+            <!-- slot syiling -->
+            <rect x="7.5" y="7" width="9" height="2" rx="1" fill="#09090b" opacity="0.9" />
+            <!-- garis pemisah -->
+            <rect x="3" y="13" width="18" height="1.5" fill="#f59e0b" opacity="0.55" />
+            <!-- lubang kunci -->
+            <circle cx="12" cy="17.2" r="1.4" fill="#09090b" opacity="0.75" />
           </svg>
         </div>
       </button>
 
-      <div id="coffee-dropdown"
+      <div id="tabung-dropdown"
         class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
         <a href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" rel="noopener"
+          onclick="if(typeof triggerDaftarPopup==='function'){event.preventDefault();triggerDaftarPopup();}"
           class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
           <i class="fa-solid fa-user-plus text-amber-400"></i>
           <span>Daftar Percuma</span>
         </a>
-        <a href="pgolink.com/faq-assistant" target="_blank" rel="noopener"
+        <a href="https://ilmu-emas.pages.dev/emas-guide" target="_blank" rel="noopener"
           class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
           <i class="fa-solid fa-comments text-amber-400"></i>
           <span>Pertanyaan</span>
@@ -473,19 +535,19 @@
   </div>
 
   <script>
-    // ── Coffee dropdown ──
-    function toggleCoffeeMenu() {
-      document.getElementById('coffee-dropdown').classList.toggle('show');
+    // ── Tabung dropdown ──
+    function toggleTabungMenu() {
+      const isOpen = document.getElementById('tabung-dropdown').classList.toggle('show');
+      document.getElementById('tabung-btn').setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
     document.addEventListener('click', function(e) {
-      const dropdown = document.getElementById('coffee-dropdown');
-      const btn = document.getElementById('coffee-btn');
+      const dropdown = document.getElementById('tabung-dropdown');
+      const btn = document.getElementById('tabung-btn');
       if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
         dropdown.classList.remove('show');
+        btn.setAttribute('aria-expanded', 'false');
       }
     });
-    function showTooltip() { document.getElementById('coffee-tooltip').classList.add('visible'); }
-    function hideTooltip() { document.getElementById('coffee-tooltip').classList.remove('visible'); }
 
     // ── Element refs ──
     const targetSelect = document.getElementById('target-select');
