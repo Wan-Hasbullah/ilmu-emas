@@ -106,18 +106,22 @@
     -webkit-text-fill-color:transparent;
   }
 
-  .coffee-wrap{ position:relative; }
-  .coffee-btn{
+  /* ---------- TABUNG EMAS (menggantikan coffee cup) ---------- */
+  .tabung-menu{ position:relative; }
+
+  #tabung-btn{
     background:none;
     border:none;
+    padding:0;
     color:var(--gold);
     display:flex;
     align-items:center;
     justify-content:center;
-    transition:color .2s ease;
+    transition:transform .2s ease;
   }
-  .coffee-btn:hover{ color:#fde68a; }
-  .coffee-cup{
+  #tabung-btn:hover{ transform:translateY(-1px); }
+
+  .tabung-wrap{
     position:relative;
     width:36px;
     height:44px;
@@ -125,29 +129,111 @@
     align-items:center;
     justify-content:center;
   }
-  .coffee-cup svg{
+  .tabung-wrap svg{
     width:26px;
     height:26px;
     position:absolute;
     bottom:9px;
-  }
-  .steam{
-    stroke:#fbbf24;
-    stroke-width:2;
-    stroke-linecap:round;
-    fill:none;
-    opacity:0;
-    animation:steam-rise 1.8s ease-in-out infinite;
-  }
-  .steam-1{ animation-delay:0s; }
-  .steam-2{ animation-delay:.5s; }
-  @keyframes steam-rise{
-    0%{ opacity:0; transform:translateY(0); }
-    30%{ opacity:1; }
-    100%{ opacity:0; transform:translateY(-7px); }
+    z-index:2;
+    filter:drop-shadow(0 0 5px rgba(251,191,36,0.3));
   }
 
-  .dropdown{
+  /* syiling emas jatuh setiap 3 saat */
+  .coin-drop{
+    position:absolute;
+    top:-7px;
+    left:50%;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fde68a, #fbbf24 55%, #f59e0b);
+    box-shadow:0 0 0 1px rgba(245,158,11,0.6);
+    opacity:0;
+    z-index:3;
+    pointer-events:none;
+    animation:coin-fall 3s linear infinite;
+  }
+  @keyframes coin-fall{
+    0%{ opacity:0; transform:translate(-50%,0) scale(1,1); }
+    6%{ opacity:1; transform:translate(-50%,2px) scale(1,1); }
+    14%{ opacity:1; transform:translate(-50%,7px) scale(.25,1); }
+    22%{ opacity:1; transform:translate(-50%,13px) scale(1,1); }
+    30%{ opacity:1; transform:translate(-50%,20px) scale(1,1); }
+    36%{ opacity:0; transform:translate(-50%,21px) scale(.8,.15); }
+    100%{ opacity:0; transform:translate(-50%,21px) scale(.8,.15); }
+  }
+
+  /* kilauan gold */
+  .tabung-spark{
+    position:absolute;
+    top:5px;
+    right:1px;
+    width:10px;
+    height:10px;
+    background:#fde68a;
+    clip-path:polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    opacity:0;
+    z-index:3;
+    pointer-events:none;
+    animation:tabung-spark-pulse 2.4s ease-in-out infinite;
+  }
+  .tabung-wrap::after{
+    content:'';
+    position:absolute;
+    bottom:8px;
+    left:1px;
+    width:6px;
+    height:6px;
+    background:var(--gold);
+    clip-path:polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    opacity:0;
+    z-index:3;
+    pointer-events:none;
+    animation:tabung-spark-pulse 2.4s ease-in-out 1.2s infinite;
+  }
+  @keyframes tabung-spark-pulse{
+    0%,100%{ opacity:0; transform:scale(.3) rotate(0deg); }
+    50%{ opacity:1; transform:scale(1) rotate(45deg); }
+  }
+
+  /* tooltip "Daftar Percuma" muncul dari kiri setiap 5 saat */
+  .tabung-tooltip{
+    position:absolute;
+    top:50%;
+    right:calc(100% + 8px);
+    background:linear-gradient(90deg, var(--gold), var(--gold2));
+    color:#09090b;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+    padding:6px 12px;
+    border-radius:10px;
+    opacity:0;
+    pointer-events:none;
+    z-index:4;
+    transform:translate(-10px,-50%);
+    animation:tabung-tooltip-loop 5s ease-in-out infinite;
+  }
+  .tabung-tooltip::after{
+    content:'';
+    position:absolute;
+    top:50%;
+    right:-4px;
+    width:8px;
+    height:8px;
+    background:var(--gold2);
+    border-radius:1px;
+    transform:translateY(-50%) rotate(45deg);
+  }
+  @keyframes tabung-tooltip-loop{
+    0%,6%{ opacity:0; transform:translate(-10px,-50%); }
+    14%,52%{ opacity:1; transform:translate(0,-50%); }
+    60%,100%{ opacity:0; transform:translate(-10px,-50%); }
+  }
+  /* sorok tooltip bila menu dibuka */
+  #tabung-btn[aria-expanded="true"] .tabung-tooltip{ display:none; }
+
+  #tabung-dropdown{
     position:absolute;
     right:0;
     top:calc(100% + 12px);
@@ -163,7 +249,7 @@
     transition:opacity .2s ease, transform .2s ease;
     z-index:60;
   }
-  .dropdown.show{
+  #tabung-dropdown.show{
     opacity:1;
     transform:translateY(0);
     pointer-events:auto;
@@ -662,24 +748,35 @@
       <h1 class="brand-title">TARGET KECEMASAN</h1>
     </div>
 
-    <div class="coffee-wrap">
-      <button class="coffee-btn" id="coffeeBtn" aria-haspopup="true" aria-expanded="false" aria-label="Buka menu">
-        <span class="coffee-cup">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" />
-            <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" />
-            <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#fbbf24" />
-            <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    <div class="tabung-menu">
+      <button id="tabung-btn" onclick="toggleTabungMenu()" aria-haspopup="true" aria-expanded="false" aria-controls="tabung-dropdown" aria-label="Buka menu">
+        <div id="tabung-wrap" class="tabung-wrap">
+          <div class="tabung-tooltip">Daftar Percuma</div>
+          <div class="coin-drop"></div>
+          <div class="tabung-spark"></div>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- tapak -->
+            <rect x="5" y="20.5" width="14" height="2.5" rx="1.25" fill="#f59e0b" />
+            <!-- badan tabung (kotak) -->
+            <rect x="3" y="4" width="18" height="17" rx="3.5" fill="#fbbf24" />
+            <!-- kilat sisi -->
+            <rect x="5" y="5.5" width="1.6" height="12" rx="0.8" fill="#ffffff" opacity="0.22" />
+            <!-- slot syiling -->
+            <rect x="7.5" y="7" width="9" height="2" rx="1" fill="#09090b" opacity="0.9" />
+            <!-- garis pemisah -->
+            <rect x="3" y="13" width="18" height="1.5" fill="#f59e0b" opacity="0.55" />
+            <!-- lubang kunci -->
+            <circle cx="12" cy="17.2" r="1.4" fill="#09090b" opacity="0.75" />
           </svg>
-        </span>
+        </div>
       </button>
 
-      <div class="dropdown" id="coffeeDropdown">
-        <a class="dropdown-item" href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" rel="noopener">
+      <div class="dropdown" id="tabung-dropdown">
+        <a class="dropdown-item" href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" rel="noopener" onclick="if(typeof triggerDaftarPopup==='function'){event.preventDefault();triggerDaftarPopup();}">
           <i class="fa-solid fa-book-open"></i>
           <span>Daftar Percuma</span>
         </a>
-        <a class="dropdown-item" href="https://pgdealer-wanhasbullah.pages.dev/faq-assistant" target="_blank" rel="noopener">
+        <a class="dropdown-item" href="https://ilmu-emas.pages.dev/emas-guide" target="_blank" rel="noopener">
           <i class="fa-solid fa-comments"></i>
           <span>Pertanyaan</span>
         </a>
@@ -883,23 +980,21 @@
     el.classList.add('pulse');
   }
 
-  /* ---------- Coffee dropdown ---------- */
-  var coffeeBtn = document.getElementById('coffeeBtn');
-  var dropdown = document.getElementById('coffeeDropdown');
+  /* ---------- Tabung dropdown ---------- */
+  var tabungBtn = document.getElementById('tabung-btn');
+  var dropdown = document.getElementById('tabung-dropdown');
 
   function closeDropdown(){
     dropdown.classList.remove('show');
-    coffeeBtn.setAttribute('aria-expanded', 'false');
+    tabungBtn.setAttribute('aria-expanded', 'false');
   }
-  function toggleDropdown(e){
-    e.stopPropagation();
+  window.toggleTabungMenu = function(){
     var isOpen = dropdown.classList.toggle('show');
-    coffeeBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  }
-  coffeeBtn.addEventListener('click', toggleDropdown);
+    tabungBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  };
 
   document.addEventListener('click', function(e){
-    if(!dropdown.contains(e.target) && e.target !== coffeeBtn){
+    if(!dropdown.contains(e.target) && !tabungBtn.contains(e.target)){
       closeDropdown();
     }
   });
