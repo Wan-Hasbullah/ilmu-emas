@@ -49,8 +49,9 @@
     <script>
         const timestamp = new Date().getTime();
 
-        // Fail data untuk MAKLUMAN TIDAK TETAP sahaja.
-        // MAKLUMAN TETAP (Public Gold QnA & Talk Show mingguan) dikira secara automatik dalam kod di bawah.
+        // Kedua-dua MAKLUMAN TETAP (mingguan) dan MAKLUMAN TIDAK TETAP kini
+        // diambil terus dari satu fail data: ../js/makluman-terkini-data.js
+        // (menyediakan array maklumanTetapData & maklumanTerkiniData)
         const scriptMaklumanTerkini = document.createElement('script');
         scriptMaklumanTerkini.src = "../js/makluman-terkini-data.js?v=" + timestamp;
         document.head.appendChild(scriptMaklumanTerkini);
@@ -61,31 +62,10 @@
 
         // =====================================================================
         // MAKLUMAN TETAP (FIXED / BERULANG SETIAP MINGGU)
-        // Dikira secara automatik setiap minggu berdasarkan hari & waktu.
+        // Senarai program datang dari maklumanTetapData (../js/makluman-terkini-data.js).
+        // Sistem hanya mengira tarikh/masa sesi berdasarkan dayOfWeek & waktu yang diberi.
         // dayOfWeek mengikut standard JavaScript: Ahad=0, Isnin=1, ... Rabu=3, Sabtu=6
         // =====================================================================
-        const fixedEvents = [
-            {
-                title: "Public Gold QnA",
-                caption: "Sesi soal jawab mingguan bersama pasukan Public Gold. Bertanya apa sahaja berkaitan simpanan emas, pelaburan dan produk Public Gold.",
-                link: "https://g100.my/public-gold-q-n-a/",
-                dayOfWeek: 3, // Rabu
-                startHour: 12,
-                startMinute: 30,
-                endHour: 13,
-                endMinute: 30
-            },
-            {
-                title: "Talk Show",
-                caption: "Talk Show mingguan santai berkaitan ilmu kewangan, simpanan emas dan perkongsian bersama tetamu jemputan.",
-                link: "https://g100.my/talkshow/",
-                dayOfWeek: 3, // Rabu
-                startHour: 21,
-                startMinute: 0,
-                endHour: 22,
-                endMinute: 0
-            }
-        ];
 
         // Kira tarikh/masa mula & tamat sesi mingguan yang relevan (semasa jika LIVE, atau akan datang jika belum/sudah tamat)
         function getWeeklyOccurrence(dayOfWeek, startH, startM, endH, endM, now) {
@@ -189,12 +169,13 @@
             if (!container) return;
 
             const now = new Date();
+            const senaraiTetap = typeof maklumanTetapData !== 'undefined' ? maklumanTetapData : [];
             const senaraiTidakTetap = typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : [];
 
             let entries = [];
 
             // 1. Proses MAKLUMAN TETAP (mingguan)
-            fixedEvents.forEach(entry => {
+            senaraiTetap.forEach(entry => {
                 const status = getFixedEventStatus(entry, now);
                 entries.push({
                     title: entry.title,
