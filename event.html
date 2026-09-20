@@ -236,11 +236,45 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
             transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
             min-width: 0;
+            /* Ruang untuk sticky header + filter supaya kad tidak terlindung selepas scroll */
+            scroll-margin-top: calc(var(--event-header-h) + env(safe-area-inset-top, 0px) + 96px);
         }
         .event-card:hover {
             transform: translateY(-4px);
             border-color: var(--event-border-strong);
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.08);
+        }
+
+        /* Pulse + highlight selepas Copy */
+        .event-card.is-highlighted {
+            animation: event-pulse 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+        }
+        @keyframes event-pulse {
+            0% {
+                transform: scale(1);
+                border-color: var(--event-border);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+            25% {
+                transform: scale(1.018);
+                border-color: var(--event-gold);
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 6px rgba(212, 175, 55, 0.22), 0 0 36px rgba(212, 175, 55, 0.28);
+            }
+            45% {
+                transform: scale(1.006);
+                border-color: var(--event-gold-light);
+                box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(212, 175, 55, 0.12), 0 0 20px rgba(212, 175, 55, 0.14);
+            }
+            65% {
+                transform: scale(1.014);
+                border-color: var(--event-gold);
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 5px rgba(212, 175, 55, 0.18), 0 0 30px rgba(212, 175, 55, 0.22);
+            }
+            100% {
+                transform: scale(1);
+                border-color: var(--event-border);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(212, 175, 55, 0);
+            }
         }
 
         .event-card-top {
@@ -303,10 +337,19 @@
             flex: 1;
         }
 
+        /* ---------- ACTIONS (LIHAT EVENT + COPY) ---------- */
+        .event-actions {
+            display: flex;
+            align-items: stretch;
+            gap: 10px;
+        }
+
         .event-btn {
             display: flex;
             align-items: center;
             justify-content: center;
+            flex: 1 1 auto;
+            min-width: 0;
             min-height: 48px;
             padding: 0 20px;
             border-radius: var(--event-radius-sm);
@@ -319,6 +362,39 @@
         }
         .event-btn:hover { filter: brightness(1.08); }
         .event-btn:active { transform: scale(0.98); }
+
+        .event-copy {
+            position: relative;
+            flex: 0 0 48px;
+            width: 48px;
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--event-radius-sm);
+            background: var(--event-gold-soft);
+            border: 1px solid var(--event-border-strong);
+            color: var(--event-gold);
+            font-size: 16px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+        }
+        .event-copy:hover {
+            background: rgba(212, 175, 55, 0.22);
+            border-color: var(--event-gold);
+            color: var(--event-gold-light);
+        }
+        .event-copy:active { transform: scale(0.94); }
+        .event-copy i { transition: transform 0.25s ease; }
+
+        .event-copy.is-copied {
+            background: linear-gradient(135deg, var(--event-gold-light), var(--event-gold));
+            border-color: var(--event-gold);
+            color: #0a0a0a;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.18);
+        }
+        .event-copy.is-copied i { transform: scale(1.12); }
 
         .event-empty {
             grid-column: 1 / -1;
@@ -359,6 +435,21 @@
                 animation-delay: 0s !important;
                 transition-duration: 0.01ms !important;
             }
+            /* Kekalkan highlight statik ringkas tanpa pergerakan */
+            .event-card.is-highlighted {
+                animation: event-highlight-static 1.4s linear both !important;
+                animation-duration: 1.4s !important;
+            }
+            @keyframes event-highlight-static {
+                0%, 70% {
+                    border-color: var(--event-gold);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 0 4px rgba(212, 175, 55, 0.2);
+                }
+                100% {
+                    border-color: var(--event-border);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(212, 175, 55, 0);
+                }
+            }
         }
     </style>
 </head>
@@ -393,6 +484,8 @@
         &copy; <span id="event-year"></span> Ilmu Emas
     </footer>
 
+    <span class="event-sr-only" id="event-copy-status" role="status" aria-live="polite"></span>
+
     <script>
         (function () {
             'use strict';
@@ -400,21 +493,21 @@
             /* ==========================================================
                DATA EVENT
                Untuk tambah event baru, tambah satu object di hujung array.
-               category mesti salah satu: Umum, Anak Muda, Veteran,
+               category mesti salah satu: Fizikal, Anak Muda, Veteran,
                Mahasiswa, Online (atau tambah kategori baru dalam
                EVENT_FILTERS di bawah).
                ========================================================== */
             const events = [
                 {
                     title: "Seminar Kaya Dengan Emas",
-                    category: "Umum",
+                    category: "Fizikal",
                     audience: "Terbuka",
                     description: "Seminar yang membimbing anda memahami emas sebagai aset simpanan dan pelaburan jangka panjang.",
                     url: "https://pg2u.my/app/event/wanhasbullah"
                 },
                 {
                     title: "Seminar Membina RM1 Juta Pertama",
-                    category: "Umum",
+                    category: "Fizikal",
                     audience: "Terbuka",
                     description: "Pelajari langkah dan strategi asas untuk membina kekayaan menuju sasaran RM1 juta pertama anda.",
                     url: "https://g100.my/seminar-membina-satu-juta-pertama/"
@@ -442,7 +535,7 @@
                 },
                 {
                     title: "Karnival Kaya Dengan Emas",
-                    category: "Umum",
+                    category: "Fizikal",
                     audience: "Terbuka",
                     description: "Karnival yang menghimpunkan ilmu, aktiviti dan komuniti untuk sesiapa yang berminat dengan emas.",
                     url: "https://g100.my/karnival-kaya-dengan-emas/"
@@ -459,7 +552,7 @@
             /* Label filter (label paparan) dan kategori sebenar (value) */
             const EVENT_FILTERS = [
                 { label: "SEMUA",      value: "Semua" },
-                { label: "UMUM",       value: "Umum" },
+                { label: "FIZIKAL",    value: "Fizikal" },
                 { label: "ANAK MUDA",  value: "Anak Muda" },
                 { label: "VETERAN",    value: "Veteran" },
                 { label: "MAHASISWA",  value: "Mahasiswa" },
@@ -468,7 +561,7 @@
 
             /* Icon Font Awesome mengikut kategori */
             const EVENT_ICONS = {
-                "Umum":      "fa-microphone-lines",
+                "Fizikal":   "fa-microphone-lines",
                 "Anak Muda": "fa-rocket",
                 "Veteran":   "fa-medal",
                 "Mahasiswa": "fa-graduation-cap",
@@ -479,14 +572,97 @@
             const filterEl = document.getElementById('event-filter');
             const gridEl = document.getElementById('event-list');
             const countEl = document.getElementById('event-count');
+            const copyStatusEl = document.getElementById('event-copy-status');
+            const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
             let activeFilter = "Semua";
             let switchTimer = null;
+            let highlightToken = 0;
 
             function el(tag, className, text) {
                 const node = document.createElement(tag);
                 if (className) node.className = className;
                 if (text !== undefined) node.textContent = text;
                 return node;
+            }
+
+            /* ---------- COPY HELPERS ---------- */
+            function copyText(text) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    return navigator.clipboard.writeText(text).catch(function () {
+                        return legacyCopy(text);
+                    });
+                }
+                return legacyCopy(text);
+            }
+
+            function legacyCopy(text) {
+                return new Promise(function (resolve, reject) {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.setAttribute('readonly', '');
+                    ta.style.position = 'fixed';
+                    ta.style.top = '0';
+                    ta.style.left = '-9999px';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    ta.setSelectionRange(0, text.length);
+                    let ok = false;
+                    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                    document.body.removeChild(ta);
+                    ok ? resolve() : reject(new Error('copy-failed'));
+                });
+            }
+
+            function showCopyFeedback(btn, iconEl, success) {
+                clearTimeout(btn._resetTimer);
+                iconEl.className = success ? 'fa-solid fa-check' : 'fa-solid fa-xmark';
+                btn.classList.toggle('is-copied', success);
+                copyStatusEl.textContent = '';
+                setTimeout(function () {
+                    copyStatusEl.textContent = success ? 'Pautan event berjaya disalin' : 'Pautan event gagal disalin';
+                }, 30);
+                btn._resetTimer = setTimeout(function () {
+                    btn.classList.remove('is-copied');
+                    iconEl.className = 'fa-regular fa-copy';
+                }, 1800);
+            }
+
+            /* ---------- SCROLL + HIGHLIGHT ---------- */
+            function pulseCard(card) {
+                card.classList.remove('is-highlighted');
+                void card.offsetWidth; /* restart animation */
+                card.classList.add('is-highlighted');
+                card.addEventListener('animationend', function done(e) {
+                    if (e.target !== card) return;
+                    card.classList.remove('is-highlighted');
+                    card.removeEventListener('animationend', done);
+                });
+            }
+
+            function scrollToCardAndPulse(card) {
+                const token = ++highlightToken;
+                const behavior = reduceMotionQuery.matches ? 'auto' : 'smooth';
+
+                card.scrollIntoView({ behavior: behavior, block: 'start', inline: 'nearest' });
+
+                /* Tunggu scroll berhenti, kemudian mulakan animasi */
+                let lastY = window.pageYOffset;
+                let stableFrames = 0;
+                const startedAt = performance.now();
+
+                function check() {
+                    if (token !== highlightToken) return;
+                    const y = window.pageYOffset;
+                    stableFrames = (Math.abs(y - lastY) < 0.5) ? stableFrames + 1 : 0;
+                    lastY = y;
+                    if (stableFrames >= 6 || performance.now() - startedAt > 1800) {
+                        pulseCard(card);
+                        return;
+                    }
+                    requestAnimationFrame(check);
+                }
+                requestAnimationFrame(check);
             }
 
             function buildCard(ev) {
@@ -514,12 +690,33 @@
 
                 card.appendChild(el('p', '', ev.description));
 
+                const actions = el('div', 'event-actions');
+
                 const link = el('a', 'event-btn', 'LIHAT EVENT \u2192');
                 link.href = ev.url;
                 link.target = '_blank';
                 link.rel = 'noopener noreferrer';
                 link.setAttribute('aria-label', 'Lihat event ' + ev.title + ' (buka dalam tab baharu)');
-                card.appendChild(link);
+                actions.appendChild(link);
+
+                const copyBtn = el('button', 'event-copy');
+                copyBtn.type = 'button';
+                copyBtn.title = 'Salin pautan';
+                copyBtn.setAttribute('aria-label', 'Salin pautan event ' + ev.title);
+                const copyIcon = el('i', 'fa-regular fa-copy');
+                copyIcon.setAttribute('aria-hidden', 'true');
+                copyBtn.appendChild(copyIcon);
+                copyBtn.addEventListener('click', function () {
+                    copyText(ev.url).then(function () {
+                        showCopyFeedback(copyBtn, copyIcon, true);
+                        scrollToCardAndPulse(card);
+                    }).catch(function () {
+                        showCopyFeedback(copyBtn, copyIcon, false);
+                    });
+                });
+                actions.appendChild(copyBtn);
+
+                card.appendChild(actions);
 
                 return card;
             }
