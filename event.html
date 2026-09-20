@@ -569,6 +569,9 @@
             };
             const EVENT_DEFAULT_ICON = "fa-calendar-days";
 
+            /* URL asas halaman event; butang Copy menyalin BASE + #slug */
+            const EVENT_SHARE_BASE = "https://ilmu-emas.pages.dev/event";
+
             const filterEl = document.getElementById('event-filter');
             const gridEl = document.getElementById('event-list');
             const countEl = document.getElementById('event-count');
@@ -718,7 +721,7 @@
                 copyIcon.setAttribute('aria-hidden', 'true');
                 copyBtn.appendChild(copyIcon);
                 copyBtn.addEventListener('click', function () {
-                    copyText(ev.url).then(function () {
+                    copyText(EVENT_SHARE_BASE + '#' + card.id).then(function () {
                         showCopyFeedback(copyBtn, copyIcon, true);
                         scrollToCardAndPulse(card);
                     }).catch(function () {
