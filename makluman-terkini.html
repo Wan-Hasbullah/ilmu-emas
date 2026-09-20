@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arkib Makluman Terkini - Gold Saver</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #09090b;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-gray-400 min-h-screen">
+
+    <nav class="sticky top-0 z-50 bg-zinc-900/90 backdrop-blur-md border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+        <a href="../index.html" class="text-amber-400 font-black text-xl tracking-wider uppercase flex items-center gap-2">
+            <i class="fa-solid fa-chevron-left text-sm text-gray-400"></i> Ilmu Emas
+        </a>
+        <span class="text-xs bg-zinc-800 px-2 py-1 rounded text-zinc-400 font-medium border border-zinc-700">Jadual Terkini & LIVE</span>
+    </nav>
+
+    <main class="max-w-md mx-auto px-4 pt-6 md:max-w-xl pb-16">
+        <header class="mb-8">
+            <h1 class="text-2xl font-extrabold text-white">Log Makluman & Talkshow</h1>
+            <p class="text-xs text-gray-500 mt-1">Hanya memaparkan program akan datang dan yang sedang berlangsung.</p>
+        </header>
+
+        <div class="space-y-4" id="makluman-container">
+            </div>
+    </main>
+
+    <script>
+        const timestamp = new Date().getTime();
+
+        // Fail data untuk MAKLUMAN TIDAK TETAP sahaja.
+        // MAKLUMAN TETAP (Public Gold QnA & Talk Show mingguan) dikira secara automatik dalam kod di bawah.
+        const scriptMaklumanTerkini = document.createElement('script');
+        scriptMaklumanTerkini.src = "../js/makluman-terkini-data.js?v=" + timestamp;
+        document.head.appendChild(scriptMaklumanTerkini);
+    </script>
+
+    <script>
+        let countdownInterval;
+
+        // =====================================================================
+        // MAKLUMAN TETAP (FIXED / BERULANG SETIAP MINGGU)
+        // Dikira secara automatik setiap minggu berdasarkan hari & waktu.
+        // dayOfWeek mengikut standard JavaScript: Ahad=0, Isnin=1, ... Rabu=3, Sabtu=6
+        // =====================================================================
+        const fixedEvents = [
+            {
+                title: "Public Gold QnA",
+                caption: "Sesi soal jawab mingguan bersama pasukan Public Gold. Bertanya apa sahaja berkaitan simpanan emas, pelaburan dan produk Public Gold.",
+                link: "https://g100.my/public-gold-q-n-a/",
+                dayOfWeek: 3, // Rabu
+                startHour: 12,
+                startMinute: 30,
+                endHour: 13,
+                endMinute: 30
+            },
+            {
+                title: "Talk Show",
+                caption: "Talk Show mingguan santai berkaitan ilmu kewangan, simpanan emas dan perkongsian bersama tetamu jemputan.",
+                link: "https://g100.my/talkshow/",
+                dayOfWeek: 3, // Rabu
+                startHour: 21,
+                startMinute: 0,
+                endHour: 22,
+                endMinute: 0
+            }
+        ];
+
+        // Kira tarikh/masa mula & tamat sesi mingguan yang relevan (semasa jika LIVE, atau akan datang jika belum/sudah tamat)
+        function getWeeklyOccurrence(dayOfWeek, startH, startM, endH, endM, now) {
+            let occurrence = new Date(now);
+            let diffDays = (dayOfWeek - now.getDay() + 7) % 7;
+            occurrence.setDate(now.getDate() + diffDays);
+            occurrence.setHours(startH, startM, 0, 0);
+
+            let endTime = new Date(occurrence);
+            endTime.setHours(endH, endM, 0, 0);
+
+            // Jika sesi minggu ini (hari ini) sudah tamat, lompat ke minggu depan
+            if (now >= endTime) {
+                occurrence.setDate(occurrence.getDate() + 7);
+                endTime.setDate(endTime.getDate() + 7);
+            }
+
+            return { start: occurrence, end: endTime };
+        }
+
+        // =====================================================================
+        // FUNGSI FORMAT COUNTDOWN & BADGE STATUS (dikongsi oleh tetap & tidak tetap)
+        // =====================================================================
+        function formatCountdownHTML(difference) {
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            let countdownText = "";
+            if (days > 0) countdownText += `${days}h `;
+            countdownText += `${hours.toString().padStart(2, '0')}j ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+
+            return `<span class="text-amber-400/90 font-mono text-[11px] font-semibold bg-amber-400/5 px-2 py-0.5 rounded border border-amber-400/10 inline-flex items-center gap-1"><i class="fa-regular fa-clock text-[9px]"></i> Mula: ${countdownText}</span>`;
+        }
+
+        const LIVE_BADGE_HTML = "<span class='text-emerald-400 inline-flex items-center gap-1 bg-emerald-400/5 px-2 py-0.5 rounded border border-emerald-400/10 text-[10px]'><span class='w-1 h-1 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>";
+
+        // Status untuk MAKLUMAN TETAP (mingguan)
+        function getFixedEventStatus(entry, now) {
+            const occ = getWeeklyOccurrence(entry.dayOfWeek, entry.startHour, entry.startMinute, entry.endHour, entry.endMinute, now);
+
+            if (now >= occ.start && now < occ.end) {
+                return {
+                    isLive: true,
+                    isExpired: false,
+                    sortDate: occ.start,
+                    badgeHTML: LIVE_BADGE_HTML,
+                    buttonLabel: "Sedang Berlangsung"
+                };
+            }
+
+            const difference = occ.start.getTime() - now.getTime();
+            return {
+                isLive: false,
+                isExpired: false,
+                sortDate: occ.start,
+                badgeHTML: formatCountdownHTML(difference),
+                buttonLabel: "Lihat"
+            };
+        }
+
+        // Status untuk MAKLUMAN TIDAK TETAP (tarikh tunggal dari makluman-terkini-data.js)
+        function getIrregularEventStatus(entry, now) {
+            if (!entry.date) {
+                return { isLive: false, isExpired: true, sortDate: null, badgeHTML: "", buttonLabel: "Lihat" };
+            }
+
+            const targetTime = new Date(entry.date).getTime();
+            const difference = targetTime - now.getTime();
+
+            if (difference <= 0) {
+                // Selesai dalam tempoh 3 jam (10,800,000 ms) dianggap masih LIVE sekarang
+                if (difference > -10800000) {
+                    return {
+                        isLive: true,
+                        isExpired: false,
+                        sortDate: new Date(targetTime),
+                        badgeHTML: LIVE_BADGE_HTML,
+                        buttonLabel: "Sedang Berlangsung"
+                    };
+                }
+                // Sudah lebih 3 jam -> tamat, buang secara automatik
+                return { isLive: false, isExpired: true, sortDate: null, badgeHTML: "", buttonLabel: "Lihat" };
+            }
+
+            return {
+                isLive: false,
+                isExpired: false,
+                sortDate: new Date(targetTime),
+                badgeHTML: formatCountdownHTML(difference),
+                buttonLabel: "Lihat"
+            };
+        }
+
+        // =====================================================================
+        // GABUNG, TAPIS, SUSUN KRONOLOGI, DAN PAPAR
+        // =====================================================================
+        function renderGabunganCards() {
+            const container = document.getElementById('makluman-container');
+            if (!container) return;
+
+            const now = new Date();
+            const senaraiTidakTetap = typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : [];
+
+            let entries = [];
+
+            // 1. Proses MAKLUMAN TETAP (mingguan)
+            fixedEvents.forEach(entry => {
+                const status = getFixedEventStatus(entry, now);
+                entries.push({
+                    title: entry.title,
+                    caption: entry.caption,
+                    link: entry.link,
+                    ...status
+                });
+            });
+
+            // 2. Proses MAKLUMAN TIDAK TETAP (dari makluman-terkini-data.js)
+            senaraiTidakTetap.forEach(entry => {
+                const status = getIrregularEventStatus(entry, now);
+                if (status.isExpired) return; // buang automatik jika sudah tamat
+                entries.push({
+                    title: entry.title,
+                    caption: entry.caption,
+                    link: entry.link,
+                    ...status
+                });
+            });
+
+            // 3. TAPIS (buang yang tamat - jaga-jaga)
+            entries = entries.filter(item => !item.isExpired);
+
+            // 4. SUSUN KRONOLOGI (tarikh/masa terdekat di atas sekali)
+            entries.sort((a, b) => {
+                const dateA = a.sortDate ? a.sortDate.getTime() : Infinity;
+                const dateB = b.sortDate ? b.sortDate.getTime() : Infinity;
+                return dateA - dateB;
+            });
+
+            container.innerHTML = '';
+
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 border border-dashed border-zinc-800 rounded-2xl bg-zinc-900/20">
+                        <i class="fa-solid fa-calendar-xmark text-zinc-600 text-2xl mb-2 block"></i>
+                        <p class="text-xs text-zinc-500">Tiada program atau talkshow terkini buat masa ini.</p>
+                    </div>`;
+                return;
+            }
+
+            // 5. JANA HTML KAD
+            entries.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 shadow-xl backdrop-blur-sm hover:border-zinc-700/80 transition-all duration-300 flex flex-col justify-between";
+
+                const pautanAktif = item.link || '#';
+
+                const btnClass = item.isLive
+                    ? "inline-flex items-center gap-1.5 text-[11px] font-bold text-zinc-950 bg-emerald-400 hover:bg-emerald-300 px-3 py-1.5 rounded-lg transition-all duration-200 group"
+                    : "inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-400 bg-amber-400/10 hover:bg-amber-400 hover:text-zinc-950 px-3 py-1.5 rounded-lg transition-all duration-200 group";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
+                            <h3 class="text-sm font-bold text-white leading-snug">${item.title}</h3>
+                            <div class="card-countdown-ticker shrink-0">
+                                ${item.badgeHTML}
+                            </div>
+                        </div>
+                        <p class="text-xs text-zinc-500 leading-relaxed text-justify">
+                            ${item.caption}
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex justify-end">
+                        <a href="${pautanAktif}" target="_blank" class="${btnClass}">
+                            ${item.buttonLabel} <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ENGINE LIVE REFRESH SETIAP SAAT (countdown, status LIVE, dan susunan sentiasa dikira semula)
+        function startLiveCountdowns() {
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(renderGabunganCards, 1000);
+        }
+
+        // Jalankan sistem selepas fail data tidak tetap selamat dimuatkan
+        window.addEventListener('load', () => {
+            renderGabunganCards();
+            startLiveCountdowns();
+        });
+    </script>
+</body>
+</html>
