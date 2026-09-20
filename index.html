@@ -408,6 +408,79 @@
       60%  { box-shadow: 0 0 0 4px rgba(212,175,55,0.4), 0 0 20px rgba(212,175,55,0.45); }
       100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); }
     }
+
+    /* ── Makluman Terkini: Kad Premium Cerah (menonjol dari tema gelap) ── */
+    .mt-card {
+      background: linear-gradient(160deg, #fffdf5 0%, #fff3d6 45%, #fde8b0 100%);
+      border: 1px solid rgba(180,131,7,0.35);
+      border-radius: 20px;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 18px rgba(251,191,36,0.14);
+      overflow: hidden;
+    }
+    .mt-item {
+      padding: 16px;
+      transition: background 0.2s ease;
+    }
+    .mt-item:hover {
+      background: rgba(217,119,6,0.06);
+    }
+    .mt-item + .mt-item {
+      border-top: 1px solid rgba(180,131,7,0.18);
+    }
+    .mt-badge {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+    .mt-badge-g100 {
+      color: #92400e;
+      background: rgba(217,119,6,0.14);
+      border: 1px solid rgba(217,119,6,0.3);
+    }
+    .mt-badge-info {
+      color: #0e7490;
+      background: rgba(6,182,212,0.14);
+      border: 1px solid rgba(6,182,212,0.3);
+    }
+    .mt-title { color: #1c1917; }
+    .mt-caption { color: #57534e; }
+    .mt-countdown-normal { color: #78350f; }
+    .mt-countdown-soon { color: #b45309; }
+    .mt-countdown-urgent { color: #be123c; }
+    .mt-countdown-live { color: #047857; }
+    .mt-lihat-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: #1c1917;
+      background: linear-gradient(135deg, #fde68a 0%, #fbbf24 55%, #d97706 100%);
+      box-shadow: 0 6px 14px rgba(217,119,6,0.35);
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+    }
+    .mt-lihat-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(217,119,6,0.45);
+    }
+    .mt-lihat-btn:active { transform: scale(0.96); }
+    .mt-empty {
+      text-align: center;
+      padding: 32px 16px;
+      color: #78350f;
+      font-size: 12px;
+      border: 1px dashed rgba(180,131,7,0.35);
+      border-radius: 20px;
+      background: linear-gradient(160deg, #fffdf5 0%, #fff3d6 100%);
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
@@ -617,7 +690,7 @@
   </a>
 </section>
 
-    <!-- ── Makluman Terkini (Dynamic dari program-data.js) ── -->
+    <!-- ── Makluman Terkini (Dynamic dari js/makluman-terkini-data.js) ── -->
     <div class="space-y-2.5 pt-2">
       <div class="flex items-center justify-between px-1">
         <div class="flex items-center gap-2">
@@ -629,7 +702,7 @@
         </a>
       </div>
 
-      <div id="makluman-container" class="bg-zinc-900 border border-zinc-800/80 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm">
+      <div id="makluman-container" class="mt-card">
         <!-- Items rendered by JS below -->
       </div>
     </div>
@@ -698,9 +771,9 @@
       <div class="space-y-2">
         <h3 class="font-black text-lg text-white tracking-tight">Strategi Tabungan Bijak</h3>
         <div class="bg-zinc-950 border border-zinc-800/50 rounded-xl p-4 text-xs text-zinc-300 leading-relaxed font-medium italic space-y-1 text-center shadow-inner">
-          <p>“ Setiap bulan menabung emas secara konsisten, ”</p>
+          <p>" Setiap bulan menabung emas secara konsisten, "</p>
           <p class="text-rose-400 font-semibold">Harga emas turun kita borong,</p>
-          <p class="text-amber-400 font-semibold">Harga emas naik kita untung. ”</p>
+          <p class="text-amber-400 font-semibold">Harga emas naik kita untung. "</p>
         </div>
       </div>
 
@@ -818,126 +891,119 @@
     </button>
   </nav>
 
-  <!-- ── Program Data dari js/program-data.js ── -->
-  <script src="js/program-data.js"></script>
+  <!-- ── Makluman Terkini Data dari js/makluman-terkini-data.js ── -->
+  <script src="js/makluman-terkini-data.js"></script>
 
   <script>
     const timestampHome = new Date().getTime();
-    
-    const scriptP = document.createElement('script');
-    scriptP.src = "js/program-data.js?v=" + timestampHome;
-    document.head.appendChild(scriptP);
 
-    const scriptT = document.createElement('script');
-    scriptT.src = "js/talkshow-data.js?v=" + timestampHome;
-    document.head.appendChild(scriptT);
+    const scriptM = document.createElement('script');
+    scriptM.src = "js/makluman-terkini-data.js?v=" + timestampHome;
+    document.head.appendChild(scriptM);
   </script>
 
   <script>
-    /* ── Makluman Terkini: Render Gabungan dari programData & talkshowData ── */
+    /* ── Makluman Terkini: Render daripada js/makluman-terkini-data.js ──
+       - Ambil sumber data sama seperti makluman-terkini.html
+       - Susun kronologi, hadkan maksimum 5 makluman aktif
+       - Countdown live setiap saat, status LIVE SEKARANG
+       - Makluman tamat dibuang automatik & digantikan makluman seterusnya
+       - Butang "Lihat" sentiasa ke https://ilmu-emas.pages.dev/makluman-terkini ── */
     window.addEventListener("load", function renderMakluman() {
       const container = document.getElementById("makluman-container");
       if (!container) return;
       container.innerHTML = ''; // Bersihkan container asal
 
-      const dataProg = typeof programData !== 'undefined' ? programData : [];
-      const dataTalk = typeof talkshowData !== 'undefined' ? talkshowData : [];
+      const sumberData = typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : [];
 
-      // 1. Gabungkan kedua-dua fail data
-      let gabungData = [...dataProg, ...dataTalk];
-
-      // 2. Tapis: Buang program yang sudah tamat sepenuhnya (Melebihi 3 jam selepas waktu mula)
-      let aktifSahaja = gabungData.filter(item => {
+      // 1. Tapis: Buang makluman yang sudah tamat sepenuhnya (melebihi 3 jam selepas waktu mula)
+      let aktifSahaja = sumberData.filter(item => {
         const targetDate = new Date(item.date || item.dateMula);
         const now = new Date();
         // Selesai dalam tempoh 3 jam (10,800,000 ms) masih dianggap aktif/LIVE
         return (targetDate - now) > -10800000;
       });
 
-      // 3. Susun mengikut kronologi (Tarikh terawal/paling dekat diletakkan di atas sekali)
+      // 2. Susun mengikut kronologi (tarikh terawal/paling dekat diletakkan di atas sekali)
       aktifSahaja.sort((a, b) => {
         const dateA = new Date(a.date || a.dateMula).getTime();
         const dateB = new Date(b.date || b.dateMula).getTime();
         return dateA - dateB;
       });
 
-      // 4. Hadkan paparan kepada 2 kad teratas sahaja untuk halaman utama
-      const items = aktifSahaja.slice(0, 2);
+      // 3. Hadkan paparan kepada maksimum 5 makluman aktif sahaja
+      const items = aktifSahaja.slice(0, 5);
 
       if (items.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-8 text-zinc-600 text-xs border border-dashed border-zinc-800 rounded-2xl mx-4">
+          <div class="mt-empty">
             Tiada makluman atau program terkini buat masa ini.
           </div>`;
         return;
       }
 
+      const lihatUrl = "https://ilmu-emas.pages.dev/makluman-terkini";
+
       items.forEach((item, idx) => {
-        const isLast = idx === items.length - 1;
         const tarikhAsal = item.date || item.dateMula;
         const targetDate = new Date(tarikhAsal);
-        const countdownId = "countdown-" + item.id;
-        const pautanAktif = item.link || item.linkLanjut || '#';
+        const countdownId = "mt-countdown-" + (item.id !== undefined && item.id !== null ? item.id : idx);
 
-        // Mengekalkan logik warna kategori asal anda
-        const categoryColor = item.category && item.category.startsWith("G100")
-          ? "text-amber-400 bg-amber-400/10 border border-amber-400/20"
-          : "text-cyan-400 bg-cyan-400/10 border border-cyan-400/20";
-
-        const iconHtml = item.category && item.category.startsWith("G100")
+        // Logik warna kategori
+        const isG100 = item.category && item.category.startsWith("G100");
+        const badgeClass = isG100 ? "mt-badge mt-badge-g100" : "mt-badge mt-badge-info";
+        const iconHtml = isG100
           ? `<i class="fa-solid fa-tower-broadcast text-[9px]"></i>`
           : `<i class="fa-solid fa-graduation-cap text-[9px]"></i>`;
 
-        const divider = !isLast
-          ? `<div class="border-t border-zinc-800/60 mx-4"></div>`
-          : "";
-
         const block = `
-          <div class="p-4 hover:bg-zinc-800/20 transition-colors group">
+          <div class="mt-item group">
             <div class="flex items-start justify-between gap-3">
               <div class="space-y-1.5 flex-1 min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <span class="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${categoryColor}">
+                  <span class="inline-flex items-center gap-1 ${badgeClass}">
                     ${iconHtml} ${item.category || 'INFO'}
                   </span>
                 </div>
-                <h4 class="text-sm font-bold text-zinc-100 group-hover:text-amber-400 transition-colors line-clamp-2 leading-snug">${item.title}</h4>
-                <p class="text-xs text-zinc-500/80 leading-relaxed line-clamp-2">${item.caption}</p>
+                <h4 class="text-sm font-bold mt-title line-clamp-2 leading-snug">${item.title}</h4>
+                <p class="text-xs mt-caption leading-relaxed line-clamp-2">${item.caption}</p>
 
                 <div id="${countdownId}" class="mt-2 flex items-center gap-1.5 flex-wrap">
-                  <i class="fa-regular fa-clock text-[10px] text-zinc-600"></i>
-                  <span class="text-[10px] text-zinc-500 font-medium countdown-label">Mengira...</span>
+                  <i class="fa-regular fa-clock text-[10px] mt-countdown-normal"></i>
+                  <span class="text-[10px] font-semibold mt-countdown-normal countdown-label">Mengira...</span>
                 </div>
               </div>
 
-              <a href="${pautanAktif}" target="_blank"
-                class="p-2 bg-zinc-800/60 hover:bg-amber-400 hover:text-zinc-950 rounded-xl text-amber-400 transition-all flex-shrink-0 mt-0.5">
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              <a href="${lihatUrl}" target="_blank" rel="noopener noreferrer" class="mt-lihat-btn">
+                Lihat <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
               </a>
             </div>
           </div>
-          ${divider}
         `;
 
         container.insertAdjacentHTML("beforeend", block);
 
-        // Fungsi countdown real-time asal anda dengan sokongan status LIVE
+        // Fungsi countdown real-time dengan sokongan status LIVE
         function updateCountdown() {
-          const el = document.querySelector(`#${countdownId} .countdown-label`);
+          const wrap = document.getElementById(countdownId);
+          if (!wrap) return; // kad sudah dibuang (renderMakluman lain telah berjalan)
+          const el = wrap.querySelector(".countdown-label");
+          const iconEl = wrap.querySelector("i");
           if (!el) return;
 
           const now = new Date();
           const diff = targetDate - now;
 
           if (diff <= 0) {
-            if (diff > -10800000) { // Jika dalam tempoh 3 jam waktu siaran
+            if (diff > -10800000) { // Jika dalam tempoh 3 jam waktu siaran, kekal LIVE
               el.textContent = "LIVE SEKARANG";
-              el.className = "text-[10px] font-bold text-emerald-400 countdown-label animate-pulse";
-              el.closest("div").querySelector("i").className = "fa-solid fa-circle text-[8px] text-emerald-400 animate-pulse";
+              el.className = "text-[10px] font-bold mt-countdown-live countdown-label animate-pulse";
+              if (iconEl) iconEl.className = "fa-solid fa-circle text-[8px] mt-countdown-live animate-pulse";
+              setTimeout(updateCountdown, 1000);
             } else {
-              // Jika sudah tamat sepenuhnya, jalankan renderSemula untuk hilangkan kad ini secara automatik
+              // Sudah tamat sepenuhnya (>3 jam) — render semula supaya kad ini hilang
+              // dan makluman seterusnya automatik mengisi tempat kosong (maksimum 5 aktif)
               renderMakluman();
-              return;
             }
             return;
           }
@@ -955,13 +1021,16 @@
 
           el.textContent = label;
 
-          // Pengekalan logik warna kecemasan (urgency) asal anda
+          // Pengekalan logik warna kecemasan (urgency)
           if (diff < 3600000) {
-            el.className = "text-[10px] font-bold text-rose-400 countdown-label";
+            el.className = "text-[10px] font-bold mt-countdown-urgent countdown-label";
+            if (iconEl) iconEl.className = "fa-regular fa-clock text-[10px] mt-countdown-urgent";
           } else if (diff < 86400000) {
-            el.className = "text-[10px] font-bold text-amber-400 countdown-label";
+            el.className = "text-[10px] font-bold mt-countdown-soon countdown-label";
+            if (iconEl) iconEl.className = "fa-regular fa-clock text-[10px] mt-countdown-soon";
           } else {
-            el.className = "text-[10px] text-zinc-500 font-medium countdown-label";
+            el.className = "text-[10px] font-semibold mt-countdown-normal countdown-label";
+            if (iconEl) iconEl.className = "fa-regular fa-clock text-[10px] mt-countdown-normal";
           }
 
           setTimeout(updateCountdown, 1000);
