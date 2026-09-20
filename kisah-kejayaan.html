@@ -234,6 +234,67 @@
       color: #09090b;
     }
     .scroll-nav-btn:active { transform: scale(0.92); }
+
+    /* ═══════════════════════════════════════════
+       NAVIGASI SEKSYEN (Artikel / Video) — STICKY
+       Duduk tepat di bawah header; kedudukan top
+       dikira oleh JS (updateStickyOffset).
+    ═══════════════════════════════════════════ */
+    #section-nav {
+      position: sticky;
+      top: 0; /* dikemas kini oleh JS = tinggi header */
+      z-index: 35; /* di bawah header (40), di atas kategori video (30) */
+      background: rgba(9, 9, 11, 0.92);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(39, 39, 42, 0.7);
+      padding: 10px 16px;
+    }
+    #section-nav .nav-track {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: rgba(24, 24, 27, 0.9);
+      border: 1px solid rgba(63, 63, 70, 0.55);
+      border-radius: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #a1a1aa;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background .25s ease, color .25s ease, box-shadow .25s ease, transform .15s ease;
+    }
+    .nav-btn i { font-size: 11px; }
+    .nav-btn:hover { color: #fde68a; }
+    .nav-btn:active { transform: scale(0.97); }
+    .nav-btn:focus-visible {
+      outline: 2px solid rgba(251,191,36,.7);
+      outline-offset: 2px;
+    }
+    .nav-btn.active {
+      background: linear-gradient(135deg, #fde68a 0%, #fbbf24 55%, #d97706 130%);
+      color: #09090b;
+      box-shadow: 0 0 14px rgba(251,191,36,.28), 0 2px 8px rgba(0,0,0,.4);
+    }
+    .nav-btn.active:hover { color: #09090b; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body class="min-h-screen pb-16 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
@@ -299,11 +360,26 @@
     <div class="gold-divider mx-4"></div>
   </header>
 
+  <!-- ═══════════════ NAVIGASI SEKSYEN (STICKY) — Artikel / Video ═══════════════ -->
+  <nav id="section-nav" aria-label="Navigasi seksyen">
+    <div class="nav-track">
+      <button type="button" class="nav-btn active" id="nav-btn-artikel" data-target="artikel" aria-current="true" onclick="scrollToSection('artikel')">
+        <i class="fa-solid fa-newspaper"></i><span>Artikel</span>
+      </button>
+      <button type="button" class="nav-btn" id="nav-btn-video" data-target="video" onclick="scrollToSection('video')">
+        <i class="fa-solid fa-circle-play"></i><span>Video</span>
+      </button>
+    </div>
+  </nav>
+
   <!-- ═══════════════ A) KISAH TERPILIH — kad link luaran ═══════════════ -->
-  <section class="p-4 space-y-3">
+  <section class="p-4 space-y-3" id="kisah-terpilih">
     <div class="section-label"><i class="fa-solid fa-star"></i><span>Kisah Terpilih</span></div>
     <div class="space-y-4" id="artikel-list-container"></div>
   </section>
+
+  <!-- Penanda kedudukan asal seksyen video (tinggi 0) — untuk pengiraan auto-scroll yang tepat -->
+  <div id="video-section-anchor" aria-hidden="true" style="height:0;"></div>
 
   <!-- ═══════════════ B) KATEGORI (sticky) + VIDEO ═══════════════ -->
   <div id="video-category-sticky">
@@ -382,17 +458,67 @@
     });
 
     /* ────────────────────────────────────────────
-       STICKY OFFSET — kategori video kekal di bawah header
+       STICKY OFFSET — susunan sticky:
+       Header → Navigasi Seksyen → Kategori Video
     ──────────────────────────────────────────── */
     function updateStickyOffset() {
       const header = document.getElementById("app-header");
+      const nav    = document.getElementById("section-nav");
       const sticky = document.getElementById("video-category-sticky");
-      if (header && sticky) {
-        sticky.style.top = header.offsetHeight + "px";
+      if (!header) return;
+      const headerH = header.offsetHeight;
+      if (nav) nav.style.top = headerH + "px";
+      if (sticky) {
+        sticky.style.top = (headerH + (nav ? nav.offsetHeight : 0)) + "px";
       }
     }
     window.addEventListener("load", updateStickyOffset);
     window.addEventListener("resize", updateStickyOffset);
+
+    /* ────────────────────────────────────────────
+       NAVIGASI SEKSYEN — auto-scroll & butang aktif
+    ──────────────────────────────────────────── */
+    /* Jumlah tinggi lapisan sticky (header + nav) */
+    function getStickyStackHeight() {
+      const header = document.getElementById("app-header");
+      const nav    = document.getElementById("section-nav");
+      return (header ? header.offsetHeight : 0) + (nav ? nav.offsetHeight : 0);
+    }
+
+    function scrollToSection(which) {
+      updateStickyOffset();
+      const target = which === "artikel"
+        ? document.getElementById("kisah-terpilih")
+        : document.getElementById("video-section-anchor");
+      if (!target) return;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - getStickyStackHeight();
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    }
+
+    function setActiveNav(which) {
+      ["artikel", "video"].forEach(k => {
+        const b = document.getElementById("nav-btn-" + k);
+        if (!b) return;
+        const on = k === which;
+        b.classList.toggle("active", on);
+        if (on) b.setAttribute("aria-current", "true");
+        else b.removeAttribute("aria-current");
+      });
+    }
+
+    let navTicking = false;
+    function updateActiveNav() {
+      const anchor = document.getElementById("video-section-anchor");
+      if (!anchor) return;
+      const threshold = getStickyStackHeight() + 40;
+      setActiveNav(anchor.getBoundingClientRect().top <= threshold ? "video" : "artikel");
+    }
+    window.addEventListener("scroll", () => {
+      if (navTicking) return;
+      navTicking = true;
+      window.requestAnimationFrame(() => { updateActiveNav(); navTicking = false; });
+    }, { passive: true });
+    window.addEventListener("resize", updateActiveNav);
 
     /* ────────────────────────────────────────────
        BUTANG SCROLL MELAYANG
@@ -563,9 +689,11 @@
     buildVideoFilterBar();
     renderVideos(currentVideoFilter);
     updateStickyOffset();
+    updateActiveNav();
 
     document.addEventListener("DOMContentLoaded", () => {
       updateStickyOffset();
+      updateActiveNav();
       setTimeout(() => handleHashHighlight(), 300);
     });
 
