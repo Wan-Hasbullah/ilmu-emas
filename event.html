@@ -665,8 +665,19 @@
                 requestAnimationFrame(check);
             }
 
+            /* Tukar tajuk kepada slug untuk deep link, cth: #seminar-kaya-dengan-emas */
+            function slugify(text) {
+                return String(text)
+                    .toLowerCase()
+                    .normalize('NFKD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+            }
+
             function buildCard(ev) {
                 const card = el('article', 'event-card');
+                card.id = slugify(ev.title);
 
                 const top = el('div', 'event-card-top');
                 const icon = el('div', 'event-card-icon');
@@ -769,9 +780,49 @@
                 });
             }
 
+            /* ---------- DEEP LINK (#slug) ---------- */
+            function getHashId() {
+                const raw = window.location.hash.replace(/^#/, '');
+                if (!raw) return '';
+                try { return decodeURIComponent(raw); } catch (e) { return raw; }
+            }
+
+            function goToHash() {
+                const id = getHashId();
+                if (!id) return;
+
+                const isEventId = events.some(function (ev) { return slugify(ev.title) === id; });
+                if (!isEventId) return;
+
+                let card = document.getElementById(id);
+
+                /* Jika kad tersorok oleh filter, reset ke SEMUA dahulu */
+                if (!card || !gridEl.contains(card)) {
+                    clearTimeout(switchTimer);
+                    gridEl.classList.remove('is-switching');
+                    activeFilter = "Semua";
+                    filterEl.querySelectorAll('.event-filter-btn').forEach(function (btn) {
+                        btn.setAttribute('aria-pressed', btn.dataset.value === "Semua" ? 'true' : 'false');
+                    });
+                    render();
+                    card = document.getElementById(id);
+                }
+
+                if (card) scrollToCardAndPulse(card);
+            }
+
+            window.addEventListener('hashchange', goToHash);
+
             document.getElementById('event-year').textContent = new Date().getFullYear();
             buildFilters();
             render();
+
+            /* Jalankan selepas halaman siap dimuat supaya kedudukan scroll tepat */
+            if (document.readyState === 'complete') {
+                setTimeout(goToHash, 150);
+            } else {
+                window.addEventListener('load', function () { setTimeout(goToHash, 150); });
+            }
         })();
     </script>
 </body>
