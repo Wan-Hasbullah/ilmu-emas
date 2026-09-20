@@ -891,48 +891,95 @@
     </button>
   </nav>
 
-  <!-- ── Makluman Terkini Data dari js/makluman-terkini-data.js ── -->
-  <script src="js/makluman-terkini-data.js"></script>
-
+  <!-- ── Makluman Terkini Data dari js/makluman-terkini-data.js ──
+       (satu muatan sahaja + cache-bust; fail data guna 'const', jadi
+       TIDAK dimuatkan dua kali supaya tiada ralat "already declared") ── -->
   <script>
     const timestampHome = new Date().getTime();
-
     const scriptM = document.createElement('script');
     scriptM.src = "js/makluman-terkini-data.js?v=" + timestampHome;
+    scriptM.onload = function () { renderMakluman(); };
     document.head.appendChild(scriptM);
   </script>
 
   <script>
     /* ── Makluman Terkini: Render daripada js/makluman-terkini-data.js ──
-       - Ambil sumber data sama seperti makluman-terkini.html
-       - Susun kronologi, hadkan maksimum 5 makluman aktif
-       - Countdown live setiap saat, status LIVE SEKARANG
-       - Makluman tamat dibuang automatik & digantikan makluman seterusnya
+       - maklumanTetapData   : program TETAP berulang setiap minggu (dayOfWeek/startHour/endHour)
+       - maklumanTerkiniData : program TIDAK TETAP / sekali sahaja (date)
+       - Gabung kedua-dua sumber, susun kronologi, hadkan maksimum 5 makluman aktif
+       - Countdown live setiap saat, status LIVE SEKARANG semasa sesi sedang berjalan
+       - Program mingguan yang tamat sesi dikira semula automatik ke minggu depan;
+         program sekali sahaja yang tamat dibuang terus & digantikan makluman seterusnya
        - Butang "Lihat" sentiasa ke https://ilmu-emas.pages.dev/makluman-terkini ── */
-    window.addEventListener("load", function renderMakluman() {
+
+    // Kira sesi terdekat (akan datang / sedang berlangsung) bagi program mingguan berulang
+    function getNextOccurrence(item, now) {
+      const start = new Date(now);
+      const dayDiff = (item.dayOfWeek - now.getDay() + 7) % 7;
+      start.setDate(now.getDate() + dayDiff);
+      start.setHours(item.startHour, item.startMinute, 0, 0);
+
+      const end = new Date(start);
+      end.setHours(item.endHour, item.endMinute, 0, 0);
+      if (end <= start) end.setDate(end.getDate() + 1); // sesi melangkaui tengah malam
+
+      // Jika sesi minggu ini sudah tamat sepenuhnya, lompat automatik ke minggu depan
+      if (end <= now) {
+        start.setDate(start.getDate() + 7);
+        end.setDate(end.getDate() + 7);
+      }
+
+      return { start, end };
+    }
+
+    // Gabungkan program mingguan + program sekali sahaja menjadi satu senarai seragam
+    function binaSenaraiMakluman() {
+      const now = new Date();
+      const tetapArr = typeof maklumanTetapData !== 'undefined' ? maklumanTetapData : [];
+      const terkiniArr = typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : [];
+
+      const gabung = [];
+
+      tetapArr.forEach((item, idx) => {
+        const occ = getNextOccurrence(item, now);
+        gabung.push({
+          uid: "tetap-" + idx,
+          title: item.title,
+          caption: item.caption,
+          start: occ.start,
+          end: occ.end,
+          recurring: true
+        });
+      });
+
+      terkiniArr.forEach((item, idx) => {
+        const start = new Date(item.date);
+        const diff = start - now;
+        if (diff <= -10800000) return; // sudah tamat sepenuhnya (>3 jam), buang terus
+        const end = new Date(start.getTime() + 10800000); // anggaran tempoh siaran 3 jam untuk status LIVE
+        gabung.push({
+          uid: "terkini-" + idx,
+          title: item.title,
+          caption: item.caption,
+          start: start,
+          end: end,
+          recurring: false
+        });
+      });
+
+      // Susun kronologi: sesi LIVE / terdekat diletakkan di atas sekali
+      gabung.sort((a, b) => a.start - b.start);
+
+      // Hadkan paparan kepada maksimum 5 makluman aktif sahaja
+      return gabung.slice(0, 5);
+    }
+
+    function renderMakluman() {
       const container = document.getElementById("makluman-container");
       if (!container) return;
       container.innerHTML = ''; // Bersihkan container asal
 
-      const sumberData = typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : [];
-
-      // 1. Tapis: Buang makluman yang sudah tamat sepenuhnya (melebihi 3 jam selepas waktu mula)
-      let aktifSahaja = sumberData.filter(item => {
-        const targetDate = new Date(item.date || item.dateMula);
-        const now = new Date();
-        // Selesai dalam tempoh 3 jam (10,800,000 ms) masih dianggap aktif/LIVE
-        return (targetDate - now) > -10800000;
-      });
-
-      // 2. Susun mengikut kronologi (tarikh terawal/paling dekat diletakkan di atas sekali)
-      aktifSahaja.sort((a, b) => {
-        const dateA = new Date(a.date || a.dateMula).getTime();
-        const dateB = new Date(b.date || b.dateMula).getTime();
-        return dateA - dateB;
-      });
-
-      // 3. Hadkan paparan kepada maksimum 5 makluman aktif sahaja
-      const items = aktifSahaja.slice(0, 5);
+      const items = binaSenaraiMakluman();
 
       if (items.length === 0) {
         container.innerHTML = `
@@ -944,17 +991,13 @@
 
       const lihatUrl = "https://ilmu-emas.pages.dev/makluman-terkini";
 
-      items.forEach((item, idx) => {
-        const tarikhAsal = item.date || item.dateMula;
-        const targetDate = new Date(tarikhAsal);
-        const countdownId = "mt-countdown-" + (item.id !== undefined && item.id !== null ? item.id : idx);
-
-        // Logik warna kategori
-        const isG100 = item.category && item.category.startsWith("G100");
-        const badgeClass = isG100 ? "mt-badge mt-badge-g100" : "mt-badge mt-badge-info";
-        const iconHtml = isG100
-          ? `<i class="fa-solid fa-tower-broadcast text-[9px]"></i>`
-          : `<i class="fa-solid fa-graduation-cap text-[9px]"></i>`;
+      items.forEach((item) => {
+        const countdownId = "mt-countdown-" + item.uid;
+        const badgeClass = item.recurring ? "mt-badge mt-badge-g100" : "mt-badge mt-badge-info";
+        const iconHtml = item.recurring
+          ? `<i class="fa-solid fa-arrows-rotate text-[9px]"></i>`
+          : `<i class="fa-solid fa-bolt text-[9px]"></i>`;
+        const labelKategori = item.recurring ? "MINGGUAN" : "TERKINI";
 
         const block = `
           <div class="mt-item group">
@@ -962,7 +1005,7 @@
               <div class="space-y-1.5 flex-1 min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
                   <span class="inline-flex items-center gap-1 ${badgeClass}">
-                    ${iconHtml} ${item.category || 'INFO'}
+                    ${iconHtml} ${labelKategori}
                   </span>
                 </div>
                 <h4 class="text-sm font-bold mt-title line-clamp-2 leading-snug">${item.title}</h4>
@@ -983,6 +1026,9 @@
 
         container.insertAdjacentHTML("beforeend", block);
 
+        const occStart = item.start;
+        const occEnd = item.end;
+
         // Fungsi countdown real-time dengan sokongan status LIVE
         function updateCountdown() {
           const wrap = document.getElementById(countdownId);
@@ -992,22 +1038,24 @@
           if (!el) return;
 
           const now = new Date();
-          const diff = targetDate - now;
 
-          if (diff <= 0) {
-            if (diff > -10800000) { // Jika dalam tempoh 3 jam waktu siaran, kekal LIVE
-              el.textContent = "LIVE SEKARANG";
-              el.className = "text-[10px] font-bold mt-countdown-live countdown-label animate-pulse";
-              if (iconEl) iconEl.className = "fa-solid fa-circle text-[8px] mt-countdown-live animate-pulse";
-              setTimeout(updateCountdown, 1000);
-            } else {
-              // Sudah tamat sepenuhnya (>3 jam) — render semula supaya kad ini hilang
-              // dan makluman seterusnya automatik mengisi tempat kosong (maksimum 5 aktif)
-              renderMakluman();
-            }
+          if (now >= occStart && now < occEnd) {
+            el.textContent = "LIVE SEKARANG";
+            el.className = "text-[10px] font-bold mt-countdown-live countdown-label animate-pulse";
+            if (iconEl) iconEl.className = "fa-solid fa-circle text-[8px] mt-countdown-live animate-pulse";
+            setTimeout(updateCountdown, 1000);
             return;
           }
 
+          if (now >= occEnd) {
+            // Sesi ini tamat — render semula supaya:
+            // - program mingguan dikira semula automatik ke sesi minggu depan
+            // - program sekali sahaja dibuang & makluman seterusnya mengisi tempat kosong (maks. 5 aktif)
+            renderMakluman();
+            return;
+          }
+
+          const diff = occStart - now;
           const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
           const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -1038,6 +1086,14 @@
 
         updateCountdown();
       });
+    }
+
+    // Fallback keselamatan: jika onload skrip data terlepas (contohnya cache pelayar),
+    // cuba render semula sebaik halaman siap dimuatkan.
+    window.addEventListener("load", function () {
+      if (typeof maklumanTetapData !== 'undefined' || typeof maklumanTerkiniData !== 'undefined') {
+        renderMakluman();
+      }
     });
   </script>
 
