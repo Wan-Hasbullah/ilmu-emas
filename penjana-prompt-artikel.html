@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Penjana Prompt Artikel Premium</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --bg: #faf9f6;
+    --panel: #ffffff;
+    --line: #e4e4e7;
+    --text: #18181b;
+    --muted: #71717a;
+    --soft: #3f3f46;
+    --accent: #b45309;
+    --accent-bg: rgba(180, 83, 9, 0.07);
+    --accent-line: rgba(180, 83, 9, 0.28);
+    --btn-text: #ffffff;
+    --ok: #15803d;
+    --mono-bg: #f4f4f5;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #09090b; --panel: #18181b; --line: #27272a; --text: #f4f4f5;
+      --muted: #a1a1aa; --soft: #d4d4d8; --accent: #fbbf24;
+      --accent-bg: rgba(251,191,36,0.07); --accent-line: rgba(251,191,36,0.3);
+      --btn-text: #18181b; --ok: #4ade80; --mono-bg: #0f0f11;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #09090b; --panel: #18181b; --line: #27272a; --text: #f4f4f5;
+    --muted: #a1a1aa; --soft: #d4d4d8; --accent: #fbbf24;
+    --accent-bg: rgba(251,191,36,0.07); --accent-line: rgba(251,191,36,0.3);
+    --btn-text: #18181b; --ok: #4ade80; --mono-bg: #0f0f11;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.55; -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 20px 16px 110px; }
+  .top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+  .top h1 { font-size: 1.35rem; font-weight: 800; margin: 0 0 4px; line-height: 1.2; }
+  .top p { margin: 0; color: var(--muted); font-size: 0.85rem; max-width: 60ch; }
+  .theme-btn {
+    margin-left: auto; flex-shrink: 0; width: 38px; height: 38px; border-radius: 9999px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--muted);
+    cursor: pointer; font-size: 1rem; display: grid; place-items: center;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent-line); }
+  .notice {
+    border: 1px solid var(--accent-line); background: var(--accent-bg); color: var(--soft);
+    border-radius: 12px; padding: 12px 14px; font-size: 0.82rem; margin-bottom: 20px;
+  }
+  .notice strong { color: var(--accent); }
+  .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
+    .preview-col { position: sticky; top: 16px; }
+    .wrap { padding-bottom: 40px; }
+    .mobile-bar { display: none !important; }
+  }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .card h2 { font-size: 0.95rem; font-weight: 700; margin: 0 0 14px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--soft); margin-bottom: 6px; }
+  .field .hint { font-weight: 400; color: var(--muted); }
+  input[type=text], input[type=url], input[type=date], textarea {
+    width: 100%; font: inherit; font-size: 0.9rem; color: var(--text);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+  }
+  textarea { min-height: 220px; resize: vertical; line-height: 1.6; }
+  input:focus, textarea:focus, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
+  }
+  .meta { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); margin-top: 5px; }
+  .ref-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; margin-bottom: 8px; align-items: center; }
+  @media (max-width: 520px) { .ref-row { grid-template-columns: 1fr auto; } .ref-row input:nth-child(2) { grid-column: 1; } .ref-row .x { grid-row: 1 / span 2; grid-column: 2; } }
+  .x {
+    width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: transparent;
+    color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1;
+  }
+  .x:hover { color: #dc2626; border-color: #dc2626; }
+  .btn {
+    font: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 12px;
+    padding: 11px 16px; border: 1px solid var(--line); background: transparent; color: var(--soft);
+  }
+  .btn:hover { color: var(--accent); border-color: var(--accent-line); }
+  .btn.primary { background: var(--accent); color: var(--btn-text); border-color: var(--accent); }
+  .btn.primary:hover { filter: brightness(1.08); color: var(--btn-text); }
+  .btn.ok { background: var(--ok) !important; border-color: var(--ok) !important; color: #fff !important; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .preview-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .preview-head h2 { margin: 0; }
+  .preview-head .count { margin-left: auto; font-size: 0.72rem; color: var(--muted); }
+  pre#out {
+    margin: 0 0 14px; background: var(--mono-bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.74rem; line-height: 1.6; color: var(--soft);
+    white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere;
+    max-height: 62vh; overflow: auto;
+  }
+  .mobile-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg); border-top: 1px solid var(--line); display: flex; gap: 10px;
+  }
+  .mobile-bar .btn { flex: 1; }
+  .toast-sr { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Penjana prompt artikel premium</h1>
+      <p>Isi maklumat artikel. Prompt lengkap dijana serta-merta, sedia untuk disalin ke Claude.</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Tukar tema Light/Dark" title="Tukar tema">◐</button>
+  </div>
+
+  <div class="notice">
+    <strong>Ingat:</strong> prompt ini tidak mengandungi kod HTML. Lampirkan fail template HTML anda (master template) bersama prompt ini semasa menghantar kepada Claude.
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>Maklumat artikel baharu</h2>
+
+        <div class="field">
+          <label for="tajuk">Tajuk artikel</label>
+          <input type="text" id="tajuk" placeholder="cth: Simpan emas secara konsisten" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="penulis">Penulis</label>
+          <input type="text" id="penulis" placeholder="Nama penulis" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="tarikh">Tarikh diterbitkan</label>
+          <input type="date" id="tarikh">
+        </div>
+        <div class="field">
+          <label for="slug">Slug artikel <span class="hint">(dijana daripada tajuk, boleh diubah)</span></label>
+          <input type="text" id="slug" placeholder="simpan-emas-secara-konsisten" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="kandungan">Kandungan artikel</label>
+          <textarea id="kandungan" placeholder="Tampal artikel penuh di sini"></textarea>
+          <div class="meta"><span id="wc">0 patah perkataan</span><span>Kosongkan jika belum sedia</span></div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>Pautan rujukan <span class="hint">(pilihan)</span></label>
+          <div id="refs"></div>
+          <button class="btn" id="addRef" type="button">+ Tambah pautan</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="resetBtn" type="button">Kosongkan borang</button>
+      </div>
+    </div>
+
+    <div class="preview-col">
+      <div class="card">
+        <div class="preview-head">
+          <h2>Prompt siap disalin</h2>
+          <span class="count" id="cc"></span>
+        </div>
+        <pre id="out" aria-live="polite"></pre>
+        <div class="row">
+          <button class="btn primary" id="copyBtn" type="button">Salin prompt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-bar">
+  <button class="btn primary" id="copyBtn2" type="button">Salin prompt</button>
+</div>
+<div class="toast-sr" role="status" aria-live="polite" id="sr"></div>
+
+<script type="text/plain" id="tpl">Anda bertindak sebagai **Senior Frontend Developer + Content Structuring Specialist**.
+
+Saya mempunyai satu template HTML artikel premium yang telah siap dan berfungsi (kod HTML template dilampirkan bersama mesej ini). Saya mahu menghasilkan **artikel baharu menggunakan template yang sama**, tetapi dengan tajuk dan kandungan artikel yang berbeza.
+
+### ARAHAN UTAMA — WAJIB DIPATUHI
+
+Gunakan **100% struktur, reka bentuk, sistem navigasi, CSS, JavaScript dan fungsi daripada kod asal yang saya lampirkan**.
+
+**JANGAN redesign.
+JANGAN tukar layout.
+JANGAN buang fungsi sedia ada.
+JANGAN ubah gaya visual.
+JANGAN ubah sistem navigasi.
+JANGAN ubah responsive behaviour.
+JANGAN tambah library baharu tanpa sebab.**
+
+Template asal mesti dianggap sebagai **MASTER TEMPLATE**.
+
+Tugas anda hanyalah menggantikan kandungan artikel dengan artikel baharu.
+
+---
+
+## 1. MAKLUMAT ARTIKEL BAHARU
+
+Gunakan maklumat berikut:
+
+**Tajuk artikel:**
+{{TAJUK}}
+
+**Penulis:**
+{{PENULIS}}
+
+**Tarikh diterbitkan:**
+{{TARIKH}}
+
+**Slug artikel:**
+{{SLUG}}
+
+**Kandungan artikel:**
+{{KANDUNGAN}}
+
+**Pautan rujukan jika ada:**
+{{PAUTAN}}
+
+---
+
+## 2. STRUKTUR ARTIKEL
+
+Pecahkan artikel kepada beberapa muka surat menggunakan sistem `ARTICLE_PAGES` yang telah tersedia dalam template asal.
+
+Setiap muka surat mestilah:
+
+- mudah dibaca di telefon
+- mempunyai jumlah teks yang sesuai
+- tidak terlalu padat
+- mengekalkan spacing asal
+- mengekalkan typography asal
+- mengekalkan alignment asal
+- mengekalkan gaya heading, paragraph, list dan reference box
+- mempunyai kesinambungan cerita daripada muka surat sebelumnya
+
+Jangan pecahkan ayat atau idea secara rawak.
+
+Jika satu subtopik panjang, pecahkan kepada beberapa page secara logik.
+
+Jika artikel pendek, gunakan jumlah page yang munasabah tanpa memaksa kandungan menjadi terlalu panjang.
+
+---
+
+## 3. GAYA PENULISAN
+
+Kekalkan gaya penulisan Bahasa Melayu yang natural, profesional dan mudah difahami.
+
+Jangan mengubah maksud asal artikel.
+
+Jangan mereka-reka fakta yang tiada dalam artikel asal.
+
+Jangan menambah dakwaan, statistik, angka atau fakta baharu tanpa arahan.
+
+Jika artikel asal menggunakan istilah tertentu seperti:
+
+- emas
+- tabungan emas
+- GAP
+- auto-menabung
+- harta
+- hutang
+- gram
+
+kekalkan istilah tersebut secara konsisten.
+
+Jika terdapat quote, contoh, nombor, nama atau fakta dalam artikel asal, jangan ubah maksudnya.
+
+---
+
+## 4. TAJUK DAN SUBTAJUK
+
+Gunakan:
+
+`<h1>` untuk tajuk utama artikel.
+
+Gunakan `<h2>` untuk subtopik utama.
+
+Gunakan `<h3>` untuk subtopik kecil atau point bernombor.
+
+Kekalkan class Tailwind dan styling daripada template asal.
+
+Jangan mencipta reka bentuk heading baharu.
+
+---
+
+## 5. LINK / REFERENCE BOX
+
+Jika artikel mempunyai pautan rujukan, gunakan struktur `ref-box` yang sama daripada template asal.
+
+Contoh:
+
+<a href="URL" target="_blank" class="ref-box">
+  <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>
+  TEKS RUJUKAN
+</a>
+
+Jangan ubah design reference box.
+
+---
+
+## 6. FOOTER
+
+Kekalkan struktur footer asal.
+
+Tukar hanya:
+
+- tarikh diterbitkan
+- slug artikel dalam fungsi `copyGlobalLink()`
+
+Contoh:
+
+Diterbitkan: {{TARIKH}}
+
+dan:
+
+copyGlobalLink('{{SLUG}}')
+
+---
+
+## 7. TITLE HTML
+
+Tukar:
+
+`<title>`
+
+kepada format:
+
+`{{TAJUK}} - Artikel Premium`
+
+Jangan ubah struktur `<head>` yang lain.
+
+---
+
+## 8. JAVASCRIPT DAN NAVIGATION
+
+WAJIB kekalkan semua fungsi berikut daripada template asal:
+
+- Dot navigation
+- Page number
+- Butang Sebelum
+- Butang Seterusnya
+- Keyboard ArrowLeft / ArrowRight
+- Swipe navigation mobile
+- Page transition animation
+- Auto scroll ke atas apabila bertukar page
+- Theme Light / Dark
+- LocalStorage theme
+- Theme tooltip
+- Responsive behaviour
+
+Jangan buang atau simplify JavaScript yang telah sedia ada.
+
+Pastikan semua fungsi terus berfungsi selepas kandungan artikel diganti.
+
+---
+
+## 9. RESPONSIVE
+
+Artikel mesti terus berfungsi dengan baik pada:
+
+- mobile phone
+- tablet
+- desktop
+
+Jangan mengubah max-width, spacing, padding, typography atau responsive breakpoint asal kecuali benar-benar diperlukan untuk memastikan kandungan baharu tidak rosak.
+
+---
+
+## 10. VALIDATION SEBELUM MEMBERI OUTPUT
+
+Sebelum memberikan kod akhir, semak:
+
+1. Semua tag HTML ditutup dengan betul.
+2. Semua quotation mark JavaScript betul.
+3. Semua template literal dalam `ARTICLE_PAGES` valid.
+4. Tiada comma atau syntax error dalam array `ARTICLE_PAGES`.
+5. Semua link berfungsi.
+6. `copyGlobalLink()` menggunakan slug artikel baharu.
+7. `<title>` menggunakan tajuk artikel baharu.
+8. Nama penulis betul.
+9. Tarikh betul.
+10. Dot navigation mengikut jumlah page sebenar.
+11. Page number mengikut jumlah page sebenar.
+12. Previous / Next berfungsi.
+13. Swipe mobile berfungsi.
+14. Keyboard navigation berfungsi.
+15. Light / Dark mode kekal berfungsi.
+16. Tiada kandungan artikel lama yang tertinggal secara tidak sengaja.
+17. Tiada fungsi asal yang hilang.
+
+---
+
+## 11. OUTPUT
+
+Berikan **KOD HTML PENUH**, bukan potongan kod.
+
+Kod mesti boleh terus:
+
+**COPY → PASTE → SAVE → RUN**
+
+Jangan berikan penerangan panjang sebelum kod.
+
+Jangan gunakan placeholder dalam kod akhir.
+
+Jangan tulis:
+
+`// baki code sama seperti asal`
+
+atau
+
+`<!-- code lain kekal -->`
+
+Sebaliknya, hasilkan **keseluruhan fail HTML lengkap dari `<!DOCTYPE html>` sehingga `</html>`**.
+
+### PERATURAN PALING PENTING
+
+Anggap kod asal sebagai **MASTER TEMPLATE YANG TIDAK BOLEH DIREDESIGN**.
+
+**90%+ struktur teknikal mesti kekal sama.**
+
+Perubahan hanya pada bahagian yang diperlukan untuk artikel baharu:
+
+- Tajuk
+- Nama penulis
+- Tarikh
+- Kandungan artikel
+- Subtajuk
+- Pautan rujukan
+- Slug artikel
+
+Selain daripada perkara tersebut, **KEKALKAN KOD ASAL SEBAIK MUNGKIN.**</script>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var tpl = $("tpl").textContent.trim();
+  var f = { tajuk: $("tajuk"), penulis: $("penulis"), tarikh: $("tarikh"), slug: $("slug"), kandungan: $("kandungan") };
+  var refsBox = $("refs"), out = $("out");
+  var slugEdited = false;
+  var STORE = "penjana-prompt-artikel-v1";
+
+  function today() {
+    var d = new Date(), m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+  }
+  function slugify(s) {
+    return s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+  function val(el, empty) { var v = el.value.trim(); return v || empty; }
+
+  function getRefs() {
+    var rows = refsBox.querySelectorAll(".ref-row"), list = [];
+    rows.forEach(function (r) {
+      var i = r.querySelectorAll("input");
+      var url = i[0].value.trim(), txt = i[1].value.trim();
+      if (url) list.push({ url: url, text: txt });
+    });
+    return list;
+  }
+
+  function build() {
+    var refs = getRefs();
+    var pautan = refs.length
+      ? refs.map(function (r, n) { return (n + 1) + ". URL: " + r.url + "\n   Teks pautan: " + (r.text || "(gunakan teks yang sesuai)"); }).join("\n")
+      : "Tiada pautan rujukan.";
+    var map = {
+      TAJUK: val(f.tajuk, "[BELUM DIISI: TAJUK ARTIKEL]"),
+      PENULIS: val(f.penulis, "[BELUM DIISI: NAMA PENULIS]"),
+      TARIKH: val(f.tarikh, "[BELUM DIISI: TARIKH]"),
+      SLUG: val(f.slug, "[BELUM DIISI: SLUG]"),
+      KANDUNGAN: val(f.kandungan, "[BELUM DIISI: KANDUNGAN ARTIKEL]"),
+      PAUTAN: pautan
+    };
+    return tpl.replace(/\{\{(\w+)\}\}/g, function (_, k) { return map[k]; });
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify({
+        tajuk: f.tajuk.value, penulis: f.penulis.value, tarikh: f.tarikh.value,
+        slug: f.slug.value, slugEdited: slugEdited, kandungan: f.kandungan.value,
+        refs: getRefs().map(function (r) { return [r.url, r.text]; })
+      }));
+    } catch (e) {}
+  }
+
+  function update() {
+    var text = build();
+    out.textContent = text;
+    var words = f.kandungan.value.trim() ? f.kandungan.value.trim().split(/\s+/).length : 0;
+    $("wc").textContent = words + " patah perkataan";
+    $("cc").textContent = text.length.toLocaleString("ms-MY") + " aksara";
+    save();
+  }
+
+  function addRef(url, txt) {
+    var row = document.createElement("div");
+    row.className = "ref-row";
+    row.innerHTML = '<input type="url" placeholder="https://..." autocomplete="off"><input type="text" placeholder="Teks pautan" autocomplete="off"><button type="button" class="x" aria-label="Buang pautan">×</button>';
+    var inp = row.querySelectorAll("input");
+    inp[0].value = url || ""; inp[1].value = txt || "";
+    inp[0].addEventListener("input", update);
+    inp[1].addEventListener("input", update);
+    row.querySelector(".x").addEventListener("click", function () { row.remove(); update(); });
+    refsBox.appendChild(row);
+  }
+
+  function copy(text, btn) {
+    function done() {
+      var old = btn.textContent;
+      btn.classList.add("ok"); btn.textContent = "Disalin ✓";
+      $("sr").textContent = "Prompt disalin";
+      setTimeout(function () { btn.classList.remove("ok"); btn.textContent = "Salin prompt"; }, 1800);
+    }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Gagal, salin manual"; }
+      ta.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
+  }
+
+  ["tajuk", "penulis", "tarikh", "kandungan"].forEach(function (k) { f[k].addEventListener("input", function () {
+    if (k === "tajuk" && !slugEdited) f.slug.value = slugify(f.tajuk.value);
+    update();
+  }); });
+  f.slug.addEventListener("input", function () {
+    slugEdited = f.slug.value.trim() !== "";
+    if (!slugEdited) f.slug.value = slugify(f.tajuk.value);
+    update();
+  });
+  $("addRef").addEventListener("click", function () { addRef(); update(); });
+  $("copyBtn").addEventListener("click", function () { copy(build(), this); });
+  $("copyBtn2").addEventListener("click", function () { copy(build(), this); });
+  $("resetBtn").addEventListener("click", function () {
+    if (!confirm("Kosongkan semua maklumat dalam borang?")) return;
+    f.tajuk.value = f.penulis.value = f.slug.value = f.kandungan.value = "";
+    f.tarikh.value = today(); slugEdited = false; refsBox.innerHTML = "";
+    update();
+  });
+
+  // Tema
+  var root = document.documentElement;
+  var THEME = "penjana-prompt-tema";
+  try { var t = localStorage.getItem(THEME); if (t) root.setAttribute("data-theme", t); } catch (e) {}
+  $("themeBtn").addEventListener("click", function () {
+    var cur = root.getAttribute("data-theme");
+    if (!cur) cur = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    var next = cur === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME, next); } catch (e) {}
+  });
+
+  // Muat draf
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) {}
+  if (saved) {
+    f.tajuk.value = saved.tajuk || ""; f.penulis.value = saved.penulis || "";
+    f.tarikh.value = saved.tarikh || today(); f.slug.value = saved.slug || "";
+    f.kandungan.value = saved.kandungan || ""; slugEdited = !!saved.slugEdited;
+    (saved.refs || []).forEach(function (r) { addRef(r[0], r[1]); });
+  } else { f.tarikh.value = today(); }
+  update();
+})();
+</script>
+</body>
+</html>
