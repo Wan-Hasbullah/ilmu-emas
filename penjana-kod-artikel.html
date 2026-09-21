@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Penjana Kod Artikel Premium</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --bg: #faf9f6;
+    --panel: #ffffff;
+    --line: #e4e4e7;
+    --text: #18181b;
+    --muted: #71717a;
+    --soft: #3f3f46;
+    --accent: #b45309;
+    --accent-bg: rgba(180, 83, 9, 0.07);
+    --accent-line: rgba(180, 83, 9, 0.28);
+    --btn-text: #ffffff;
+    --ok: #15803d;
+    --bad: #dc2626;
+    --bad-bg: rgba(220, 38, 38, 0.07);
+    --bad-line: rgba(220, 38, 38, 0.3);
+    --mono-bg: #f4f4f5;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #09090b; --panel: #18181b; --line: #27272a; --text: #f4f4f5;
+      --muted: #a1a1aa; --soft: #d4d4d8; --accent: #fbbf24;
+      --accent-bg: rgba(251,191,36,0.07); --accent-line: rgba(251,191,36,0.3);
+      --btn-text: #18181b; --ok: #4ade80; --mono-bg: #0f0f11;
+      --bad: #f87171; --bad-bg: rgba(248,113,113,0.08); --bad-line: rgba(248,113,113,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #09090b; --panel: #18181b; --line: #27272a; --text: #f4f4f5;
+    --muted: #a1a1aa; --soft: #d4d4d8; --accent: #fbbf24;
+    --accent-bg: rgba(251,191,36,0.07); --accent-line: rgba(251,191,36,0.3);
+    --btn-text: #18181b; --ok: #4ade80; --mono-bg: #0f0f11;
+    --bad: #f87171; --bad-bg: rgba(248,113,113,0.08); --bad-line: rgba(248,113,113,0.35);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.55; -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 20px 16px 110px; }
+  .top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+  .top h1 { font-size: 1.35rem; font-weight: 800; margin: 0 0 4px; line-height: 1.2; }
+  .top p { margin: 0; color: var(--muted); font-size: 0.85rem; max-width: 60ch; }
+  .theme-btn {
+    margin-left: auto; flex-shrink: 0; width: 38px; height: 38px; border-radius: 9999px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--muted);
+    cursor: pointer; font-size: 1rem; display: grid; place-items: center;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent-line); }
+  .notice {
+    border: 1px solid var(--accent-line); background: var(--accent-bg); color: var(--soft);
+    border-radius: 12px; padding: 12px 14px; font-size: 0.82rem; margin-bottom: 20px;
+  }
+  .notice strong { color: var(--accent); }
+  .notice code, .help code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78em;
+    background: var(--mono-bg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px;
+  }
+  .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
+    .preview-col { position: sticky; top: 16px; }
+    .wrap { padding-bottom: 40px; }
+    .mobile-bar { display: none !important; }
+  }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .card + .card { margin-top: 14px; }
+  .card h2 { font-size: 0.95rem; font-weight: 700; margin: 0 0 14px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--soft); margin-bottom: 6px; }
+  .field .hint { font-weight: 400; color: var(--muted); }
+  input[type=text], input[type=url], input[type=date], input[type=number], textarea.inp {
+    width: 100%; font: inherit; font-size: 0.9rem; color: var(--text);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+  }
+  textarea.inp { min-height: 260px; resize: vertical; line-height: 1.6; }
+  input:focus, textarea:focus, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
+  }
+  .meta { display: flex; justify-content: space-between; gap: 10px; font-size: 0.72rem; color: var(--muted); margin-top: 5px; }
+  .help { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
+  .help summary { cursor: pointer; color: var(--soft); font-weight: 600; }
+  .help ul { margin: 8px 0 0; padding-left: 18px; }
+  .help li { margin-bottom: 3px; }
+  .ref-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; margin-bottom: 8px; align-items: center; }
+  @media (max-width: 520px) { .ref-row { grid-template-columns: 1fr auto; } .ref-row input:nth-child(2) { grid-column: 1; } .ref-row .x { grid-row: 1 / span 2; grid-column: 2; } }
+  .x {
+    width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: transparent;
+    color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1;
+  }
+  .x:hover { color: var(--bad); border-color: var(--bad); }
+  .btn {
+    font: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 12px;
+    padding: 11px 16px; border: 1px solid var(--line); background: transparent; color: var(--soft);
+  }
+  .btn:hover { color: var(--accent); border-color: var(--accent-line); }
+  .btn.primary { background: var(--accent); color: var(--btn-text); border-color: var(--accent); }
+  .btn.primary:hover { filter: brightness(1.08); color: var(--btn-text); }
+  .btn.ok { background: var(--ok) !important; border-color: var(--ok) !important; color: #fff !important; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .preview-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .preview-head h2 { margin: 0; }
+  .preview-head .count { margin-left: auto; font-size: 0.72rem; color: var(--muted); }
+  .warn {
+    border: 1px solid var(--accent-line); background: var(--accent-bg); color: var(--soft);
+    border-radius: 12px; padding: 10px 12px; font-size: 0.78rem; margin-bottom: 12px;
+  }
+  .warn.block { border-color: var(--bad-line); background: var(--bad-bg); }
+  .warn ul { margin: 0; padding-left: 18px; }
+  .warn[hidden] { display: none; }
+  pre#out {
+    margin: 0 0 14px; background: var(--mono-bg); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.74rem; line-height: 1.6; color: var(--soft);
+    white-space: pre; tab-size: 2;
+    max-height: 62vh; overflow: auto;
+  }
+  #pages { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  #pages li {
+    display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: baseline;
+    border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; font-size: 0.78rem;
+  }
+  #pages .n { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+  #pages .t { color: var(--soft); overflow-wrap: anywhere; }
+  #pages .m { display: block; color: var(--muted); font-size: 0.7rem; margin-top: 2px; }
+  .empty { color: var(--muted); font-size: 0.8rem; margin: 0; }
+  .mobile-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg); border-top: 1px solid var(--line); display: flex; gap: 10px;
+  }
+  .mobile-bar .btn { flex: 1; }
+  .toast-sr { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Penjana kod artikel premium</h1>
+      <p>Isi borang, kod HTML lengkap dijana serta-merta. Salin dan paste terus ke GitHub.</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Tukar tema Light/Dark" title="Tukar tema">◐</button>
+  </div>
+
+  <div class="notice">
+    <strong>Ingat:</strong> kod ini memuatkan <code>../js/main.js</code> (fungsi <code>copyGlobalLink</code>) dan memaut ke <code>../artikel.html</code>, jadi simpan fail dalam folder yang sama seperti artikel-artikel sebelum ini.
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>Maklumat artikel baharu</h2>
+
+        <div class="field">
+          <label for="tajuk">Tajuk artikel</label>
+          <input type="text" id="tajuk" placeholder="cth: Simpan emas secara konsisten" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="penulis">Penulis</label>
+          <input type="text" id="penulis" placeholder="Nama penulis" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="tarikh">Tarikh diterbitkan</label>
+          <input type="date" id="tarikh">
+        </div>
+        <div class="field">
+          <label for="slug">Slug artikel <span class="hint">(dijana daripada tajuk, boleh diubah)</span></label>
+          <input type="text" id="slug" placeholder="simpan-emas-secara-konsisten" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="kandungan">Kandungan artikel</label>
+          <textarea class="inp" id="kandungan" placeholder="Tampal artikel penuh di sini. Setiap baris = satu perenggan."></textarea>
+          <div class="meta"><span id="wc">0 patah perkataan</span><span id="pc">0 muka surat</span></div>
+          <details class="help">
+            <summary>Cara menulis kandungan</summary>
+            <ul>
+              <li>Setiap baris ialah satu perenggan.</li>
+              <li><code>## Subtajuk</code> untuk subtopik utama (mula di muka surat baharu).</li>
+              <li><code>### Subtajuk kecil</code> untuk point bernombor atau subtopik kecil.</li>
+              <li><code>- item</code> untuk senarai.</li>
+              <li><code>**tebal**</code> dan <code>*condong*</code> untuk penekanan.</li>
+              <li><code>---</code> pada baris sendiri untuk paksa muka surat baharu.</li>
+            </ul>
+          </details>
+        </div>
+        <div class="field">
+          <label for="maks">Panjang maksimum setiap muka surat <span class="hint">(aksara; 0 = pecah manual sahaja dengan <code>---</code>)</span></label>
+          <input type="number" id="maks" min="0" step="10" inputmode="numeric" value="480">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>Pautan rujukan <span class="hint">(pilihan, dipaparkan pada hujung artikel)</span></label>
+          <div id="refs"></div>
+          <button class="btn" id="addRef" type="button">+ Tambah pautan</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Pecahan muka surat</h2>
+        <ol id="pages"></ol>
+        <p class="empty" id="pagesEmpty">Kandungan belum diisi.</p>
+      </div>
+
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="resetBtn" type="button">Kosongkan borang</button>
+      </div>
+    </div>
+
+    <div class="preview-col">
+      <div class="card">
+        <div class="preview-head">
+          <h2>Kod HTML siap disalin</h2>
+          <span class="count" id="cc"></span>
+        </div>
+        <div class="warn" id="warn" hidden></div>
+        <pre id="out" aria-live="polite"></pre>
+        <div class="row">
+          <button class="btn primary" id="copyBtn" type="button">Salin kod HTML</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-bar">
+  <button class="btn primary" id="copyBtn2" type="button">Salin kod HTML</button>
+</div>
+<div class="toast-sr" role="status" aria-live="polite" id="sr"></div>
+
+<!-- Kod master template "Kisah dua kali miskin" (kandungan artikel dibuang; {{TAJUK}} dan {{HALAMAN}} diganti oleh penjana).
+     Disimpan dalam textarea tersembunyi supaya tag script di dalamnya tidak memecahkan halaman ini. -->
+<textarea id="master" hidden readonly aria-hidden="true" tabindex="-1">__MASTER_CODE__</textarea>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var master = $("master").value.trim() + "\n";
+  var f = { tajuk: $("tajuk"), penulis: $("penulis"), tarikh: $("tarikh"), slug: $("slug"), kandungan: $("kandungan"), maks: $("maks") };
+  var refsBox = $("refs"), out = $("out");
+  var slugEdited = false;
+  var STORE = "penjana-kod-artikel-v1";
+  var DEFAULT_MAX = 480;
+  var last = { ok: false, code: "" };
+
+  /* ---------- Utiliti ---------- */
+  function today() {
+    var d = new Date(), m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+  }
+  function slugify(s) {
+    return String(s).toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+  function escHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function escAttr(s) { return escHtml(s).replace(/"/g, "&quot;"); }
+  // Teks berada di dalam template literal (`...`) dalam ARTICLE_PAGES: escape \  `  dan ${
+  function escTpl(s) { return s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${"); }
+  function inline(s) {
+    var h = escHtml(s);
+    h = h.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
+    h = h.replace(/\*([^*\s][^*]*?)\*/g, "<em>$1</em>");
+    return escTpl(h);
+  }
+  function cleanUrl(u) {
+    u = (u || "").trim();
+    if (!u) return null;
+    if (/^(https?:\/\/|\/|#|\.\.?\/|mailto:)/i.test(u)) return u;
+    if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return null; // skema lain (cth javascript:) ditolak
+    return "https://" + u;
+  }
+  function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } }
+  function oneLine(s) { return s.replace(/[\r\n\u2028\u2029]+/g, " ").trim(); }
+
+  /* ---------- Parse kandungan kepada blok ---------- */
+  function parse(text) {
+    var lines = text.replace(/\r\n?/g, "\n").split("\n"), blocks = [], list = null;
+    lines.forEach(function (raw) {
+      var line = raw.trim(), m;
+      if (!line) { list = null; return; }
+      if (/^-{3,}$/.test(line)) { blocks.push({ t: "break" }); list = null; return; }
+      if ((m = line.match(/^#{3,6}\s+(.+)$/))) { blocks.push({ t: "h3", text: m[1].trim() }); list = null; return; }
+      if ((m = line.match(/^#{1,2}\s+(.+)$/))) { blocks.push({ t: "h2", text: m[1].trim() }); list = null; return; }
+      if ((m = line.match(/^[-•]\s+(.+)$/))) {
+        if (!list) { list = { t: "ul", items: [] }; blocks.push(list); }
+        list.items.push(m[1].trim()); return;
+      }
+      list = null;
+      blocks.push({ t: "p", text: line });
+    });
+    return blocks;
+  }
+
+  /* ---------- Pecah perenggan/senarai panjang (hanya mod automatik) ---------- */
+  function splitSentences(s) {
+    return s.replace(/([.!?…]["”’')\]]*)\s+(?=["“‘'(\[]?[A-Z0-9])/g, "$1\u0001").split("\u0001");
+  }
+  function packParagraph(text, max) {
+    if (text.length <= max) return [text];
+    var parts = splitSentences(text), chunks = [], cur = "";
+    parts.forEach(function (s) {
+      if (cur && (cur.length + 1 + s.length) > max) { chunks.push(cur); cur = s; }
+      else { cur = cur ? cur + " " + s : s; }
+    });
+    if (cur) chunks.push(cur);
+    return chunks;
+  }
+  function expand(blocks, max) {
+    var res = [];
+    blocks.forEach(function (b) {
+      if (b.t === "p") {
+        packParagraph(b.text, max).forEach(function (c) { res.push({ t: "p", text: c }); });
+      } else if (b.t === "ul") {
+        var cur = [], w = 0;
+        b.items.forEach(function (it) {
+          var iw = it.length + 18;
+          if (cur.length && w + iw > max) { res.push({ t: "ul", items: cur }); cur = []; w = 0; }
+          cur.push(it); w += iw;
+        });
+        if (cur.length) res.push({ t: "ul", items: cur });
+      } else { res.push(b); }
+    });
+    return res;
+  }
+  function weight(b) {
+    if (b.t === "p") return b.text.length;
+    if (b.t === "h2") return 70;
+    if (b.t === "h3") return 45;
+    if (b.t === "ref") return 100;
+    if (b.t === "ul") return b.items.reduce(function (a, it) { return a + it.length + 18; }, 0);
+    return 0;
+  }
+
+  /* ---------- Pecah kepada muka surat ---------- */
+  function paginate(blocks, max) {
+    var auto = max > 0;
+    if (auto) blocks = expand(blocks, max);
+    // h3 dilekatkan pada blok selepasnya supaya tidak tertinggal keseorangan di hujung page
+    var units = [];
+    for (var i = 0; i < blocks.length; i++) {
+      var b = blocks[i];
+      if (b.t === "h3" && blocks[i + 1] && blocks[i + 1].t !== "break" && blocks[i + 1].t !== "h2") {
+        units.push({ blocks: [b, blocks[i + 1]], w: weight(b) + weight(blocks[i + 1]), h2: false });
+        i++;
+      } else if (b.t === "break") {
+        units.push({ brk: true });
+      } else {
+        units.push({ blocks: [b], w: weight(b), h2: b.t === "h2" });
+      }
+    }
+    var pages = [], cur = [], curW = 0;
+    function flush() { if (cur.length) pages.push(cur); cur = []; curW = 0; }
+    units.forEach(function (u) {
+      if (u.brk) { flush(); return; }
+      if (auto && u.h2 && cur.length) flush();
+      var budget = pages.length === 0 ? Math.max(max - 140, Math.round(max * 0.5)) : max;
+      if (auto && cur.length && curW + u.w > budget) flush();
+      u.blocks.forEach(function (x) { cur.push(x); });
+      curW += u.w;
+    });
+    flush();
+    if (!pages.length) pages.push([]);
+    return pages;
+  }
+
+  /* ---------- Render HTML ---------- */
+  function renderBlock(b, ind) {
+    var p = new Array(ind + 1).join(" ");
+    if (b.t === "p") return p + "<p>\n" + p + "  " + inline(b.text) + "\n" + p + "</p>";
+    if (b.t === "h2") return p + '<h2 class="text-lg font-bold text-zinc-100">' + inline(b.text) + "</h2>";
+    if (b.t === "h3") return p + '<h3 class="text-base font-bold text-zinc-100">' + inline(b.text) + "</h3>";
+    if (b.t === "ul") {
+      return p + '<ul class="list-disc pl-5 space-y-2">\n' +
+        b.items.map(function (it) { return p + "  <li>" + inline(it) + "</li>"; }).join("\n") + "\n" + p + "</ul>";
+    }
+    if (b.t === "ref") {
+      return p + '<a href="' + escTpl(escAttr(b.url)) + '" target="_blank" rel="noopener noreferrer" class="ref-box">\n' +
+        p + '  <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>\n' +
+        p + "  " + inline(b.text) + "\n" + p + "</a>";
+    }
+    return "";
+  }
+
+  function pageLabel(blocks, idx, total) {
+    var label;
+    if (idx === 0) label = "Tajuk, penulis & pembukaan";
+    else if (blocks[0] && blocks[0].t === "h2") label = oneLine(blocks[0].text);
+    else label = "Sambungan";
+    if (idx === total - 1 && total > 1) label += " & Footer";
+    return label;
+  }
+
+  function renderPage(blocks, idx, total, ctx) {
+    var L = [], body = blocks.slice();
+    L.push('<article class="space-y-4">');
+    if (idx === 0) {
+      L.push('  <header class="space-y-1 text-center">');
+      L.push('    <h1 class="text-xl sm:text-2xl font-extrabold text-zinc-100 leading-tight">' + inline(ctx.tajuk) + "</h1>");
+      if (ctx.penulis) L.push('    <p class="text-xs text-amber-400 font-medium">Oleh: ' + inline(ctx.penulis) + "</p>");
+      L.push("  </header>");
+      L.push("");
+      L.push('  <hr class="border-zinc-800/80">');
+      L.push("");
+    } else if (body.length && body[0].t === "h2") {
+      L.push(renderBlock(body.shift(), 2));
+    }
+    if (body.length) {
+      L.push('  <div class="text-base text-zinc-300 leading-loose space-y-4">');
+      body.forEach(function (b) { L.push(renderBlock(b, 4)); });
+      L.push("  </div>");
+    }
+    if (idx === total - 1) {
+      L.push("");
+      L.push('  <footer class="pt-6 mt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">');
+      L.push('    <span class="text-[11px] text-zinc-500 font-medium">Diterbitkan: ' + escTpl(escHtml(ctx.tarikh)) + "</span>");
+      L.push("    <button onclick=\"copyGlobalLink('kandungan-artikel/" + ctx.slug + "')\" class=\"w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all\">");
+      L.push('      <i class="fa-solid fa-share-nodes"></i> Kongsi Artikel');
+      L.push("    </button>");
+      L.push("  </footer>");
+    }
+    L.push("</article>");
+    var inner = L.map(function (l) { return l ? "          " + l : ""; }).join("\n");
+    return "        // Page " + (idx + 1) + " — " + pageLabel(blocks, idx, total) + "\n        `\n" + inner + "\n        `";
+  }
+
+  /* ---------- Bina keseluruhan ---------- */
+  function getRefs() {
+    var rows = refsBox.querySelectorAll(".ref-row"), list = [];
+    rows.forEach(function (r) {
+      var i = r.querySelectorAll("input");
+      var url = i[0].value.trim(), txt = i[1].value.trim();
+      if (url) list.push({ url: url, text: txt });
+    });
+    return list;
+  }
+
+  function build() {
+    var tajuk = f.tajuk.value.trim(), penulis = f.penulis.value.trim();
+    var tarikh = f.tarikh.value || today(), slug = slugify(f.slug.value);
+    var max = parseInt(f.maks.value, 10);
+    if (isNaN(max) || max < 0) max = DEFAULT_MAX;
+    if (max > 0 && max < 150) max = 150;
+
+    var blocks = parse(f.kandungan.value), warnings = [], blocking = [];
+    getRefs().forEach(function (r) {
+      var u = cleanUrl(r.url);
+      if (!u) { warnings.push("Pautan rujukan \"" + r.url + "\" tidak sah dan diabaikan."); return; }
+      blocks.push({ t: "ref", url: u, text: r.text || hostOf(u) || "Pautan rujukan" });
+    });
+
+    if (!tajuk) blocking.push("Tajuk artikel belum diisi.");
+    if (!slug) blocking.push("Slug artikel belum diisi.");
+    if (!blocks.some(function (b) { return b.t !== "break" && b.t !== "ref"; })) blocking.push("Kandungan artikel belum diisi.");
+    if (!penulis) warnings.push("Nama penulis kosong, baris \"Oleh:\" tidak akan dipaparkan.");
+
+    var pages = paginate(blocks, max);
+    var ctx = { tajuk: tajuk, penulis: penulis, tarikh: tarikh, slug: slug };
+    var pagesCode = pages.map(function (p, i) { return renderPage(p, i, pages.length, ctx); }).join(",\n");
+
+    var code = master.replace(/\{\{(TAJUK|HALAMAN)\}\}/g, function (m, k) {
+      return k === "TAJUK" ? escHtml(tajuk) : pagesCode;
+    });
+    return { code: code, pages: pages, warnings: warnings, blocking: blocking };
+  }
+
+  /* ---------- Paparan ---------- */
+  function blockPreview(b) {
+    if (!b) return "";
+    if (b.t === "ul") return "• " + b.items[0];
+    if (b.t === "ref") return "Pautan: " + b.text;
+    return b.text;
+  }
+  function renderSummary(pages) {
+    var ol = $("pages"), empty = $("pagesEmpty");
+    ol.innerHTML = "";
+    var has = f.kandungan.value.trim().length > 0;
+    empty.hidden = has;
+    if (!has) return;
+    pages.forEach(function (blocks, i) {
+      var li = document.createElement("li");
+      var n = document.createElement("span"); n.className = "n"; n.textContent = String(i + 1).padStart(2, "0");
+      var t = document.createElement("span"); t.className = "t";
+      var txt = i === 0 ? blockPreview(blocks[0]) : blockPreview(blocks[0]);
+      if (txt.length > 70) txt = txt.slice(0, 70).replace(/\s+\S*$/, "") + "…";
+      t.textContent = txt || "(tajuk sahaja)";
+      var m = document.createElement("span"); m.className = "m";
+      var chars = blocks.reduce(function (a, b) { return a + weight(b); }, 0);
+      m.textContent = blocks.length + " blok · " + chars + " aksara";
+      t.appendChild(m);
+      li.appendChild(n); li.appendChild(t); ol.appendChild(li);
+    });
+  }
+  function renderWarn(res) {
+    var w = $("warn");
+    var items = res.blocking.concat(res.warnings);
+    if (!items.length) { w.hidden = true; w.innerHTML = ""; return; }
+    w.hidden = false;
+    w.className = "warn" + (res.blocking.length ? " block" : "");
+    w.innerHTML = "";
+    var ul = document.createElement("ul");
+    items.forEach(function (s) { var li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
+    w.appendChild(ul);
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify({
+        tajuk: f.tajuk.value, penulis: f.penulis.value, tarikh: f.tarikh.value,
+        slug: f.slug.value, slugEdited: slugEdited, kandungan: f.kandungan.value, maks: f.maks.value,
+        refs: getRefs().map(function (r) { return [r.url, r.text]; })
+      }));
+    } catch (e) {}
+  }
+
+  function update() {
+    var res = build();
+    last = { ok: res.blocking.length === 0, code: res.code };
+    out.textContent = res.code;
+    var words = f.kandungan.value.trim() ? f.kandungan.value.trim().split(/\s+/).length : 0;
+    $("wc").textContent = words + " patah perkataan";
+    $("pc").textContent = res.pages.length + " muka surat";
+    $("cc").textContent = res.pages.length + " muka surat · " + res.code.length.toLocaleString("ms-MY") + " aksara";
+    renderSummary(res.pages);
+    renderWarn(res);
+    $("copyBtn").disabled = $("copyBtn2").disabled = !last.ok;
+    save();
+  }
+
+  function addRef(url, txt) {
+    var row = document.createElement("div");
+    row.className = "ref-row";
+    row.innerHTML = '<input type="url" placeholder="https://..." autocomplete="off"><input type="text" placeholder="Teks pautan" autocomplete="off"><button type="button" class="x" aria-label="Buang pautan">×</button>';
+    var inp = row.querySelectorAll("input");
+    inp[0].value = url || ""; inp[1].value = txt || "";
+    inp[0].addEventListener("input", update);
+    inp[1].addEventListener("input", update);
+    row.querySelector(".x").addEventListener("click", function () { row.remove(); update(); });
+    refsBox.appendChild(row);
+  }
+
+  function copy(btn) {
+    if (!last.ok) return;
+    var text = last.code;
+    function done() {
+      btn.classList.add("ok"); btn.textContent = "Disalin ✓";
+      $("sr").textContent = "Kod HTML disalin";
+      setTimeout(function () { btn.classList.remove("ok"); btn.textContent = "Salin kod HTML"; }, 1800);
+    }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Gagal, salin manual"; }
+      ta.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
+  }
+
+  ["tajuk", "penulis", "tarikh", "kandungan", "maks"].forEach(function (k) { f[k].addEventListener("input", function () {
+    if (k === "tajuk" && !slugEdited) f.slug.value = slugify(f.tajuk.value);
+    update();
+  }); });
+  f.slug.addEventListener("input", function () {
+    slugEdited = f.slug.value.trim() !== "";
+    if (!slugEdited) f.slug.value = slugify(f.tajuk.value);
+    update();
+  });
+  $("addRef").addEventListener("click", function () { addRef(); update(); });
+  $("copyBtn").addEventListener("click", function () { copy(this); });
+  $("copyBtn2").addEventListener("click", function () { copy(this); });
+  $("resetBtn").addEventListener("click", function () {
+    if (!confirm("Kosongkan semua maklumat dalam borang?")) return;
+    f.tajuk.value = f.penulis.value = f.slug.value = f.kandungan.value = "";
+    f.maks.value = DEFAULT_MAX;
+    f.tarikh.value = today(); slugEdited = false; refsBox.innerHTML = "";
+    update();
+  });
+
+  // Tema
+  var root = document.documentElement;
+  var THEME = "penjana-prompt-tema";
+  try { var t = localStorage.getItem(THEME); if (t) root.setAttribute("data-theme", t); } catch (e) {}
+  $("themeBtn").addEventListener("click", function () {
+    var cur = root.getAttribute("data-theme");
+    if (!cur) cur = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    var next = cur === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME, next); } catch (e) {}
+  });
+
+  // Muat draf
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) {}
+  if (saved) {
+    f.tajuk.value = saved.tajuk || ""; f.penulis.value = saved.penulis || "";
+    f.tarikh.value = saved.tarikh || today(); f.slug.value = saved.slug || "";
+    f.kandungan.value = saved.kandungan || ""; slugEdited = !!saved.slugEdited;
+    if (saved.maks !== undefined && saved.maks !== "") f.maks.value = saved.maks;
+    (saved.refs || []).forEach(function (r) { addRef(r[0], r[1]); });
+  } else { f.tarikh.value = today(); }
+  update();
+})();
+</script>
+</body>
+</html>
