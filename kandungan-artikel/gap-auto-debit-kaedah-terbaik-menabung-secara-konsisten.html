@@ -152,13 +152,14 @@
     }
 
     /* ===== Kemaskini #2 (baharu): Popup bubble untuk butang theme-toggle ===== */
+    /* Bubble kini diletakkan di SEBELAH KIRI #theme-toggle, dengan arrow di sebelah kanan bubble menghala ke butang. */
     .theme-toggle-wrap {
       position: relative;
     }
     .theme-tooltip {
       position: absolute;
-      top: calc(100% + 10px);
-      right: -6px;
+      top: 50%;
+      right: calc(100% + 12px);
       max-width: 190px;
       width: max-content;
       background: rgb(24 24 27); /* zinc-900 */
@@ -171,25 +172,25 @@
       border-radius: 12px;
       box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.5);
       opacity: 0;
-      transform: translateY(-6px);
+      transform: translateY(-50%) translateX(8px);
       pointer-events: none;
       transition: opacity 0.4s ease, transform 0.4s ease;
       z-index: 50;
     }
     .theme-tooltip.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(-50%) translateX(0);
     }
     .theme-tooltip-arrow {
       position: absolute;
-      top: -5px;
-      right: 14px;
+      top: 50%;
+      right: -5px;
       width: 10px;
       height: 10px;
       background: rgb(24 24 27);
-      border-left: 1px solid rgba(251, 191, 36, 0.25);
       border-top: 1px solid rgba(251, 191, 36, 0.25);
-      transform: rotate(45deg);
+      border-right: 1px solid rgba(251, 191, 36, 0.25);
+      transform: translateY(-50%) rotate(45deg);
     }
     html.light .theme-tooltip {
       background: #ffffff;
@@ -199,8 +200,8 @@
     }
     html.light .theme-tooltip-arrow {
       background: #ffffff;
-      border-left-color: rgba(180, 83, 9, 0.25);
       border-top-color: rgba(180, 83, 9, 0.25);
+      border-right-color: rgba(180, 83, 9, 0.25);
     }
     @media (max-width: 340px) {
       .theme-tooltip {
@@ -282,10 +283,17 @@
         }
       });
 
-      // ===== Kemaskini (baharu): Popup bubble cadangan tukar tema, muncul setiap 5 saat =====
+      // ===== Kemaskini (baharu): Popup bubble cadangan tukar tema =====
+      // Muncul maksimum 3 kali setiap sesi pengguna berada di halaman ini:
+      //   masuk halaman -> tunggu 5s -> muncul kali 1
+      //   -> tunggu 10s -> muncul kali 2
+      //   -> tunggu 10s -> muncul kali 3
+      //   -> berhenti sepenuhnya (tiada localStorage — kiraan reset automatik bila halaman dimuat semula/masuk semula).
       const themeTooltip = document.getElementById("theme-tooltip");
-      let tooltipIntervalId = null;
       let tooltipHideTimeoutId = null;
+      let tooltipNextTimeoutId = null;
+      let bubbleShowCount = 0;
+      const MAX_BUBBLE_SHOWS = 3;
 
       function showThemeTooltip() {
         if (!themeTooltip) return;
@@ -302,14 +310,21 @@
         clearTimeout(tooltipHideTimeoutId);
       }
 
-      function startThemeTooltipCycle() {
-        if (tooltipIntervalId || !themeTooltip) return;
-        tooltipIntervalId = setInterval(showThemeTooltip, 5000);
+      function scheduleNextBubble(delay) {
+        if (!themeTooltip || bubbleShowCount >= MAX_BUBBLE_SHOWS) return;
+        clearTimeout(tooltipNextTimeoutId);
+        tooltipNextTimeoutId = setTimeout(() => {
+          showThemeTooltip();
+          bubbleShowCount++;
+          if (bubbleShowCount < MAX_BUBBLE_SHOWS) {
+            scheduleNextBubble(10000);
+          }
+        }, delay);
       }
 
       toggleBtn.addEventListener("click", hideThemeTooltip);
 
-      startThemeTooltipCycle();
+      scheduleNextBubble(5000);
     })();
   </script>
   <script>
