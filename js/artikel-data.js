@@ -26,6 +26,15 @@ const ARTIKEL_DATA = [
     summary: "GAP Auto-Debit membantu kita menabung emas secara konsisten setiap bulan tanpa perlu buat keputusan berulang, sekali gus mempercepatkan proses menjadi kaya dengan emas.",
     path: "kandungan-artikel/gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten.html"
   },
+      
+    {
+    id: "inilah-kisah-membuatkan-saya-simpan-emas",
+    title: "Inilah Kisah Membuatkan Saya Simpan Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Buku Wang Emas",
+    summary: "Berapa pun harganya, tetap orang akan kata ianya “mahal”. Ia memang barang yang dianggap mahal sejak zaman berzaman.",
+    path: "kandungan-artikel/inilah-kisah-membuatkan-saya-simpan-emas.html"
+  },
   
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
