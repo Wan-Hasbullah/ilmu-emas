@@ -793,9 +793,6 @@
     </button>
   </nav>
 
-  <!-- ── Makluman Terkini Data dari js/makluman-terkini-data.js ──
-       (satu muatan sahaja + cache-bust; fail data guna 'const', jadi
-       TIDAK dimuatkan dua kali supaya tiada ralat "already declared") ── -->
   <script>
     const timestampHome = new Date().getTime();
     const scriptM = document.createElement('script');
@@ -805,16 +802,6 @@
   </script>
 
   <script>
-    /* ── Makluman Terkini: Render daripada js/makluman-terkini-data.js ──
-       - maklumanTetapData   : program TETAP berulang setiap minggu (dayOfWeek/startHour/endHour)
-       - maklumanTerkiniData : program TIDAK TETAP / sekali sahaja (date)
-       - Gabung kedua-dua sumber, susun kronologi, hadkan maksimum 5 makluman aktif
-       - Countdown live setiap saat, status LIVE SEKARANG semasa sesi sedang berjalan
-       - Program mingguan yang tamat sesi dikira semula automatik ke minggu depan;
-         program sekali sahaja yang tamat dibuang terus & digantikan makluman seterusnya
-       - Butang "Lihat" sentiasa ke https://ilmu-emas.pages.dev/makluman-terkini ── */
-
-    // Kira sesi terdekat (akan datang / sedang berlangsung) bagi program mingguan berulang
     function getNextOccurrence(item, now) {
       const start = new Date(now);
       const dayDiff = (item.dayOfWeek - now.getDay() + 7) % 7;
@@ -823,9 +810,8 @@
 
       const end = new Date(start);
       end.setHours(item.endHour, item.endMinute, 0, 0);
-      if (end <= start) end.setDate(end.getDate() + 1); // sesi melangkaui tengah malam
+      if (end <= start) end.setDate(end.getDate() + 1);
 
-      // Jika sesi minggu ini sudah tamat sepenuhnya, lompat automatik ke minggu depan
       if (end <= now) {
         start.setDate(start.getDate() + 7);
         end.setDate(end.getDate() + 7);
@@ -834,7 +820,6 @@
       return { start, end };
     }
 
-    // Gabungkan program mingguan + program sekali sahaja menjadi satu senarai seragam
     function binaSenaraiMakluman() {
       const now = new Date();
       const tetapArr = typeof maklumanTetapData !== 'undefined' ? maklumanTetapData : [];
@@ -857,8 +842,8 @@
       terkiniArr.forEach((item, idx) => {
         const start = new Date(item.date);
         const diff = start - now;
-        if (diff <= -10800000) return; // sudah tamat sepenuhnya (>3 jam), buang terus
-        const end = new Date(start.getTime() + 10800000); // anggaran tempoh siaran 3 jam untuk status LIVE
+        if (diff <= -10800000) return;
+        const end = new Date(start.getTime() + 10800000);
         gabung.push({
           uid: "terkini-" + idx,
           title: item.title,
@@ -869,17 +854,15 @@
         });
       });
 
-      // Susun kronologi: sesi LIVE / terdekat diletakkan di atas sekali
       gabung.sort((a, b) => a.start - b.start);
 
-      // Hadkan paparan kepada maksimum 5 makluman aktif sahaja
       return gabung.slice(0, 5);
     }
 
     function renderMakluman() {
       const container = document.getElementById("makluman-container");
       if (!container) return;
-      container.innerHTML = ''; // Bersihkan container asal
+      container.innerHTML = '';
 
       const items = binaSenaraiMakluman();
 
@@ -931,10 +914,9 @@
         const occStart = item.start;
         const occEnd = item.end;
 
-        // Fungsi countdown real-time dengan sokongan status LIVE
         function updateCountdown() {
           const wrap = document.getElementById(countdownId);
-          if (!wrap) return; // kad sudah dibuang (renderMakluman lain telah berjalan)
+          if (!wrap) return;
           const el = wrap.querySelector(".countdown-label");
           const iconEl = wrap.querySelector("i");
           if (!el) return;
@@ -950,9 +932,6 @@
           }
 
           if (now >= occEnd) {
-            // Sesi ini tamat — render semula supaya:
-            // - program mingguan dikira semula automatik ke sesi minggu depan
-            // - program sekali sahaja dibuang & makluman seterusnya mengisi tempat kosong (maks. 5 aktif)
             renderMakluman();
             return;
           }
@@ -971,7 +950,6 @@
 
           el.textContent = label;
 
-          // Pengekalan logik warna kecemasan (urgency)
           if (diff < 3600000) {
             el.className = "text-[10px] font-bold mt-countdown-urgent countdown-label";
             if (iconEl) iconEl.className = "fa-regular fa-clock text-[10px] mt-countdown-urgent";
@@ -990,8 +968,6 @@
       });
     }
 
-    // Fallback keselamatan: jika onload skrip data terlepas (contohnya cache pelayar),
-    // cuba render semula sebaik halaman siap dimuatkan.
     window.addEventListener("load", function () {
       if (typeof maklumanTetapData !== 'undefined' || typeof maklumanTerkiniData !== 'undefined') {
         renderMakluman();
@@ -1000,7 +976,6 @@
   </script>
 
   <script>
-    /* ── Navigation Bottom Popups Menu/Akses ── */
     let activeNav = null;
     function toggleNavPopup(type) {
       if (activeNav === type) {
@@ -1050,7 +1025,6 @@
       }, 300);
     }
 
-    /* ── Dynamic Access Popup Control ── */
     function openDynamicAccessPopup(iconClass, bgIconColor, textIconColor, title, desc, metaContent = "") {
       const modal = document.getElementById("dynamic-access-modal");
       const iconWrap = document.getElementById("dynamic-icon-wrap");
@@ -1081,7 +1055,6 @@
       setTimeout(() => { modal.classList.add("hidden"); }, 300);
     }
 
-    /* ── Tab Akses: Connected to OneSignal Verification ── */
 function triggerOneSignalForce() {
   closeNavPopups();
 
@@ -1130,7 +1103,6 @@ function triggerOneSignalForce() {
       });
     }
 
-    /* ── Custom Push Notification Modal ── */
     window.addEventListener("load", () => {
       if (!sessionStorage.getItem("push_notified_index")) {
         setTimeout(() => {
@@ -1152,23 +1124,19 @@ function triggerOneSignalForce() {
       sessionStorage.setItem("push_notified_index", "true");
     }
 
-    // Fungsi melanggan dengan sistem kriteria Data Tags OneSignal
     function acceptPushModal() {
       dismissPushModal();
       
       OneSignal.push(async function() {
         try {
-          // Cetus kebenaran browser untuk push notification
           await OneSignal.User.PushSubscription.optIn();
           
-          // Tetapkan tag kriteria langganan khusus mengikut keperluan anda
           await OneSignal.User.addTags({
             "harga_emas": "aktif",
             "media_ilmu": "aktif",
             "makluman_terkini": "aktif"
           });
 
-          // Papar popup maklum balas kejayaan rekaan anda sendiri
           openDynamicAccessPopup(
             "fa-solid fa-bell",
             "bg-amber-400/10 border border-amber-400/25",
@@ -1182,7 +1150,6 @@ function triggerOneSignalForce() {
       });
     }
 
-    /* ── Isyarat Harga Emas Turun Logic ── */
     function checkGoldPriceStatus() {
       const goldData = document.getElementById("hidden-gold-data");
       if(goldData && goldData.getAttribute("data-status") === "down") {
@@ -1217,7 +1184,6 @@ function triggerOneSignalForce() {
   </script>
 
   <script>
-    /* ── Kemaskini 1: Anchor Scroll + Highlight Premium untuk #elak-kerugian ── */
     function highlightElakKerugian() {
       const target = document.getElementById('elak-kerugian');
       if (!target) return;
@@ -1228,7 +1194,7 @@ function triggerOneSignalForce() {
       });
 
       target.classList.remove('anchor-highlight');
-      void target.offsetWidth; // reset animasi jika dipanggil berulang kali
+      void target.offsetWidth;
 
       setTimeout(() => {
         target.classList.add('anchor-highlight');
@@ -1247,7 +1213,6 @@ function triggerOneSignalForce() {
     window.addEventListener('load', checkElakKerugianHash);
     window.addEventListener('hashchange', checkElakKerugianHash);
 
-    /* ── Kemaskini 3: Butang Full Skrin ── */
     function toggleFullscreenVideo() {
       const wrap = document.getElementById('m-video-fullscreen-target');
       if (!wrap) return;
@@ -1266,7 +1231,6 @@ function triggerOneSignalForce() {
         }
       }
 
-      // Fallback: buka video terus di YouTube jika fullscreen API tidak stabil/disokong
       window.open(
         'https://www.youtube.com/shorts/SlzjujKtxYE?source_ve_path=MTc3Mjcy&embeds_referring_euri=https%3A%2F%2Filmu-emas.pages.dev%2F',
         '_blank',
@@ -1274,7 +1238,6 @@ function triggerOneSignalForce() {
       );
     }
 
-    /* ── Kemaskini 5: Butang Share (Web Share API + Clipboard fallback) ── */
     function shareElakKerugian() {
       const shareUrl = 'https://ilmu-emas.pages.dev#elak-kerugian';
       const shareData = {
@@ -1322,7 +1285,6 @@ function triggerOneSignalForce() {
   </script>
 
   <script>
-    /* ── Kemaskini: Anchor Scroll + Highlight Premium untuk #kalkulator-target-simpanan ── */
     function highlightKalkulatorTarget() {
       const target = document.getElementById('kalkulator-target-simpanan');
       if (!target) return;
@@ -1333,7 +1295,7 @@ function triggerOneSignalForce() {
       });
 
       target.classList.remove('anchor-highlight-target');
-      void target.offsetWidth; // reset animasi jika dipanggil berulang kali
+      void target.offsetWidth;
 
       setTimeout(() => {
         target.classList.add('anchor-highlight-target');
@@ -1352,7 +1314,6 @@ function triggerOneSignalForce() {
     window.addEventListener('load', checkKalkulatorTargetHash);
     window.addEventListener('hashchange', checkKalkulatorTargetHash);
 
-    /* ── Kemaskini: Butang Copy Link (Kalkulator Target Simpanan / Tips Mohd Zulkifli Shafie) ── */
     function copyKalkulatorTargetLink() {
       const shareUrl = 'https://ilmu-emas.pages.dev#kalkulator-target-simpanan';
 
@@ -1390,10 +1351,6 @@ function triggerOneSignalForce() {
   </script>
 
   <script>
-    /* ── Kemaskini: Deep-link Anchor Generik untuk Butang/Kad (Talk Show, Event, Daftar, dll.) ──
-       Membolehkan pautan seperti https://ilmu-emas.pages.dev#talk-show membawa pengguna
-       masuk ke halaman utama (index) dahulu, kemudian auto-scroll + denyut ringan
-       terus ke butang/kad berkaitan. ── */
     const ANCHOR_TARGETS_GENERIC = {
       "kalkulator-menu": { popup: "menu" },
       "kelebihan-dealer": { popup: "menu" },
@@ -1410,7 +1367,7 @@ function triggerOneSignalForce() {
         target.scrollIntoView({ behavior: "smooth", block: "center" });
 
         target.classList.remove("anchor-highlight-generic");
-        void target.offsetWidth; // reset animasi jika dipanggil berulang kali
+        void target.offsetWidth;
 
         setTimeout(() => {
           target.classList.add("anchor-highlight-generic");
@@ -1421,7 +1378,6 @@ function triggerOneSignalForce() {
       }
 
       if (config.popup) {
-        // Buka popup Menu/Akses dahulu (guna fungsi sedia ada) sebelum highlight
         openNavPopup(config.popup);
         setTimeout(runHighlight, 350);
       } else {
@@ -1441,27 +1397,6 @@ function triggerOneSignalForce() {
   </script>
 
   <script>
-    /* ══════════════════════════════════════════════════════════════════
-       ── KEMASKINI BARU: Pautan Khas (Public Deep-Link) ──
-       Sistem TAMBAHAN sahaja — tidak mengubah/menyentuh mana-mana ID,
-       fungsi, atau logik sedia ada di atas. Ia hanya "memetakan" slug
-       pautan awam (yang dikongsi di luar, cth. WhatsApp/Telegram) kepada
-       elemen sebenar yang telah wujud di halaman ini, kemudian
-       menggunakan semula fungsi highlight yang sudah ada.
-
-       Contoh URL awam:
-       https://ilmu-emas.pages.dev/gold-saver#elakkan-kerugian
-       https://ilmu-emas.pages.dev/gold-saver#tips-emas
-       https://ilmu-emas.pages.dev/gold-saver#tips-kewangan
-       https://ilmu-emas.pages.dev/gold-saver#buku-mentor
-       https://ilmu-emas.pages.dev/gold-saver#auto-debit
-       https://ilmu-emas.pages.dev/gold-saver#private-webinar
-       https://ilmu-emas.pages.dev/gold-saver#duit-tepi
-       https://ilmu-emas.pages.dev/gold-saver#plt
-       https://ilmu-emas.pages.dev/gold-saver#kalkulator
-       https://ilmu-emas.pages.dev/gold-saver#kelebihan-dealer
-       https://ilmu-emas.pages.dev/gold-saver#tutorial
-       ══════════════════════════════════════════════════════════════════ */
     const PUBLIC_LINK_ALIASES = {
       "elakkan-kerugian": "elak-kerugian",
       "tips-emas": "tips-emas",
@@ -1483,7 +1418,7 @@ function triggerOneSignalForce() {
       target.scrollIntoView({ behavior: "smooth", block: "center" });
 
       target.classList.remove("anchor-highlight-generic");
-      void target.offsetWidth; // reset animasi jika dipanggil berulang kali
+      void target.offsetWidth;
 
       setTimeout(() => {
         target.classList.add("anchor-highlight-generic");
@@ -1500,20 +1435,16 @@ function triggerOneSignalForce() {
       const realId = PUBLIC_LINK_ALIASES[rawHash];
       if (!realId) return;
 
-      // Kes khas 1: Elakkan Kerugian — guna sistem sedia ada
       if (realId === "elak-kerugian") {
         highlightElakKerugian();
         return;
       }
 
-      // Kes khas 2: item dalam popup Menu (Kalkulator / Kelebihan Dealer / Tutorial)
       if (ANCHOR_TARGETS_GENERIC[realId]) {
         highlightGenericAnchor(realId);
         return;
       }
 
-      // Selainnya: kad/butang biasa di halaman utama (Buku Mentor, Auto-Debit,
-      // Private Webinar, Duit Tepi, PLT, #99 Tips Emas, #99 Tips Kewangan)
       highlightPublicCard(realId);
     }
 
@@ -1522,7 +1453,6 @@ function triggerOneSignalForce() {
   </script>
 
   <script>
-    /* ── Password Login ── */
     const GOLD_SAVER_PASSWORD = "pgwan";
     function unlockGoldSaver() {
       const gate = document.getElementById("login-gate");
