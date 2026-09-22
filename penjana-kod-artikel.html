@@ -152,13 +152,13 @@
   <div class="top">
     <div>
       <h1>Penjana kod artikel premium</h1>
-      <p>Isi borang, kod HTML lengkap dijana serta-merta. Salin dan paste terus ke GitHub.</p>
+      <p>Isi borang, kod <code>const ARTICLE_PAGES</code> dijana serta-merta. Salin dan gantikan terus array sedia ada dalam fail artikel.</p>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="Tukar tema Light/Dark" title="Tukar tema">◐</button>
   </div>
 
   <div class="notice">
-    <strong>Ingat:</strong> kod ini memuatkan <code>../js/main.js</code> (fungsi <code>copyGlobalLink</code>) dan memaut ke <code>../artikel.html</code>, jadi simpan fail dalam folder yang sama seperti artikel-artikel sebelum ini.
+    <strong>Ingat:</strong> kod yang dijana hanyalah array <code>const ARTICLE_PAGES = [ ... ];</code> — bukan fail HTML penuh. Paste terus gantikan array sedia ada dalam fail artikel widget anda (yang sudah ada navigasi titik, swipe, tema, dan fungsi <code>copyGlobalLink</code> dari <code>main.js</code>).
   </div>
 
   <div class="grid">
@@ -190,7 +190,7 @@
             <summary>Cara menulis kandungan</summary>
             <ul>
               <li>Setiap baris ialah satu perenggan.</li>
-              <li><code>## Subtajuk</code> untuk subtopik utama (mula di muka surat baharu).</li>
+              <li><code>## Subtajuk</code> untuk subtopik utama (mula di muka surat baharu, kumpulan nombor bertambah — cth. 1a → 2a).</li>
               <li><code>### Subtajuk kecil</code> untuk point bernombor atau subtopik kecil.</li>
               <li><code>- item</code> untuk senarai.</li>
               <li><code>**tebal**</code> dan <code>*condong*</code> untuk penekanan.</li>
@@ -223,13 +223,13 @@
     <div class="preview-col">
       <div class="card">
         <div class="preview-head">
-          <h2>Kod HTML siap disalin</h2>
+          <h2>Kod ARTICLE_PAGES siap disalin</h2>
           <span class="count" id="cc"></span>
         </div>
         <div class="warn" id="warn" hidden></div>
         <pre id="out" aria-live="polite"></pre>
         <div class="row">
-          <button class="btn primary" id="copyBtn" type="button">Salin kod HTML</button>
+          <button class="btn primary" id="copyBtn" type="button">Salin kod ARTICLE_PAGES</button>
         </div>
       </div>
     </div>
@@ -237,18 +237,13 @@
 </div>
 
 <div class="mobile-bar">
-  <button class="btn primary" id="copyBtn2" type="button">Salin kod HTML</button>
+  <button class="btn primary" id="copyBtn2" type="button">Salin kod ARTICLE_PAGES</button>
 </div>
 <div class="toast-sr" role="status" aria-live="polite" id="sr"></div>
-
-<!-- Kod master template "Kisah dua kali miskin" (kandungan artikel dibuang; {{TAJUK}} dan {{HALAMAN}} diganti oleh penjana).
-     Disimpan dalam textarea tersembunyi supaya tag script di dalamnya tidak memecahkan halaman ini. -->
-<textarea id="master" hidden readonly aria-hidden="true" tabindex="-1">__MASTER_CODE__</textarea>
 
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
-  var master = $("master").value.trim() + "\n";
   var f = { tajuk: $("tajuk"), penulis: $("penulis"), tarikh: $("tarikh"), slug: $("slug"), kandungan: $("kandungan"), maks: $("maks") };
   var refsBox = $("refs"), out = $("out");
   var slugEdited = false;
@@ -376,6 +371,22 @@
     return pages;
   }
 
+  /* ---------- Penomboran "1a, 1b, 1c → 2a, 2b → 3a, 3b" ----------
+     Kumpulan (nombor) bertambah setiap kali satu muka surat bermula
+     dengan subtajuk (##). Huruf bertambah untuk setiap muka surat
+     sambungan dalam kumpulan yang sama. */
+  function computeNumbering(pages) {
+    var nums = [], group = 0, letter = 0;
+    pages.forEach(function (blocks, i) {
+      var startsH2 = blocks.length > 0 && blocks[0].t === "h2";
+      if (i === 0) { group = 1; letter = 0; }
+      else if (startsH2) { group += 1; letter = 0; }
+      else { letter += 1; }
+      nums.push(String(group) + String.fromCharCode(97 + letter));
+    });
+    return nums;
+  }
+
   /* ---------- Render HTML ---------- */
   function renderBlock(b, ind) {
     var p = new Array(ind + 1).join(" ");
@@ -403,7 +414,7 @@
     return label;
   }
 
-  function renderPage(blocks, idx, total, ctx) {
+  function renderPage(blocks, idx, total, ctx, num) {
     var L = [], body = blocks.slice();
     L.push('<article class="space-y-4">');
     if (idx === 0) {
@@ -433,7 +444,16 @@
     }
     L.push("</article>");
     var inner = L.map(function (l) { return l ? "          " + l : ""; }).join("\n");
-    return "        // Page " + (idx + 1) + " — " + pageLabel(blocks, idx, total) + "\n        `\n" + inner + "\n        `";
+    return "        // Page " + num + " — " + pageLabel(blocks, idx, total) + "\n        `\n" + inner + "\n        `";
+  }
+
+  /* ---------- Susun const ARTICLE_PAGES = [ ... ]; ---------- */
+  function assemble(pages, ctx) {
+    var nums = computeNumbering(pages);
+    var pagesCode = pages.map(function (p, i) {
+      return renderPage(p, i, pages.length, ctx, nums[i]);
+    }).join(",\n");
+    return "      const ARTICLE_PAGES = [\n" + pagesCode + "\n      ];";
   }
 
   /* ---------- Bina keseluruhan ---------- */
@@ -468,11 +488,7 @@
 
     var pages = paginate(blocks, max);
     var ctx = { tajuk: tajuk, penulis: penulis, tarikh: tarikh, slug: slug };
-    var pagesCode = pages.map(function (p, i) { return renderPage(p, i, pages.length, ctx); }).join(",\n");
-
-    var code = master.replace(/\{\{(TAJUK|HALAMAN)\}\}/g, function (m, k) {
-      return k === "TAJUK" ? escHtml(tajuk) : pagesCode;
-    });
+    var code = assemble(pages, ctx);
     return { code: code, pages: pages, warnings: warnings, blocking: blocking };
   }
 
@@ -489,11 +505,12 @@
     var has = f.kandungan.value.trim().length > 0;
     empty.hidden = has;
     if (!has) return;
+    var nums = computeNumbering(pages);
     pages.forEach(function (blocks, i) {
       var li = document.createElement("li");
-      var n = document.createElement("span"); n.className = "n"; n.textContent = String(i + 1).padStart(2, "0");
+      var n = document.createElement("span"); n.className = "n"; n.textContent = nums[i];
       var t = document.createElement("span"); t.className = "t";
-      var txt = i === 0 ? blockPreview(blocks[0]) : blockPreview(blocks[0]);
+      var txt = blockPreview(blocks[0]);
       if (txt.length > 70) txt = txt.slice(0, 70).replace(/\s+\S*$/, "") + "…";
       t.textContent = txt || "(tajuk sahaja)";
       var m = document.createElement("span"); m.className = "m";
@@ -556,8 +573,8 @@
     var text = last.code;
     function done() {
       btn.classList.add("ok"); btn.textContent = "Disalin ✓";
-      $("sr").textContent = "Kod HTML disalin";
-      setTimeout(function () { btn.classList.remove("ok"); btn.textContent = "Salin kod HTML"; }, 1800);
+      $("sr").textContent = "Kod ARTICLE_PAGES disalin";
+      setTimeout(function () { btn.classList.remove("ok"); btn.textContent = btn.id === "copyBtn2" ? "Salin kod ARTICLE_PAGES" : "Salin kod ARTICLE_PAGES"; }, 1800);
     }
     function fallback() {
       var ta = document.createElement("textarea");
