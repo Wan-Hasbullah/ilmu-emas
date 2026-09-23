@@ -6,7 +6,7 @@ const ARTIKEL_DATA = [
     author: "Mohd Zulkifli Shafie",
     category: "Bab 1 : Emas & Kewangan",
     summary: "Tiada satu zaman orang mengatakan emas murah melainkan harga emas sudah pun menjadi sejarah (harga emas yang lepas)",
-    path: "kandungan-tipsemas/emas-tak-pernah-murah.html"
+    path: "/kandungan-tipsemas/emas-tak-pernah-murah.html"
   }, // <-- Ditambah koma di sini untuk memisahkan objek pertama dan kedua
   
   {
@@ -15,7 +15,7 @@ const ARTIKEL_DATA = [
     author: "Ainul Haya",
     category: "Sejarah Harga Emas",
     summary: "Paras harga emas semasa yang sedang rendah merupakan peluang terbaik untuk pelabur menambah simpanan, bukannya untuk berasa takut atau berhenti menyimpan.",
-    path: "kandungan-artikel/sejarah-harga-emas-10-tahun.html"
+    path: "/kandungan-artikel/sejarah-harga-emas-10-tahun.html"
   },
 
   {
@@ -24,7 +24,7 @@ const ARTIKEL_DATA = [
     author: "Mohd Zulkifli Shafie",
     category: "Simpanan Emas",
     summary: "GAP Auto-Debit membantu kita menabung emas secara konsisten setiap bulan tanpa perlu buat keputusan berulang, sekali gus mempercepatkan proses menjadi kaya dengan emas.",
-    path: "kandungan-artikel/gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten.html"
+    path: "/kandungan-artikel/gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten.html"
   },
       
     {
@@ -32,8 +32,8 @@ const ARTIKEL_DATA = [
     title: "Inilah Kisah Membuatkan Saya Simpan Emas",
     author: "Mohd Zulkifli Shafie",
     category: "Buku Wang Emas",
-    summary: "Berapa pun harganya, tetap orang akan kata ianya “mahal”. Ia memang barang yang dianggap mahal sejak zaman berzaman.",
-    path: "kandungan-artikel/inilah-kisah-membuatkan-saya-simpan-emas.html"
+    summary: "Berapa pun harganya, tetap orang akan kata ianya \u201cmahal\u201d. Ia memang barang yang dianggap mahal sejak zaman berzaman.",
+    path: "/kandungan-artikel/inilah-kisah-membuatkan-saya-simpan-emas.html"
   },
   
   
