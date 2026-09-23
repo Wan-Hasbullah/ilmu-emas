@@ -1,12 +1,12 @@
 // Data Artikel - Sedia dipanggil secara global oleh fail pengurusan artikel
 const ARTIKEL_DATA = [
   {
-    id: "bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada",
-    title: "Bukan Sibuk Dengan Harga, Tapi Berapa Gram Yang Kita Sudah Ada?",
-    author: "Syarif Jamil",
-    category: "Simpanan Emas",
-    summary: "Fokus utama dalam pelaburan emas adalah mengumpul seberapa banyak gram emas, bukannya bimbang tentang turun naik harga semasa untuk membina kekayaan sebenar.",
-    path: "kandungan-artikel/bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada.html"
+    id: "emas-tak-pernah-murah",
+    title: "Emas Tak Pernah Murah",
+    author: "Mohd Zulkifli Shafie",
+    category: "Bab 1 : Emas & Kewangan",
+    summary: "Tiada satu zaman orang mengatakan emas murah melainkan harga emas sudah pun menjadi sejarah (harga emas yang lepas)",
+    path: "kandungan-tipsemas/emas-tak-pernah-murah.html"
   }, // <-- Ditambah koma di sini untuk memisahkan objek pertama dan kedua
   
   {
