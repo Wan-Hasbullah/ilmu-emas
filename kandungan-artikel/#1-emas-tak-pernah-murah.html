@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>#1 Emas Tak Pernah Murah</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .page-transition {
+      animation: pageFadeIn 0.32s ease;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: rgb(63 63 70); /* zinc-700 */
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .nav-dot.active {
+      width: 18px;
+      background-color: #fbbf24; /* amber-400 */
+      box-shadow: 0 0 8px 0 rgba(251, 191, 36, 0.5);
+    }
+    .page-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgb(212 212 216); /* zinc-300 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(39 39 42);
+      padding: 8px 16px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .page-nav-btn:hover:not(:disabled) {
+      border-color: rgb(251 191 36 / 0.5);
+      color: #fbbf24;
+    }
+    .page-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    #page-area {
+      min-height: calc(100dvh - 230px);
+    }
+    .ref-box {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.05);
+      border: 1px solid rgba(251, 191, 36, 0.15);
+      border-radius: 12px;
+      padding: 12px 14px;
+      line-height: 1.5;
+    }
+    a.ref-box:hover {
+      background: rgba(251, 191, 36, 0.1);
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+
+    /* ===== Kemaskini #1: Center kandungan setiap muka surat (horizontal + vertical, responsive) ===== */
+    #page-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-content {
+      width: 100%;
+    }
+    #page-content article {
+      text-align: center;
+    }
+    #page-content ul {
+      display: inline-block;
+      text-align: left;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== Kemaskini #2: Theme toggle (Light / Dark) ===== */
+    #theme-toggle {
+      transition: all 0.2s ease;
+    }
+    #theme-toggle:active {
+      transform: scale(0.94);
+    }
+
+    /* Default (no .light class) = reka bentuk dark asal, tidak diubah langsung. */
+    /* Overrides di bawah HANYA aktif bila <html> mempunyai class "light". */
+    html.light body {
+      background-color: #faf9f6;
+      color: #18181b;
+    }
+    html.light .bg-zinc-950 { background-color: #faf9f6; }
+    html.light .bg-zinc-950\/90 { background-color: rgba(250, 249, 246, 0.9); }
+    html.light .border-zinc-900\/40 { border-color: #e4e4e7; }
+    html.light .border-zinc-900\/60 { border-color: #e4e4e7; }
+    html.light .border-zinc-900 { border-color: #e4e4e7; }
+    html.light .border-zinc-800 { border-color: #e4e4e7; }
+    html.light .border-zinc-800\/80 { border-color: #e4e4e7; }
+    html.light .text-white { color: #18181b; }
+    html.light .text-zinc-100 { color: #18181b; }
+    html.light .text-zinc-300 { color: #3f3f46; }
+    html.light .text-zinc-400 { color: #52525b; }
+    html.light .text-zinc-500 { color: #71717a; }
+    html.light .text-amber-400 { color: #b45309; }
+    html.light .hover\:text-amber-400:hover { color: #b45309; }
+    html.light .bg-zinc-900 { background-color: #ffffff; }
+
+    html.light .nav-dot {
+      background-color: #d4d4d8;
+    }
+    html.light .nav-dot.active {
+      background-color: #b45309;
+      box-shadow: 0 0 8px 0 rgba(180, 83, 9, 0.35);
+    }
+    html.light .page-nav-btn {
+      color: #3f3f46;
+      background: #ffffff;
+      border: 1px solid #e4e4e7;
+    }
+    html.light .page-nav-btn:hover:not(:disabled) {
+      border-color: rgba(180, 83, 9, 0.45);
+      color: #b45309;
+    }
+    html.light .ref-box {
+      color: #b45309;
+      background: rgba(180, 83, 9, 0.06);
+      border: 1px solid rgba(180, 83, 9, 0.2);
+    }
+    html.light a.ref-box:hover {
+      background: rgba(180, 83, 9, 0.12);
+      border-color: rgba(180, 83, 9, 0.4);
+    }
+    html.light #theme-toggle {
+      border-color: #e4e4e7;
+      color: #52525b;
+    }
+    html.light #theme-toggle:hover {
+      color: #b45309;
+      border-color: rgba(180, 83, 9, 0.4);
+    }
+
+    /* ===== Kemaskini #2 (baharu): Popup bubble untuk butang theme-toggle ===== */
+    /* Bubble kini diletakkan di SEBELAH KIRI #theme-toggle, dengan arrow di sebelah kanan bubble menghala ke butang. */
+    .theme-toggle-wrap {
+      position: relative;
+    }
+    .theme-tooltip {
+      position: absolute;
+      top: 50%;
+      right: calc(100% + 12px);
+      max-width: 190px;
+      width: max-content;
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      color: rgb(228 228 231); /* zinc-200 */
+      font-size: 0.7rem;
+      font-weight: 500;
+      line-height: 1.45;
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(-50%) translateX(8px);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 50;
+    }
+    .theme-tooltip.show {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+    .theme-tooltip-arrow {
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      background: rgb(24 24 27);
+      border-top: 1px solid rgba(251, 191, 36, 0.25);
+      border-right: 1px solid rgba(251, 191, 36, 0.25);
+      transform: translateY(-50%) rotate(45deg);
+    }
+    html.light .theme-tooltip {
+      background: #ffffff;
+      border-color: rgba(180, 83, 9, 0.25);
+      color: #3f3f46;
+      box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.14);
+    }
+    html.light .theme-tooltip-arrow {
+      background: #ffffff;
+      border-top-color: rgba(180, 83, 9, 0.25);
+      border-right-color: rgba(180, 83, 9, 0.25);
+    }
+    @media (max-width: 340px) {
+      .theme-tooltip {
+        max-width: 150px;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12 bg-zinc-950 text-white max-w-md mx-auto px-4 border-x border-zinc-900/40">
+  
+  <header class="py-4 border-b border-zinc-900/60 flex items-center gap-3 sticky top-0 bg-zinc-950/90 backdrop-blur-md z-40 mb-6">
+    <a href="../artikel.html" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left"></i></a>
+    <span class="text-xs font-semibold text-zinc-400">Kembali ke Hub</span>
+    <div class="theme-toggle-wrap ml-auto">
+      <button id="theme-toggle" aria-label="Tukar tema Light/Dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-400/40">
+        <i class="fa-solid fa-moon text-xs" id="theme-icon"></i>
+      </button>
+      <div id="theme-tooltip" class="theme-tooltip" role="status" aria-live="polite">
+        <span class="theme-tooltip-arrow"></span>
+        <span>Sesuaikan pencahayaan.</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dot Navigation -->
+  <div id="dots-container" class="flex items-center justify-center gap-1.5 pb-2 flex-wrap"></div>
+
+  <!-- Page Area -->
+  <div id="page-area" class="flex items-center justify-center">
+    <div id="page-content" class="page-transition w-full"></div>
+  </div>
+
+  <!-- Page Number + Navigation -->
+  <div class="flex flex-col items-center gap-3 pt-2 pb-4">
+    <div id="page-number-display" class="text-[11px] tracking-widest text-zinc-500 font-medium uppercase"></div>
+    <div class="flex items-center justify-between w-full max-w-xs gap-3">
+      <button id="prev-page-btn" class="page-nav-btn"><i class="fa-solid fa-chevron-left text-[10px]"></i> Sebelum</button>
+      <button id="next-page-btn" class="page-nav-btn">Seterusnya <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // ===== Kemaskini: Theme (Light/Dark) dengan localStorage =====
+    (function () {
+      const root = document.documentElement;
+      const toggleBtn = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+      const STORAGE_KEY = "ilmu-emas-theme";
+
+      function applyTheme(theme) {
+        if (theme === "light") {
+          root.classList.add("light");
+          themeIcon.classList.remove("fa-moon");
+          themeIcon.classList.add("fa-sun");
+        } else {
+          root.classList.remove("light");
+          themeIcon.classList.remove("fa-sun");
+          themeIcon.classList.add("fa-moon");
+        }
+      }
+
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem(STORAGE_KEY);
+      } catch (e) {
+        savedTheme = null;
+      }
+      applyTheme(savedTheme === "light" ? "light" : "dark");
+
+      toggleBtn.addEventListener("click", () => {
+        const isLight = root.classList.contains("light");
+        const nextTheme = isLight ? "dark" : "light";
+        applyTheme(nextTheme);
+        try {
+          localStorage.setItem(STORAGE_KEY, nextTheme);
+        } catch (e) {
+          /* localStorage tidak tersedia — abaikan */
+        }
+      });
+
+      // ===== Kemaskini (baharu): Popup bubble cadangan tukar tema =====
+      // Muncul maksimum 3 kali setiap sesi pengguna berada di halaman ini:
+      //   masuk halaman -> tunggu 5s -> muncul kali 1
+      //   -> tunggu 10s -> muncul kali 2
+      //   -> tunggu 10s -> muncul kali 3
+      //   -> berhenti sepenuhnya (tiada localStorage — kiraan reset automatik bila halaman dimuat semula/masuk semula).
+      const themeTooltip = document.getElementById("theme-tooltip");
+      let tooltipHideTimeoutId = null;
+      let tooltipNextTimeoutId = null;
+      let bubbleShowCount = 0;
+      const MAX_BUBBLE_SHOWS = 3;
+
+      function showThemeTooltip() {
+        if (!themeTooltip) return;
+        themeTooltip.classList.add("show");
+        clearTimeout(tooltipHideTimeoutId);
+        tooltipHideTimeoutId = setTimeout(() => {
+          themeTooltip.classList.remove("show");
+        }, 3200);
+      }
+
+      function hideThemeTooltip() {
+        if (!themeTooltip) return;
+        themeTooltip.classList.remove("show");
+        clearTimeout(tooltipHideTimeoutId);
+      }
+
+      function scheduleNextBubble(delay) {
+        if (!themeTooltip || bubbleShowCount >= MAX_BUBBLE_SHOWS) return;
+        clearTimeout(tooltipNextTimeoutId);
+        tooltipNextTimeoutId = setTimeout(() => {
+          showThemeTooltip();
+          bubbleShowCount++;
+          if (bubbleShowCount < MAX_BUBBLE_SHOWS) {
+            scheduleNextBubble(10000);
+          }
+        }, delay);
+      }
+
+      toggleBtn.addEventListener("click", hideThemeTooltip);
+
+      scheduleNextBubble(5000);
+    })();
+  </script>
+  <script>
+    (function () {
+      const pageContent = document.getElementById("page-content");
+      const dotsContainer = document.getElementById("dots-container");
+      const pageNumberDisplay = document.getElementById("page-number-display");
+      const prevBtn = document.getElementById("prev-page-btn");
+      const nextBtn = document.getElementById("next-page-btn");
+      const pageArea = document.getElementById("page-area");
+
+      // Kandungan asal artikel dipecahkan kepada muka surat secara logik.
+      // Teks asal tidak diubah sedikit pun.
+            const ARTICLE_PAGES = [
+        // Page 1a — Tajuk, penulis & pembukaan
+        `
+          <article class="space-y-4">
+            <header class="space-y-1 text-center">
+              <h1 class="text-xl sm:text-2xl font-extrabold text-zinc-100 leading-tight">#1 Emas Tak Pernah Murah</h1>
+              <p class="text-xs text-amber-400 font-medium">Oleh: Mohd Zulkifli Shafie</p>
+            </header>
+
+            <hr class="border-zinc-800/80">
+
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Masa tengah bersembang di sebuah kedai makan di Kota Bharu, entah macam mana kami terbuka topik pasal emas.
+    </p>
+            </div>
+          </article>
+        `,
+        // Page 1b — Sambungan
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Kata sahabat saya, “Dulu aku beli 1 dinar harganya sekitar RM300 sebagai maskahwin. Sekarang (tahun 2010) harganya mencecah RM500!”.
+    </p>
+              <p>
+      Owh, saya pun terus ambil handphone dan buat kira-kira, kenaikan harga emas sekitar 18% setahun.
+    </p>
+            </div>
+          </article>
+        `,
+        // Page 1c — Sambungan
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Bukankah ini lebih baik berbanding saya simpan duit dalam Tabung Haji?
+    </p>
+              <p>
+      Perbualan ringkas itu membuatkan saya nak tahu lebih mendalam pasal emas.
+    </p>
+              <p>
+      ###Rasa Mahal, Tak Jadi Beli
+    </p>
+              <p>
+      Saya teringat semula tahun 2006 masa saya mula-mula niat nak beli syiling 1 Dinar;
+    </p>
+            </div>
+          </article>
+        `,
+        // Page 1d — Sambungan
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Saya pergi ke Ar-Rahn PKB (pajak gadai Islam) di Kota Bharu dan tanya harga 1 Dinar Kelantan (syiling emas seberat 4.25 gram, ketulenan 91.6%).
+    </p>
+              <p>
+      Masa tu harganya sekitar RM300.
+    </p>
+              <p>
+      Saya terkejut... Kenapa barang sekecil ni harganya sampai RM300?
+    </p>
+              <p>
+      “Mahal!” kata saya.
+    </p>
+            </div>
+          </article>
+        `,
+        // Page 1e — Sambungan
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Saya tak jadi beli... Hinggalah perbualan dengan sahabat saya pada tahun 2010.
+    </p>
+              <p>
+      Hari ini bila saya fikir balik, sebenarnya harga emas memang sentiasa mahal.
+    </p>
+            </div>
+          </article>
+        `,
+        // Page 1f — Sambungan & Footer
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Berapa pun harganya, tetap orang akan kata ianya “mahal”. Ia memang barang yang dianggap mahal sejak zaman berzaman.
+    </p>
+              <p>
+      Tak pernah ada satu zaman pun orang anggap harga emas itu barang murah.
+    </p>
+            </div>
+
+            <footer class="pt-6 mt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <span class="text-[11px] text-zinc-500 font-medium">Diterbitkan: 2024-11-18</span>
+              <button onclick="copyGlobalLink('kandungan-artikel/1-emas-tak-pernah-murah')" class="w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-share-nodes"></i> Kongsi Artikel
+              </button>
+            </footer>
+          </article>
+        `
+      ];
+
+      const totalPages = ARTICLE_PAGES.length;
+      let currentPage = 0;
+
+      function pad(num) {
+        return num < 10 ? "0" + num : "" + num;
+      }
+
+      function renderDots() {
+        dotsContainer.innerHTML = "";
+        for (let i = 0; i < totalPages; i++) {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot" + (i === currentPage ? " active" : "");
+          dot.setAttribute("aria-label", `Muka surat ${i + 1}`);
+          dot.onclick = () => goToPage(i);
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      function renderPageNumber() {
+        pageNumberDisplay.innerText = `${pad(currentPage + 1)} / ${pad(totalPages)}`;
+      }
+
+      function renderNavButtons() {
+        prevBtn.disabled = currentPage <= 0;
+        nextBtn.disabled = currentPage >= totalPages - 1;
+      }
+
+      function renderPage() {
+        pageContent.classList.remove("page-transition");
+        void pageContent.offsetWidth;
+        pageContent.innerHTML = ARTICLE_PAGES[currentPage];
+        pageContent.classList.add("page-transition");
+        renderDots();
+        renderPageNumber();
+        renderNavButtons();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+
+      function goToPage(idx) {
+        if (idx < 0 || idx > totalPages - 1) return;
+        currentPage = idx;
+        renderPage();
+      }
+
+      prevBtn.addEventListener("click", () => goToPage(currentPage - 1));
+      nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
+
+      // Keyboard navigation (desktop)
+      window.addEventListener("keydown", (e) => {
+        const tag = document.activeElement ? document.activeElement.tagName : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON" || tag === "A") return;
+        if (e.key === "ArrowLeft") goToPage(currentPage - 1);
+        else if (e.key === "ArrowRight") goToPage(currentPage + 1);
+      });
+
+      // Swipe navigation (mobile) — tidak mengganggu scroll menegak
+      let touchStartX = null;
+      let touchStartY = null;
+      pageArea.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+      pageArea.addEventListener("touchend", (e) => {
+        if (touchStartX === null) return;
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const threshold = 50;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
+          if (deltaX < 0) goToPage(currentPage + 1);
+          else goToPage(currentPage - 1);
+        }
+        touchStartX = null;
+        touchStartY = null;
+      }, { passive: true });
+
+      renderPage();
+    })();
+  </script>
+</body>
+</html>
