@@ -82,12 +82,13 @@
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--soft); margin-bottom: 6px; }
   .field .hint { font-weight: 400; color: var(--muted); }
-  input[type=text], input[type=url], input[type=date], input[type=number], textarea.inp {
+  select.inp, input[type=text], input[type=url], input[type=date], input[type=number], textarea.inp {
     width: 100%; font: inherit; font-size: 0.9rem; color: var(--text);
     background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
   }
   textarea.inp { min-height: 260px; resize: vertical; line-height: 1.6; }
-  input:focus, textarea:focus, button:focus-visible, summary:focus-visible {
+  input[readonly] { background: var(--mono-bg); color: var(--muted); cursor: default; }
+  input:focus, textarea:focus, select:focus, button:focus-visible, summary:focus-visible {
     outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
   }
   .meta { display: flex; justify-content: space-between; gap: 10px; font-size: 0.72rem; color: var(--muted); margin-top: 5px; }
@@ -183,6 +184,23 @@
           <input type="text" id="slug" placeholder="simpan-emas-secara-konsisten" autocomplete="off" autocapitalize="off" spellcheck="false">
         </div>
         <div class="field">
+          <label for="kategoriLink">Kategori pautan <span class="hint">(untuk copyGlobalLink)</span></label>
+          <select id="kategoriLink" class="inp">
+            <option value="kandungan-artikel">kandungan-artikel</option>
+            <option value="kandungan-tipsemas">kandungan-tipsemas</option>
+            <option value="kandungan-tipskewangan">kandungan-tipskewangan</option>
+            <option value="lain">Lain (kategori/laluan sendiri)</option>
+          </select>
+        </div>
+        <div class="field" id="kategoriLainWrap" hidden>
+          <label for="kategoriLain">Kategori/laluan tersendiri</label>
+          <textarea class="inp" id="kategoriLain" style="min-height:70px" placeholder="cth: kandungan-promosi"></textarea>
+        </div>
+        <div class="field">
+          <label for="tajukLink">Tajuk pautan <span class="hint">(auto daripada tajuk artikel, untuk copyGlobalLink)</span></label>
+          <input type="text" id="tajukLink" readonly>
+        </div>
+        <div class="field">
           <label for="kandungan">Kandungan artikel</label>
           <textarea class="inp" id="kandungan" placeholder="Tampal artikel penuh di sini. Setiap baris = satu perenggan."></textarea>
           <div class="meta"><span id="wc">0 patah perkataan</span><span id="pc">0 muka surat</span></div>
@@ -246,6 +264,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var f = { tajuk: $("tajuk"), penulis: $("penulis"), tarikh: $("tarikh"), slug: $("slug"), kandungan: $("kandungan"), maks: $("maks") };
   var refsBox = $("refs"), out = $("out");
+  var kategoriSel = $("kategoriLink"), kategoriLainWrap = $("kategoriLainWrap"), kategoriLainBox = $("kategoriLain"), tajukLinkBox = $("tajukLink");
   var slugEdited = false;
   var STORE = "penjana-kod-artikel-v1";
   var DEFAULT_MAX = 480;
@@ -259,6 +278,11 @@
   function slugify(s) {
     return String(s).toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+  function sanitizePath(s) {
+    return String(s || "").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+      .split("/").map(function (seg) { return seg.replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, ""); })
+      .filter(Boolean).join("/");
   }
   function escHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function escAttr(s) { return escHtml(s).replace(/"/g, "&quot;"); }
@@ -437,7 +461,7 @@
       L.push("");
       L.push('  <footer class="pt-6 mt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">');
       L.push('    <span class="text-[11px] text-zinc-500 font-medium">Diterbitkan: ' + escTpl(escHtml(ctx.tarikh)) + "</span>");
-      L.push("    <button onclick=\"copyGlobalLink('kandungan-artikel/" + ctx.slug + "')\" class=\"w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all\">");
+      L.push("    <button onclick=\"copyGlobalLink('" + ctx.kategori + "/" + ctx.tautanSlug + "')\" class=\"w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all\">");
       L.push('      <i class="fa-solid fa-share-nodes"></i> Kongsi Artikel');
       L.push("    </button>");
       L.push("  </footer>");
@@ -486,8 +510,13 @@
     if (!blocks.some(function (b) { return b.t !== "break" && b.t !== "ref"; })) blocking.push("Kandungan artikel belum diisi.");
     if (!penulis) warnings.push("Nama penulis kosong, baris \"Oleh:\" tidak akan dipaparkan.");
 
+    var kategoriRaw = kategoriSel.value === "lain" ? kategoriLainBox.value : kategoriSel.value;
+    if (kategoriSel.value === "lain" && !kategoriLainBox.value.trim()) warnings.push("Kategori tersendiri kosong, menggunakan \"lain\" sebagai laluan pautan.");
+    var kategoriVal = sanitizePath(kategoriRaw) || "lain";
+    var tautanSlug = slugify(tajuk);
+
     var pages = paginate(blocks, max);
-    var ctx = { tajuk: tajuk, penulis: penulis, tarikh: tarikh, slug: slug };
+    var ctx = { tajuk: tajuk, penulis: penulis, tarikh: tarikh, slug: slug, kategori: kategoriVal, tautanSlug: tautanSlug };
     var code = assemble(pages, ctx);
     return { code: code, pages: pages, warnings: warnings, blocking: blocking };
   }
@@ -531,18 +560,23 @@
     items.forEach(function (s) { var li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
     w.appendChild(ul);
   }
+  function syncKategoriUI() {
+    kategoriLainWrap.hidden = kategoriSel.value !== "lain";
+  }
 
   function save() {
     try {
       localStorage.setItem(STORE, JSON.stringify({
         tajuk: f.tajuk.value, penulis: f.penulis.value, tarikh: f.tarikh.value,
         slug: f.slug.value, slugEdited: slugEdited, kandungan: f.kandungan.value, maks: f.maks.value,
+        kategoriLink: kategoriSel.value, kategoriLain: kategoriLainBox.value,
         refs: getRefs().map(function (r) { return [r.url, r.text]; })
       }));
     } catch (e) {}
   }
 
   function update() {
+    tajukLinkBox.value = slugify(f.tajuk.value);
     var res = build();
     last = { ok: res.blocking.length === 0, code: res.code };
     out.textContent = res.code;
@@ -597,6 +631,8 @@
     if (!slugEdited) f.slug.value = slugify(f.tajuk.value);
     update();
   });
+  kategoriSel.addEventListener("change", function () { syncKategoriUI(); update(); });
+  kategoriLainBox.addEventListener("input", update);
   $("addRef").addEventListener("click", function () { addRef(); update(); });
   $("copyBtn").addEventListener("click", function () { copy(this); });
   $("copyBtn2").addEventListener("click", function () { copy(this); });
@@ -605,6 +641,7 @@
     f.tajuk.value = f.penulis.value = f.slug.value = f.kandungan.value = "";
     f.maks.value = DEFAULT_MAX;
     f.tarikh.value = today(); slugEdited = false; refsBox.innerHTML = "";
+    kategoriSel.value = "kandungan-artikel"; kategoriLainBox.value = ""; syncKategoriUI();
     update();
   });
 
@@ -628,8 +665,11 @@
     f.tarikh.value = saved.tarikh || today(); f.slug.value = saved.slug || "";
     f.kandungan.value = saved.kandungan || ""; slugEdited = !!saved.slugEdited;
     if (saved.maks !== undefined && saved.maks !== "") f.maks.value = saved.maks;
+    kategoriSel.value = saved.kategoriLink || "kandungan-artikel";
+    kategoriLainBox.value = saved.kategoriLain || "";
     (saved.refs || []).forEach(function (r) { addRef(r[0], r[1]); });
   } else { f.tarikh.value = today(); }
+  syncKategoriUI();
   update();
 })();
 </script>
