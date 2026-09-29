@@ -63,5 +63,13 @@ const ARTIKEL_DATA = [
     path: "/kandungan-tipsemas/emas-lagi-jatuh-lagi-orang-beli.html"
   },
 
+    {
+    id: "emosi-kita-terhadap-duit",
+    title: "Emosi Kita Terhadap Duit",
+    author: "Mohd Zulkifli Shafie",
+    category: "Bab 2 : Manfaat Emas Untuk Kewangan",
+    summary: "Emas kalau harganya jatuh, ia adalah emas (tetap bernilai). Sedangkan duit kertas, kalau nilainya jatuh, ia adalah kertas!",
+    path: "/kandungan-tipsemas/emosi-kita-terhadap-duit.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
