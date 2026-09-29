@@ -201,6 +201,14 @@
           <input type="text" id="tajukLink" readonly>
         </div>
         <div class="field">
+          <label for="hub">Kembali ke Hub <span class="hint">(destinasi butang anak panah di header artikel)</span></label>
+          <select id="hub" class="inp">
+            <option value="https://ilmu-emas.pages.dev/gold-saver/tips-emas">Tips Emas</option>
+            <option value="https://ilmu-emas.pages.dev/gold-saver/tips-kewangan">Tips Kewangan</option>
+            <option value="https://ilmu-emas.pages.dev/artikel">Artikel</option>
+          </select>
+        </div>
+        <div class="field">
           <label for="kandungan">Kandungan artikel</label>
           <textarea class="inp" id="kandungan" placeholder="Tampal artikel penuh di sini. Setiap baris = satu perenggan."></textarea>
           <div class="meta"><span id="wc">0 patah perkataan</span><span id="pc">0 muka surat</span></div>
@@ -249,12 +257,17 @@
         <div class="row">
           <button class="btn primary" id="copyBtn" type="button">Salin kod artikel</button>
         </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="copyName" type="button" style="width:100%" title="Nama fail .html daripada tajuk artikel">Salin tajuk file</button>
+        </div>
+        <div class="meta"><span id="fn">Nama fail: —</span></div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="mobile-bar">
+  <button class="btn" id="copyName2" type="button">Salin tajuk file</button>
   <button class="btn primary" id="copyBtn2" type="button">Salin kod artikel</button>
 </div>
 <div class="toast-sr" role="status" aria-live="polite" id="sr"></div>
@@ -836,7 +849,12 @@
   var f = { tajuk: $("tajuk"), penulis: $("penulis"), tarikh: $("tarikh"), slug: $("slug"), kandungan: $("kandungan"), maks: $("maks") };
   var refsBox = $("refs"), out = $("out");
   var kategoriSel = $("kategoriLink"), kategoriLainWrap = $("kategoriLainWrap"), kategoriLainBox = $("kategoriLain"), tajukLinkBox = $("tajukLink");
+  var hubSel = $("hub");
   var slugEdited = false;
+  function fileName() {
+    var s = slugify(f.tajuk.value);
+    return s ? s + ".html" : "";
+  }
   var STORE = "penjana-kod-artikel-v1";
   var DEFAULT_MAX = 480;
   var last = { ok: false, code: "" };
@@ -1068,6 +1086,8 @@
     } else {
       t = t.replace(/[ \t]*<p class="text-xs text-amber-400 font-medium">Oleh: \[NAMA PENULIS\]<\/p>\n?/, "");
     }
+    // 2b) Kembali ke Hub → destinasi dipilih daripada dropdown
+    t = t.split('href="https://ilmu-emas.pages.dev/gold-saver/tips-emas"').join('href="' + escAttr(ctx.hub) + '"');
     // 3) ARTICLE_PAGES → kandungan artikel baharu
     t = t.split("@@ARTICLE_PAGES@@").join(arrayCode);
     return t;
@@ -1109,7 +1129,7 @@
     var tautanSlug = slugify(tajuk);
 
     var pages = paginate(blocks, max);
-    var ctx = { tajuk: tajuk, penulis: penulis, tarikh: tarikh, slug: slug, kategori: kategoriVal, tautanSlug: tautanSlug };
+    var ctx = { tajuk: tajuk, penulis: penulis, tarikh: tarikh, slug: slug, kategori: kategoriVal, tautanSlug: tautanSlug, hub: hubSel.value };
     var code = buildDocument(assemble(pages, ctx), ctx);
     return { code: code, pages: pages, warnings: warnings, blocking: blocking };
   }
@@ -1162,7 +1182,7 @@
       localStorage.setItem(STORE, JSON.stringify({
         tajuk: f.tajuk.value, penulis: f.penulis.value, tarikh: f.tarikh.value,
         slug: f.slug.value, slugEdited: slugEdited, kandungan: f.kandungan.value, maks: f.maks.value,
-        kategoriLink: kategoriSel.value, kategoriLain: kategoriLainBox.value,
+        kategoriLink: kategoriSel.value, kategoriLain: kategoriLainBox.value, hub: hubSel.value,
         refs: getRefs().map(function (r) { return [r.url, r.text]; })
       }));
     } catch (e) {}
@@ -1180,6 +1200,9 @@
     renderSummary(res.pages);
     renderWarn(res);
     $("copyBtn").disabled = $("copyBtn2").disabled = !last.ok;
+    var fnm = fileName();
+    $("fn").textContent = "Nama fail: " + (fnm || "—");
+    $("copyName").disabled = $("copyName2").disabled = !fnm;
     save();
   }
 
@@ -1195,13 +1218,12 @@
     refsBox.appendChild(row);
   }
 
-  function copy(btn) {
-    if (!last.ok) return;
-    var text = last.code;
+  function copy(btn, text, label, srMsg) {
+    if (!text) return;
     function done() {
       btn.classList.add("ok"); btn.textContent = "Disalin ✓";
-      $("sr").textContent = "Kod artikel disalin";
-      setTimeout(function () { btn.classList.remove("ok"); btn.textContent = "Salin kod artikel"; }, 1800);
+      $("sr").textContent = srMsg;
+      setTimeout(function () { btn.classList.remove("ok"); btn.textContent = label; }, 1800);
     }
     function fallback() {
       var ta = document.createElement("textarea");
@@ -1227,14 +1249,18 @@
   kategoriSel.addEventListener("change", function () { syncKategoriUI(); update(); });
   kategoriLainBox.addEventListener("input", update);
   $("addRef").addEventListener("click", function () { addRef(); update(); });
-  $("copyBtn").addEventListener("click", function () { copy(this); });
-  $("copyBtn2").addEventListener("click", function () { copy(this); });
+  hubSel.addEventListener("change", update);
+  $("copyBtn").addEventListener("click", function () { copy(this, last.ok ? last.code : "", "Salin kod artikel", "Kod artikel disalin"); });
+  $("copyBtn2").addEventListener("click", function () { copy(this, last.ok ? last.code : "", "Salin kod artikel", "Kod artikel disalin"); });
+  $("copyName").addEventListener("click", function () { copy(this, fileName(), "Salin tajuk file", "Tajuk file disalin"); });
+  $("copyName2").addEventListener("click", function () { copy(this, fileName(), "Salin tajuk file", "Tajuk file disalin"); });
   $("resetBtn").addEventListener("click", function () {
     if (!confirm("Kosongkan semua maklumat dalam borang?")) return;
     f.tajuk.value = f.penulis.value = f.slug.value = f.kandungan.value = "";
     f.maks.value = DEFAULT_MAX;
     f.tarikh.value = today(); slugEdited = false; refsBox.innerHTML = "";
     kategoriSel.value = "kandungan-artikel"; kategoriLainBox.value = ""; syncKategoriUI();
+    hubSel.selectedIndex = 0;
     update();
   });
 
@@ -1260,6 +1286,8 @@
     if (saved.maks !== undefined && saved.maks !== "") f.maks.value = saved.maks;
     kategoriSel.value = saved.kategoriLink || "kandungan-artikel";
     kategoriLainBox.value = saved.kategoriLain || "";
+    if (saved.hub) hubSel.value = saved.hub;
+    if (!hubSel.value) hubSel.selectedIndex = 0;
     (saved.refs || []).forEach(function (r) { addRef(r[0], r[1]); });
   } else { f.tarikh.value = today(); }
   syncKategoriUI();
