@@ -71,5 +71,14 @@ const ARTIKEL_DATA = [
     summary: "Emas kalau harganya jatuh, ia adalah emas (tetap bernilai). Sedangkan duit kertas, kalau nilainya jatuh, ia adalah kertas!",
     path: "/kandungan-tipsemas/emosi-kita-terhadap-duit.html"
   },
+
+    {
+    id: "emas-simpanan-yang-dilupakan",
+    title: "Emas Simpanan Yang Dilupakan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Emas Sebagai \u2018Forgotten Saving\u2019",
+    summary: "Saya tak tahu berapa jumlah simpanan yang ada. Yang saya tahu, berapa keping gold bar dan dinar emas yang saya ada. Dan mungkin satu hari nanti, saya pun tak tahu berapa banyak emas yang saya beli.",
+    path: "/kandungan-tipsemas/emas-simpanan-yang-dilupakan.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
