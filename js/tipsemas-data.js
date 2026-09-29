@@ -80,5 +80,14 @@ const ARTIKEL_DATA = [
     summary: "Saya tak tahu berapa jumlah simpanan yang ada. Yang saya tahu, berapa keping gold bar dan dinar emas yang saya ada. Dan mungkin satu hari nanti, saya pun tak tahu berapa banyak emas yang saya beli.",
     path: "/kandungan-tipsemas/emas-simpanan-yang-dilupakan.html"
   },
+
+    {
+    id: "untung-emas-berbanding-asb-dan-tabung-haji",
+    title: "Untung Emas Berbanding ASB dan Tabung Haji",
+    author: "Mohd Zulkifli Shafie",
+    category: "Emas Sebagai \u2018Forgotten Saving\u2019",
+    summary: "Bila beli emas ni, tak perlu risau pasal dividen banyak ataupun sikit. Sebabnya trend harga emas memang menaik dalam jangka panjang.",
+    path: "/kandungan-tipsemas/untung-emas-berbanding-asb-dan-tabung-haji.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
