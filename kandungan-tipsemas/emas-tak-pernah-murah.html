@@ -28,29 +28,8 @@
       background-color: #fbbf24; /* amber-400 */
       box-shadow: 0 0 8px 0 rgba(251, 191, 36, 0.5);
     }
-    .page-nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: rgb(212 212 216); /* zinc-300 */
-      background: rgb(24 24 27); /* zinc-900 */
-      border: 1px solid rgb(39 39 42);
-      padding: 8px 16px;
-      border-radius: 12px;
-      transition: all 0.2s ease;
-    }
-    .page-nav-btn:hover:not(:disabled) {
-      border-color: rgb(251 191 36 / 0.5);
-      color: #fbbf24;
-    }
-    .page-nav-btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
     #page-area {
-      min-height: calc(100dvh - 230px);
+      min-height: calc(100dvh - 330px);
     }
     .ref-box {
       display: block;
@@ -124,15 +103,6 @@
       background-color: #b45309;
       box-shadow: 0 0 8px 0 rgba(180, 83, 9, 0.35);
     }
-    html.light .page-nav-btn {
-      color: #3f3f46;
-      background: #ffffff;
-      border: 1px solid #e4e4e7;
-    }
-    html.light .page-nav-btn:hover:not(:disabled) {
-      border-color: rgba(180, 83, 9, 0.45);
-      color: #b45309;
-    }
     html.light .ref-box {
       color: #b45309;
       background: rgba(180, 83, 9, 0.06);
@@ -152,7 +122,6 @@
     }
 
     /* ===== Kemaskini #2 (baharu): Popup bubble untuk butang theme-toggle ===== */
-    /* Bubble kini diletakkan di SEBELAH KIRI #theme-toggle, dengan arrow di sebelah kanan bubble menghala ke butang. */
     .theme-toggle-wrap {
       position: relative;
     }
@@ -208,6 +177,137 @@
         max-width: 150px;
       }
     }
+
+    /* ===== Kemaskini (baharu): Bar navigasi bawah — Kombo Jimat | Pagination kotak | Prev/Next bulat ===== */
+    #bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      width: 100%;
+      padding-top: 14px;
+      border-top: 1px solid rgb(39 39 42); /* zinc-800 */
+    }
+    .combo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #27200a;
+      white-space: nowrap;
+      padding: 9px 13px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #f3d77a 0%, #d4a935 55%, #b98a1f 100%);
+      box-shadow: 0 6px 16px -6px rgba(251, 191, 36, 0.45);
+      transition: all 0.2s ease;
+    }
+    .combo-pill:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .combo-pill:active { transform: scale(0.97); }
+    .combo-pill i { font-size: 0.55rem; }
+
+    #pagination-numbers {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-width: 0;
+    }
+    .page-box {
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: rgb(161 161 170); /* zinc-400 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(63 63 70); /* zinc-700 */
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .page-box:hover:not(.active) {
+      color: #fbbf24;
+      border-color: rgba(251, 191, 36, 0.5);
+    }
+    .page-box.active {
+      color: #27200a;
+      font-weight: 700;
+      border-color: transparent;
+      background: linear-gradient(135deg, #f3d77a 0%, #d4a935 60%, #b98a1f 100%);
+      box-shadow: 0 4px 12px -4px rgba(251, 191, 36, 0.5);
+    }
+    .page-ellipsis {
+      font-size: 0.68rem;
+      color: rgb(113 113 122); /* zinc-500 */
+      padding: 0 1px;
+      flex-shrink: 0;
+    }
+    .circle-btn {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: rgb(212 212 216); /* zinc-300 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(63 63 70); /* zinc-700 */
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+    }
+    .circle-btn:hover:not(:disabled) {
+      border-color: rgba(251, 191, 36, 0.5);
+      color: #fbbf24;
+    }
+    .circle-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .nav-circles {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 360px) {
+      #bottom-bar { gap: 4px; }
+      .combo-pill { padding: 8px 10px; font-size: 0.62rem; }
+      .page-box { width: 23px; height: 23px; font-size: 0.62rem; }
+      .circle-btn { width: 25px; height: 25px; }
+      #pagination-numbers, .nav-circles { gap: 3px; }
+    }
+
+    html.light #bottom-bar { border-top-color: #e4e4e7; }
+    html.light .combo-pill { box-shadow: 0 6px 16px -6px rgba(180, 83, 9, 0.35); }
+    html.light .page-box {
+      color: #52525b;
+      background: #ffffff;
+      border-color: #d4d4d8;
+    }
+    html.light .page-box:hover:not(.active) {
+      color: #b45309;
+      border-color: rgba(180, 83, 9, 0.45);
+    }
+    html.light .page-box.active {
+      color: #27200a;
+      border-color: transparent;
+      box-shadow: 0 4px 12px -4px rgba(180, 83, 9, 0.4);
+    }
+    html.light .page-ellipsis { color: #71717a; }
+    html.light .circle-btn {
+      color: #3f3f46;
+      background: #ffffff;
+      border-color: #d4d4d8;
+    }
+    html.light .circle-btn:hover:not(:disabled) {
+      border-color: rgba(180, 83, 9, 0.45);
+      color: #b45309;
+    }
   </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 text-white max-w-md mx-auto px-4 border-x border-zinc-900/40">
@@ -229,17 +329,28 @@
   <!-- Dot Navigation -->
   <div id="dots-container" class="flex items-center justify-center gap-1.5 pb-2 flex-wrap"></div>
 
+  <!-- Header Artikel (kekal pada semua page) -->
+  <div id="article-header" class="pt-3 pb-4 space-y-1 text-center border-b border-zinc-800/80">
+    <h1 class="text-xl sm:text-2xl font-extrabold text-zinc-100 leading-tight">#1 Emas Tak Pernah Murah</h1>
+    <p class="text-xs text-amber-400 font-medium">Oleh: Mohd Zulkifli Shafie</p>
+  </div>
+
   <!-- Page Area -->
   <div id="page-area" class="flex items-center justify-center">
     <div id="page-content" class="page-transition w-full"></div>
   </div>
 
-  <!-- Page Number + Navigation -->
-  <div class="flex flex-col items-center gap-3 pt-2 pb-4">
-    <div id="page-number-display" class="text-[11px] tracking-widest text-zinc-500 font-medium uppercase"></div>
-    <div class="flex items-center justify-between w-full max-w-xs gap-3">
-      <button id="prev-page-btn" class="page-nav-btn"><i class="fa-solid fa-chevron-left text-[10px]"></i> Sebelum</button>
-      <button id="next-page-btn" class="page-nav-btn">Seterusnya <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+  <!-- Bottom Navigation -->
+  <div class="pt-2 pb-4">
+    <div id="bottom-bar">
+      <a href="https://g100.my/combo-buku/" target="_blank" rel="noopener" class="combo-pill">
+        Kombo Jimat <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <div id="pagination-numbers" aria-label="Pagination"></div>
+      <div class="nav-circles">
+        <button id="prev-page-btn" class="circle-btn" aria-label="Sebelum"><i class="fa-solid fa-chevron-left"></i></button>
+        <button id="next-page-btn" class="circle-btn" aria-label="Seterusnya"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
     </div>
   </div>
 
@@ -331,24 +442,18 @@
     (function () {
       const pageContent = document.getElementById("page-content");
       const dotsContainer = document.getElementById("dots-container");
-      const pageNumberDisplay = document.getElementById("page-number-display");
+      const paginationNumbers = document.getElementById("pagination-numbers");
       const prevBtn = document.getElementById("prev-page-btn");
       const nextBtn = document.getElementById("next-page-btn");
       const pageArea = document.getElementById("page-area");
 
       // Kandungan asal artikel dipecahkan kepada muka surat secara logik.
       // Teks asal tidak diubah sedikit pun.
-            const ARTICLE_PAGES = [
-        // Page 1a — Tajuk, penulis & pembukaan
+      // (Tajuk & nama penulis kini kekal di luar ARTICLE_PAGES — lihat #article-header.)
+      const ARTICLE_PAGES = [
+        // Page 1a — Pembukaan
         `
           <article class="space-y-4">
-            <header class="space-y-1 text-center">
-              <h1 class="text-xl sm:text-2xl font-extrabold text-zinc-100 leading-tight">#1 Emas Tak Pernah Murah</h1>
-              <p class="text-xs text-amber-400 font-medium">Oleh: Mohd Zulkifli Shafie</p>
-            </header>
-
-            <hr class="border-zinc-800/80">
-
             <div class="text-base text-zinc-300 leading-loose space-y-4">
               <p>
       Masa tengah bersembang di sebuah kedai makan di Kota Bharu, entah macam mana kami terbuka topik pasal emas.
@@ -445,10 +550,6 @@
       const totalPages = ARTICLE_PAGES.length;
       let currentPage = 0;
 
-      function pad(num) {
-        return num < 10 ? "0" + num : "" + num;
-      }
-
       function renderDots() {
         dotsContainer.innerHTML = "";
         for (let i = 0; i < totalPages; i++) {
@@ -460,8 +561,43 @@
         }
       }
 
-      function renderPageNumber() {
-        pageNumberDisplay.innerText = `${pad(currentPage + 1)} / ${pad(totalPages)}`;
+      // Pagination kotak: 1, 2, 3, …, akhir (ringkas & sentiasa muat pada mobile)
+      function getVisiblePages() {
+        const cur = currentPage + 1;
+        const set = new Set([1, totalPages, cur - 1, cur, cur + 1]);
+        if (cur <= 3) { set.add(1); set.add(2); set.add(3); }
+        if (cur >= totalPages - 2) { set.add(totalPages - 2); set.add(totalPages - 1); }
+        return Array.from(set)
+          .filter((n) => n >= 1 && n <= totalPages)
+          .sort((a, b) => a - b);
+      }
+
+      function renderPagination() {
+        paginationNumbers.innerHTML = "";
+        const pages = getVisiblePages();
+        let prev = 0;
+        pages.forEach((n) => {
+          if (n - prev === 2) {
+            appendBox(prev + 1);
+          } else if (n - prev > 2) {
+            const dots = document.createElement("span");
+            dots.className = "page-ellipsis";
+            dots.textContent = "…";
+            paginationNumbers.appendChild(dots);
+          }
+          appendBox(n);
+          prev = n;
+        });
+      }
+
+      function appendBox(n) {
+        const btn = document.createElement("button");
+        btn.className = "page-box" + (n === currentPage + 1 ? " active" : "");
+        btn.textContent = n;
+        btn.setAttribute("aria-label", `Muka surat ${n}`);
+        if (n === currentPage + 1) btn.setAttribute("aria-current", "page");
+        btn.onclick = () => goToPage(n - 1);
+        paginationNumbers.appendChild(btn);
       }
 
       function renderNavButtons() {
@@ -475,7 +611,7 @@
         pageContent.innerHTML = ARTICLE_PAGES[currentPage];
         pageContent.classList.add("page-transition");
         renderDots();
-        renderPageNumber();
+        renderPagination();
         renderNavButtons();
         window.scrollTo({ top: 0, behavior: "auto" });
       }
