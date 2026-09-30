@@ -95,7 +95,26 @@
       </div>
     </div>
     
-    <div id="category-tabs-container" class="flex items-center gap-2 px-4 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
+    <div id="category-tabs-container" class="flex items-end gap-2 px-4 pb-3">
+      <div id="cat-dropdown" class="relative flex-1 min-w-0">
+        <div class="text-[10px] font-bold text-amber-300 uppercase tracking-wider mb-1">#Tips Emas</div>
+        <button id="cat-btn" type="button" aria-haspopup="listbox" aria-expanded="false"
+          class="w-full flex items-center justify-between gap-2 text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2.5 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10">
+          <span id="cat-label" class="flex items-center gap-1.5 min-w-0 truncate"></span>
+          <i id="cat-chevron" class="fa-solid fa-chevron-down text-[10px] transition-transform"></i>
+        </button>
+        <div id="cat-menu" role="listbox"
+          class="hidden absolute left-0 right-0 mt-1 max-h-64 overflow-y-auto no-scrollbar bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/50 p-1 space-y-1 z-50"></div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center bg-zinc-900 border border-amber-400/25 rounded-xl px-2.5 py-1.5 min-w-[64px]">
+        <span id="stat-unread" class="text-sm font-bold text-amber-300 leading-none">0</span>
+        <span class="text-[9px] text-zinc-400 font-medium mt-1 whitespace-nowrap">Belum Dibaca</span>
+      </div>
+      <div class="flex flex-col items-center justify-center bg-zinc-900 border border-emerald-400/25 rounded-xl px-2.5 py-1.5 min-w-[64px]">
+        <span id="stat-read" class="text-sm font-bold text-emerald-300 leading-none">0</span>
+        <span class="text-[9px] text-zinc-400 font-medium mt-1 whitespace-nowrap">Sudah Dibaca</span>
+      </div>
     </div>
   </header>
 
@@ -134,35 +153,143 @@
       if (badge) {
         badge.classList.toggle("hidden", !nowRead);
       }
+
+      // Kemas kini dropdown kategori & statistik secara automatik
+      if (typeof window.__refreshReadUI === "function") window.__refreshReadUI();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
       const container = document.getElementById("artikel-list-container");
-      const tabsContainer = document.getElementById("category-tabs-container");
+      const catBtn = document.getElementById("cat-btn");
+      const catLabel = document.getElementById("cat-label");
+      const catChevron = document.getElementById("cat-chevron");
+      const catMenu = document.getElementById("cat-menu");
+      const catDropdown = document.getElementById("cat-dropdown");
+      const statUnread = document.getElementById("stat-unread");
+      const statRead = document.getElementById("stat-read");
       let currentActiveCategory = "Semua";
 
       const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
 
-      function renderCategoryTabs() {
-        tabsContainer.innerHTML = "";
+      // ── Link khas kategori: contoh #tips-#1-Emas-&-Kewangan ──
+      function categorySlug(cat) {
+        return "tips-" + String(cat).trim().replace(/\s+/g, "-");
+      }
+      function findCategoryByHash(rawHash) {
+        let h = rawHash.replace("#", "");
+        try { h = decodeURIComponent(h); } catch (e) {}
+        h = h.toLowerCase();
+        return categories.find(cat => cat !== "Semua" && categorySlug(cat).toLowerCase() === h) || null;
+      }
+
+      // ── Status kategori: sudah dibaca sepenuhnya? ──
+      function isCategoryFullyRead(cat) {
+        const list = cat === "Semua" ? ARTIKEL_DATA : ARTIKEL_DATA.filter(art => art.category === cat);
+        return list.length > 0 && list.every(art => isArticleRead(art.id));
+      }
+
+      function tickIcon() {
+        const i = document.createElement("i");
+        i.className = "fa-solid fa-circle-check text-emerald-400 text-[11px] shrink-0";
+        return i;
+      }
+
+      function updateStats() {
+        const list = currentActiveCategory === "Semua"
+          ? ARTIKEL_DATA
+          : ARTIKEL_DATA.filter(art => art.category === currentActiveCategory);
+        const readCount = list.filter(art => isArticleRead(art.id)).length;
+        statRead.textContent = readCount;
+        statUnread.textContent = list.length - readCount;
+      }
+
+      function renderCategoryDropdown() {
+        // Butang dropdown (kategori aktif)
+        const activeRead = currentActiveCategory !== "Semua" && isCategoryFullyRead(currentActiveCategory);
+        catBtn.className = activeRead
+          ? "w-full flex items-center justify-between gap-2 text-xs font-bold text-emerald-300 bg-zinc-900 px-4 py-2.5 rounded-xl border border-emerald-400/40 transition-all shadow-md shadow-emerald-400/10"
+          : "w-full flex items-center justify-between gap-2 text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2.5 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10";
+        catLabel.innerHTML = "";
+        const txt = document.createElement("span");
+        txt.className = "truncate";
+        txt.textContent = currentActiveCategory;
+        catLabel.appendChild(txt);
+        if (activeRead) catLabel.appendChild(tickIcon());
+
+        // Senarai pilihan
+        catMenu.innerHTML = "";
         categories.forEach(cat => {
-          const btn = document.createElement("button");
-          btn.innerText = cat;
-          
-          if (cat === currentActiveCategory) {
-            btn.className = "text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10 whitespace-nowrap";
+          const isActive = cat === currentActiveCategory;
+          const isRead = cat !== "Semua" && isCategoryFullyRead(cat);
+          const item = document.createElement("button");
+          item.type = "button";
+          item.setAttribute("role", "option");
+          item.setAttribute("aria-selected", isActive ? "true" : "false");
+
+          const base = "w-full flex items-center justify-between gap-2 text-left text-xs px-3 py-2.5 rounded-lg transition-all ";
+          let tone;
+          if (isRead) {
+            tone = isActive
+              ? "font-bold text-emerald-300 bg-emerald-400/10 border border-emerald-400/40"
+              : "font-medium text-emerald-300 border border-transparent hover:bg-emerald-400/10";
           } else {
-            btn.className = "text-xs font-medium text-zinc-400 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800/60 hover:text-zinc-200 hover:border-zinc-700 transition-all whitespace-nowrap";
+            tone = isActive
+              ? "font-bold text-amber-300 bg-amber-400/10 border border-amber-400/40"
+              : "font-medium text-zinc-400 border border-transparent hover:text-zinc-200 hover:bg-zinc-800";
           }
-          
-          btn.onclick = () => {
-            currentActiveCategory = cat;
-            renderCategoryTabs();
-            renderArticles();
+          item.className = base + tone;
+
+          const name = document.createElement("span");
+          name.className = "truncate";
+          name.textContent = cat;
+          item.appendChild(name);
+          if (isRead) item.appendChild(tickIcon());
+
+          item.onclick = () => {
+            setCategory(cat, true);
+            closeMenu();
           };
-          
-          tabsContainer.appendChild(btn);
+          catMenu.appendChild(item);
         });
+      }
+
+      function refreshReadUI() {
+        renderCategoryDropdown();
+        updateStats();
+      }
+      window.__refreshReadUI = refreshReadUI;
+
+      function openMenu() {
+        catMenu.classList.remove("hidden");
+        catBtn.setAttribute("aria-expanded", "true");
+        catChevron.classList.add("rotate-180");
+      }
+      function closeMenu() {
+        catMenu.classList.add("hidden");
+        catBtn.setAttribute("aria-expanded", "false");
+        catChevron.classList.remove("rotate-180");
+      }
+      catBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        catMenu.classList.contains("hidden") ? openMenu() : closeMenu();
+      });
+      document.addEventListener("click", (e) => {
+        if (!catDropdown.contains(e.target)) closeMenu();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+
+      function setCategory(cat, updateHash) {
+        currentActiveCategory = cat;
+        refreshReadUI();
+        renderArticles();
+        if (updateHash) {
+          // Kemas kini URL tanpa mencetuskan hashchange
+          const base = window.location.pathname + window.location.search;
+          const newUrl = cat === "Semua" ? base : base + "#" + categorySlug(cat);
+          try { history.replaceState(null, "", newUrl); } catch (e) {}
+        }
       }
 
       function renderArticles() {
@@ -185,9 +312,9 @@
             <div>
               <div class="flex justify-between items-center mb-2 pr-5">
                  <span class="text-[10px] font-bold text-amber-300 uppercase tracking-wider bg-amber-400/10 px-2 py-1 rounded-md border border-amber-400/20">${art.category}</span>
-                 <span class="text-[10px] text-zinc-400 font-medium">Oleh: ${art.author}</span>
               </div>
               <h3 class="text-base font-bold text-zinc-50 leading-snug">${art.title}</h3>
+              <span class="block text-[10px] text-zinc-400 font-medium mt-1">Oleh: ${art.author}</span>
               <p class="text-xs text-zinc-300 mt-2 leading-relaxed">${art.summary}</p>
             </div>
             <div class="flex justify-between items-center pt-2 border-t border-white/10">
@@ -217,9 +344,7 @@
           
           if (linkedArticle) {
             if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArticle.category) {
-              currentActiveCategory = linkedArticle.category;
-              renderCategoryTabs();
-              renderArticles();
+              setCategory(linkedArticle.category, false);
             }
             
             const targetCard = document.getElementById(targetId);
@@ -232,11 +357,30 @@
                 }, 4000); 
               }, 300);
             }
+            return;
+          }
+
+          // Link khas kategori
+          const linkedCategory = findCategoryByHash(hash);
+          if (linkedCategory) {
+            setCategory(linkedCategory, false);
+            setTimeout(() => {
+              const headerEl = document.querySelector("header");
+              const offset = headerEl ? headerEl.offsetHeight : 0;
+              const top = container.getBoundingClientRect().top + window.pageYOffset - offset - 8;
+              window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+              catBtn.classList.add("highlight-pulse");
+              container.classList.add("highlight-pulse");
+              setTimeout(() => {
+                catBtn.classList.remove("highlight-pulse");
+                container.classList.remove("highlight-pulse");
+              }, 4000);
+            }, 300);
           }
         }
       }
 
-      renderCategoryTabs();
+      refreshReadUI();
       renderArticles();
       handleHashHighlight();
 
