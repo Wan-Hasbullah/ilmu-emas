@@ -131,7 +131,7 @@
 
     <!-- Butang Penapis Bacaan (baharu) -->
     <div id="read-filter-bar" class="grid grid-cols-[1.35fr_1fr_1fr] gap-2 px-4 pb-3" role="group" aria-label="Penapis status bacaan">
-      <button id="filter-last" type="button" data-filter="last" aria-pressed="true"
+      <button id="filter-last" type="button" data-filter="last" aria-label="Pergi ke bacaan terakhir"
         class="filter-btn flex items-center justify-center gap-1.5 text-[11px] font-bold px-3 py-2.5 rounded-xl border transition-all whitespace-nowrap">
         <i class="fa-solid fa-clock-rotate-left text-[11px]"></i><span>Bacaan Terakhir</span>
       </button>
@@ -145,6 +145,12 @@
       </button>
     </div>
   </header>
+
+  <!-- Toast mesej ringkas (baharu) -->
+  <div id="last-toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm bg-zinc-900 border border-amber-400/30 text-zinc-200 text-xs font-medium px-4 py-3 rounded-xl shadow-xl shadow-black/50 flex items-center gap-2">
+    <i class="fa-solid fa-circle-info text-amber-300"></i>
+    <span id="last-toast-text"></span>
+  </div>
 
   <main class="p-4 space-y-4" id="artikel-list-container">
   </main>
@@ -200,8 +206,10 @@
       const statRead = document.getElementById("stat-read");
       let currentActiveCategory = "Semua";
 
-      // Penapis bacaan: "last" (paparan asal) | "unread" | "read"
-      let currentReadFilter = "last";
+      // Penapis bacaan: "all" (paparan asal) | "unread" | "read"
+      let currentReadFilter = "all";
+      // Kunci localStorage untuk kad yang terakhir diklik
+      const LAST_READ_KEY = "tipsemas_bacaan_terakhir";
       const filterButtons = document.querySelectorAll("#read-filter-bar .filter-btn");
 
       const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
@@ -300,9 +308,15 @@
         const inactive = "text-zinc-400 bg-zinc-900 border-zinc-800 hover:text-zinc-200 hover:border-zinc-700";
         const activeAmber = "text-zinc-950 bg-amber-400 border-amber-400 shadow-md shadow-amber-400/10";
         const activeEmerald = "text-emerald-300 bg-emerald-400/10 border-emerald-400/40 shadow-md shadow-emerald-400/10";
+        const lastTone = "text-amber-300 bg-amber-400/10 border-amber-400/40 hover:bg-amber-400/20";
 
         filterButtons.forEach(btn => {
           const f = btn.getAttribute("data-filter");
+          // "Bacaan Terakhir" ialah butang tindakan (sentiasa gaya aksen amber)
+          if (f === "last") {
+            btn.className = baseCls + lastTone;
+            return;
+          }
           const isActive = f === currentReadFilter;
           let tone = inactive;
           if (isActive) tone = (f === "read") ? activeEmerald : activeAmber;
@@ -319,13 +333,75 @@
 
       filterButtons.forEach(btn => {
         btn.addEventListener("click", () => {
-          setReadFilter(btn.getAttribute("data-filter"));
+          const f = btn.getAttribute("data-filter");
+          if (f === "last") {
+            goToLastRead();
+          } else if (f === currentReadFilter) {
+            // Klik butang aktif sekali lagi → kembali ke paparan asal
+            setReadFilter("all");
+          } else {
+            setReadFilter(f);
+          }
         });
       });
 
+      // ── Toast ringkas ──
+      let toastTimer = null;
+      function showToast(msg) {
+        const toast = document.getElementById("last-toast");
+        const text = document.getElementById("last-toast-text");
+        if (!toast || !text) return;
+        text.textContent = msg;
+        toast.classList.remove("hidden");
+        toast.classList.remove("fade-up-soft");
+        void toast.offsetWidth;
+        toast.classList.add("fade-up-soft");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.add("hidden"), 3000);
+      }
+
+      // ── Bacaan Terakhir: simpan & pergi ke kad terakhir diklik ──
+      function saveLastRead(id) {
+        try { localStorage.setItem(LAST_READ_KEY, id); } catch (e) {}
+      }
+      function getLastReadId() {
+        try { return localStorage.getItem(LAST_READ_KEY); } catch (e) { return null; }
+      }
+      function goToLastRead() {
+        const lastId = getLastReadId();
+        const art = lastId ? ARTIKEL_DATA.find(a => a.id === lastId) : null;
+        if (!art) {
+          showToast("Belum ada bacaan terakhir. Klik mana-mana kad untuk bermula.");
+          return;
+        }
+
+        // Pastikan kad kelihatan: kembali ke paparan asal & kategori yang sesuai
+        let needRender = false;
+        if (currentReadFilter !== "all") {
+          currentReadFilter = "all";
+          renderFilterButtons();
+          needRender = true;
+        }
+        if (currentActiveCategory !== "Semua" && currentActiveCategory !== art.category) {
+          setCategory(art.category, true); // sudah render semula
+          needRender = false;
+        }
+        if (needRender) renderArticles();
+
+        setTimeout(() => {
+          const card = document.getElementById(art.id);
+          if (!card) return;
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          card.classList.remove("highlight-pulse");
+          void card.offsetWidth;
+          card.classList.add("highlight-pulse");
+          setTimeout(() => card.classList.remove("highlight-pulse"), 4000);
+        }, 300);
+      }
+
       // Apabila status bacaan ditukar semasa penapis aktif → kad hilang dengan kemas
       window.__afterReadToggle = function () {
-        if (currentReadFilter !== "last") {
+        if (currentReadFilter !== "all") {
           setTimeout(renderArticles, 250);
         }
       };
@@ -392,12 +468,12 @@
           </div>
           <button type="button" id="empty-reset-btn"
             class="text-xs font-bold text-zinc-950 bg-amber-400 px-5 py-2.5 rounded-xl hover:bg-amber-300 transition-colors flex items-center gap-1.5">
-            <i class="fa-solid fa-clock-rotate-left"></i> Lihat Semua Artikel
+            <i class="fa-solid fa-layer-group"></i> Lihat Semua Artikel
           </button>
         `;
         container.appendChild(empty);
         const resetBtn = document.getElementById("empty-reset-btn");
-        if (resetBtn) resetBtn.onclick = () => setReadFilter("last");
+        if (resetBtn) resetBtn.onclick = () => setReadFilter("all");
       }
 
       function renderArticles() {
@@ -414,7 +490,7 @@
           filteredData = filteredData.filter(art => isArticleRead(art.id));
         }
 
-        if (filteredData.length === 0 && currentReadFilter !== "last") {
+        if (filteredData.length === 0 && currentReadFilter !== "all") {
           renderEmptyState();
           return;
         }
@@ -452,6 +528,8 @@
             </div>
           `;
           box.id = art.id;
+          // Rekod kad terakhir yang diklik (untuk butang Bacaan Terakhir)
+          box.addEventListener("click", () => saveLastRead(art.id));
           container.appendChild(box);
         });
       }
@@ -468,11 +546,11 @@
             }
 
             // Jika kad pautan tersembunyi oleh penapis bacaan, kembali ke paparan asal
-            if (currentReadFilter !== "last") {
+            if (currentReadFilter !== "all") {
               const linkedRead = isArticleRead(linkedArticle.id);
               const hiddenByFilter = (currentReadFilter === "unread" && linkedRead) ||
                                      (currentReadFilter === "read" && !linkedRead);
-              if (hiddenByFilter) setReadFilter("last");
+              if (hiddenByFilter) setReadFilter("all");
             }
             
             const targetCard = document.getElementById(targetId);
