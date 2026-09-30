@@ -530,5 +530,329 @@ const ARTIKEL_DATA = [
     summary: "Yang ada duit berjuta sekali pun dalam akaun bank, ia tak dapat dikeluarkan sebab mesin pengeluaran wang (ATM) juga tidak berfungsi! Jutawan pun jatuh miskin ketiga gawat begitu.",
     path: "/kandungan-tipsemas/emas-sebagai-alat-tukaran.html"
   },
+
+    {
+    id: "masalah-hadiah-dibazirkan",
+    title: "Masalah Hadiah Dibazirkan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #12 : Emas Sebagai Hadiah Bernilai Sepanjang Zaman",
+    summary: "Tak ada orang yang tak suka dengan emas. Tetapi kalau kita beli hadiah-hadiah bentuk lain, mungkin ada orang tak minat atau tak perlukan hadiah itu.",
+    path: "/kandungan-tipsemas/masalah-hadiah-dibazirkan.html"
+  },
+
+    {
+    id: "berikan-hadiah-emas",
+    title: "Berikan Hadiah Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #12 : Emas Sebagai Hadiah Bernilai Sepanjang Zaman",
+    summary: "Emas boleh dijadikan aset bagi penerimanya. Kalau perlukan duit suatu hari nanti, ia boleh dijual untuk dapatkan tunai.",
+    path: "/kandungan-tipsemas/berikan-hadiah-emas.html"
+  },
+
+    {
+    id: "menaikkan-imej-syarikat-dengan-emas",
+    title: "Menaikkan Imej Syarikat Dengan Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #12 : Emas Sebagai Hadiah Bernilai Sepanjang Zaman",
+    summary: "Emas tetap emas dan ia tetap bernilai dan relevan dijadikan sepanjang zaman.",
+    path: "/kandungan-tipsemas/menaikkan-imej-syarikat-dengan-emas.html"
+  },
+
+    {
+    id: "trend-dinar-sebagai-mas-kahwin",
+    title: "Trend Dinar Sebagai Mas Kahwin",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #13 : Keistimewaan Emas Sebagai Mas Kahwin",
+    summary: "Sekarang dah jadi \u201ctrend\u201d dinar emas sebagai maskahwin.",
+    path: "/kandungan-tipsemas/trend-dinar-sebagai-mas-kahwin.html"
+  },
+
+    {
+    id: "kelebihan-emas-sebagai-maskahwin",
+    title: "Kelebihan Emas Sebagai Maskahwin",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #13 : Keistimewaan Emas Sebagai Mas Kahwin",
+    summary: "Orang tak akan jual emas melainkan ada perkara yang sangat terdesak sebab ia ada nilai sentimental yang sangat tinggi. Itu kenangan indah pasangan pengantin...",
+    path: "/kandungan-tipsemas/kelebihan-emas-sebagai-maskahwin.html"
+  },
+
+    {
+    id: "strategi-simpan-emas-sebagai-maskahwin",
+    title: "Strategi Simpan Emas Sebagai Maskahwin",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #13 : Keistimewaan Emas Sebagai Mas Kahwin",
+    summary: "Kalau simpan emas untuk kahwin, letak target 1 dinar 1 bulan sebab jangka masa nak menabung biasanya tak panjang.",
+    path: "/kandungan-tipsemas/strategi-simpan-emas-sebagai-maskahwin.html"
+  },
+
+    {
+    id: "tempat-terbaik-simpan-emas",
+    title: "Tempat Terbaik Simpan Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #13 : Keistimewaan Emas Sebagai Mas Kahwin",
+    summary: "Strategi simpan emas ini bukan hanya untuk lelaki. Perempuan bujang pun boleh simpan dinar dari sekarang.",
+    path: "/kandungan-tipsemas/tempat-terbaik-simpan-emas.html"
+  },
+
+    {
+    id: "rugi-beri-pinjam-duit-kertas",
+    title: "Rugi Beri Pinjam Duit Kertas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #14 : Pinjamkan Emas, Elak Kerugian Nilai",
+    summary: "Kalau mereka (si peminjam) faham, sepatutnya mereka bayar lebih dari nilai yang kita pinjamkan dulu sebab memang itulah cara Nabi s.a.w langsaikan hutang.",
+    path: "/kandungan-tipsemas/rugi-beri-pinjam-duit-kertas.html"
+  },
+
+    {
+    id: "dulu-pinjamkan-emas-sekarang-duit-kertas",
+    title: "Dulu Pinjamkan Emas, Sekarang Duit Kertas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #14 : Pinjamkan Emas, Elak Kerugian Nilai",
+    summary: "Tahun 80-an dulu 10 sen boleh beli 3 biji gula-gula, tapi sekarang 20 sen baru dapat 3 biji gula-gula. Duit kertas susut 50% hanya dalam tempoh 20 tahun! Itu baru 20 tahun. Agak-agaknya apa akan jadi kalau lepas 100 tahun?!",
+    path: "/kandungan-tipsemas/dulu-pinjamkan-emas-sekarang-duit-kertas.html"
+  },
+
+    {
+    id: "pinjamkan-emas-dia-beruntung-kita-tak-rugi",
+    title: "Pinjamkan Emas : Dia Beruntung, Kita Tak Rugi",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #14 : Pinjamkan Emas, Elak Kerugian Nilai",
+    summary: "Dia untung sebab dapat meminjam, kita tak rugi sebab nilainya tak susut. Dan apa yang lagi best, ia akan mendorong si peminjam untuk bayar hutang lebih cepat.",
+    path: "/kandungan-tipsemas/pinjamkan-emas-dia-beruntung-kita-tak-rugi.html"
+  },
+
+    {
+    id: "salah-faham-dengan-teknik-ajaib",
+    title: "Salah Faham Dengan Teknik Ajaib",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #15 : Strategi Asas Jana Keuntungan Pelaburan Emas",
+    summary: "Ada yang expect boleh jana keuntungan bulan-bulan yang lumayan (macam ditawarkan skim cepat kaya).",
+    path: "/kandungan-tipsemas/salah-faham-dengan-teknik-ajaib.html"
+  },
+
+    {
+    id: "beli-dan-simpan",
+    title: "Beli dan Simpan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #15 : Strategi Asas Jana Keuntungan Pelaburan Emas",
+    summary: "Labur emas ni macam beli rumah. Beli, simpan, dan jual bila nak ambil keuntungan. Harga emas akan naik dalam jangka panjang.",
+    path: "/kandungan-tipsemas/beli-dan-simpan.html"
+  },
+
+    {
+    id: "trading-beli-jual-beli-jual",
+    title: "Trading (Beli, Jual, Beli, Jual)",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #15 : Strategi Asas Jana Keuntungan Pelaburan Emas",
+    summary: "Trader perlu mahir ilmu analisis teknikal untuk kenal pasti harga siling dan harga lantai. Ia bukan ilmu \u2018nujum\u2019 yang boleh tahu secara tepat bila harga paling rendah dan bila harga paling tinggi sebab professional trader sendiri pun tak tahu dan selalunya tersasar juga.",
+    path: "/kandungan-tipsemas/trading-beli-jual-beli-jual.html"
+  },
+
+    {
+    id: "berniaga-emas",
+    title: "Berniaga Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #15 : Strategi Asas Jana Keuntungan Pelaburan Emas",
+    summary: "Harga emas naik atau turun, dealer tetap untung sebab dealer melangkah satu kaki sebagai peniaga, bukan sekadar pelabur.",
+    path: "/kandungan-tipsemas/berniaga-emas.html"
+  },
+
+    {
+    id: "cara-labur-emas-peace-of-mind",
+    title: "Cara Labur Emas Peace Of Mind",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #15 : Strategi Asas Jana Keuntungan Pelaburan Emas",
+    summary: "Bila kita labur dengan duit lebih, untung rugi pelaburan tak sangat merisaukan kita, insyaAllah.",
+    path: "/kandungan-tipsemas/cara-labur-emas-peace-of-mind.html"
+  },
+
+    {
+    id: "konflik-pembeli-emas",
+    title: "Konflik Pembeli Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #16 : 3 Posisi Penting Dalam Pelaburan Emas",
+    summary: "Isu sebenarnya ialah anda masih di persimpangan jalan, antara mengumpul GRAM atau memaksimumkan RM?",
+    path: "/kandungan-tipsemas/konflik-pembeli-emas.html"
+  },
+
+    {
+    id: "1-penyimpan-gold-saver",
+    title: "#1-PENYIMPAN (Gold Saver)",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #16 : 3 Posisi Penting Dalam Pelaburan Emas",
+    summary: "Tak kisah harga naik atau turun, yang penting kepingan-kepingan emas anda perlu bertambah.",
+    path: "/kandungan-tipsemas/1-penyimpan-gold-saver.html"
+  },
+
+    {
+    id: "2-pelabur-gold-investor",
+    title: "#2-PELABUR (Gold Investor)",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #16 : 3 Posisi Penting Dalam Pelaburan Emas",
+    summary: "Emas itu tak penting, ia hanyalah alat untuk memaksimumkan RM.",
+    path: "/kandungan-tipsemas/2-pelabur-gold-investor.html"
+  },
+
+    {
+    id: "3-peniaga-gold-dealer",
+    title: "#3-PENIAGA (Gold Dealer)",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #16 : 3 Posisi Penting Dalam Pelaburan Emas",
+    summary: "Dealer emas berpeluang besar untuk dapat kedua-duanya sebab seorang dealer emas bukan sahaja berada di posisi pelabur (atau penyimpan), tetapi mereka meletakkan 'sebelah kaki' sebagai peniaga.",
+    path: "/kandungan-tipsemas/3-peniaga-gold-dealer.html"
+  },
+
+    {
+    id: "jadi-penyimpan-dan-pelabur-sekaligus",
+    title: "Jadi Penyimpan Dan Pelabur Sekaligus",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #16 : 3 Posisi Penting Dalam Pelaburan Emas",
+    summary: "Untuk faham tentang harga harga, itu kena belajar kenal pasti apa yang dipanggil \u201charga lantai\u201d dan \u201charga syiling\u201d.",
+    path: "/kandungan-tipsemas/jadi-penyimpan-dan-pelabur-sekaligus.html"
+  },
+
+    {
+    id: "tak-semua-happy-harga-emas-turun",
+    title: "Tak Semua Happy Harga Emas Turun",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #17 : Simpan 3 Bulan Pendapatan, Labur Selebihnya",
+    summary: "Seronoknya tengok harga emas turun sama macam seronoknya kalau harga rumah turun. Itu peluang...",
+    path: "/kandungan-tipsemas/tak-semua-happy-harga-emas-turun.html"
+  },
+
+    {
+    id: "golongan-bimbang-harga-emas-turun",
+    title: "Golongan Bimbang Harga Emas Turun",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #17 : Simpan 3 Bulan Pendapatan, Labur Selebihnya",
+    summary: "Harga emas turun boleh ganggu tidur malam sebab itu sahaja simpanan yang dia ada. Bila nak pakai duit, dia kena jual emas tu (atau pajak di ar-rahnu).",
+    path: "/kandungan-tipsemas/golongan-bimbang-harga-emas-turun.html"
+  },
+
+    {
+    id: "simpan-3-bulan-pendapatan-labur-selebihnya",
+    title: "Simpan 3 Bulan Pendapatan, Labur Selebihnya",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #17 : Simpan 3 Bulan Pendapatan, Labur Selebihnya",
+    summary: "EMAS ADALAH DUIT. Ada emas, maksudnya ada duit.",
+    path: "/kandungan-tipsemas/simpan-3-bulan-pendapatan-labur-selebihnya.html"
+  },
+
+    {
+    id: "masalah-simpanan-sentiasa-bocor",
+    title: "Masalah Simpanan Sentiasa Bocor",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #17 : Simpan 3 Bulan Pendapatan, Labur Selebihnya",
+    summary: "kalau bimbang masalah duit simpanan sentiasa bocor, saya sarankan menabung emas dengan bajet kecil sahaja dulu.",
+    path: "/kandungan-tipsemas/masalah-simpanan-sentiasa-bocor.html"
+  },
+
+    {
+    id: "ubat-masalah-kebocoran-wang",
+    title: "Ubat Masalah Kebocoran Wang",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #17 : Simpan 3 Bulan Pendapatan, Labur Selebihnya",
+    summary: "emas adalah \u201cmagnet kekayaan\u201d. Bukan sebab harga emas tu melambung-lambung, tapi ia membuatkan penyimpannya \u2018bernafsu\u2019 untuk kumpul lebih banyak emas. Fitrah manusia memang sukakan emas!",
+    path: "/kandungan-tipsemas/ubat-masalah-kebocoran-wang.html"
+  },
+
+    {
+    id: "jangan-panik-harga-emas-turun-mendadak",
+    title: "Jangan Panik Harga Emas Turun Mendadak",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #18 : Harga Emas Jatuh, Apa Nak Buat?",
+    summary: "Siapa yang beli emas tanpa ilmu, dia akan panik. Menyesal beli pada harga tinggi sebelum ini. Dia fikir, kejatuhan emas sama macam kejatuhan saham. Bila harga jatuh, maka dia pun rugi.",
+    path: "/kandungan-tipsemas/jangan-panik-harga-emas-turun-mendadak.html"
+  },
+
+    {
+    id: "emas-tak-sama-macam-saham",
+    title: "Emas Tak Sama Macam Saham",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #18 : Harga Emas Jatuh, Apa Nak Buat?",
+    summary: "Saham adalah aset kertas. Kalau saham jatuh, yang kita ada hanyalah nombor dan kertas sahaja - yang tak boleh dibuat apa-apa.",
+    path: "/kandungan-tipsemas/emas-tak-sama-macam-saham.html"
+  },
+
+    {
+    id: "jangka-panjang-confirm-naik",
+    title: "Jangka Panjang Confirm Naik",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #18 : Harga Emas Jatuh, Apa Nak Buat?",
+    summary: "Tak perlu buat analisis harga pun, kita sudah tahu harga emas confirm akan naik dalam jangka panjang. Harga hanyalah persoalan masa sahaja.",
+    path: "/kandungan-tipsemas/jangka-panjang-confirm-naik.html"
+  },
+
+    {
+    id: "harga-jatuh-bukan-rugi-tapi-rezeki",
+    title: "Harga Jatuh, Bukan Rugi Tapi Rezeki",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #18 : Harga Emas Jatuh, Apa Nak Buat?",
+    summary: "Emas itu ada di tangan kita, dan 100% di bawah kawalan kita. Bahkah tidak ada siapa pun yang tahu berapa banyak simpanan emas yang kita ada; samada pihak bank, kerajaan, mahupun penjual emas pun tidak tahu.",
+    path: "/kandungan-tipsemas/harga-jatuh-bukan-rugi-tapi-rezeki.html"
+  },
+
+    {
+    id: "dapat-keuntungan-tanpa-jual-emas",
+    title: "Dapat Keuntungan Tanpa Jual Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #18 : Harga Emas Jatuh, Apa Nak Buat?",
+    summary: "Bila emas ada di tangan, kita masih boleh rolling emas itu untuk perkara lain yang menguntungkan, sementara menunggu kenaikan harga emas.",
+    path: "/kandungan-tipsemas/dapat-keuntungan-tanpa-jual-emas.html"
+  },
+
+    {
+    id: "1-borong-emas-pada-harga-rendah-guna-duit-lebihan",
+    title: "#1 - Borong emas pada harga rendah, guna duit lebihan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #19 : 3 Strategi Harga Emas Jatuh",
+    summary: "Lagi rendah harga emas (berbanding harga yang anda beli sebelum ini), lebih besarlah peluang untuk menikmati keuntungan.",
+    path: "/kandungan-tipsemas/1-borong-emas-pada-harga-rendah-guna-duit-lebihan.html"
+  },
+
+    {
+    id: "2-tingkatkan-promosi-membeli-emas-harga-rendah",
+    title: "#2 - Tingkatkan promosi membeli emas harga rendah",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #19 : 3 Strategi Harga Emas Jatuh",
+    summary: "Bila harga emas rendah, beritahu pada kawan-kawan untuk ambil peluang beli emas pada harga rendah. Jangan berdiam diri.",
+    path: "/kandungan-tipsemas/2-tingkatkan-promosi-membeli-emas-harga-rendah.html"
+  },
+
+    {
+    id: "3-pajak-emas-sedia-ada-dan-beli-lagi-emas-dengan-duit-pajakan",
+    title: "#3 - Pajak emas sedia ada dan beli lagi emas dengan duit pajakan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #19 : 3 Strategi Harga Emas Jatuh",
+    summary: "Pajak emas sedia ada di ar-rahnu, dan beli lagi emas dengan duit pinjaman ar-rahnu itu.",
+    path: "/kandungan-tipsemas/3-pajak-emas-sedia-ada-dan-beli-lagi-emas-dengan-duit-pajakan.html"
+  },
+
+    {
+    id: "kita-simpan-kertas-amerika-simpan-emas",
+    title: "Kita Simpan Kertas, Amerika Simpan Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #20 : Ada Emas, Ada Duit",
+    summary: "Duit sebenar dalam sejarah manusia ialah emas (dan perak). Ia adalah penyimpan nilai paling ampuh dalam sejarah manusia.",
+    path: "/kandungan-tipsemas/kita-simpan-kertas-amerika-simpan-emas.html"
+  },
+
+    {
+    id: "emas-adalah-duit-sebenar",
+    title: "Emas Adalah Duit Sebenar",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #20 : Ada Emas, Ada Duit",
+    summary: "Setelah berpuluh tahun kita gunakan duit kertas (yang dahulunya hanyalah VOUCHER), sekarang dunia lupa tentang emas sebagai duit yang sebenar.",
+    path: "/kandungan-tipsemas/emas-adalah-duit-sebenar.html"
+  },
+
+    {
+    id: "masa-depan-emas",
+    title: "Masa Depan Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #20 : Ada Emas, Ada Duit",
+    summary: "Siapa faham tentang sejarah emas dan matawang dunia, dia tahu harga emas akan pergi jauh lagi dalam jangka panjang. Harga emas tetap akan naik juga dalam jangka panjang.",
+    path: "/kandungan-tipsemas/masa-depan-emas.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
