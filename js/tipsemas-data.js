@@ -359,5 +359,176 @@ const ARTIKEL_DATA = [
     summary: "Menurut Robert T. Kiyosaki, \"Emas (dan perak) merupakan satu-satunya aset kewangan yang tiada rekod dalam sistem kewangan.\"",
     path: "/kandungan-tipsemas/tiada-siapa-tahu.html"
   },
+
+    {
+    id: "emas-sebagai-backup-belanja-hangus",
+    title: "Emas Sebagai Backup Belanja Hangus",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #8 : Emas Sebagai Backup Belanja Hangus",
+    summary: "Ada sebahagian penyimpan emas jadikan emas sebagai backup untuk \"belanja hangus\". Untuk simpanan, mereka simpan duit mereka bentuk emas.",
+    path: "/kandungan-tipsemas/emas-sebagai-backup-belanja-hangus.html"
+  },
+
+    {
+    id: "caj-ar-rahnu-mahal",
+    title: "Caj Ar-Rahnu Mahal",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #8 : Emas Sebagai Backup Belanja Hangus",
+    summary: "Simpan dahulu baru belanja. Bila sampai masa nak pakai duit, baru keluarkan duit simpanan tu untuk dibelanjakan.",
+    path: "/kandungan-tipsemas/caj-ar-rahnu-mahal.html"
+  },
+
+    {
+    id: "caj-ar-rahnu-untung-dari-sudut-psikologi",
+    title: "Caj Ar-Rahnu : Untung Dari Sudut Psikologi",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #8 : Emas Sebagai Backup Belanja Hangus",
+    summary: "Duit yang disimpan dalam bentuk emas lebih bertahan dari \u2018kebocoran\u2019 berbanding simpan dalam akaun bank.",
+    path: "/kandungan-tipsemas/caj-ar-rahnu-untung-dari-sudut-psikologi.html"
+  },
+
+    {
+    id: "emas-bukan-sekadar-perhiasan",
+    title: "Emas Bukan Sekadar Perhiasan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #9 : Emas Sebagai Modal Pusingan Bisnes",
+    summary: "Peniaga-peniaga wanita Kelantan sinonim dengan pakai barang kemas \u2018sampai ke lengan\u2019. Gelang-gelang emas yang dipakai akak-akak peniaga itu sebenarnya bukan sekadar perhiasan, tetapi itulah simpanan dan juga modal pusingan bisnes mereka.",
+    path: "/kandungan-tipsemas/emas-bukan-sekadar-perhiasan.html"
+  },
+
+    {
+    id: "selesai-masalah-kebocoran-modal",
+    title: "Selesai Masalah \u2018Kebocoran\u2019 Modal",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #9 : Emas Sebagai Modal Pusingan Bisnes",
+    summary: "Kita tak berpeluang \u2018rompak\u2019 duit bisnes seratus dua untuk kegunaan peribadi (ingat, duit bisnes bukan duit peribadi) sebagaimana duit tunai.",
+    path: "/kandungan-tipsemas/selesai-masalah-kebocoran-modal.html"
+  },
+
+    {
+    id: "selesai-masalah-pinjaman-jangka-pendek",
+    title: "Selesai Masalah Pinjaman Jangka Pendek",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #9 : Emas Sebagai Modal Pusingan Bisnes",
+    summary: "Kita tak berpeluang \u2018rompak\u2019 duit bisnes seratus dua untuk kegunaan peribadi (ingat, duit bisnes bukan duit peribadi) sebagaimana duit tunai.",
+    path: "/kandungan-tipsemas/selesai-masalah-pinjaman-jangka-pendek.html"
+  },
+
+    {
+    id: "senang-monitor-perkembangan-modal",
+    title: "Senang Monitor Perkembangan Modal",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #9 : Emas Sebagai Modal Pusingan Bisnes",
+    summary: "Antara cabaran mereka yang berniaga secara kecil dan sederhana, mereka susah monitor perkembangan modal.",
+    path: "/kandungan-tipsemas/senang-monitor-perkembangan-modal.html"
+  },
+
+    {
+    id: "lebih-selamat-berbanding-fixed-deposit",
+    title: "Lebih \u2018Selamat\u2019 Berbanding Fixed Deposit",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #9 : Emas Sebagai Modal Pusingan Bisnes",
+    summary: "Fixed deposit itu boleh jadi jaminan kepada bank yang kita mampu bayar balik pinjaman.",
+    path: "/kandungan-tipsemas/lebih-selamat-berbanding-fixed-deposit.html"
+  },
+
+    {
+    id: "peniaga-emas-sebagai-modal-pusingan-bisnes",
+    title: "Peniaga : Emas Sebagai Modal Pusingan Bisnes",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #9 : Emas Sebagai Modal Pusingan Bisnes",
+    summary: "Para peniaga boleh pertimbangkan untuk jadikan emas sebagai salah satu bentuk modal pusingan bisnes.",
+    path: "/kandungan-tipsemas/peniaga-emas-sebagai-modal-pusingan-bisnes.html"
+  },
+
+    {
+    id: "fenomena-pelik-2015",
+    title: "Fenomena Pelik 2015",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #10 : Emas Penyelamat Dari Kejatuhan Ringgit",
+    summary: "Harga emas dunia turun, tapi nampaknya harga emas Malaysia naik.  Persoalannya, tahun 2015 adakah harga emas naik atau turun?",
+    path: "/kandungan-tipsemas/fenomena-pelik-2015.html"
+  },
+
+    {
+    id: "pergerakkan-songsang-harga-emas",
+    title: "Pergerakkan Songsang Harga Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #10 : Emas Penyelamat Dari Kejatuhan Ringgit",
+    summary: "Emas mempertahankan kekayaan kita dari terus susut disebabkan kejatuhan ringgit.",
+    path: "/kandungan-tipsemas/pergerakkan-songsang-harga-emas.html"
+  },
+
+    {
+    id: "emas-sebagai-penyelamat-nilai",
+    title: "Emas Sebagai Penyelamat Nilai",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #10 : Emas Penyelamat Dari Kejatuhan Ringgit",
+    summary: "Kalau kita toleh ke belakang, duit ringgit pernah jatuh 50% semasa negara dilanda krisis ekonomi 1997! Dari RM2.50/USD jatuh kepada RM4.70/USD. Kejatuhan 50% hanya dalam masa setahun (1997 - 1998)!",
+    path: "/kandungan-tipsemas/emas-sebagai-penyelamat-nilai.html"
+  },
+
+    {
+    id: "harga-naik-kekayaan-tak-bertambah",
+    title: "Harga Naik, Kekayaan Tak Bertambah?",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #10 : Emas Penyelamat Dari Kejatuhan Ringgit",
+    summary: "Kalau simpan emas, kekayaan kita tak akan susut atau hilang, dan tak juga bertambah. Ia melindungi dan mengekalkan nilai sahaja.",
+    path: "/kandungan-tipsemas/harga-naik-kekayaan-tak-bertambah.html"
+  },
+
+    {
+    id: "kepentingan-emas-dalam-kewangan",
+    title: "Kepentingan emas dalam kewangan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #10 : Emas Penyelamat Dari Kejatuhan Ringgit",
+    summary: "Sebelum kita bercakap KEMBANGKAN nilai, bukankah lebih bijak kita adakan bahagian yang boleh SELAMATKAN nilainya dahulu?",
+    path: "/kandungan-tipsemas/kepentingan-emas-dalam-kewangan.html"
+  },
+
+    {
+    id: "berapa-banyak-perlu-simpan-emas",
+    title: "Berapa Banyak Perlu Simpan Emas?",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #10 : Emas Penyelamat Dari Kejatuhan Ringgit",
+    summary: "Menyimpan emas mungkin tak membuatkan kita kaya raya, tapi yang pastinya, emas melindungi kita dari jatuh miskin!",
+    path: "/kandungan-tipsemas/berapa-banyak-perlu-simpan-emas.html"
+  },
+
+    {
+    id: "kisah-banjir-besar-di-kelantan",
+    title: "Kisah Banjir Besar di Kelantan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #11 : Emas Sebagai Duit Ketika Gawat",
+    summary: "Kalau berlaku kegawatan ekonomi, orang tak perlukan duit. Tapi perlukan barang keperluan untuk terus hidup. Duit atau emas tak berguna lagi waktu tu. Macam bencana banjir berlaku di Kelantan pada Disember 2014.",
+    path: "/kandungan-tipsemas/kisah-banjir-besar-di-kelantan.html"
+  },
+
+    {
+    id: "ketika-duit-tak-bernilai",
+    title: "Ketika Duit Tak Bernilai",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #11 : Emas Sebagai Duit Ketika Gawat",
+    summary: "Dalam keadaan gawat tu, duit (atau emas) tak begitu \u2018bernilai\u2019 bagi kami. Kami sanggup bayar harga mahal untuk dapat barang keperluan.",
+    path: "/kandungan-tipsemas/ketika-duit-tak-bernilai.html"
+  },
+
+    {
+    id: "terpaksa-bayar-4-kali-ganda",
+    title: "Terpaksa Bayar 4 Kali Ganda",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #11 : Emas Sebagai Duit Ketika Gawat",
+    summary: "Kalau duit tak lagi bernilai, apakah alat tukaran yang diterima oleh semua sebagai sesuatu yang bernilai?",
+    path: "/kandungan-tipsemas/terpaksa-bayar-4-kali-ganda.html"
+  },
+
+    {
+    id: "emas-sebagai-alat-tukaran",
+    title: "Emas Sebagai Alat Tukaran",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #11 : Emas Sebagai Duit Ketika Gawat",
+    summary: "Yang ada duit berjuta sekali pun dalam akaun bank, ia tak dapat dikeluarkan sebab mesin pengeluaran wang (ATM) juga tidak berfungsi! Jutawan pun jatuh miskin ketiga gawat begitu.",
+    path: "/kandungan-tipsemas/emas-sebagai-alat-tukaran.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
