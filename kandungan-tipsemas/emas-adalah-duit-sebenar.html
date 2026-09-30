@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emas Adalah Duit Sebenar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .page-transition {
+      animation: pageFadeIn 0.32s ease;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: rgb(63 63 70); /* zinc-700 */
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .nav-dot.active {
+      width: 18px;
+      background-color: #fbbf24; /* amber-400 */
+      box-shadow: 0 0 8px 0 rgba(251, 191, 36, 0.5);
+    }
+    #page-area {
+      min-height: calc(100dvh - 330px);
+    }
+    .ref-box {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.05);
+      border: 1px solid rgba(251, 191, 36, 0.15);
+      border-radius: 12px;
+      padding: 12px 14px;
+      line-height: 1.5;
+    }
+    a.ref-box:hover {
+      background: rgba(251, 191, 36, 0.1);
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+
+    /* ===== Kemaskini #1: Center kandungan setiap muka surat (horizontal + vertical, responsive) ===== */
+    #page-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #page-content {
+      width: 100%;
+    }
+    #page-content article {
+      text-align: center;
+    }
+    #page-content ul {
+      display: inline-block;
+      text-align: left;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== Kemaskini #2: Theme toggle (Light / Dark) ===== */
+    #theme-toggle {
+      transition: all 0.2s ease;
+    }
+    #theme-toggle:active {
+      transform: scale(0.94);
+    }
+
+    /* Default (no .light class) = reka bentuk dark asal, tidak diubah langsung. */
+    /* Overrides di bawah HANYA aktif bila <html> mempunyai class "light". */
+    html.light body {
+      background-color: #faf9f6;
+      color: #18181b;
+    }
+    html.light .bg-zinc-950 { background-color: #faf9f6; }
+    html.light .bg-zinc-950\/90 { background-color: rgba(250, 249, 246, 0.9); }
+    html.light .border-zinc-900\/40 { border-color: #e4e4e7; }
+    html.light .border-zinc-900\/60 { border-color: #e4e4e7; }
+    html.light .border-zinc-900 { border-color: #e4e4e7; }
+    html.light .border-zinc-800 { border-color: #e4e4e7; }
+    html.light .border-zinc-800\/80 { border-color: #e4e4e7; }
+    html.light .text-white { color: #18181b; }
+    html.light .text-zinc-100 { color: #18181b; }
+    html.light .text-zinc-300 { color: #3f3f46; }
+    html.light .text-zinc-400 { color: #52525b; }
+    html.light .text-zinc-500 { color: #71717a; }
+    html.light .text-amber-400 { color: #b45309; }
+    html.light .hover\:text-amber-400:hover { color: #b45309; }
+    html.light .bg-zinc-900 { background-color: #ffffff; }
+
+    html.light .nav-dot {
+      background-color: #d4d4d8;
+    }
+    html.light .nav-dot.active {
+      background-color: #b45309;
+      box-shadow: 0 0 8px 0 rgba(180, 83, 9, 0.35);
+    }
+    html.light .ref-box {
+      color: #b45309;
+      background: rgba(180, 83, 9, 0.06);
+      border: 1px solid rgba(180, 83, 9, 0.2);
+    }
+    html.light a.ref-box:hover {
+      background: rgba(180, 83, 9, 0.12);
+      border-color: rgba(180, 83, 9, 0.4);
+    }
+    html.light #theme-toggle {
+      border-color: #e4e4e7;
+      color: #52525b;
+    }
+    html.light #theme-toggle:hover {
+      color: #b45309;
+      border-color: rgba(180, 83, 9, 0.4);
+    }
+
+    /* ===== Kemaskini #2 (baharu): Popup bubble untuk butang theme-toggle ===== */
+    .theme-toggle-wrap {
+      position: relative;
+    }
+    .theme-tooltip {
+      position: absolute;
+      top: 50%;
+      right: calc(100% + 12px);
+      max-width: 190px;
+      width: max-content;
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      color: rgb(228 228 231); /* zinc-200 */
+      font-size: 0.7rem;
+      font-weight: 500;
+      line-height: 1.45;
+      padding: 10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(-50%) translateX(8px);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 50;
+    }
+    .theme-tooltip.show {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+    .theme-tooltip-arrow {
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      background: rgb(24 24 27);
+      border-top: 1px solid rgba(251, 191, 36, 0.25);
+      border-right: 1px solid rgba(251, 191, 36, 0.25);
+      transform: translateY(-50%) rotate(45deg);
+    }
+    html.light .theme-tooltip {
+      background: #ffffff;
+      border-color: rgba(180, 83, 9, 0.25);
+      color: #3f3f46;
+      box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.14);
+    }
+    html.light .theme-tooltip-arrow {
+      background: #ffffff;
+      border-top-color: rgba(180, 83, 9, 0.25);
+      border-right-color: rgba(180, 83, 9, 0.25);
+    }
+    @media (max-width: 340px) {
+      .theme-tooltip {
+        max-width: 150px;
+      }
+    }
+
+    /* ===== Kemaskini (baharu): Bar navigasi bawah — Kombo Jimat | Pagination kotak | Prev/Next bulat ===== */
+    #bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      width: 100%;
+      padding-top: 14px;
+      border-top: 1px solid rgb(39 39 42); /* zinc-800 */
+    }
+    .combo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #27200a;
+      white-space: nowrap;
+      padding: 9px 13px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #f3d77a 0%, #d4a935 55%, #b98a1f 100%);
+      box-shadow: 0 6px 16px -6px rgba(251, 191, 36, 0.45);
+      transition: all 0.2s ease;
+    }
+    .combo-pill:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .combo-pill:active { transform: scale(0.97); }
+    .combo-pill i { font-size: 0.55rem; }
+
+    #pagination-numbers {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-width: 0;
+    }
+    .page-box {
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: rgb(161 161 170); /* zinc-400 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(63 63 70); /* zinc-700 */
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .page-box:hover:not(.active) {
+      color: #fbbf24;
+      border-color: rgba(251, 191, 36, 0.5);
+    }
+    .page-box.active {
+      color: #27200a;
+      font-weight: 700;
+      border-color: transparent;
+      background: linear-gradient(135deg, #f3d77a 0%, #d4a935 60%, #b98a1f 100%);
+      box-shadow: 0 4px 12px -4px rgba(251, 191, 36, 0.5);
+    }
+    .page-ellipsis {
+      font-size: 0.68rem;
+      color: rgb(113 113 122); /* zinc-500 */
+      padding: 0 1px;
+      flex-shrink: 0;
+    }
+    .circle-btn {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: rgb(212 212 216); /* zinc-300 */
+      background: rgb(24 24 27); /* zinc-900 */
+      border: 1px solid rgb(63 63 70); /* zinc-700 */
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+    }
+    .circle-btn:hover:not(:disabled) {
+      border-color: rgba(251, 191, 36, 0.5);
+      color: #fbbf24;
+    }
+    .circle-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .nav-circles {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 360px) {
+      #bottom-bar { gap: 4px; }
+      .combo-pill { padding: 8px 10px; font-size: 0.62rem; }
+      .page-box { width: 23px; height: 23px; font-size: 0.62rem; }
+      .circle-btn { width: 25px; height: 25px; }
+      #pagination-numbers, .nav-circles { gap: 3px; }
+    }
+
+    html.light #bottom-bar { border-top-color: #e4e4e7; }
+    html.light .combo-pill { box-shadow: 0 6px 16px -6px rgba(180, 83, 9, 0.35); }
+    html.light .page-box {
+      color: #52525b;
+      background: #ffffff;
+      border-color: #d4d4d8;
+    }
+    html.light .page-box:hover:not(.active) {
+      color: #b45309;
+      border-color: rgba(180, 83, 9, 0.45);
+    }
+    html.light .page-box.active {
+      color: #27200a;
+      border-color: transparent;
+      box-shadow: 0 4px 12px -4px rgba(180, 83, 9, 0.4);
+    }
+    html.light .page-ellipsis { color: #71717a; }
+    html.light .circle-btn {
+      color: #3f3f46;
+      background: #ffffff;
+      border-color: #d4d4d8;
+    }
+    html.light .circle-btn:hover:not(:disabled) {
+      border-color: rgba(180, 83, 9, 0.45);
+      color: #b45309;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12 bg-zinc-950 text-white max-w-md mx-auto px-4 border-x border-zinc-900/40">
+  
+  <header class="py-4 border-b border-zinc-900/60 flex items-center gap-3 sticky top-0 bg-zinc-950/90 backdrop-blur-md z-40 mb-6">
+    <a href="https://ilmu-emas.pages.dev/gold-saver/tips-emas" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left"></i></a>
+    <span class="text-xs font-semibold text-zinc-400">Kembali ke Hub</span>
+    <div class="theme-toggle-wrap ml-auto">
+      <button id="theme-toggle" aria-label="Tukar tema Light/Dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-800 text-zinc-400 hover:text-amber-400 hover:border-amber-400/40">
+        <i class="fa-solid fa-moon text-xs" id="theme-icon"></i>
+      </button>
+      <div id="theme-tooltip" class="theme-tooltip" role="status" aria-live="polite">
+        <span class="theme-tooltip-arrow"></span>
+        <span>Sesuaikan pencahayaan.</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dot Navigation -->
+  <div id="dots-container" class="flex items-center justify-center gap-1.5 pb-2 flex-wrap"></div>
+
+  <!-- Header Artikel (kekal pada semua page) -->
+  <div id="article-header" class="pt-3 pb-4 space-y-1 text-center border-b border-zinc-800/80">
+    <h1 class="text-xl sm:text-2xl font-extrabold text-zinc-100 leading-tight">Emas Adalah Duit Sebenar</h1>
+    <p class="text-xs text-amber-400 font-medium">Oleh: Mohd Zulkifli Shafie</p>
+  </div>
+
+  <!-- Page Area -->
+  <div id="page-area" class="flex items-center justify-center">
+    <div id="page-content" class="page-transition w-full"></div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="pt-2 pb-4">
+    <div id="bottom-bar">
+      <a href="https://g100.my/combo-buku/" target="_blank" rel="noopener" class="combo-pill">
+        Kombo Jimat <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <div id="pagination-numbers" aria-label="Pagination"></div>
+      <div class="nav-circles">
+        <button id="prev-page-btn" class="circle-btn" aria-label="Sebelum"><i class="fa-solid fa-chevron-left"></i></button>
+        <button id="next-page-btn" class="circle-btn" aria-label="Seterusnya"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // ===== Kemaskini: Theme (Light/Dark) dengan localStorage =====
+    (function () {
+      const root = document.documentElement;
+      const toggleBtn = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+      const STORAGE_KEY = "ilmu-emas-theme";
+
+      function applyTheme(theme) {
+        if (theme === "light") {
+          root.classList.add("light");
+          themeIcon.classList.remove("fa-moon");
+          themeIcon.classList.add("fa-sun");
+        } else {
+          root.classList.remove("light");
+          themeIcon.classList.remove("fa-sun");
+          themeIcon.classList.add("fa-moon");
+        }
+      }
+
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem(STORAGE_KEY);
+      } catch (e) {
+        savedTheme = null;
+      }
+      applyTheme(savedTheme === "light" ? "light" : "dark");
+
+      toggleBtn.addEventListener("click", () => {
+        const isLight = root.classList.contains("light");
+        const nextTheme = isLight ? "dark" : "light";
+        applyTheme(nextTheme);
+        try {
+          localStorage.setItem(STORAGE_KEY, nextTheme);
+        } catch (e) {
+          /* localStorage tidak tersedia — abaikan */
+        }
+      });
+
+      // ===== Kemaskini (baharu): Popup bubble cadangan tukar tema =====
+      // Muncul maksimum 3 kali setiap sesi pengguna berada di halaman ini:
+      //   masuk halaman -> tunggu 5s -> muncul kali 1
+      //   -> tunggu 10s -> muncul kali 2
+      //   -> tunggu 10s -> muncul kali 3
+      //   -> berhenti sepenuhnya (tiada localStorage — kiraan reset automatik bila halaman dimuat semula/masuk semula).
+      const themeTooltip = document.getElementById("theme-tooltip");
+      let tooltipHideTimeoutId = null;
+      let tooltipNextTimeoutId = null;
+      let bubbleShowCount = 0;
+      const MAX_BUBBLE_SHOWS = 3;
+
+      function showThemeTooltip() {
+        if (!themeTooltip) return;
+        themeTooltip.classList.add("show");
+        clearTimeout(tooltipHideTimeoutId);
+        tooltipHideTimeoutId = setTimeout(() => {
+          themeTooltip.classList.remove("show");
+        }, 3200);
+      }
+
+      function hideThemeTooltip() {
+        if (!themeTooltip) return;
+        themeTooltip.classList.remove("show");
+        clearTimeout(tooltipHideTimeoutId);
+      }
+
+      function scheduleNextBubble(delay) {
+        if (!themeTooltip || bubbleShowCount >= MAX_BUBBLE_SHOWS) return;
+        clearTimeout(tooltipNextTimeoutId);
+        tooltipNextTimeoutId = setTimeout(() => {
+          showThemeTooltip();
+          bubbleShowCount++;
+          if (bubbleShowCount < MAX_BUBBLE_SHOWS) {
+            scheduleNextBubble(10000);
+          }
+        }, delay);
+      }
+
+      toggleBtn.addEventListener("click", hideThemeTooltip);
+
+      scheduleNextBubble(5000);
+    })();
+  </script>
+  <script>
+    (function () {
+      const pageContent = document.getElementById("page-content");
+      const dotsContainer = document.getElementById("dots-container");
+      const paginationNumbers = document.getElementById("pagination-numbers");
+      const prevBtn = document.getElementById("prev-page-btn");
+      const nextBtn = document.getElementById("next-page-btn");
+      const pageArea = document.getElementById("page-area");
+
+      // Kandungan asal artikel dipecahkan kepada muka surat secara logik.
+      // Teks asal tidak diubah sedikit pun.
+      // (Tajuk & nama penulis kini kekal di luar ARTICLE_PAGES — lihat #article-header.)
+      const ARTICLE_PAGES = [
+        // Page 1a — Pembukaan
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Setelah berpuluh tahun kita gunakan duit kertas (yang dahulunya hanyalah VOUCHER), sekarang dunia lupa tentang emas sebagai duit yang sebenar.
+    </p>
+            </div>
+          </article>
+        `,
+        // Page 1b — Sambungan
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Negara-negara dunia simpan US Dollar sebagai rizab terbesar negara sedangkan Amerika adalah penyimpan emas terbesar dunia!
+    </p>
+              <p>
+      Nampak tak siapa yang lebih cerdik?
+    </p>
+              <p>
+      Duit kertas yang kita gunakan hari ini nilainya terletak pada jaminan dan kestabilan sesebuah kerajaan.
+    </p>
+            </div>
+          </article>
+        `,
+        // Page 1c — Sambungan & Footer
+        `
+          <article class="space-y-4">
+            <div class="text-base text-zinc-300 leading-loose space-y-4">
+              <p>
+      Sedangkan emas dan perak nilainya terletak pada BERAT dan KETULENANnya sendiri. Ia tak boleh dimanipulasi.
+    </p>
+              <p>
+      Kalau apa-apa berlaku kepada dunia, pemilik emas lah yang paling selamat. Itulah hakikat emas yang sebenar.
+    </p>
+            </div>
+
+            <footer class="pt-6 mt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <span class="text-[11px] text-zinc-500 font-medium">Diterbitkan: 2011-09-14</span>
+              <button onclick="copyGlobalLink('kandungan-tipsemas/emas-adalah-duit-sebenar')" class="w-full sm:w-auto text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-amber-400 font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-share-nodes"></i> Kongsi Artikel
+              </button>
+            </footer>
+          </article>
+        `
+      ];
+
+      const totalPages = ARTICLE_PAGES.length;
+      let currentPage = 0;
+
+      function renderDots() {
+        dotsContainer.innerHTML = "";
+        for (let i = 0; i < totalPages; i++) {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot" + (i === currentPage ? " active" : "");
+          dot.setAttribute("aria-label", `Muka surat ${i + 1}`);
+          dot.onclick = () => goToPage(i);
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      // Pagination kotak: 1, 2, 3, …, akhir (ringkas & sentiasa muat pada mobile)
+      function getVisiblePages() {
+        const cur = currentPage + 1;
+        const set = new Set([1, totalPages, cur - 1, cur, cur + 1]);
+        if (cur <= 3) { set.add(1); set.add(2); set.add(3); }
+        if (cur >= totalPages - 2) { set.add(totalPages - 2); set.add(totalPages - 1); }
+        return Array.from(set)
+          .filter((n) => n >= 1 && n <= totalPages)
+          .sort((a, b) => a - b);
+      }
+
+      function renderPagination() {
+        paginationNumbers.innerHTML = "";
+        const pages = getVisiblePages();
+        let prev = 0;
+        pages.forEach((n) => {
+          if (n - prev === 2) {
+            appendBox(prev + 1);
+          } else if (n - prev > 2) {
+            const dots = document.createElement("span");
+            dots.className = "page-ellipsis";
+            dots.textContent = "…";
+            paginationNumbers.appendChild(dots);
+          }
+          appendBox(n);
+          prev = n;
+        });
+      }
+
+      function appendBox(n) {
+        const btn = document.createElement("button");
+        btn.className = "page-box" + (n === currentPage + 1 ? " active" : "");
+        btn.textContent = n;
+        btn.setAttribute("aria-label", `Muka surat ${n}`);
+        if (n === currentPage + 1) btn.setAttribute("aria-current", "page");
+        btn.onclick = () => goToPage(n - 1);
+        paginationNumbers.appendChild(btn);
+      }
+
+      function renderNavButtons() {
+        prevBtn.disabled = currentPage <= 0;
+        nextBtn.disabled = currentPage >= totalPages - 1;
+      }
+
+      function renderPage() {
+        pageContent.classList.remove("page-transition");
+        void pageContent.offsetWidth;
+        pageContent.innerHTML = ARTICLE_PAGES[currentPage];
+        pageContent.classList.add("page-transition");
+        renderDots();
+        renderPagination();
+        renderNavButtons();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+
+      function goToPage(idx) {
+        if (idx < 0 || idx > totalPages - 1) return;
+        currentPage = idx;
+        renderPage();
+      }
+
+      prevBtn.addEventListener("click", () => goToPage(currentPage - 1));
+      nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
+
+      // Keyboard navigation (desktop)
+      window.addEventListener("keydown", (e) => {
+        const tag = document.activeElement ? document.activeElement.tagName : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON" || tag === "A") return;
+        if (e.key === "ArrowLeft") goToPage(currentPage - 1);
+        else if (e.key === "ArrowRight") goToPage(currentPage + 1);
+      });
+
+      // Swipe navigation (mobile) — tidak mengganggu scroll menegak
+      let touchStartX = null;
+      let touchStartY = null;
+      pageArea.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+      pageArea.addEventListener("touchend", (e) => {
+        if (touchStartX === null) return;
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const threshold = 50;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
+          if (deltaX < 0) goToPage(currentPage + 1);
+          else goToPage(currentPage - 1);
+        }
+        touchStartX = null;
+        touchStartY = null;
+      }, { passive: true });
+
+      renderPage();
+    })();
+  </script>
+</body>
+</html>
