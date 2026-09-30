@@ -83,6 +83,18 @@
       right: 10px;
       z-index: 2;
     }
+
+    /* ── Butang Penapis Bacaan (baharu) ── */
+    @keyframes fadeUpSoft {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up-soft {
+      animation: fadeUpSoft 0.35s ease-out both;
+    }
+    .filter-btn:active {
+      transform: scale(0.97);
+    }
   </style>
 </head>
 <body class="min-h-screen pb-12 bg-zinc-950 max-w-md mx-auto border-x border-zinc-900/40">
@@ -115,6 +127,22 @@
         <span id="stat-read" class="text-sm font-bold text-emerald-300 leading-none">0</span>
         <span class="text-[9px] text-zinc-400 font-medium mt-1 whitespace-nowrap">Sudah Dibaca</span>
       </div>
+    </div>
+
+    <!-- Butang Penapis Bacaan (baharu) -->
+    <div id="read-filter-bar" class="grid grid-cols-[1.35fr_1fr_1fr] gap-2 px-4 pb-3" role="group" aria-label="Penapis status bacaan">
+      <button id="filter-last" type="button" data-filter="last" aria-pressed="true"
+        class="filter-btn flex items-center justify-center gap-1.5 text-[11px] font-bold px-3 py-2.5 rounded-xl border transition-all whitespace-nowrap">
+        <i class="fa-solid fa-clock-rotate-left text-[11px]"></i><span>Bacaan Terakhir</span>
+      </button>
+      <button id="filter-unread" type="button" data-filter="unread" aria-pressed="false"
+        class="filter-btn flex items-center justify-center gap-1.5 text-[11px] font-bold px-3 py-2.5 rounded-xl border transition-all whitespace-nowrap">
+        <i class="fa-regular fa-circle text-[11px]"></i><span>Belum Dibaca</span>
+      </button>
+      <button id="filter-read" type="button" data-filter="read" aria-pressed="false"
+        class="filter-btn flex items-center justify-center gap-1.5 text-[11px] font-bold px-3 py-2.5 rounded-xl border transition-all whitespace-nowrap">
+        <i class="fa-solid fa-circle-check text-[11px]"></i><span>Sudah Dibaca</span>
+      </button>
     </div>
   </header>
 
@@ -156,6 +184,9 @@
 
       // Kemas kini dropdown kategori & statistik secara automatik
       if (typeof window.__refreshReadUI === "function") window.__refreshReadUI();
+
+      // Jika penapis "Belum Dibaca" / "Sudah Dibaca" aktif, kemas kini senarai kad
+      if (typeof window.__afterReadToggle === "function") window.__afterReadToggle();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -168,6 +199,10 @@
       const statUnread = document.getElementById("stat-unread");
       const statRead = document.getElementById("stat-read");
       let currentActiveCategory = "Semua";
+
+      // Penapis bacaan: "last" (paparan asal) | "unread" | "read"
+      let currentReadFilter = "last";
+      const filterButtons = document.querySelectorAll("#read-filter-bar .filter-btn");
 
       const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
 
@@ -259,6 +294,42 @@
       }
       window.__refreshReadUI = refreshReadUI;
 
+      // ── Butang Penapis Bacaan: gaya aktif / tidak aktif ──
+      function renderFilterButtons() {
+        const baseCls = "filter-btn flex items-center justify-center gap-1.5 text-[11px] font-bold px-3 py-2.5 rounded-xl border transition-all whitespace-nowrap ";
+        const inactive = "text-zinc-400 bg-zinc-900 border-zinc-800 hover:text-zinc-200 hover:border-zinc-700";
+        const activeAmber = "text-zinc-950 bg-amber-400 border-amber-400 shadow-md shadow-amber-400/10";
+        const activeEmerald = "text-emerald-300 bg-emerald-400/10 border-emerald-400/40 shadow-md shadow-emerald-400/10";
+
+        filterButtons.forEach(btn => {
+          const f = btn.getAttribute("data-filter");
+          const isActive = f === currentReadFilter;
+          let tone = inactive;
+          if (isActive) tone = (f === "read") ? activeEmerald : activeAmber;
+          btn.className = baseCls + tone;
+          btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+        });
+      }
+
+      function setReadFilter(filter) {
+        currentReadFilter = filter;
+        renderFilterButtons();
+        renderArticles();
+      }
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          setReadFilter(btn.getAttribute("data-filter"));
+        });
+      });
+
+      // Apabila status bacaan ditukar semasa penapis aktif → kad hilang dengan kemas
+      window.__afterReadToggle = function () {
+        if (currentReadFilter !== "last") {
+          setTimeout(renderArticles, 250);
+        }
+      };
+
       function openMenu() {
         catMenu.classList.remove("hidden");
         catBtn.setAttribute("aria-expanded", "true");
@@ -292,12 +363,61 @@
         }
       }
 
+      // ── Paparan kosong premium apabila tiada kad dalam penapis ──
+      function renderEmptyState() {
+        const isUnread = currentReadFilter === "unread";
+        const scope = currentActiveCategory === "Semua"
+          ? "dalam Hub Tips Emas"
+          : "dalam kategori <span class=\"text-amber-300 font-semibold\">" + currentActiveCategory + "</span>";
+
+        const paletteClass = isUnread ? "fc-emerald" : "fc-gold";
+        const iconWrap = isUnread
+          ? "bg-emerald-400/10 border-emerald-400/30 text-emerald-300"
+          : "bg-amber-400/10 border-amber-400/30 text-amber-300";
+        const iconCls = isUnread ? "fa-solid fa-award" : "fa-solid fa-book-open";
+        const title = isUnread ? "Semua Artikel Telah Dibaca" : "Belum Ada Artikel Dibaca";
+        const msg = isUnread
+          ? "Tahniah! Tiada lagi artikel yang belum dibaca " + scope + ". Anda sudah mengkhatamkan semuanya."
+          : "Tiada artikel yang ditandakan sebagai sudah dibaca " + scope + ". Tekan butang <span class=\"text-zinc-100 font-semibold\">Belum Dibaca</span> pada mana-mana kad untuk menandakannya.";
+
+        const empty = document.createElement("div");
+        empty.className = "fintech-card " + paletteClass + " fade-up-soft bg-zinc-900 border rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-lg";
+        empty.innerHTML = `
+          <div class="w-14 h-14 rounded-2xl border flex items-center justify-center text-2xl ${iconWrap}">
+            <i class="${iconCls}"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-zinc-50 leading-snug">${title}</h3>
+            <p class="text-xs text-zinc-300 mt-2 leading-relaxed">${msg}</p>
+          </div>
+          <button type="button" id="empty-reset-btn"
+            class="text-xs font-bold text-zinc-950 bg-amber-400 px-5 py-2.5 rounded-xl hover:bg-amber-300 transition-colors flex items-center gap-1.5">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lihat Semua Artikel
+          </button>
+        `;
+        container.appendChild(empty);
+        const resetBtn = document.getElementById("empty-reset-btn");
+        if (resetBtn) resetBtn.onclick = () => setReadFilter("last");
+      }
+
       function renderArticles() {
         container.innerHTML = "";
         
-        const filteredData = currentActiveCategory === "Semua" 
+        let filteredData = currentActiveCategory === "Semua" 
           ? ARTIKEL_DATA 
           : ARTIKEL_DATA.filter(art => art.category === currentActiveCategory);
+
+        // Penapis status bacaan (menggunakan localStorage sedia ada)
+        if (currentReadFilter === "unread") {
+          filteredData = filteredData.filter(art => !isArticleRead(art.id));
+        } else if (currentReadFilter === "read") {
+          filteredData = filteredData.filter(art => isArticleRead(art.id));
+        }
+
+        if (filteredData.length === 0 && currentReadFilter !== "last") {
+          renderEmptyState();
+          return;
+        }
 
         filteredData.forEach((art, idx) => {
           const paletteClass = CARD_PALETTE[idx % CARD_PALETTE.length];
@@ -346,6 +466,14 @@
             if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArticle.category) {
               setCategory(linkedArticle.category, false);
             }
+
+            // Jika kad pautan tersembunyi oleh penapis bacaan, kembali ke paparan asal
+            if (currentReadFilter !== "last") {
+              const linkedRead = isArticleRead(linkedArticle.id);
+              const hiddenByFilter = (currentReadFilter === "unread" && linkedRead) ||
+                                     (currentReadFilter === "read" && !linkedRead);
+              if (hiddenByFilter) setReadFilter("last");
+            }
             
             const targetCard = document.getElementById(targetId);
             if (targetCard) {
@@ -380,6 +508,7 @@
         }
       }
 
+      renderFilterButtons();
       refreshReadUI();
       renderArticles();
       handleHashHighlight();
