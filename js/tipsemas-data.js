@@ -1007,5 +1007,374 @@ const ARTIKEL_DATA = [
     summary: "Orang lain spent masa tengok TV, kita tukarkan masa TV untuk terus belajar dan berkongsi ilmu tentang emas dan kewangan.",
     path: "/kandungan-tipsemas/niat-sampaikan-ilmu-yang-betul.html"
   },
+
+    {
+    id: "kesilapan-terawal-beli-emas-untuk-pelaburan",
+    title: "Kesilapan Terawal Beli Emas Untuk Pelaburan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Bukan semua emas sesuai untuk tujuan pelaburan.",
+    path: "/kandungan-tipsemas/kesilapan-terawal-beli-emas-untuk-pelaburan.html"
+  },
+
+    {
+    id: "1-harga-rendah",
+    title: "#1 \u2013 Harga Rendah",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Ingat, harga paling murah belum tentu ianya paling untung. Harga paling murah, mungkin jualnya pun nanti murah juga...",
+    path: "/kandungan-tipsemas/1-harga-rendah.html"
+  },
+
+    {
+    id: "2-kadar-spread",
+    title: "#2 \u2013 Kadar Spread",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Spread itu akan menentukan berapa cepat dan berapa banyak keuntungan yang bakal kita dapat apabila harga emas naik. Lagi nipis spread, lagi cepat dan lagi besarlah kadar keuntungannya.",
+    path: "/kandungan-tipsemas/2-kadar-spread.html"
+  },
+
+    {
+    id: "harga-di-kedai-emas",
+    title: "Harga Di Kedai Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Satu perkara lagi yang kena faham tentang spread ini, walaupun harga emas sentiasa berubah-ubah, kadar spread adalah tetap.",
+    path: "/kandungan-tipsemas/harga-di-kedai-emas.html"
+  },
+
+    {
+    id: "3-stok-tiada-had",
+    title: "#3 \u2013 Stok Tiada Had",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Apa yang sering terjadi, banyak pengeluar yang boleh jual emas bila harga emas tengah tinggi. Tapi bila harga emas jatuh, banyak pengeluar tak boleh jual dengan alasan standard \u201ctak ada stok\u201d!",
+    path: "/kandungan-tipsemas/3-stok-tiada-had.html"
+  },
+
+    {
+    id: "4-cawangan-jual-beli-banyak",
+    title: "#4 \u2013 Cawangan Jual Beli Banyak",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Proses beli dan jual yang menyusahkan tersebut membuatkan kos memiliki emas jadi yang lebih tinggi; kos petrol, tol, ataupun kos habis masa.",
+    path: "/kandungan-tipsemas/4-cawangan-jual-beli-banyak.html"
+  },
+
+    {
+    id: "5-syarat-jual-balik-tak-cerewet",
+    title: "#5 \u2013 Syarat Jual Balik Tak Cerewet",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Penjual-penjual emas yang paling cerewat ialah bank! Banyak bank tak beli balik emas kalau kita dah keluarkan emas fizikal (dari akaun emas mereka). Bahkan hampir kesemua bank tak akan beli balik kalau kondisi emas tu rosak atau hilang resit pembelian asal.",
+    path: "/kandungan-tipsemas/5-syarat-jual-balik-tak-cerewet.html"
+  },
+
+    {
+    id: "jual-emas-tapi-tak-beli-semula",
+    title: "Jual Emas, Tapi Tak Beli Semula",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #24 : Kriteria Penting Memilih Emas Pelaburan",
+    summary: "Terpaksa jual emas tersebut kepada pekedai-pekedai emas dengan spread 25%. Ia amat-amat merugikan.",
+    path: "/kandungan-tipsemas/jual-emas-tapi-tak-beli-semula.html"
+  },
+
+    {
+    id: "tersalah-beli-emas-untuk-maksimumkan-keuntungan",
+    title: "Tersalah Beli Emas Untuk Maksimumkan Keuntungan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Nak melabur dalam emas tapi terbeli barang kemas.",
+    path: "/kandungan-tipsemas/tersalah-beli-emas-untuk-maksimumkan-keuntungan.html"
+  },
+
+    {
+    id: "termakan-nasihat-salesman",
+    title: "Termakan nasihat salesman",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Tanpa belajar ilmu tentang pelaburan emas, mak cik tu terus beli dengan tujuan untuk PELABURAN, bukan untuk perhiasan.",
+    path: "/kandungan-tipsemas/termakan-nasihat-salesman.html"
+  },
+
+    {
+    id: "beli-dari-consultant-bukan-salesman",
+    title: "Beli dari \u201cConsultant\u201d, Bukan Salesman",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Matlamat penjual ialah menjual. Mereka ada sales target! Untung rugi pelabur tu no. 2.",
+    path: "/kandungan-tipsemas/beli-dari-consultant-bukan-salesman.html"
+  },
+
+    {
+    id: "emas-perhiasan-dan-emas-pelaburan",
+    title: "Emas Perhiasan dan Emas Pelaburan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Barang kemas dikategorikan sebagai emas perhiasan. Matlamatnya ialah cantik, bukannya untung. Tapi emas pelaburan matlamatnya adalah untung.",
+    path: "/kandungan-tipsemas/emas-perhiasan-dan-emas-pelaburan.html"
+  },
+
+    {
+    id: "kerugian-1-harga-lebih-mahal",
+    title: "Kerugian #1 \u2013 Harga Lebih Mahal",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Harga barang kemas lebih tinggi berbanding emas pelaburan sebab harganya mengikut persatuan pekedai emas i.e.",
+    path: "/kandungan-tipsemas/kerugian-1-harga-lebih-mahal.html"
+  },
+
+    {
+    id: "kerugian-2-susut-nilai-tinggi",
+    title: "Kerugian #2 \u2013 Susut Nilai Tinggi",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Kalau harga emas naik 20%, pembeli barang kemas masih rugi 5% sedangkan pembeli syiling 1 dinar boleh tersenyum dengan keuntungan 11% (20% \u2013 9%)!",
+    path: "/kandungan-tipsemas/kerugian-2-susut-nilai-tinggi.html"
+  },
+
+    {
+    id: "kerugian-3-rugi-kos-upah-workmanship",
+    title: "Kerugian #3 \u2013 Rugi Kos Upah (Workmanship)",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Barang kemas ada caj tambahan yang dinamakan \u201ckos upah\u201d atau \u201cworkmanship\u201d. Walaupun harga yang pekedai emas paparkan tu nampak rendah, tapi selalunya bila tambah kos upah, harga keseluruhan jadi mahal.",
+    path: "/kandungan-tipsemas/kerugian-3-rugi-kos-upah-workmanship.html"
+  },
+
+    {
+    id: "kerugian-4-pergerakan-harga-perlahan",
+    title: "Kerugian #4 \u2013 Pergerakan Harga Perlahan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #25 : Kerugian Membeli Barang Kemas",
+    summary: "Harga barang kemas agak \u2018statik\u2019. Biasanya, kalau harga emas dunia naik, harga barang kemas akan terus naik!",
+    path: "/kandungan-tipsemas/kerugian-4-pergerakan-harga-perlahan.html"
+  },
+
+    {
+    id: "tak-semua-barang-kemas-boleh-jadi-aset",
+    title: "Tak Semua Barang Kemas Boleh Jadi Aset",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Ada barang kemas yang akan terus susut nilai 25% \u2013 50% lepas kita beli.",
+    path: "/kandungan-tipsemas/tak-semua-barang-kemas-boleh-jadi-aset.html"
+  },
+
+    {
+    id: "tip-1-beli-barang-kemas-999-24k-atau-916-22k-sahaja",
+    title: "Tip #1: Beli barang kemas 999 (24k) atau 916 (22k) sahaja",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Untuk kenal emas 999 dan 916 ialah cek pada bahagian belakang barang kemas tu sebab biasanya ia akan ditempa dengan cop \u201c999\u201d dan \u201c916\u201d.",
+    path: "/kandungan-tipsemas/tip-1-beli-barang-kemas-999-24k-atau-916-22k-sahaja.html"
+  },
+
+    {
+    id: "tip-2-beli-barang-kemas-padu-sahaja",
+    title: "Tip #2: Beli barang kemas padu sahaja",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Elakkan barang kemas yang berlubang/ kosong di dalam.",
+    path: "/kandungan-tipsemas/tip-2-beli-barang-kemas-padu-sahaja.html"
+  },
+
+    {
+    id: "tip-3-elakkan-membeli-barang-kemas-yang-ada-batu-permata",
+    title: "Tip #3: Elakkan membeli barang kemas yang ada batu permata",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Barang kemas yang ada batu permata rendah nilai \u20182nd hand value\u2019nya. Nilainya sangat rendah bila nak jual balik dan tak diterima untuk gadaian.",
+    path: "/kandungan-tipsemas/tip-3-elakkan-membeli-barang-kemas-yang-ada-batu-permata.html"
+  },
+
+    {
+    id: "tip-4-simpan-resit-belian",
+    title: "Tip #4: Simpan resit belian",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Resit belian original akan memberi kesan kepada nilai emas tu bila nak jual balik pada pengeluar.",
+    path: "/kandungan-tipsemas/tip-4-simpan-resit-belian.html"
+  },
+
+    {
+    id: "tip-5-jangan-beli-emas-putih",
+    title: "Tip #5: Jangan beli emas putih",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Emas putih di jual pada harga platinum (logam paling mahal, lebih mahal daripada emas 999), tapi tak ada second hand value.",
+    path: "/kandungan-tipsemas/tip-5-jangan-beli-emas-putih.html"
+  },
+
+    {
+    id: "tip-6-survey-kos-upah-paling-rendah",
+    title: "Tip #6: Survey kos upah paling rendah",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Ada kes customer saya dapat negotiate kos upah dari RM200 kepada RM50.",
+    path: "/kandungan-tipsemas/tip-6-survey-kos-upah-paling-rendah.html"
+  },
+
+    {
+    id: "tip-7-cari-kedai-yang-jual-emas-bawah-harga-fgjam-persatuan-pekedai-emas",
+    title: "Tip #7: Cari kedai yang jual emas bawah harga FGJAM (Persatuan Pekedai Emas)",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "Harga sebenar setiap pekedai emas adalah berbeza-beza sebab emas bukan barang kawalan.",
+    path: "/kandungan-tipsemas/tip-7-cari-kedai-yang-jual-emas-bawah-harga-fgjam-persatuan-pekedai-emas.html"
+  },
+
+    {
+    id: "tip-8-cari-kedai-yang-terima-belian-balik-trade-in-dengan-harga-yang-tinggi",
+    title: "Tip #8: Cari kedai yang terima belian balik (trade-in) dengan harga yang tinggi",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #26 : Tips Membeli Barang Kemas Bernilai Tinggi",
+    summary: "",
+    path: "/kandungan-tipsemas/tip-8-cari-kedai-yang-terima-belian-balik-trade-in-dengan-harga-yang-tinggi.html"
+  },
+
+    {
+    id: "beli-emas-dapat-emas",
+    title: "Beli Emas, Dapat Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #27 : Akaun Pelaburan Emas atau Emas Fizikal?",
+    summary: "Beli emas dapat emas. Emas itu ada di tangan kita, dan kita simpan sendiri.",
+    path: "/kandungan-tipsemas/beli-emas-dapat-emas.html"
+  },
+
+    {
+    id: "1-peluang-rolling-duit-untuk-bisnes",
+    title: "#1 - Peluang \u2018Rolling\u2019 Duit Untuk Bisnes",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #28 : Kelebihan Emas Fizikal",
+    summary: "Bila ada emas di tangan sendiri, duit kita tak beku macam pelaburan lain.",
+    path: "/kandungan-tipsemas/1-peluang-rolling-duit-untuk-bisnes.html"
+  },
+
+    {
+    id: "2-peluang-jana-keuntungan-ketika-harga-jatuh",
+    title: "#2 - Peluang Jana Keuntungan Ketika Harga Jatuh",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #28 : Kelebihan Emas Fizikal",
+    summary: "Harga emas tak sentiasa naik. Ada ketikanya ia jatuh dan waktu kejatuhan itu ambil masa sampai beberapa tahun.",
+    path: "/kandungan-tipsemas/2-peluang-jana-keuntungan-ketika-harga-jatuh.html"
+  },
+
+    {
+    id: "3-jumlah-simpanan-cepat-bertambah",
+    title: "#3 - Jumlah Simpanan Cepat Bertambah",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #28 : Kelebihan Emas Fizikal",
+    summary: "Emas adalah magnet kekayaan. Tuhan jadikan emas itu sangat cantik pada pandangan manusia. Bila pegang emas itu, auranya terasa lain macam. Lagi besar kepingan emas itu, lagi kuat auranya.",
+    path: "/kandungan-tipsemas/3-jumlah-simpanan-cepat-bertambah.html"
+  },
+
+    {
+    id: "4-urusan-dan-waktu-jual-beli-lebih-fleksible",
+    title: "#4 - Urusan dan Waktu Jual Beli Lebih Fleksible",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #28 : Kelebihan Emas Fizikal",
+    summary: "Bila emas ada di tangan, kita boleh jual kepada sesiapa sahaja, pada bila-bila masa, dan di mana-mana sahaja seluruh dunia.",
+    path: "/kandungan-tipsemas/4-urusan-dan-waktu-jual-beli-lebih-fleksible.html"
+  },
+
+    {
+    id: "5-selamat-dari-dibekukan-oleh-pihak-bank",
+    title: "#5 - Selamat Dari Dibekukan oleh Pihak Bank",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #28 : Kelebihan Emas Fizikal",
+    summary: "Emas yang terbaik ialah emas yang berada di tangan kita sendiri - 100% di bawah kawalan kita sendiri.",
+    path: "/kandungan-tipsemas/5-selamat-dari-dibekukan-oleh-pihak-bank.html"
+  },
+
+    {
+    id: "6-selamat-dari-bencana-kewangan",
+    title: "#6 - Selamat Dari Bencana Kewangan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #28 : Kelebihan Emas Fizikal",
+    summary: "Di dunia ini, tidak ada jaminan yang terjamin. Kita boleh bankrup, dan bank juga boleh bankrup! Kalau anda fikir simpanan di bank adalah terjamin, anda silap.",
+    path: "/kandungan-tipsemas/6-selamat-dari-bencana-kewangan.html"
+  },
+
+    {
+    id: "7-simpanan-emas-patuh-syariah",
+    title: "#7 - Simpanan Emas Patuh Syariah",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #28 : Kelebihan Emas Fizikal",
+    summary: "Beli emas mesti dapat emas. Kalau beli emas tak dapat emas, sah-sah ada masalah dari sudut syariah.",
+    path: "/kandungan-tipsemas/7-simpanan-emas-patuh-syariah.html"
+  },
+
+    {
+    id: "skim-tipu-emas",
+    title: "Skim Tipu Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Kalau \u201cperniagaan\u201d untung 200% setahun tu memang biasa, tapi kalau \u201cpelaburan\u201d untung 20% tu bagi saya luar biasa. Apatah lagi untungnya 70% hingga 100% setahun!",
+    path: "/kandungan-tipsemas/skim-tipu-emas.html"
+  },
+
+    {
+    id: "penganjur-bijak-lagi-baik-hati",
+    title: "Penganjur Bijak Lagi Baik Hati?",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Kalau betul ianya pelaburan yang tulen, jangankan kita yang nak labur, badan-badan kerajaan, bank-bank dan institusi kewangan yang ada dana jauh lebih besar, dan jauh lebih \u2018pakar\u2019 dari kita akan rebut dulu.",
+    path: "/kandungan-tipsemas/penganjur-bijak-lagi-baik-hati.html"
+  },
+
+    {
+    id: "1-keuntungan-tak-masuk-akal",
+    title: "#1 \u2013 Keuntungan Tak Masuk Akal",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Janji keuntungan 70% \u2013 100% setahun tu sangat tak masuk akal.",
+    path: "/kandungan-tipsemas/1-keuntungan-tak-masuk-akal.html"
+  },
+
+      {
+    id: "2-terma-sentiasa-berubah-ubah",
+    title: "#2 \u2013 Terma Sentiasa Berubah-ubah",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Skim delay yang mengarut yang disangkakan pelaburan, rupanya peleburan.",
+    path: "/kandungan-tipsemas/2-terma-sentiasa-berubah-ubah.html"
+  },
+
+    {
+    id: "3-produk-bukan-subjek-penting",
+    title: "#3 \u2013 Produk Bukan Subjek Penting",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Keuntungan yang dijanjikan tak ada kena mengena dengan turun naik harga emas.",
+    path: "/kandungan-tipsemas/3-produk-bukan-subjek-penting.html"
+  },
+
+    {
+    id: "4-punca-keuntungan-agak-kabur",
+    title: "#4 \u2013 Punca Keuntungan Agak Kabur",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Kalau kita labur mana-mana tempat yang betul, \u201cfund manager\u201d biasanya akan terangkan sejelas-jelasnya mana datang keuntungan mereka.",
+    path: "/kandungan-tipsemas/4-punca-keuntungan-agak-kabur.html"
+  },
+
+    {
+    id: "5-kaedah-marketing-terlalu-phishy",
+    title: "#5 \u2013 Kaedah Marketing Terlalu \u201cPhishy\u201d",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Kalau marketing tunjuk duit berlambak-lambak, tunjuk duit berjuta dalam akaun bank, itu cara skim cepat miskin.",
+    path: "/kandungan-tipsemas/5-kaedah-marketing-terlalu-phishy.html"
+  },
+
+    {
+    id: "money-game-bertopeng-emas",
+    title: "Money Game Bertopeng Emas?",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #29 : Awas, Skim Cepat Kaya Bertopeng Emas!",
+    summary: "Pelabur semua akan lingkup, tapi penganjur tetap kaya raya.",
+    path: "/kandungan-tipsemas/money-game-bertopeng-emas.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
