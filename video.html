@@ -357,6 +357,11 @@
       const targetId = hash.replace("#", "");
       const linkedVideo = VIDEO_DATA.find(v => v.id === targetId);
 
+      // Deep Link Kategori: #nama-kategori (video individu diutamakan jika ID sama)
+      const linkedCategory = linkedVideo
+        ? null
+        : videoCategories.find(c => c === targetId && c !== "all" && c !== "kisah-kejayaan");
+
       if(linkedVideo) {
         // Logik semakan agar kad yang di-hash dipaparkan sekiranya ia tersembunyi
         if(currentVideoFilter !== "all" && currentVideoFilter !== linkedVideo.category) {
@@ -378,6 +383,26 @@
               target.classList.remove("video-highlight-anim");
             }, { once: true });
           }, 600);
+        }, 300);
+      } else if(linkedCategory) {
+        // Aktifkan kategori, bina semula butang aktif & papar video kategori tersebut
+        currentVideoFilter = linkedCategory;
+        buildVideoFilterBar();
+        executeCombinedFilter();
+
+        setTimeout(function () {
+          // Pastikan butang kategori aktif kelihatan dalam baris penapis
+          const bar = document.getElementById("video-filter-bar");
+          const activeBtn = bar ? bar.querySelector(".bg-amber-400") : null;
+          if (bar && activeBtn) {
+            bar.scrollTo({ left: Math.max(0, activeBtn.offsetLeft - bar.offsetLeft - 16), behavior: "smooth" });
+          }
+
+          // Auto-scroll smooth ke kandungan kategori
+          const container = document.getElementById("video-container");
+          if (!container) return;
+          container.style.scrollMarginTop = "150px";
+          container.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 300);
       }
     });
