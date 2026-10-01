@@ -280,7 +280,7 @@
     }
     .m-quick-btn:hover .m-quick-label { color: #D4AF37; }
 
-    /* ── Kemaskini: Butang Aksi Video (Subscribe / Full Skrin / Share) ── */
+    /* ── Kemaskini: Butang Aksi Video (More Videos / Full Skrin / Share) ── */
     .m-action-pill {
       font-family: inherit;
       cursor: pointer;
@@ -299,11 +299,11 @@
       font-size: 11px;
     }
 
-    /* ── Kemaskini: Anchor Scroll & Highlight untuk #elak-kerugian ── */
-    #elak-kerugian {
+    /* ── Kemaskini: Anchor Scroll & Highlight untuk #kenapa-menabung-emas ── */
+    #kenapa-menabung-emas {
       scroll-margin-top: 88px;
     }
-    #elak-kerugian.anchor-highlight {
+    #kenapa-menabung-emas.anchor-highlight {
       animation: anchorPulseGold 1.8s ease;
     }
     @keyframes anchorPulseGold {
@@ -481,6 +481,33 @@
       border-radius: 20px;
       background: linear-gradient(160deg, #fffdf5 0%, #fff3d6 100%);
     }
+
+    /* ── Kemaskini: Denyut Halus Premium pada Countdown Makluman Terkini ── */
+    .mt-countdown-pulse {
+      animation: mtCountdownPulse 3.6s ease-in-out infinite;
+    }
+    @keyframes mtCountdownPulse {
+      0%, 100% { opacity: 1;    text-shadow: 0 0 0 rgba(217,119,6,0); }
+      50%      { opacity: 0.82; text-shadow: 0 0 10px rgba(217,119,6,0.28); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mt-countdown-pulse { animation: none; }
+    }
+
+    /* ── Kemaskini: Anchor Scroll & Highlight untuk #makluman-terkini ── */
+    #makluman-terkini {
+      scroll-margin-top: 88px;
+    }
+    #makluman-container.anchor-highlight-makluman {
+      animation: anchorPulseGoldMakluman 1.8s ease;
+    }
+    @keyframes anchorPulseGoldMakluman {
+      0%   { box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 18px rgba(251,191,36,0.14); border-color: rgba(180,131,7,0.35); }
+      15%  { box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 0 3px rgba(212,175,55,0.4), 0 0 26px rgba(212,175,55,0.5); border-color: rgba(212,175,55,0.95); }
+      40%  { box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 0 1px rgba(212,175,55,0.22), 0 0 14px rgba(212,175,55,0.32); border-color: rgba(212,175,55,0.5); }
+      60%  { box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 0 3px rgba(212,175,55,0.34), 0 0 22px rgba(212,175,55,0.44); border-color: rgba(212,175,55,0.9); }
+      100% { box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 18px rgba(251,191,36,0.14); border-color: rgba(180,131,7,0.35); }
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
@@ -573,25 +600,25 @@
     </section>
 
     <!-- Video -->
-    <div class="m-section" id="elak-kerugian">
+    <div class="m-section" id="kenapa-menabung-emas">
       <div class="m-section-label">
         <i class="fa-solid fa-circle-play" style="color:#D4AF37;font-size:11px"></i>
-        Elakkan Kerugian - Wajib Tonton
+        Kenapa Menabung Emas? — Mohd Zulkifli Shafie
       </div>
 
       <div class="m-video-wrap" id="m-video-fullscreen-target">
         <iframe
-          id="elak-kerugian-iframe"
-          src="https://www.youtube.com/embed/SlzjujKtxYE?rel=0&modestbranding=1&iv_load_policy=3"
+          id="kenapa-menabung-emas-iframe"
+          src="https://www.youtube.com/embed/PNufp_ARBjQ?si=dAqU3ISlSRiSxbGE"
           allowfullscreen
           loading="lazy">
         </iframe>
       </div>
 
       <div class="m-video-meta">
-        <a href="https://youtube.com/@wanhasbullah?si=XhrRBn4KBOL9xwfx" target="_blank" rel="noopener noreferrer" class="m-video-pill m-action-pill">
-          <i class="fa-brands fa-youtube" style="color:#FF3B3B"></i>
-          Subscribe
+        <a href="https://ilmu-emas.pages.dev/video" target="_blank" rel="noopener noreferrer" class="m-video-pill m-action-pill">
+          <i class="fa-solid fa-video" style="color:#D4AF37"></i>
+          More Videos
         </a>
 
         <button type="button" onclick="toggleFullscreenVideo()" class="m-video-pill m-action-pill">
@@ -599,7 +626,7 @@
           Full Skrin
         </button>
 
-        <button type="button" onclick="shareElakKerugian()" class="m-video-pill m-action-pill">
+        <button type="button" onclick="shareKenapaMenabungEmas()" class="m-video-pill m-action-pill">
           <i class="fa-solid fa-share-nodes"></i>
           Share
         </button>
@@ -691,7 +718,7 @@
 </section>
 
     <!-- ── Makluman Terkini (Dynamic dari js/makluman-terkini-data.js) ── -->
-    <div class="space-y-2.5 pt-2">
+    <div class="space-y-2.5 pt-2" id="makluman-terkini">
       <div class="flex items-center justify-between px-1">
         <div class="flex items-center gap-2">
           <div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></div>
@@ -907,10 +934,19 @@
        - maklumanTetapData   : program TETAP berulang setiap minggu (dayOfWeek/startHour/endHour)
        - maklumanTerkiniData : program TIDAK TETAP / sekali sahaja (date)
        - Gabung kedua-dua sumber, susun kronologi, hadkan maksimum 5 makluman aktif
-       - Countdown live setiap saat, status LIVE SEKARANG semasa sesi sedang berjalan
+       - Countdown live setiap saat (dengan hari + tarikh), status LIVE SEKARANG semasa sesi sedang berjalan
        - Program mingguan yang tamat sesi dikira semula automatik ke minggu depan;
          program sekali sahaja yang tamat dibuang terus & digantikan makluman seterusnya
        - Butang "Lihat" sentiasa ke https://ilmu-emas.pages.dev/makluman-terkini ── */
+
+    // Nama hari & bulan Bahasa Melayu untuk paparan tarikh pada countdown
+    const HARI_MS  = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+    const BULAN_MS = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+
+    // Contoh output: "Jumaat, 2 Oktober 2026"
+    function formatTarikhMalay(d) {
+      return HARI_MS[d.getDay()] + ', ' + d.getDate() + ' ' + BULAN_MS[d.getMonth()] + ' ' + d.getFullYear();
+    }
 
     // Kira sesi terdekat (akan datang / sedang berlangsung) bagi program mingguan berulang
     function getNextOccurrence(item, now) {
@@ -1011,7 +1047,7 @@
                 <h4 class="text-sm font-bold mt-title line-clamp-2 leading-snug">${item.title}</h4>
                 <p class="text-xs mt-caption leading-relaxed line-clamp-2">${item.caption}</p>
 
-                <div id="${countdownId}" class="mt-2 flex items-center gap-1.5 flex-wrap">
+                <div id="${countdownId}" class="mt-2 flex items-center gap-1.5 flex-wrap mt-countdown-pulse">
                   <i class="fa-regular fa-clock text-[10px] mt-countdown-normal"></i>
                   <span class="text-[10px] font-semibold mt-countdown-normal countdown-label">Mengira...</span>
                 </div>
@@ -1028,6 +1064,7 @@
 
         const occStart = item.start;
         const occEnd = item.end;
+        const tarikhLabel = formatTarikhMalay(occStart); // Hari + tarikh sesi, cth: "Jumaat, 2 Oktober 2026"
 
         // Fungsi countdown real-time dengan sokongan status LIVE
         function updateCountdown() {
@@ -1040,7 +1077,7 @@
           const now = new Date();
 
           if (now >= occStart && now < occEnd) {
-            el.textContent = "LIVE SEKARANG";
+            el.textContent = tarikhLabel + " • LIVE SEKARANG";
             el.className = "text-[10px] font-bold mt-countdown-live countdown-label animate-pulse";
             if (iconEl) iconEl.className = "fa-solid fa-circle text-[8px] mt-countdown-live animate-pulse";
             setTimeout(updateCountdown, 1000);
@@ -1067,7 +1104,7 @@
           else if (minutes > 0) label = `${minutes}m ${seconds}s lagi`;
           else                  label = `${seconds}s lagi`;
 
-          el.textContent = label;
+          el.textContent = tarikhLabel + " • " + label;
 
           // Pengekalan logik warna kecemasan (urgency)
           if (diff < 3600000) {
@@ -1369,9 +1406,9 @@ function triggerOneSignalForce() {
   </script>
 
   <script>
-    /* ── Kemaskini 1: Anchor Scroll + Highlight Premium untuk #elak-kerugian ── */
-    function highlightElakKerugian() {
-      const target = document.getElementById('elak-kerugian');
+    /* ── Kemaskini 1: Anchor Scroll + Highlight Premium untuk #kenapa-menabung-emas ── */
+    function highlightKenapaMenabungEmas() {
+      const target = document.getElementById('kenapa-menabung-emas');
       if (!target) return;
 
       target.scrollIntoView({
@@ -1390,14 +1427,14 @@ function triggerOneSignalForce() {
       }, 450);
     }
 
-    function checkElakKerugianHash() {
-      if (window.location.hash === '#elak-kerugian') {
-        highlightElakKerugian();
+    function checkKenapaMenabungEmasHash() {
+      if (window.location.hash === '#kenapa-menabung-emas') {
+        highlightKenapaMenabungEmas();
       }
     }
 
-    window.addEventListener('load', checkElakKerugianHash);
-    window.addEventListener('hashchange', checkElakKerugianHash);
+    window.addEventListener('load', checkKenapaMenabungEmasHash);
+    window.addEventListener('hashchange', checkKenapaMenabungEmasHash);
 
     /* ── Kemaskini 3: Butang Full Skrin ── */
     function toggleFullscreenVideo() {
@@ -1420,18 +1457,18 @@ function triggerOneSignalForce() {
 
       // Fallback: buka video terus di YouTube jika fullscreen API tidak stabil/disokong
       window.open(
-        'https://www.youtube.com/shorts/SlzjujKtxYE?source_ve_path=MTc3Mjcy&embeds_referring_euri=https%3A%2F%2Filmu-emas.pages.dev%2F',
+        'https://youtu.be/PNufp_ARBjQ?si=FKs4HaO3Yv2gyFZL',
         '_blank',
         'noopener,noreferrer'
       );
     }
 
     /* ── Kemaskini 5: Butang Share (Web Share API + Clipboard fallback) ── */
-    function shareElakKerugian() {
-      const shareUrl = 'https://ilmu-emas.pages.dev#elak-kerugian';
+    function shareKenapaMenabungEmas() {
+      const shareUrl = 'https://ilmu-emas.pages.dev/#kenapa-menabung-emas';
       const shareData = {
         title: 'Ilmu Emas',
-        text: 'Elakkan Kerugian - Wajib Tonton',
+        text: 'Kenapa Menabung Emas? — Mohd Zulkifli Shafie',
         url: shareUrl
       };
 
@@ -1447,7 +1484,7 @@ function triggerOneSignalForce() {
             "bg-emerald-500/10 border border-emerald-500/20",
             "text-emerald-400",
             "Pautan Berjaya Disalin",
-            "Pautan video 'Elakkan Kerugian - Wajib Tonton' disalin ke papan klip anda. Sedia untuk dikongsi.",
+            "Pautan video 'Kenapa Menabung Emas? — Mohd Zulkifli Shafie' disalin ke papan klip anda. Sedia untuk dikongsi.",
             shareUrl
           );
         }).catch(() => {
@@ -1605,6 +1642,48 @@ function triggerOneSignalForce() {
 
     window.addEventListener("load", checkGenericAnchorHash);
     window.addEventListener("hashchange", checkGenericAnchorHash);
+  </script>
+
+  <script>
+    /* ── Kemaskini: Deep-link #makluman-terkini ──
+       https://ilmu-emas.pages.dev/#makluman-terkini → auto-scroll smooth ke bahagian
+       Makluman Terkini + denyut emas premium pada kad. Jika kad belum siap dirender
+       (data JS masih dimuatkan), tunggu sebentar (maks. ~2.5 saat) sebelum scroll. ── */
+    function highlightMaklumanTerkini(tries) {
+      tries = tries || 0;
+      const target = document.getElementById('makluman-terkini');
+      const card = document.getElementById('makluman-container');
+      if (!target || !card) return;
+
+      if (card.children.length === 0 && tries < 10) {
+        setTimeout(function () { highlightMaklumanTerkini(tries + 1); }, 250);
+        return;
+      }
+
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      card.classList.remove('anchor-highlight-makluman');
+      void card.offsetWidth; // reset animasi jika dipanggil berulang kali
+
+      setTimeout(() => {
+        card.classList.add('anchor-highlight-makluman');
+        setTimeout(() => {
+          card.classList.remove('anchor-highlight-makluman');
+        }, 1800);
+      }, 450);
+    }
+
+    function checkMaklumanTerkiniHash() {
+      if (window.location.hash === '#makluman-terkini') {
+        highlightMaklumanTerkini();
+      }
+    }
+
+    window.addEventListener('load', checkMaklumanTerkiniHash);
+    window.addEventListener('hashchange', checkMaklumanTerkiniHash);
   </script>
 </body>
 </html>
