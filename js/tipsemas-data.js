@@ -854,5 +854,158 @@ const ARTIKEL_DATA = [
     summary: "Siapa faham tentang sejarah emas dan matawang dunia, dia tahu harga emas akan pergi jauh lagi dalam jangka panjang. Harga emas tetap akan naik juga dalam jangka panjang.",
     path: "/kandungan-tipsemas/masa-depan-emas.html"
   },
+
+    {
+    id: "adakah-berbaloi-beli-emas-menggunakan-pinjaman",
+    title: "Adakah Berbaloi Beli Emas Menggunakan Pinjaman?",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #21 : Buat Pinjaman Beli Emas",
+    summary: "Kalau google di internet, kita boleh jumpa banyak artikel yang ditulis oleh blogger emas yang mengesyorkan buat pinjaman untuk beli emas.",
+    path: "/kandungan-tipsemas/adakah-berbaloi-beli-emas-menggunakan-pinjaman.html"
+  },
+
+    {
+    id: "beli-emas-menggunakan-simpanan",
+    title: "Beli Emas Menggunakan Simpanan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #21 : Buat Pinjaman Beli Emas",
+    summary: "Tak perlu buat pinjaman. Sebab emas ni salah satu bentuk simpanan jangka sederhana dan jangka panjang.",
+    path: "/kandungan-tipsemas/beli-emas-menggunakan-simpanan.html"
+  },
+
+    {
+    id: "buat-pinjaman-untuk-beli-emas",
+    title: "Buat Pinjaman Untuk Beli Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #21 : Buat Pinjaman Beli Emas",
+    summary: "Saya boleh setuju buat pinjaman untuk beli emas untuk beberapa perkara.",
+    path: "/kandungan-tipsemas/buat-pinjaman-untuk-beli-emas.html"
+  },
+
+    {
+    id: "beli-harga-di-paras-selamat",
+    title: "Beli Harga Di Paras 'Selamat'",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #21 : Buat Pinjaman Beli Emas",
+    summary: "lau nak beli emas dengan duit pinjaman ialah beli bila harga emas diparas rendah supaya kurang sikit kerisauannya.",
+    path: "/kandungan-tipsemas/beli-harga-di-paras-selamat.html"
+  },
+
+    {
+    id: "risiko-harga-emas-jatuh",
+    title: "Risiko Harga Emas Jatuh",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #21 : Buat Pinjaman Beli Emas",
+    summary: "Walaupun harga emas ada turun naik dalam jangka pendek, secara relatifnya kuasa beli emas bertahan zaman berzaman.",
+    path: "/kandungan-tipsemas/risiko-harga-emas-jatuh.html"
+  },
+
+    {
+    id: "jangan-buang-masa-jadikan-emas-sebagai-pelaburan",
+    title: "Jangan Buang Masa Jadikan Emas Sebagai Pelaburan",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #22 : Jangan Buang Masa Menunggu Pelaburan",
+    summary: "Agak-agak kalau beli emas (atau apa-apa pelaburan pun), boleh dapat tak untung 100% setahun?",
+    path: "/kandungan-tipsemas/jangan-buang-masa-jadikan-emas-sebagai-pelaburan.html"
+  },
+
+    {
+    id: "bisnes-kecil-vs-pelaburan-emas",
+    title: "Bisnes Kecil VS Pelaburan Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #22 : Jangan Buang Masa Menunggu Pelaburan",
+    summary: "Banyak bisnes yang boleh kita jalankan walaupun dengan modal kecil.",
+    path: "/kandungan-tipsemas/bisnes-kecil-vs-pelaburan-emas.html"
+  },
+
+    {
+    id: "fokus-bisnes-kalau-nak-kaya",
+    title: "Fokus Bisnes Kalau Nak Kaya",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #22 : Jangan Buang Masa Menunggu Pelaburan",
+    summary: "kalau nak kaya, fokus 70% waktu kita untuk bina perniagaan sendiri, lagi 30% sahaja untuk pelaburan.",
+    path: "/kandungan-tipsemas/fokus-bisnes-kalau-nak-kaya.html"
+  },
+
+    {
+    id: "reaksi-kali-pertama-beli-emas",
+    title: "Reaksi Kali Pertama Beli Emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Saya belum pernah jumpa sesiapa yang lepas beli emas, harga terus naik, naik, naik dan tak turun-turun dah lepas tu.",
+    path: "/kandungan-tipsemas/reaksi-kali-pertama-beli-emas.html"
+  },
+
+    {
+    id: "harga-confirm-turun-naik",
+    title: "Harga Confirm Turun Naik",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Bila harga naik, saya senyum sebab nilai kekayaan meningkat. Bila harga turun pun saya senyum sebab itu peluang beli 'barang mahal' (emas) pada harga murah.",
+    path: "/kandungan-tipsemas/harga-confirm-turun-naik.html"
+  },
+
+    {
+    id: "rahsia-1-asingkan-duit-kecemasan-simpan-emas-jangka-panjang",
+    title: "Rahsia #1 - Asingkan duit kecemasan, simpan emas jangka panjang",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Saya tak galakkan sesiapa beli emas dengan duit simpanan kecemasan atau duit yang nak digunakan dalam masa terdekat (setahun).",
+    path: "/kandungan-tipsemas/rahsia-1-asingkan-duit-kecemasan-simpan-emas-jangka-panjang.html"
+  },
+
+    {
+    id: "rahsia-2-beli-emas-dengan-duit-lebihan-bukan-pinjaman",
+    title: "Rahsia #2 - Beli emas dengan duit lebihan, bukan pinjaman",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Beli emas dengan duit lebihan, bukan duit pinjaman. Tak kisahlah samada duit pinjaman bank ataupun pinjam duit family.",
+    path: "/kandungan-tipsemas/rahsia-2-beli-emas-dengan-duit-lebihan-bukan-pinjaman.html"
+  },
+
+    {
+    id: "rahsia-3-beli-untuk-wealth-protection-bukan-spekulasi",
+    title: "Rahsia #3 - Beli untuk \"Wealth Protection\", bukan spekulasi",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Protect duit dari 'dicuri' (dibelanjakan) diri sendiri, protect dari inflasi, dan paling menakutkan, protect dari keruntuhan sistem matawang!",
+    path: "/kandungan-tipsemas/rahsia-3-beli-untuk-wealth-protection-bukan-spekulasi.html"
+  },
+
+    {
+    id: "kekayaan-bertahan-ketika-gawat",
+    title: "Kekayaan bertahan ketika gawat",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Apa berlaku kepada duit kertas pada zaman Jepun menjajah Tanah Melayu dulu. Siapa sanggup terima DUIT KERTAS yang dipanggil \"duit pisang\" lepas kekalahan Jepun? Ia cuma kertas yang hanya layak dijadikan \"wallpaper\" kata Sheikh Imran Hosein.",
+    path: "/kandungan-tipsemas/kekayaan-bertahan-ketika-gawat.html"
+  },
+
+    {
+    id: "rahsia-4-pantau-harga-bila-perlu-sahaja",
+    title: "Rahsia #4 - Pantau harga bila perlu sahaja",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Bila harga naik, rasa happy. Bila turun, rasa terkilan. Bahkan lebih buruk, harga naik susah hati, turun pun susah hati!",
+    path: "/kandungan-tipsemas/rahsia-4-pantau-harga-bila-perlu-sahaja.html"
+  },
+
+    {
+    id: "rahsia-5-melabur-sambil-berniaga-emas",
+    title: "Rahsia #5 - Melabur sambil berniaga emas",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Alang-alang emas dah jadikan kewangan saya lebih baik, saya ambil tanggungjawab sampaikan ilmu yang betultentang emas kepada orang ramai melalui BLOG dan FACEBOOK saya. Saya rasa selfish kalau tak share ilmu yang betul.",
+    path: "/kandungan-tipsemas/rahsia-5-melabur-sambil-berniaga-emas.html"
+  },
+
+    {
+    id: "niat-sampaikan-ilmu-yang-betul",
+    title: "Niat Sampaikan Ilmu Yang Betul",
+    author: "Mohd Zulkifli Shafie",
+    category: "Tips #23 : Rahsia Pelabur Emas Yang Sentiasa Senyum",
+    summary: "Orang lain spent masa tengok TV, kita tukarkan masa TV untuk terus belajar dan berkongsi ilmu tentang emas dan kewangan.",
+    path: "/kandungan-tipsemas/niat-sampaikan-ilmu-yang-betul.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
