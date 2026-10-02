@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ms" class="bg-zinc-950 text-white selection:bg-amber-500 selection:text-zinc-950">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Komitmen - Kenali Cashflow. Kawal Komitmen. Bina Kewangan Lebih Sihat.</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } } }
+</script>
+<style>
+  body { background: #09090b; }
+  .gt-card { background: linear-gradient(145deg, #18181b 60%, #1c1917 100%); border: 1px solid rgba(63,63,70,0.7); border-radius: 24px; position: relative; overflow: hidden; }
+  .gold-glow { position: absolute; top: -80px; right: -60px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(251,191,36,0.10) 0%, transparent 70%); pointer-events: none; }
+  .gt-input { background: rgba(9,9,11,0.6); border: 1px solid rgba(63,63,70,0.7); border-radius: 14px; color: #fff; transition: border-color .2s, box-shadow .2s; }
+  .gt-input::placeholder { color: #52525b; }
+  .gt-input:focus { outline: none; border-color: rgba(251,191,36,0.6); box-shadow: 0 0 0 3px rgba(251,191,36,0.12); }
+  .gt-input.error { border-color: rgba(248,113,113,0.7); }
+  .gt-btn-primary { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #09090b; font-weight: 700; border-radius: 16px; transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease; box-shadow: 0 8px 24px rgba(245,158,11,0.18); }
+  .gt-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(245,158,11,0.32); }
+  .gt-btn-secondary { background: rgba(39,39,42,0.7); border: 1px solid rgba(63,63,70,0.7); color: #e4e4e7; border-radius: 16px; transition: all .2s; }
+  .gt-btn-secondary:hover { background: rgba(63,63,70,0.7); border-color: rgba(251,191,36,0.3); color: #fbbf24; }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { animation: fade-up .45s ease both; }
+  @keyframes card-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .card-fade { animation: card-in .3s ease both; }
+
+  /* Tabung Emas */
+  .tabung-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 44px; }
+  .tabung-wrap svg { width: 26px; height: 26px; position: absolute; bottom: 9px; z-index: 2; filter: drop-shadow(0 0 5px rgba(251,191,36,0.3)); }
+  .coin-drop { position: absolute; top: -7px; left: 50%; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fde68a, #fbbf24 55%, #f59e0b); box-shadow: 0 0 0 1px rgba(245,158,11,0.6); opacity: 0; z-index: 3; pointer-events: none; animation: coin-fall 3s linear infinite; }
+  @keyframes coin-fall {
+    0% { opacity: 0; transform: translate(-50%, 0) scale(1, 1); }
+    6% { opacity: 1; transform: translate(-50%, 2px) scale(1, 1); }
+    14% { opacity: 1; transform: translate(-50%, 7px) scale(.25, 1); }
+    22% { opacity: 1; transform: translate(-50%, 13px) scale(1, 1); }
+    30% { opacity: 1; transform: translate(-50%, 20px) scale(1, 1); }
+    36% { opacity: 0; transform: translate(-50%, 21px) scale(.8, .15); }
+    100% { opacity: 0; transform: translate(-50%, 21px) scale(.8, .15); }
+  }
+  .tabung-spark { position: absolute; top: 5px; right: 1px; width: 10px; height: 10px; background: #fde68a; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); opacity: 0; z-index: 3; pointer-events: none; animation: tabung-spark-pulse 2.4s ease-in-out infinite; }
+  .tabung-wrap::after { content: ''; position: absolute; bottom: 8px; left: 1px; width: 6px; height: 6px; background: #fbbf24; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); opacity: 0; z-index: 3; pointer-events: none; animation: tabung-spark-pulse 2.4s ease-in-out 1.2s infinite; }
+  @keyframes tabung-spark-pulse { 0%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
+  .tabung-tooltip { position: absolute; top: 50%; right: calc(100% + 8px); background: linear-gradient(90deg, #fbbf24, #f59e0b); color: #09090b; font-size: 12px; font-weight: 800; white-space: nowrap; padding: 6px 12px; border-radius: 10px; opacity: 0; pointer-events: none; z-index: 4; transform: translate(-10px, -50%); animation: tabung-tooltip-loop 5s ease-in-out infinite; }
+  .tabung-tooltip::after { content: ''; position: absolute; top: 50%; right: -4px; width: 8px; height: 8px; background: #f59e0b; border-radius: 1px; transform: translateY(-50%) rotate(45deg); }
+  @keyframes tabung-tooltip-loop { 0%, 6% { opacity: 0; transform: translate(-10px, -50%); } 14%, 52% { opacity: 1; transform: translate(0, -50%); } 60%, 100% { opacity: 0; transform: translate(-10px, -50%); } }
+  #tabung-btn[aria-expanded="true"] .tabung-tooltip { display: none; }
+  #tabung-dropdown { transition: opacity .2s ease, transform .2s ease; }
+  #tabung-dropdown.show { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
+
+  #toast { transition: opacity .3s ease, transform .3s ease; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+  .field-error { color: #f87171; font-size: 12px; margin-top: 6px; display: none; }
+  .field-error.show { display: flex; }
+
+  .bar-track { height: 10px; border-radius: 999px; background: rgba(39,39,42,0.9); border: 1px solid rgba(63,63,70,0.6); overflow: hidden; }
+  .bar-fill { height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, #fbbf24, #f59e0b); transition: width .5s ease, background .3s ease; }
+  .bar-fill.over { background: linear-gradient(90deg, #f87171, #ef4444); }
+  .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: .08em; border: 1px solid; transition: all .3s ease; }
+  .st-pos { color: #fbbf24; background: rgba(251,191,36,0.10); border-color: rgba(251,191,36,0.35); }
+  .st-bal { color: #e4e4e7; background: rgba(63,63,70,0.5); border-color: rgba(113,113,122,0.6); }
+  .st-neg { color: #f87171; background: rgba(248,113,113,0.10); border-color: rgba(248,113,113,0.4); }
+  .st-idle { color: #a1a1aa; background: rgba(39,39,42,0.6); border-color: rgba(63,63,70,0.7); }
+  .row-in { animation: card-in .25s ease both; }
+  input[type=text] { font-family: inherit; }
+</style>
+</head>
+<body class="min-h-screen pb-14 font-sans antialiased bg-zinc-950">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-800/60 p-4 max-w-md mx-auto w-full flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="https://ilmu-emas.pages.dev/" aria-label="Kembali" class="text-zinc-400 hover:text-amber-400"><i class="fa-solid fa-arrow-left text-lg"></i></a>
+      <h1 class="text-base font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent tracking-tight">KALKULATOR KOMITMEN</h1>
+    </div>
+
+    <div class="relative">
+      <button onclick="toggleTabungMenu()" id="tabung-btn" aria-haspopup="true" aria-expanded="false" aria-controls="tabung-dropdown" aria-label="Buka menu"
+        class="flex items-center justify-center text-amber-400 focus:outline-none transition-colors hover:text-yellow-300"
+        style="background:none; border:none; padding:0;">
+        <div id="tabung-wrap" class="tabung-wrap">
+          <div class="tabung-tooltip">Daftar Percuma</div>
+          <div class="coin-drop"></div>
+          <div class="tabung-spark"></div>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="5" y="20.5" width="14" height="2.5" rx="1.25" fill="#f59e0b" />
+            <rect x="3" y="4" width="18" height="17" rx="3.5" fill="#fbbf24" />
+            <rect x="5" y="5.5" width="1.6" height="12" rx="0.8" fill="#ffffff" opacity="0.22" />
+            <rect x="7.5" y="7" width="9" height="2" rx="1" fill="#09090b" opacity="0.9" />
+            <rect x="3" y="13" width="18" height="1.5" fill="#f59e0b" opacity="0.55" />
+            <circle cx="12" cy="17.2" r="1.4" fill="#09090b" opacity="0.75" />
+          </svg>
+        </div>
+      </button>
+
+      <div id="tabung-dropdown" class="absolute right-0 mt-3 w-52 bg-zinc-900 border border-zinc-800 rounded-2xl p-2 hidden opacity-0 -translate-y-2 shadow-2xl z-50">
+        <a href="https://pg2u.my/wanhasbullah/cara-bermula" target="_blank" rel="noopener"
+          class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors text-left">
+          <i class="fa-solid fa-user-plus text-amber-400"></i>
+          <span>Daftar Percuma</span>
+        </a>
+        <a href="https://ilmu-emas.pages.dev/emas-guide" target="_blank" rel="noopener"
+          class="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors">
+          <i class="fa-solid fa-comments text-amber-400"></i>
+          <span>Pertanyaan</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-md mx-auto px-4 mt-6 space-y-6">
+
+    <!-- HERO -->
+    <div class="text-center space-y-3 relative fade-up">
+      <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-40px;"></div>
+      <p class="text-xs text-amber-400/90 uppercase tracking-widest font-semibold relative">Analisis Cashflow</p>
+      <h2 class="text-2xl font-extrabold text-white leading-snug relative">Adakah pendapatan anda mencukupi untuk menampung semua komitmen?</h2>
+      <p class="text-sm text-zinc-400 leading-relaxed relative">Masukkan pendapatan bulanan dan senaraikan semua komitmen anda. Kalkulator ini akan terus memaparkan kedudukan cashflow anda secara realtime.</p>
+    </div>
+
+    <!-- 1. PENDAPATAN -->
+    <div class="gt-card p-5 card-fade">
+      <div class="gold-glow"></div>
+      <div class="relative space-y-4">
+        <div>
+          <h3 class="text-lg font-bold text-white">Pendapatan Bulanan</h3>
+          <p class="text-sm text-zinc-400 mt-1">Jumlah keseluruhan pendapatan bulanan anda, termasuk gaji, pendapatan sampingan dan sumber pendapatan lain.</p>
+        </div>
+        <div>
+          <label for="income" class="block text-sm font-semibold text-zinc-200 mb-2">Jumlah pendapatan bulanan</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-zinc-500">RM</span>
+            <input id="income" type="text" inputmode="decimal" autocomplete="off" placeholder="RM 5,000" class="gt-input w-full pl-11 pr-4 py-3.5 text-sm" />
+          </div>
+          <div class="field-error" id="err-income"><i class="fa-solid fa-triangle-exclamation mr-1.5 mt-0.5"></i><span>Sila masukkan pendapatan bulanan anda.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. KOMITMEN -->
+    <div class="gt-card p-5 card-fade">
+      <div class="relative space-y-4">
+        <div>
+          <h3 class="text-lg font-bold text-white">Komitmen Bulanan</h3>
+          <p class="text-sm text-zinc-400 mt-1">Pilih kategori atau taip sendiri, kemudian masukkan jumlah bulanan.</p>
+        </div>
+
+        <datalist id="kategori-list">
+          <option value="Rumah"></option>
+          <option value="Kereta"></option>
+          <option value="Makanan"></option>
+          <option value="Bil & Utiliti"></option>
+          <option value="Pendidikan"></option>
+          <option value="Hutang"></option>
+          <option value="Insurans/Takaful"></option>
+          <option value="Anak"></option>
+          <option value="Lain-lain"></option>
+        </datalist>
+
+        <div id="rows" class="space-y-3"></div>
+
+        <p id="rows-empty" class="hidden text-sm text-zinc-500 text-center py-3">Tiada komitmen. Tekan butang di bawah untuk menambah.</p>
+
+        <button type="button" onclick="addRow()" class="gt-btn-secondary w-full py-3.5 flex items-center justify-center gap-2 text-sm font-semibold">
+          <i class="fa-solid fa-plus text-amber-400"></i> Tambah Komitmen
+        </button>
+
+        <div class="flex items-center justify-between pt-4 border-t border-zinc-800/70">
+          <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wide">Jumlah Keseluruhan Komitmen</p>
+          <p class="text-lg font-extrabold text-white" id="commit-total">RM0.00</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. ANALISIS -->
+    <div class="gt-card p-6 text-center card-fade" id="analysis-card">
+      <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-60px;"></div>
+      <div class="relative space-y-5">
+        <p class="text-xs text-amber-400/90 uppercase tracking-widest font-semibold">Analisis Cashflow</p>
+
+        <!-- Visualisasi ringkas -->
+        <div class="flex items-stretch justify-between gap-1.5">
+          <div class="flex-1 rounded-2xl bg-zinc-900/60 border border-zinc-800 px-2 py-3">
+            <p class="text-[10px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Pendapatan</p>
+            <p class="text-sm font-bold text-white break-words" id="v-income">RM0.00</p>
+          </div>
+          <div class="flex items-center text-amber-400/70"><i class="fa-solid fa-chevron-right text-xs"></i></div>
+          <div class="flex-1 rounded-2xl bg-zinc-900/60 border border-zinc-800 px-2 py-3">
+            <p class="text-[10px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Komitmen</p>
+            <p class="text-sm font-bold text-white break-words" id="v-commit">RM0.00</p>
+          </div>
+          <div class="flex items-center text-amber-400/70"><i class="fa-solid fa-chevron-right text-xs"></i></div>
+          <div class="flex-1 rounded-2xl bg-zinc-900/60 border border-zinc-800 px-2 py-3">
+            <p class="text-[10px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Baki Cashflow</p>
+            <p class="text-sm font-bold text-amber-400 break-words" id="v-balance">RM0.00</p>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Baki Cashflow</p>
+          <p class="text-4xl font-extrabold text-white break-words" id="balance-big">RM0.00</p>
+        </div>
+
+        <div><span id="status-pill" class="status-pill st-idle"><i id="status-icon" class="fa-solid fa-hourglass-half"></i><span id="status-text">MENUNGGU DATA</span></span></div>
+
+        <p class="text-sm text-zinc-300 leading-relaxed" id="status-msg">Masukkan pendapatan bulanan anda untuk melihat analisis cashflow.</p>
+
+        <div class="text-left pt-4 border-t border-zinc-800/70">
+          <div class="flex items-center justify-between mb-2.5">
+            <p class="text-xs text-zinc-400 font-semibold" id="pct-text">Komitmen menggunakan 0% daripada pendapatan</p>
+          </div>
+          <div class="bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NASIHAT (NEGATIF) -->
+    <div id="advice-card" class="gt-card p-5 hidden fade-up" style="border-color: rgba(248,113,113,0.35);">
+      <div class="gold-glow"></div>
+      <div class="relative space-y-4">
+        <div class="w-11 h-11 rounded-2xl bg-red-400/10 border border-red-400/30 flex items-center justify-center">
+          <i class="fa-solid fa-triangle-exclamation text-red-400"></i>
+        </div>
+        <p class="text-sm text-zinc-200 leading-relaxed font-semibold">Pendapatan anda menunjukkan negatif dari komitmen anda. Bagi membaiki kewangan anda,</p>
+        <ol class="space-y-3 text-sm text-zinc-400 leading-relaxed list-decimal pl-5 marker:text-amber-400 marker:font-bold">
+          <li>Anda boleh ubah/buang kategori komitmen yang bukan <span class="text-white font-semibold">&ldquo;keperluan kritikal&rdquo;</span>.</li>
+          <li>Jana pendapatan tambahan (<span class="text-white font-semibold">fast money</span>) melalui pekerjaan sampingan (jika belum ada), seperti guru tuisyen, guru mengaji, rider, penukang dan sebagainya (ikut kemahiran &amp; kepakaran yang ada dalam diri anda).</li>
+          <li>Jana pendapatan sampingan melalui perniagaan sangatlah tidak disyorkan (bukan tidak bagus) kerana berniaga perlukan masa untuk jana pendapatan. Ia bukanlah kategori <em>fast money</em>.</li>
+          <li>Jika anda mahu jana pendapatan melalui perniagaan, amatlah disyorkan perniagaan yang menjana pendapatan pasif &mdash; perniagaan yang mempunyai sistem, boleh berkembang dan boleh diwarikan kepada keluarga (bahkan keturunan).</li>
+        </ol>
+        <div class="pt-4 border-t border-zinc-800/70 space-y-3">
+          <p class="text-base font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent leading-snug">Alang-alang nak berniaga, binalah legasi perniagaan walaupun sekadar ejen produk/servis seperti dealer Public Gold.</p>
+          <a href="https://pg2u.my/wanhasbullah/pgdealer" target="_blank" rel="noopener" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2.5 text-sm">
+            <i class="fa-solid fa-crown"></i>
+            <span>Potensi Dealer Public Gold</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUTANG -->
+    <div class="grid grid-cols-2 gap-3">
+      <button type="button" onclick="recalc(true)" class="gt-btn-primary py-4 flex items-center justify-center gap-2 text-sm">
+        <i class="fa-solid fa-rotate"></i> Kira Semula
+      </button>
+      <button type="button" onclick="resetAll()" class="gt-btn-secondary py-4 flex items-center justify-center gap-2 text-sm font-semibold">
+        <i class="fa-solid fa-arrow-rotate-left text-amber-400"></i> Reset Kalkulator
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="max-w-md mx-auto px-4 mt-10 pt-6 border-t border-zinc-800/60 text-center space-y-2">
+    <p class="text-sm font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">Kalkulator Komitmen</p>
+    <p class="text-xs text-zinc-500">Kenali Cashflow. Kawal Komitmen. Bina Kewangan Lebih Sihat.</p>
+    <p class="text-[11px] text-zinc-600 leading-relaxed pt-1">Kalkulator ini hanyalah alat bantu perancangan dan bukan nasihat kewangan profesional. Semua pengiraan dibuat dalam pelayar anda dan tiada data disimpan.</p>
+    <p class="text-[11px] text-zinc-700">&copy; 2026 Kalkulator Komitmen</p>
+  </footer>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-zinc-900 border border-amber-400/30 text-amber-300 text-sm font-semibold px-5 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none flex items-center gap-2">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-text">Berjaya</span>
+  </div>
+
+  <script>
+    // ── Tabung dropdown ──
+    function toggleTabungMenu() {
+      const isOpen = document.getElementById('tabung-dropdown').classList.toggle('show');
+      document.getElementById('tabung-btn').setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+    document.addEventListener('click', function (e) {
+      const dd = document.getElementById('tabung-dropdown');
+      const btn = document.getElementById('tabung-btn');
+      if (!dd.contains(e.target) && !btn.contains(e.target)) {
+        dd.classList.remove('show');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // ── Util ──
+    const $ = (id) => document.getElementById(id);
+    const incomeEl = $('income');
+    const rowsEl = $('rows');
+    let incomeTouched = false;
+
+    function formatRM(n) {
+      const neg = n < 0;
+      return (neg ? '-' : '') + 'RM' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // Input nombor: digit + satu titik perpuluhan (maks 2 tempat), koma automatik
+    function maskMoney(el) {
+      let v = el.value.replace(/[^0-9.]/g, '');
+      const i = v.indexOf('.');
+      let intPart = i === -1 ? v : v.slice(0, i);
+      let dec = i === -1 ? null : v.slice(i + 1).replace(/\./g, '').slice(0, 2);
+      intPart = intPart.replace(/^0+(?=\d)/, '');
+      if (intPart) intPart = Number(intPart).toLocaleString('en-US');
+      el.value = dec === null ? intPart : (intPart || '0') + '.' + dec;
+    }
+    function parseMoney(str) {
+      const n = parseFloat(String(str || '').replace(/,/g, ''));
+      return isNaN(n) || n < 0 ? 0 : n;
+    }
+
+    function showToast(msg) {
+      const t = $('toast');
+      $('toast-text').textContent = msg;
+      t.style.opacity = '1';
+      t.style.transform = 'translate(-50%, -6px)';
+      clearTimeout(window._tt);
+      window._tt = setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translate(-50%, 0)'; }, 2000);
+    }
+
+    // ── Baris komitmen ──
+    function addRow(focus) {
+      const row = document.createElement('div');
+      row.className = 'row-in flex items-center gap-2';
+      row.innerHTML =
+        '<input type="text" list="kategori-list" class="gt-input cat flex-1 min-w-0 px-3.5 py-3.5 text-sm" placeholder="Kategori" autocomplete="off" aria-label="Nama komitmen" />' +
+        '<div class="relative w-[38%] shrink-0">' +
+          '<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500">RM</span>' +
+          '<input type="text" inputmode="decimal" class="gt-input amt w-full pl-9 pr-3 py-3.5 text-sm" placeholder="0" autocomplete="off" aria-label="Jumlah komitmen" />' +
+        '</div>' +
+        '<button type="button" class="del shrink-0 w-11 h-11 flex items-center justify-center rounded-xl bg-zinc-800/70 border border-zinc-700/70 text-zinc-400 hover:text-red-400 hover:border-red-400/40 transition-all" aria-label="Hapus komitmen"><i class="fa-solid fa-trash-can text-sm"></i></button>';
+      rowsEl.appendChild(row);
+      row.querySelector('.amt').addEventListener('input', function () { maskMoney(this); recalc(); });
+      row.querySelector('.cat').addEventListener('input', recalc);
+      row.querySelector('.del').addEventListener('click', () => { row.remove(); recalc(); });
+      recalc();
+      if (focus) row.querySelector('.cat').focus();
+    }
+
+    function totalCommit() {
+      let sum = 0;
+      rowsEl.querySelectorAll('.amt').forEach(el => { sum += parseMoney(el.value); });
+      return Math.round(sum * 100) / 100;
+    }
+
+    // ── Pengiraan utama ──
+    function recalc(scroll) {
+      const income = Math.round(parseMoney(incomeEl.value) * 100) / 100;
+      const commit = totalCommit();
+      const balance = Math.round((income - commit) * 100) / 100;
+
+      $('rows-empty').classList.toggle('hidden', rowsEl.children.length > 0);
+      $('commit-total').textContent = formatRM(commit);
+      $('v-income').textContent = formatRM(income);
+      $('v-commit').textContent = formatRM(commit);
+      $('v-balance').textContent = formatRM(balance);
+      $('balance-big').textContent = formatRM(balance);
+
+      // Validasi pendapatan
+      const noIncome = income <= 0;
+      const showErr = noIncome && (incomeTouched || scroll === true);
+      $('err-income').classList.toggle('show', showErr);
+      incomeEl.classList.toggle('error', showErr);
+
+      const pill = $('status-pill'), icon = $('status-icon'), txt = $('status-text'), msg = $('status-msg');
+      const big = $('balance-big'), vbal = $('v-balance'), fill = $('bar-fill'), track = $('bar-track');
+      pill.className = 'status-pill';
+      big.className = 'text-4xl font-extrabold break-words';
+      vbal.className = 'text-sm font-bold break-words';
+      let pct = 0;
+
+      if (noIncome) {
+        pill.classList.add('st-idle');
+        icon.className = 'fa-solid fa-hourglass-half';
+        txt.textContent = 'MENUNGGU PENDAPATAN';
+        msg.textContent = 'Masukkan pendapatan bulanan anda untuk melihat analisis cashflow.';
+        big.classList.add('text-white'); vbal.classList.add('text-zinc-300');
+        pct = 0;
+        $('pct-text').textContent = commit > 0 ? 'Masukkan pendapatan untuk melihat peratusan komitmen' : 'Komitmen menggunakan 0% daripada pendapatan';
+      } else {
+        pct = (commit / income) * 100;
+        $('pct-text').textContent = 'Komitmen menggunakan ' + pct.toFixed(1).replace(/\.0$/, '') + '% daripada pendapatan';
+        if (balance > 0) {
+          pill.classList.add('st-pos');
+          icon.className = 'fa-solid fa-circle-check';
+          txt.textContent = 'POSITIVE CASHFLOW';
+          msg.textContent = 'Alhamdulillah, pendapatan anda masih mempunyai lebihan selepas mengambil kira komitmen bulanan. Kekalkan disiplin kewangan dan gunakan lebihan tersebut dengan perancangan yang baik.';
+          big.classList.add('bg-gradient-to-r', 'from-amber-400', 'to-yellow-400', 'bg-clip-text', 'text-transparent');
+          vbal.classList.add('text-amber-400');
+        } else if (balance === 0) {
+          pill.classList.add('st-bal');
+          icon.className = 'fa-solid fa-scale-balanced';
+          txt.textContent = 'CASHFLOW SEIMBANG';
+          msg.textContent = 'Pendapatan anda sama dengan jumlah komitmen. Tiada lebihan untuk simpanan atau kecemasan, jadi cuba kurangkan sedikit komitmen atau tambah pendapatan.';
+          big.classList.add('text-white'); vbal.classList.add('text-white');
+        } else {
+          pill.classList.add('st-neg');
+          icon.className = 'fa-solid fa-circle-exclamation';
+          txt.textContent = 'NEGATIVE CASHFLOW';
+          msg.textContent = 'Komitmen anda melebihi pendapatan sebanyak ' + formatRM(Math.abs(balance)) + ' setiap bulan.';
+          big.classList.add('text-red-400'); vbal.classList.add('text-red-400');
+        }
+      }
+
+      $('advice-card').classList.toggle('hidden', !(!noIncome && balance < 0));
+
+      fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+      fill.classList.toggle('over', pct > 100);
+      track.setAttribute('aria-valuenow', Math.round(Math.min(100, pct)));
+
+      if (scroll === true) {
+        $('analysis-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (!noIncome) showToast('Pengiraan dikemas kini');
+      }
+    }
+
+    function resetAll() {
+      incomeEl.value = '';
+      incomeTouched = false;
+      rowsEl.innerHTML = '';
+      addRow();
+      recalc();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('Kalkulator telah di-reset');
+    }
+
+    incomeEl.addEventListener('input', () => { incomeTouched = true; maskMoney(incomeEl); recalc(); });
+
+    // Mula dengan satu baris komitmen
+    addRow();
+    recalc();
+  </script>
+</body>
+</html>
