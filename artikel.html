@@ -30,6 +30,18 @@
       scrollbar-width: none;
     }
 
+    /* ── Animasi toast & butang (Bacaan Terakhir) ── */
+    @keyframes fadeUpSoft {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up-soft {
+      animation: fadeUpSoft 0.35s ease-out both;
+    }
+    .filter-btn:active {
+      transform: scale(0.97);
+    }
+
     /* ── Tabung Emas Animation ── */
     .tabung-wrap {
       position: relative;
@@ -203,9 +215,30 @@
       </div>
     </div>
     
-    <div id="category-tabs-container" class="flex items-center gap-2 px-4 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
+    <div id="category-tabs-container" class="flex items-end gap-2 px-4 pb-3">
+      <div id="cat-dropdown" class="relative flex-1 min-w-0">
+        <div class="text-[10px] font-bold text-amber-300 uppercase tracking-wider mb-1">#Artikel</div>
+        <button id="cat-btn" type="button" aria-haspopup="listbox" aria-expanded="false"
+          class="w-full flex items-center justify-between gap-2 text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2.5 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10">
+          <span id="cat-label" class="flex items-center gap-1.5 min-w-0 truncate"></span>
+          <i id="cat-chevron" class="fa-solid fa-chevron-down text-[10px] transition-transform"></i>
+        </button>
+        <div id="cat-menu" role="listbox"
+          class="hidden absolute left-0 right-0 mt-1 max-h-64 overflow-y-auto no-scrollbar bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/50 p-1 space-y-1 z-50"></div>
+      </div>
+
+      <button id="filter-last" type="button" aria-label="Pergi ke bacaan terakhir"
+        class="filter-btn shrink-0 flex items-center justify-center gap-1.5 text-[11px] font-bold px-3 py-2.5 rounded-xl border transition-all whitespace-nowrap text-amber-300 bg-amber-400/10 border-amber-400/40 hover:bg-amber-400/20">
+        <i class="fa-solid fa-clock-rotate-left text-[11px]"></i><span>Bacaan Terakhir</span>
+      </button>
     </div>
   </header>
+
+  <!-- Toast mesej ringkas -->
+  <div id="last-toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm bg-zinc-900 border border-amber-400/30 text-zinc-200 text-xs font-medium px-4 py-3 rounded-xl shadow-xl shadow-black/50 flex items-center gap-2">
+    <i class="fa-solid fa-circle-info text-amber-300"></i>
+    <span id="last-toast-text"></span>
+  </div>
 
   <main class="p-4 space-y-4" id="artikel-list-container">
   </main>
@@ -262,13 +295,25 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       const container = document.getElementById("artikel-list-container");
-      const tabsContainer = document.getElementById("category-tabs-container");
+      const catBtn = document.getElementById("cat-btn");
+      const catLabel = document.getElementById("cat-label");
+      const catChevron = document.getElementById("cat-chevron");
+      const catMenu = document.getElementById("cat-menu");
+      const catDropdown = document.getElementById("cat-dropdown");
+      const lastBtn = document.getElementById("filter-last");
       let currentActiveCategory = "Semua";
+
+      // Kunci localStorage untuk kad yang terakhir diklik
+      const LAST_READ_KEY = "artikel_bacaan_terakhir";
 
       const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
 
-      // ── Link khas kategori: contoh #gap-auto-debit ──
+      // ── Link khas kategori: contoh #Tips-#25-:-Kerugian-Membeli-Barang-Kemas ──
       function categorySlug(cat) {
+        return String(cat).trim().replace(/\s+/g, "-");
+      }
+      // Slug ringkas (huruf kecil, tanpa simbol): contoh #gap-auto-debit
+      function categorySimpleSlug(cat) {
         return String(cat).trim().toLowerCase()
           .replace(/&/g, "")
           .replace(/[^a-z0-9]+/g, "-")
@@ -278,37 +323,125 @@
         let h = rawHash.replace("#", "");
         try { h = decodeURIComponent(h); } catch (e) {}
         h = h.toLowerCase();
-        return categories.find(cat => cat !== "Semua" && categorySlug(cat) === h) || null;
-      }
-      // Kemas kini URL tanpa mencetuskan hashchange (supaya pautan boleh disalin)
-      function updateCategoryHash(cat) {
-        const base = window.location.pathname + window.location.search;
-        const newUrl = cat === "Semua" ? base : base + "#" + categorySlug(cat);
-        try { history.replaceState(null, "", newUrl); } catch (e) {}
+        return categories.find(cat => cat !== "Semua" &&
+          (categorySlug(cat).toLowerCase() === h || categorySimpleSlug(cat) === h)) || null;
       }
 
-      function renderCategoryTabs() {
-        tabsContainer.innerHTML = "";
+      function renderCategoryDropdown() {
+        // Butang dropdown (kategori aktif)
+        catLabel.innerHTML = "";
+        const txt = document.createElement("span");
+        txt.className = "truncate";
+        txt.textContent = currentActiveCategory;
+        catLabel.appendChild(txt);
+
+        // Senarai pilihan
+        catMenu.innerHTML = "";
         categories.forEach(cat => {
-          const btn = document.createElement("button");
-          btn.innerText = cat;
-          
-          if (cat === currentActiveCategory) {
-            btn.className = "text-xs font-bold text-zinc-950 bg-amber-400 px-4 py-2 rounded-xl border border-amber-400 transition-all shadow-md shadow-amber-400/10 whitespace-nowrap";
-          } else {
-            btn.className = "text-xs font-medium text-zinc-400 bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800/60 hover:text-zinc-200 hover:border-zinc-700 transition-all whitespace-nowrap";
-          }
-          
-          btn.onclick = () => {
-            currentActiveCategory = cat;
-            renderCategoryTabs();
-            renderArticles();
-            updateCategoryHash(cat);
+          const isActive = cat === currentActiveCategory;
+          const item = document.createElement("button");
+          item.type = "button";
+          item.setAttribute("role", "option");
+          item.setAttribute("aria-selected", isActive ? "true" : "false");
+
+          const base = "w-full flex items-center justify-between gap-2 text-left text-xs px-3 py-2.5 rounded-lg transition-all ";
+          const tone = isActive
+            ? "font-bold text-amber-300 bg-amber-400/10 border border-amber-400/40"
+            : "font-medium text-zinc-400 border border-transparent hover:text-zinc-200 hover:bg-zinc-800";
+          item.className = base + tone;
+
+          const name = document.createElement("span");
+          name.className = "truncate";
+          name.textContent = cat;
+          item.appendChild(name);
+
+          item.onclick = () => {
+            setCategory(cat, true);
+            closeMenu();
           };
-          
-          tabsContainer.appendChild(btn);
+          catMenu.appendChild(item);
         });
       }
+
+      function openMenu() {
+        catMenu.classList.remove("hidden");
+        catBtn.setAttribute("aria-expanded", "true");
+        catChevron.classList.add("rotate-180");
+      }
+      function closeMenu() {
+        catMenu.classList.add("hidden");
+        catBtn.setAttribute("aria-expanded", "false");
+        catChevron.classList.remove("rotate-180");
+      }
+      catBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        catMenu.classList.contains("hidden") ? openMenu() : closeMenu();
+      });
+      document.addEventListener("click", (e) => {
+        if (!catDropdown.contains(e.target)) closeMenu();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+
+      function setCategory(cat, updateHash) {
+        currentActiveCategory = cat;
+        renderCategoryDropdown();
+        renderArticles();
+        if (updateHash) {
+          // Kemas kini URL tanpa mencetuskan hashchange
+          const base = window.location.pathname + window.location.search;
+          const newUrl = cat === "Semua" ? base : base + "#" + categorySlug(cat);
+          try { history.replaceState(null, "", newUrl); } catch (e) {}
+        }
+      }
+
+      // ── Toast ringkas ──
+      let toastTimer = null;
+      function showToast(msg) {
+        const toast = document.getElementById("last-toast");
+        const text = document.getElementById("last-toast-text");
+        if (!toast || !text) return;
+        text.textContent = msg;
+        toast.classList.remove("hidden");
+        toast.classList.remove("fade-up-soft");
+        void toast.offsetWidth;
+        toast.classList.add("fade-up-soft");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.add("hidden"), 3000);
+      }
+
+      // ── Bacaan Terakhir: simpan & pergi ke kad terakhir diklik ──
+      function saveLastRead(id) {
+        try { localStorage.setItem(LAST_READ_KEY, id); } catch (e) {}
+      }
+      function getLastReadId() {
+        try { return localStorage.getItem(LAST_READ_KEY); } catch (e) { return null; }
+      }
+      function goToLastRead() {
+        const lastId = getLastReadId();
+        const art = lastId ? ARTIKEL_DATA.find(a => a.id === lastId) : null;
+        if (!art) {
+          showToast("Belum ada bacaan terakhir. Klik mana-mana kad untuk bermula.");
+          return;
+        }
+
+        // Pastikan kad kelihatan: pilih kategori yang sesuai jika perlu
+        if (currentActiveCategory !== "Semua" && currentActiveCategory !== art.category) {
+          setCategory(art.category, true);
+        }
+
+        setTimeout(() => {
+          const card = document.getElementById(art.id);
+          if (!card) return;
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          card.classList.remove("highlight-pulse");
+          void card.offsetWidth;
+          card.classList.add("highlight-pulse");
+          setTimeout(() => card.classList.remove("highlight-pulse"), 4000);
+        }, 300);
+      }
+      lastBtn.addEventListener("click", goToLastRead);
 
       function renderArticles() {
         container.innerHTML = "";
@@ -335,6 +468,8 @@
             </div>
           `;
           box.id = art.id;
+          // Rekod kad terakhir yang diklik (untuk butang Bacaan Terakhir)
+          box.addEventListener("click", () => saveLastRead(art.id));
           container.appendChild(box);
         });
       }
@@ -347,9 +482,7 @@
           
           if (linkedArticle) {
             if (currentActiveCategory !== "Semua" && currentActiveCategory !== linkedArticle.category) {
-              currentActiveCategory = linkedArticle.category;
-              renderCategoryTabs();
-              renderArticles();
+              setCategory(linkedArticle.category, false);
             }
             
             const targetCard = document.getElementById(targetId);
@@ -368,30 +501,18 @@
           // Link khas kategori
           const linkedCategory = findCategoryByHash(hash);
           if (linkedCategory) {
-            currentActiveCategory = linkedCategory;
-            renderCategoryTabs();
-            renderArticles();
-
+            setCategory(linkedCategory, false);
             setTimeout(() => {
               // Auto-scroll ke bahagian artikel, tidak terlindung oleh sticky header
               const headerEl = document.querySelector("header");
               const offset = headerEl ? headerEl.offsetHeight : 0;
               const top = container.getBoundingClientRect().top + window.pageYOffset - offset - 8;
               window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
-
-              // Pastikan tab kategori aktif kelihatan (skrol mendatar)
-              const activeTab = Array.from(tabsContainer.children).find(b => b.innerText === linkedCategory);
-              if (activeTab) {
-                const left = activeTab.getBoundingClientRect().left - tabsContainer.getBoundingClientRect().left
-                  + tabsContainer.scrollLeft - (tabsContainer.clientWidth - activeTab.offsetWidth) / 2;
-                tabsContainer.scrollTo({ left: Math.max(left, 0), behavior: "smooth" });
-                activeTab.classList.add("highlight-pulse");
-              }
-
               // Kesan premium glow
+              catBtn.classList.add("highlight-pulse");
               container.classList.add("highlight-pulse");
               setTimeout(() => {
-                if (activeTab) activeTab.classList.remove("highlight-pulse");
+                catBtn.classList.remove("highlight-pulse");
                 container.classList.remove("highlight-pulse");
               }, 4000);
             }, 300);
@@ -399,7 +520,7 @@
         }
       }
 
-      renderCategoryTabs();
+      renderCategoryDropdown();
       renderArticles();
       handleHashHighlight();
 
