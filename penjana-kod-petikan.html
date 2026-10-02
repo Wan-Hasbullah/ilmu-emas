@@ -90,6 +90,18 @@
   input:focus, textarea:focus, select:focus, button:focus-visible {
     outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
   }
+  details.guide { margin-top: 10px; font-size: 0.8rem; color: var(--soft); }
+  details.guide summary {
+    cursor: pointer; font-weight: 700; font-size: 0.82rem; list-style: none;
+    border: 1px solid var(--accent); border-radius: 10px; padding: 9px 12px; color: var(--text); background: var(--bg);
+  }
+  details.guide summary::-webkit-details-marker { display: none; }
+  details.guide ul { margin: 10px 0 0; padding-left: 20px; }
+  details.guide li { margin-bottom: 6px; }
+  details.guide code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78em;
+    background: var(--mono-bg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px;
+  }
   .btn {
     font: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 12px;
     padding: 11px 16px; border: 1px solid var(--line); background: transparent; color: var(--soft);
@@ -162,8 +174,19 @@
           <input type="text" id="oleh" placeholder="cth: Mohd Zulkifli Shafie" autocomplete="off">
         </div>
         <div class="field">
-          <label for="petikan">Petikan <span class="hint">(jarak atas/bawah dikekalkan; boleh guna kod &lt;p&gt;)</span></label>
+          <label for="petikan">Petikan <span class="hint">(setiap baris jadi satu perenggan &lt;p&gt; secara auto)</span></label>
           <textarea class="inp" id="petikan" placeholder="Tulis petikan di sini..."></textarea>
+          <details class="guide">
+            <summary>▼ Cara menulis kandungan</summary>
+            <ul>
+              <li>Setiap baris ialah satu perenggan (kod <code>&lt;p&gt;</code> dijana auto).</li>
+              <li><code>## Subtajuk</code> untuk subtopik utama.</li>
+              <li><code>### Subtajuk kecil</code> untuk point bernombor atau subtopik kecil.</li>
+              <li><code>- item</code> untuk senarai.</li>
+              <li><code>**tebal**</code> dan <code>*condong*</code> untuk penekanan.</li>
+              <li><code>---</code> pada baris sendiri untuk garis pemisah.</li>
+            </ul>
+          </details>
         </div>
         <div class="field" style="margin-bottom:0">
           <label for="link">Link</label>
@@ -229,12 +252,36 @@
       .replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
   }
 
+  // Tukar teks petikan (satu baris = satu perenggan) kepada kod HTML
+  function fmtPetikan(raw) {
+    var lines = String(raw == null ? "" : raw).replace(/\r\n?/g, "\n").split("\n");
+    var res = [], inList = false;
+    function inline(s) {
+      return s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
+    }
+    function closeList() { if (inList) { res.push("</ul>"); inList = false; } }
+    lines.forEach(function (l) {
+      var t = l.trim(), m;
+      if (!t) { closeList(); return; }
+      if (t === "---") { closeList(); res.push("<hr>"); }
+      else if ((m = t.match(/^###\s+(.+)$/))) { closeList(); res.push("<h4>" + inline(m[1]) + "</h4>"); }
+      else if ((m = t.match(/^##\s+(.+)$/))) { closeList(); res.push("<h3>" + inline(m[1]) + "</h3>"); }
+      else if ((m = t.match(/^-\s+(.+)$/))) {
+        if (!inList) { res.push("<ul>"); inList = true; }
+        res.push("  <li>" + inline(m[1]) + "</li>");
+      }
+      else { closeList(); res.push("<p>\n  " + inline(t) + "\n</p>"); }
+    });
+    closeList();
+    return res.length ? "\n" + res.join("\n") + "\n" : "";
+  }
+
   /* ---------- Bina keseluruhan ---------- */
   function build() {
     var id = f.id.value.trim();
     var kategori = f.kategori.value;
     var oleh = f.oleh.value.trim();
-    var petikanRaw = f.petikan.value;   // TIDAK di-trim: jarak atas/bawah dikekalkan
+    var petikanRaw = f.petikan.value;
     var link = f.link.value.trim();
 
     var blocking = [], warnings = [];
@@ -246,7 +293,7 @@
       '    id: "' + escJsStr(id) + '",\n' +
       '    kategori: "' + escJsStr(kategori) + '",\n' +
       '    oleh: "' + escJsStr(oleh) + '",\n' +
-      "    petikan: `" + escTpl(petikanRaw) + "`,\n" +
+      "    petikan: `" + escTpl(fmtPetikan(petikanRaw)) + "`,\n" +
       '    link: "' + escJsStr(link) + '"\n' +
       "  },";
 
