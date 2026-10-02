@@ -508,6 +508,34 @@
       60%  { box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 0 3px rgba(212,175,55,0.34), 0 0 22px rgba(212,175,55,0.44); border-color: rgba(212,175,55,0.9); }
       100% { box-shadow: 0 14px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset, 0 0 18px rgba(251,191,36,0.14); border-color: rgba(180,131,7,0.35); }
     }
+
+    /* ── BARU: Analisis Cashflow — Anchor Highlight (#kalkulator-komitmen) ── */
+    #kalkulator-komitmen {
+      scroll-margin-top: 88px;
+    }
+    #kalkulator-komitmen.anchor-highlight-komitmen {
+      animation: anchorPulseKomitmen 2.4s ease;
+    }
+    #kalkulator-komitmen.anchor-highlight-komitmen .komitmen-icon {
+      animation: komitmenIconBlink 0.5s ease-in-out 4;
+    }
+    @keyframes anchorPulseKomitmen {
+      0%   { box-shadow: 0 0 0 0 rgba(212,175,55,0);    border-color: rgba(245,158,11,0.3); }
+      12%  { box-shadow: 0 0 0 4px rgba(212,175,55,0.45), 0 0 28px rgba(212,175,55,0.55); border-color: rgba(251,191,36,1); }
+      28%  { box-shadow: 0 0 0 1px rgba(212,175,55,0.2),  0 0 12px rgba(212,175,55,0.25); border-color: rgba(251,191,36,0.5); }
+      44%  { box-shadow: 0 0 0 4px rgba(212,175,55,0.45), 0 0 28px rgba(212,175,55,0.55); border-color: rgba(251,191,36,1); }
+      60%  { box-shadow: 0 0 0 1px rgba(212,175,55,0.2),  0 0 12px rgba(212,175,55,0.25); border-color: rgba(251,191,36,0.5); }
+      76%  { box-shadow: 0 0 0 4px rgba(212,175,55,0.4),  0 0 24px rgba(212,175,55,0.5);  border-color: rgba(251,191,36,0.95); }
+      100% { box-shadow: 0 0 0 0 rgba(212,175,55,0);    border-color: rgba(245,158,11,0.3); }
+    }
+    @keyframes komitmenIconBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.25; transform: scale(1.12); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #kalkulator-komitmen.anchor-highlight-komitmen,
+      #kalkulator-komitmen.anchor-highlight-komitmen .komitmen-icon { animation: none; }
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 font-sans antialiased bg-zinc-950">
@@ -634,6 +662,19 @@
     </div>
 
     <div class="m-divider"></div>
+
+    <!-- BARU: Analisis Cashflow -->
+    <a href="https://ilmu-emas.pages.dev/kalkulator-komitmen" id="kalkulator-komitmen"
+       class="group flex items-center gap-4 bg-zinc-900 border border-amber-500/30 hover:border-amber-400 p-4 rounded-2xl transition-all duration-300">
+      <div class="komitmen-icon w-12 h-12 shrink-0 bg-amber-400/10 border border-amber-400/25 text-amber-400 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+        <i class="fa-solid fa-hand-holding-dollar"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h4 class="font-bold text-zinc-100 text-base">Analisis Cashflow</h4>
+        <p class="text-xs text-zinc-400 mt-0.5">Semak baki cashflow &amp; berapa mampu disimpan</p>
+      </div>
+      <i class="fa-solid fa-chevron-right text-xs text-zinc-500 group-hover:text-amber-400 group-hover:translate-x-0.5 transition-all"></i>
+    </a>
 
     <!-- Kotak Premium: 3 Butang Bulat -->
     <div class="m-section" id="kalkulator-target-simpanan">
@@ -859,10 +900,7 @@
         <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">FAQ</span>
       </a>
 
-      <a href="https://ilmu-emas.pages.dev/asas-pemula" id="asas-pemula" class="flex flex-col items-center group">
-        <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-seedling text-lg"></i></div>
-        <span class="text-[11px] text-zinc-400 mt-2 font-medium group-hover:text-zinc-200">Asas Pemula</span>
-      </a>
+      <!-- DIBUANG: butang Asas Pemula -->
 
       <a href="https://ilmu-emas.pages.dev/tutorial" id="tutorial" class="flex flex-col items-center group">
         <div class="w-12 h-12 rounded-full bg-zinc-800 group-hover:bg-amber-400 group-hover:text-zinc-950 flex items-center justify-center text-zinc-300 transition-all shadow-md"><i class="fa-solid fa-graduation-cap text-lg"></i></div>
@@ -1603,7 +1641,6 @@ function triggerOneSignalForce() {
       "kelebihan-dealer": { popup: "menu" },
       "duit-tepi": { popup: "menu" },
       "faq": { popup: "menu" },
-      "asas-pemula": { popup: "menu" },
       "tutorial": { popup: "menu" },
       "exclusive": { popup: "menu" },
       "pasang-app": { popup: "akses" },
@@ -1690,6 +1727,36 @@ function triggerOneSignalForce() {
 
     window.addEventListener('load', checkMaklumanTerkiniHash);
     window.addEventListener('hashchange', checkMaklumanTerkiniHash);
+  </script>
+
+  <script>
+    /* ── BARU: Deep-link #kalkulator-komitmen — auto scroll + denyut + blink ──
+       https://ilmu-emas.pages.dev/#kalkulator-komitmen ── */
+    function highlightKomitmen() {
+      const target = document.getElementById('kalkulator-komitmen');
+      if (!target) return;
+
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      target.classList.remove('anchor-highlight-komitmen');
+      void target.offsetWidth; // reset animasi jika dipanggil berulang kali
+
+      setTimeout(() => {
+        target.classList.add('anchor-highlight-komitmen');
+        setTimeout(() => {
+          target.classList.remove('anchor-highlight-komitmen');
+        }, 2400);
+      }, 450);
+    }
+
+    function checkKomitmenHash() {
+      if (window.location.hash === '#kalkulator-komitmen') {
+        highlightKomitmen();
+      }
+    }
+
+    window.addEventListener('load', checkKomitmenHash);
+    window.addEventListener('hashchange', checkKomitmenHash);
   </script>
 </body>
 </html>
