@@ -267,6 +267,26 @@
 
       const categories = ["Semua", ...new Set(ARTIKEL_DATA.map(art => art.category))];
 
+      // ── Link khas kategori: contoh #gap-auto-debit ──
+      function categorySlug(cat) {
+        return String(cat).trim().toLowerCase()
+          .replace(/&/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+      function findCategoryByHash(rawHash) {
+        let h = rawHash.replace("#", "");
+        try { h = decodeURIComponent(h); } catch (e) {}
+        h = h.toLowerCase();
+        return categories.find(cat => cat !== "Semua" && categorySlug(cat) === h) || null;
+      }
+      // Kemas kini URL tanpa mencetuskan hashchange (supaya pautan boleh disalin)
+      function updateCategoryHash(cat) {
+        const base = window.location.pathname + window.location.search;
+        const newUrl = cat === "Semua" ? base : base + "#" + categorySlug(cat);
+        try { history.replaceState(null, "", newUrl); } catch (e) {}
+      }
+
       function renderCategoryTabs() {
         tabsContainer.innerHTML = "";
         categories.forEach(cat => {
@@ -283,6 +303,7 @@
             currentActiveCategory = cat;
             renderCategoryTabs();
             renderArticles();
+            updateCategoryHash(cat);
           };
           
           tabsContainer.appendChild(btn);
@@ -341,6 +362,39 @@
                 }, 4000); 
               }, 300);
             }
+            return;
+          }
+
+          // Link khas kategori
+          const linkedCategory = findCategoryByHash(hash);
+          if (linkedCategory) {
+            currentActiveCategory = linkedCategory;
+            renderCategoryTabs();
+            renderArticles();
+
+            setTimeout(() => {
+              // Auto-scroll ke bahagian artikel, tidak terlindung oleh sticky header
+              const headerEl = document.querySelector("header");
+              const offset = headerEl ? headerEl.offsetHeight : 0;
+              const top = container.getBoundingClientRect().top + window.pageYOffset - offset - 8;
+              window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+
+              // Pastikan tab kategori aktif kelihatan (skrol mendatar)
+              const activeTab = Array.from(tabsContainer.children).find(b => b.innerText === linkedCategory);
+              if (activeTab) {
+                const left = activeTab.getBoundingClientRect().left - tabsContainer.getBoundingClientRect().left
+                  + tabsContainer.scrollLeft - (tabsContainer.clientWidth - activeTab.offsetWidth) / 2;
+                tabsContainer.scrollTo({ left: Math.max(left, 0), behavior: "smooth" });
+                activeTab.classList.add("highlight-pulse");
+              }
+
+              // Kesan premium glow
+              container.classList.add("highlight-pulse");
+              setTimeout(() => {
+                if (activeTab) activeTab.classList.remove("highlight-pulse");
+                container.classList.remove("highlight-pulse");
+              }, 4000);
+            }, 300);
           }
         }
       }
