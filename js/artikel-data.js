@@ -10,8 +10,8 @@ const ARTIKEL_DATA = [
   }, // <-- Ditambah koma di sini untuk memisahkan objek pertama dan kedua
 
     {
-    id: "kaedah-terbaik-menabung-secara-konsisten",
-    title: "Kaedah Terbaik Menabung Secara Konsisten",
+    id: "1-kaedah-terbaik-menabung-secara-konsisten",
+    title: "#1 Kaedah Terbaik Menabung Secara Konsisten",
     author: "Mohd Zulkifli Shafie",
     category: "GAP Auto-Debit",
     summary: "Kejayaan ialah tentang buat perkara yang betul berulang-ulang kali tanpa perlu buat decision lagi.",
@@ -19,8 +19,8 @@ const ARTIKEL_DATA = [
   },
 
     {
-    id: "auto-menabung-emas-setiap-bulan",
-    title: "Auto-Menabung Emas Setiap Bulan",
+    id: "2-auto-menabung-emas-setiap-bulan",
+    title: "#2 Auto-Menabung Emas Setiap Bulan",
     author: "Mohd Zulkifli Shafie",
     category: "GAP Auto-Debit",
     summary: "Menabung secara AUTO maksudnya kita auto-kaya setiap bulan, insyaAllah.",
@@ -28,8 +28,8 @@ const ARTIKEL_DATA = [
   },
 
     {
-    id: "auto-menabung-selama-5-tahun-terus",
-    title: "Auto-Menabung Selama 5 Tahun Terus!",
+    id: "3-auto-menabung-selama-5-tahun-terus",
+    title: "#3 Auto-Menabung Selama 5 Tahun Terus!",
     author: "Mohd Zulkifli Shafie",
     category: "GAP Auto-Debit",
     summary: "Sambil menabung emas, berpeluang menang gold bar ataupun dinar free setiap bulan! InsyaAllah.",
@@ -37,8 +37,8 @@ const ARTIKEL_DATA = [
   },
 
       {
-    id: "3-punca-tabungan-emas-tak-bertambah",
-    title: "3 Punca Tabungan Emas Tak Bertambah",
+    id: "4-punca-tabungan-emas-tak-bertambah",
+    title: "#4 Punca Tabungan Emas Tak Bertambah",
     author: "Mohd Zulkifli Shafie",
     category: "GAP Auto-Debit",
     summary: "Dia fikir pelaburan emas ni macam 'trade' saham; beli harga rendah, jual harga tinggi. Bila harga tinggi, terus jual.",
