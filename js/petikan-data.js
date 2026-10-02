@@ -264,7 +264,7 @@ Kita hanya akan jual atau gadai emas itu hanya bila ada hal yang benar-benar per
     petikan: "Simpan emas pada hakikatnya sama seperti simpan wang TUNAI juga. Kalau nak pakai duit segera, kita boleh jual atau gadai sahaja di ar-rahnu.",
     link: ""
   },
-  {
+    {
     id: "q29",
     kategori: "tips-emas",
     oleh: "Mohd Zulkifli Shafie",
