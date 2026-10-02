@@ -272,6 +272,7 @@ Kita hanya akan jual atau gadai emas itu hanya bila ada hal yang benar-benar per
 <p>
   Emas fizikal tak sama dengan pelaburan aset kertas (seperti saham, unit trust dsb) yang cuma ada nombor dan kertas sahaja. Emas fizikal tak ada risiko sebenar selagi emas tu ada di tangan kita.
 </p>
+<hr>
 <p>
   Kalau harganya jatuh, emas dalam simpanan kita masih kekal, ia tak berkurangan walaupun 1 gram. Harga naik turun hanyalah persoalan masa sahaja.
 </p>
