@@ -18,6 +18,10 @@
   .gt-input::placeholder { color: #52525b; }
   .gt-input:focus { outline: none; border-color: rgba(251,191,36,0.6); box-shadow: 0 0 0 3px rgba(251,191,36,0.12); }
   .gt-input.error { border-color: rgba(248,113,113,0.7); }
+  select.gt-input { appearance: none; -webkit-appearance: none; padding-right: 40px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23a1a1aa'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+  select.gt-input:invalid { color: #71717a; }
+  select.gt-input option { background: #18181b; color: #fff; }
+  textarea.gt-input { resize: vertical; min-height: 72px; line-height: 1.5; font-family: inherit; }
   .gt-btn-primary { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #09090b; font-weight: 700; border-radius: 16px; transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease; box-shadow: 0 8px 24px rgba(245,158,11,0.18); }
   .gt-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(245,158,11,0.32); }
   .gt-btn-secondary { background: rgba(39,39,42,0.7); border: 1px solid rgba(63,63,70,0.7); color: #e4e4e7; border-radius: 16px; transition: all .2s; }
@@ -141,6 +145,33 @@
       </div>
     </div>
 
+    <!-- SIMPANAN -->
+    <div class="gt-card p-5 card-fade">
+      <div class="gold-glow"></div>
+      <div class="relative space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 shrink-0 rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center">
+            <i class="fa-solid fa-piggy-bank text-amber-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Simpanan</h3>
+        </div>
+        <p class="text-sm text-zinc-300 leading-relaxed">Formula kewangan yang diajarkan oleh guru-guru kewangan adalah <span class="text-amber-400 font-bold">SIMPAN DULU, BARU BELANJA</span>. Simpan minimum <span class="text-white font-semibold">10%</span> daripada pendapatan.</p>
+        <p class="text-sm text-zinc-400 leading-relaxed">Jika komitmen rendah, boleh up 20-30%.</p>
+        <div>
+          <label for="save-pct" class="block text-sm font-semibold text-zinc-200 mb-2">Peratus simpanan</label>
+          <select id="save-pct" class="gt-input w-full px-4 py-3.5 text-sm">
+            <option value="10" selected>10%</option>
+            <option value="20">20%</option>
+            <option value="30">30%</option>
+          </select>
+        </div>
+        <div class="flex items-center justify-between rounded-2xl bg-zinc-900/60 border border-zinc-800 px-4 py-3.5">
+          <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wide">Simpanan Bulanan</p>
+          <p class="text-lg font-extrabold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent" id="save-amt">RM0.00</p>
+        </div>
+      </div>
+    </div>
+
     <!-- 2. KOMITMEN -->
     <div class="gt-card p-5 card-fade">
       <div class="relative space-y-4">
@@ -148,18 +179,6 @@
           <h3 class="text-lg font-bold text-white">Komitmen Bulanan</h3>
           <p class="text-sm text-zinc-400 mt-1">Pilih kategori atau taip sendiri, kemudian masukkan jumlah bulanan.</p>
         </div>
-
-        <datalist id="kategori-list">
-          <option value="Rumah"></option>
-          <option value="Kereta"></option>
-          <option value="Makanan"></option>
-          <option value="Bil & Utiliti"></option>
-          <option value="Pendidikan"></option>
-          <option value="Hutang"></option>
-          <option value="Insurans/Takaful"></option>
-          <option value="Anak"></option>
-          <option value="Lain-lain"></option>
-        </datalist>
 
         <div id="rows" class="space-y-3"></div>
 
@@ -200,8 +219,13 @@
           </div>
         </div>
 
+        <div class="flex items-center justify-between rounded-2xl bg-zinc-900/60 border border-zinc-800 px-4 py-3">
+          <p class="text-xs text-zinc-400 font-semibold text-left"><i class="fa-solid fa-piggy-bank text-amber-400 mr-1.5"></i>Simpanan <span id="v-save-pct">10%</span> (ditolak dahulu)</p>
+          <p class="text-sm font-bold text-amber-400" id="v-save">RM0.00</p>
+        </div>
+
         <div>
-          <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Baki Cashflow</p>
+          <p class="text-[11px] text-zinc-500 uppercase tracking-wide font-semibold mb-1">Baki Cashflow (selepas simpanan)</p>
           <p class="text-4xl font-extrabold text-white break-words" id="balance-big">RM0.00</p>
         </div>
 
@@ -214,6 +238,56 @@
             <p class="text-xs text-zinc-400 font-semibold" id="pct-text">Komitmen menggunakan 0% daripada pendapatan</p>
           </div>
           <div class="bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CADANGAN PENGURANGAN KOMITMEN -->
+    <div id="cut-card" class="gt-card p-5 hidden fade-up">
+      <div class="gold-glow"></div>
+      <div class="relative space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 shrink-0 rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center">
+            <i class="fa-solid fa-scissors text-amber-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white leading-snug">Cadangan Pengurangan Komitmen</h3>
+        </div>
+        <p class="text-sm text-zinc-300 leading-relaxed" id="cut-intro"></p>
+        <div class="space-y-3" id="cut-list"></div>
+        <p class="text-sm text-zinc-200 font-semibold leading-relaxed" id="cut-foot"></p>
+        <p class="text-xs text-zinc-500 leading-relaxed pt-3 border-t border-zinc-800/70">Ini hanyalah panduan umum berdasarkan peratus lazim daripada pendapatan. Komitmen yang ditanda kritikal tidak dicadangkan untuk dibuang. Jika perlu, semak sama ada pelan Takaful atau pinjaman anda boleh dirunding semula.</p>
+      </div>
+    </div>
+
+    <!-- SIMPANAN ANDA SEPATUTNYA -->
+    <div class="gt-card p-5 card-fade" id="saving-guide">
+      <div class="gold-glow"></div>
+      <div class="relative space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 shrink-0 rounded-2xl bg-amber-400/10 border border-amber-400/25 flex items-center justify-center">
+            <i class="fa-solid fa-seedling text-amber-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white leading-snug">Simpanan Anda Sepatutnya</h3>
+        </div>
+
+        <blockquote class="border-l-2 border-amber-400/70 pl-4 text-sm text-zinc-300 leading-relaxed">
+          Formula kewangan yang diajarkan oleh guru-guru kewangan adalah <span class="text-amber-400 font-bold">SIMPAN DULU, BARU BELANJA</span>. Simpan minimum 10% daripada pendapatan. Jika komitmen rendah, boleh up 20-30%.
+        </blockquote>
+
+        <p class="text-sm text-zinc-200 leading-relaxed font-semibold" id="sg-msg">Masukkan pendapatan untuk melihat simpanan yang sepatutnya.</p>
+
+        <div class="space-y-3" id="sg-tiles"></div>
+
+        <p class="text-xs text-zinc-500 leading-relaxed hidden" id="sg-delay"></p>
+
+        <div class="pt-4 border-t border-zinc-800/70 space-y-3">
+          <a href="https://pg2u.my/wanhasbullah/gap-autodebit-all" target="_blank" rel="noopener" class="gt-btn-primary w-full py-4 flex items-center justify-center gap-2.5 text-sm">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Simpan dulu secara automatik &mdash; Aktifkan GAP Auto Debit</span>
+          </a>
+          <a href="https://ilmu-emas.pages.dev/" target="_blank" rel="noopener" class="gt-btn-secondary w-full py-3.5 flex items-center justify-center gap-2 text-sm font-semibold">
+            <i class="fa-solid fa-chart-line text-amber-400"></i> Lihat Potensi Emas Anda
+          </a>
         </div>
       </div>
     </div>
@@ -319,20 +393,43 @@
     }
 
     // ── Baris komitmen ──
+    const CATS = ['Rumah', 'Kereta', 'Makanan', 'Bil & Utiliti', 'Pendidikan', 'Hutang', 'Insurans/Takaful', 'Anak', 'Lain-lain'];
+    // crit = keperluan kritikal (lalai); cap = had lazim % daripada pendapatan
+    const CAT_META = {
+      'Rumah': { crit: true }, 'Hutang': { crit: true }, 'Insurans/Takaful': { crit: true },
+      'Pendidikan': { crit: true }, 'Anak': { crit: true },
+      'Kereta': { crit: false, cap: 15 }, 'Makanan': { crit: false, cap: 20 },
+      'Bil & Utiliti': { crit: false, cap: 10 }, 'Lain-lain': { crit: false }
+    };
     function addRow(focus) {
       const row = document.createElement('div');
-      row.className = 'row-in flex items-center gap-2';
+      row.className = 'row-in space-y-2';
       row.innerHTML =
-        '<input type="text" list="kategori-list" class="gt-input cat flex-1 min-w-0 px-3.5 py-3.5 text-sm" placeholder="Kategori" autocomplete="off" aria-label="Nama komitmen" />' +
+        '<div class="flex items-center gap-2">' +
+        '<select required class="gt-input cat flex-1 min-w-0 pl-3.5 py-3.5 text-sm" aria-label="Kategori komitmen"><option value="" disabled selected>Pilih kategori</option>' +
+          CATS.map(c => '<option value="' + c + '">' + c.replace('&', '&amp;') + '</option>').join('') + '</select>' +
         '<div class="relative w-[38%] shrink-0">' +
           '<span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500">RM</span>' +
           '<input type="text" inputmode="decimal" class="gt-input amt w-full pl-9 pr-3 py-3.5 text-sm" placeholder="0" autocomplete="off" aria-label="Jumlah komitmen" />' +
         '</div>' +
-        '<button type="button" class="del shrink-0 w-11 h-11 flex items-center justify-center rounded-xl bg-zinc-800/70 border border-zinc-700/70 text-zinc-400 hover:text-red-400 hover:border-red-400/40 transition-all" aria-label="Hapus komitmen"><i class="fa-solid fa-trash-can text-sm"></i></button>';
+        '<button type="button" class="del shrink-0 w-11 h-11 flex items-center justify-center rounded-xl bg-zinc-800/70 border border-zinc-700/70 text-zinc-400 hover:text-red-400 hover:border-red-400/40 transition-all" aria-label="Hapus komitmen"><i class="fa-solid fa-trash-can text-sm"></i></button></div>' +
+        '<textarea class="gt-input note hidden w-full px-3.5 py-3 text-sm" rows="2" maxlength="150" placeholder="Catat komitmen anda, cth: Zakat, PTPTN, kad kredit" aria-label="Catatan komitmen"></textarea>' +
+        '<div class="flex items-center justify-between gap-2 px-1">' +
+          '<label class="flex items-center gap-2 text-xs text-zinc-400 cursor-pointer select-none"><input type="checkbox" class="crit w-4 h-4" style="accent-color:#f59e0b"> Keperluan kritikal</label>' +
+          '<span class="badge hidden text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-full px-2.5 py-1"><i class="fa-solid fa-arrow-trend-down mr-1"></i>Boleh dikurangkan</span>' +
+        '</div>';
       rowsEl.appendChild(row);
       row.querySelector('.amt').addEventListener('input', function () { maskMoney(this); recalc(); });
-      row.querySelector('.cat').addEventListener('input', recalc);
+      row.querySelector('.cat').addEventListener('change', function () {
+        const note = row.querySelector('.note');
+        const other = this.value === 'Lain-lain';
+        note.classList.toggle('hidden', !other);
+        if (other) note.focus(); else note.value = '';
+        if (!row.dataset.manual) row.querySelector('.crit').checked = !!(CAT_META[this.value] && CAT_META[this.value].crit);
+        recalc();
+      });
       row.querySelector('.del').addEventListener('click', () => { row.remove(); recalc(); });
+      row.querySelector('.crit').addEventListener('change', () => { row.dataset.manual = '1'; recalc(); });
       recalc();
       if (focus) row.querySelector('.cat').focus();
     }
@@ -347,7 +444,12 @@
     function recalc(scroll) {
       const income = Math.round(parseMoney(incomeEl.value) * 100) / 100;
       const commit = totalCommit();
-      const balance = Math.round((income - commit) * 100) / 100;
+      const savePct = parseFloat($('save-pct').value) || 0;
+      const saving = Math.round(income * savePct) / 100;
+      const balance = Math.round((income - saving - commit) * 100) / 100;
+      $('save-amt').textContent = formatRM(saving);
+      $('v-save').textContent = formatRM(saving);
+      $('v-save-pct').textContent = savePct + '%';
 
       $('rows-empty').classList.toggle('hidden', rowsEl.children.length > 0);
       $('commit-total').textContent = formatRM(commit);
@@ -391,13 +493,13 @@
           pill.classList.add('st-bal');
           icon.className = 'fa-solid fa-scale-balanced';
           txt.textContent = 'CASHFLOW SEIMBANG';
-          msg.textContent = 'Pendapatan anda sama dengan jumlah komitmen. Tiada lebihan untuk simpanan atau kecemasan, jadi cuba kurangkan sedikit komitmen atau tambah pendapatan.';
+          msg.textContent = 'Selepas simpanan, baki pendapatan anda sama dengan jumlah komitmen. Tiada lebihan untuk kecemasan, jadi cuba kurangkan sedikit komitmen atau tambah pendapatan.';
           big.classList.add('text-white'); vbal.classList.add('text-white');
         } else {
           pill.classList.add('st-neg');
           icon.className = 'fa-solid fa-circle-exclamation';
           txt.textContent = 'NEGATIVE CASHFLOW';
-          msg.textContent = 'Komitmen anda melebihi pendapatan sebanyak ' + formatRM(Math.abs(balance)) + ' setiap bulan.';
+          msg.textContent = 'Selepas ditolak simpanan, komitmen anda melebihi baki pendapatan sebanyak ' + formatRM(Math.abs(balance)) + ' setiap bulan.';
           big.classList.add('text-red-400'); vbal.classList.add('text-red-400');
         }
       }
@@ -408,16 +510,146 @@
       fill.classList.toggle('over', pct > 100);
       track.setAttribute('aria-valuenow', Math.round(Math.min(100, pct)));
 
+      updateGuide(income, savePct, saving, balance, noIncome);
+      updateCuts(income, balance, noIncome);
+
       if (scroll === true) {
         $('analysis-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
         if (!noIncome) showToast('Pengiraan dikemas kini');
       }
     }
 
+    // ── Cadangan pengurangan komitmen ──
+    function rowInfos() {
+      return Array.from(rowsEl.children).map(row => ({
+        row,
+        cat: row.querySelector('.cat').value,
+        note: (row.querySelector('.note').value || '').trim(),
+        amt: parseMoney(row.querySelector('.amt').value),
+        crit: row.querySelector('.crit').checked
+      }));
+    }
+    function reducibleOf(i, income) {
+      if (i.crit || i.amt <= 0 || income <= 0) return 0;
+      const meta = CAT_META[i.cat];
+      if (meta && meta.cap) return Math.max(0, Math.round((i.amt - income * meta.cap / 100) * 100) / 100);
+      return i.amt; // Lain-lain / tanpa kategori
+    }
+    function updateCuts(income, balance, noIncome) {
+      const infos = rowInfos();
+      const need = (!noIncome && balance < 0) ? Math.round(-balance * 100) / 100 : 0;
+      infos.forEach(i => {
+        i.red = reducibleOf(i, income);
+        const capped = !!(CAT_META[i.cat] && CAT_META[i.cat].cap);
+        i.row.querySelector('.badge').classList.toggle('hidden', !(i.red > 0 && (capped || need > 0)));
+      });
+      const card = $('cut-card');
+      card.classList.toggle('hidden', need <= 0);
+      if (need <= 0) return;
+
+      $('cut-intro').textContent = 'Selepas simpanan, komitmen anda melebihi baki pendapatan sebanyak ' + formatRM(need) + ' sebulan. Pertimbangkan semakan berikut, bermula daripada komitmen tidak kritikal yang paling besar:';
+      const list = $('cut-list');
+      list.innerHTML = '';
+      const cands = infos.filter(i => i.red > 0).sort((a, b) => b.red - a.red);
+      let remaining = need;
+      cands.forEach(i => {
+        if (remaining <= 0) return;
+        const cut = Math.min(i.red, remaining);
+        remaining = Math.round((remaining - cut) * 100) / 100;
+        const newAmt = Math.round((i.amt - cut) * 100) / 100;
+        const name = (i.cat === 'Lain-lain' && i.note) ? i.note.slice(0, 30) : (i.cat || 'Komitmen');
+
+        const item = document.createElement('div');
+        item.className = 'rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3.5 space-y-3';
+        const top = document.createElement('div');
+        top.className = 'flex items-start justify-between gap-3';
+        const nm = document.createElement('p');
+        nm.className = 'text-sm font-bold text-white break-words min-w-0';
+        nm.textContent = name;
+        const chg = document.createElement('p');
+        chg.className = 'text-xs font-semibold text-zinc-400 text-right shrink-0';
+        chg.textContent = formatRM(i.amt) + ' \u2192 ' + formatRM(newAmt);
+        top.appendChild(nm); top.appendChild(chg);
+        const sub = document.createElement('p');
+        sub.className = 'text-xs text-amber-400 font-semibold';
+        sub.textContent = (newAmt <= 0 ? 'Pertimbang buang: ' : 'Kurangkan ') + formatRM(cut) + ' sebulan';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'gt-btn-secondary w-full py-2.5 text-xs font-semibold';
+        btn.textContent = newAmt <= 0 ? 'Guna cadangan (buang)' : 'Guna cadangan';
+        btn.addEventListener('click', () => {
+          if (newAmt <= 0) { i.row.remove(); }
+          else { i.row.querySelector('.amt').value = newAmt.toLocaleString('en-US', { maximumFractionDigits: 2 }); }
+          recalc();
+        });
+        item.appendChild(top); item.appendChild(sub); item.appendChild(btn);
+        list.appendChild(item);
+      });
+
+      $('cut-foot').textContent = cands.length === 0
+        ? 'Semua komitmen anda ditanda kritikal. Fokus pada menambah pendapatan atau semak semula sama ada semuanya benar-benar kritikal.'
+        : (remaining > 0
+            ? 'Walaupun semua cadangan digunakan, defisit masih ' + formatRM(remaining) + '. Pertimbangkan menambah pendapatan melalui fast money.'
+            : 'Jika semua cadangan digunakan, cashflow anda menjadi seimbang.');
+    }
+
+    // ── Panduan simpanan ──
+    (function buildTiles() {
+      let h = '';
+      [10, 20, 30].forEach(p => {
+        h += '<div id="sg-tile-' + p + '" class="rounded-2xl border px-4 py-3.5 transition-all">' +
+          '<div class="flex items-center justify-between">' +
+            '<span class="text-sm font-extrabold text-amber-400">' + p + '%</span>' +
+            '<span class="text-base font-extrabold text-white"><span id="sg-' + p + '-m">RM0.00</span> <span class="text-[11px] font-semibold text-zinc-500">/ bulan</span></span>' +
+          '</div>' +
+          '<div class="grid grid-cols-3 gap-2 mt-3 text-center">' +
+            '<div><p class="text-[10px] text-zinc-500 uppercase tracking-wide font-semibold">1 Tahun</p><p class="text-xs font-bold text-zinc-200 mt-0.5 break-words" id="sg-' + p + '-1">RM0.00</p></div>' +
+            '<div><p class="text-[10px] text-zinc-500 uppercase tracking-wide font-semibold">3 Tahun</p><p class="text-xs font-bold text-zinc-200 mt-0.5 break-words" id="sg-' + p + '-3">RM0.00</p></div>' +
+            '<div><p class="text-[10px] text-zinc-500 uppercase tracking-wide font-semibold">5 Tahun</p><p class="text-xs font-bold text-zinc-200 mt-0.5 break-words" id="sg-' + p + '-5">RM0.00</p></div>' +
+          '</div></div>';
+      });
+      $('sg-tiles').innerHTML = h;
+    })();
+
+    function updateGuide(income, savePct, saving, balance, noIncome) {
+      [10, 20, 30].forEach(p => {
+        const m = Math.round(income * p) / 100;
+        $('sg-' + p + '-m').textContent = formatRM(m);
+        $('sg-' + p + '-1').textContent = formatRM(m * 12);
+        $('sg-' + p + '-3').textContent = formatRM(m * 36);
+        $('sg-' + p + '-5').textContent = formatRM(m * 60);
+        $('sg-tile-' + p).className = 'rounded-2xl border px-4 py-3.5 transition-all ' +
+          (p === savePct ? 'border-amber-400/60 bg-amber-400/5' : 'border-zinc-800 bg-zinc-900/60');
+      });
+
+      const msg = $('sg-msg'), delay = $('sg-delay');
+      if (noIncome) {
+        msg.textContent = 'Masukkan pendapatan untuk melihat simpanan yang sepatutnya.';
+        delay.classList.add('hidden');
+        return;
+      }
+      if (balance < 0) {
+        msg.textContent = 'Simpanan ' + savePct + '% (' + formatRM(saving) + ') tetap perlu dilindungi. Kurangkan komitmen yang bukan keperluan kritikal.';
+      } else if (balance === 0) {
+        msg.textContent = 'Anda belum ada ruang kecemasan. Mulakan dengan simpanan 10% dahulu.';
+      } else if (savePct >= 30) {
+        msg.textContent = 'Anda masih ada lebihan ' + formatRM(balance) + ' selepas simpanan 30%. Kekalkan disiplin ini.';
+      } else {
+        const next = savePct + 10;
+        const extra = Math.round(income * 10) / 100;
+        msg.textContent = balance >= extra
+          ? 'Anda masih ada lebihan ' + formatRM(balance) + '. Cuba naikkan simpanan kepada ' + next + '% dan baki anda masih selamat.'
+          : 'Anda masih ada lebihan ' + formatRM(balance) + ' selepas simpanan ' + savePct + '%. Kekalkan dan naikkan apabila komitmen berkurang.';
+      }
+      delay.textContent = 'Setiap bulan anda tangguh, ' + formatRM(saving) + ' tidak terkumpul.';
+      delay.classList.remove('hidden');
+    }
+
     function resetAll() {
       incomeEl.value = '';
       incomeTouched = false;
       rowsEl.innerHTML = '';
+      $('save-pct').value = '10';
       addRow();
       recalc();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -425,6 +657,8 @@
     }
 
     incomeEl.addEventListener('input', () => { incomeTouched = true; maskMoney(incomeEl); recalc(); });
+
+    $('save-pct').addEventListener('change', recalc);
 
     // Mula dengan satu baris komitmen
     addRow();
