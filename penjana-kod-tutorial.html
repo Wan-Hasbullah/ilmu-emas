@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Penjana Kod Tutorial Data</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --bg: #faf9f6; --panel: #ffffff; --line: #e4e4e7; --text: #18181b; --muted: #71717a; --soft: #3f3f46;
+    --accent: #b45309; --accent-bg: rgba(180, 83, 9, 0.07); --accent-line: rgba(180, 83, 9, 0.28);
+    --btn-text: #ffffff; --ok: #15803d; --bad: #dc2626; --bad-bg: rgba(220, 38, 38, 0.07);
+    --bad-line: rgba(220, 38, 38, 0.3); --mono-bg: #f4f4f5;
+    box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #09090b; --panel: #18181b; --line: #27272a; --text: #f4f4f5; --muted: #a1a1aa; --soft: #d4d4d8;
+      --accent: #fbbf24; --accent-bg: rgba(251,191,36,0.07); --accent-line: rgba(251,191,36,0.3);
+      --btn-text: #18181b; --ok: #4ade80; --mono-bg: #0f0f11;
+      --bad: #f87171; --bad-bg: rgba(248,113,113,0.08); --bad-line: rgba(248,113,113,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #09090b; --panel: #18181b; --line: #27272a; --text: #f4f4f5; --muted: #a1a1aa; --soft: #d4d4d8;
+    --accent: #fbbf24; --accent-bg: rgba(251,191,36,0.07); --accent-line: rgba(251,191,36,0.3);
+    --btn-text: #18181b; --ok: #4ade80; --mono-bg: #0f0f11;
+    --bad: #f87171; --bad-bg: rgba(248,113,113,0.08); --bad-line: rgba(248,113,113,0.35);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--text); font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.55; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 20px 16px 110px; }
+  .top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
+  .top h1 { font-size: 1.35rem; font-weight: 800; margin: 0 0 4px; line-height: 1.2; }
+  .top p { margin: 0; color: var(--muted); font-size: 0.85rem; max-width: 62ch; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78em; background: var(--mono-bg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px; }
+  .theme-btn { margin-left: auto; flex-shrink: 0; width: 38px; height: 38px; border-radius: 9999px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; font-size: 1rem; display: grid; place-items: center; }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent-line); }
+  .notice { border: 1px solid var(--accent-line); background: var(--accent-bg); color: var(--soft); border-radius: 12px; padding: 12px 14px; font-size: 0.82rem; margin-bottom: 20px; }
+  .notice strong { color: var(--accent); }
+  .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
+    .preview-col { position: sticky; top: 16px; }
+    .wrap { padding-bottom: 40px; }
+    .mobile-bar { display: none !important; }
+  }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .card + .card { margin-top: 16px; }
+  .card h2 { font-size: 0.95rem; font-weight: 700; margin: 0 0 14px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--soft); margin-bottom: 6px; }
+  .field .hint { font-weight: 400; color: var(--muted); }
+  select.inp, input[type=text], textarea.inp { width: 100%; font: inherit; font-size: 0.9rem; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  textarea.inp { min-height: 110px; resize: vertical; line-height: 1.6; }
+  input:focus, textarea:focus, select:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+  .btn { font: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 12px; padding: 11px 16px; border: 1px solid var(--line); background: transparent; color: var(--soft); }
+  .btn:hover { color: var(--accent); border-color: var(--accent-line); }
+  .btn.primary { background: var(--accent); color: var(--btn-text); border-color: var(--accent); }
+  .btn.primary:hover { filter: brightness(1.08); color: var(--btn-text); }
+  .btn.ok { background: var(--ok) !important; border-color: var(--ok) !important; color: #fff !important; }
+  .btn.sm { padding: 7px 12px; font-size: 0.78rem; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tut-row { border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 10px; background: var(--bg); }
+  .tut-row-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
+  .tut-row .field { margin-bottom: 8px; }
+  .tut-row .field:last-child { margin-bottom: 0; }
+  .tut-row .rm { font: inherit; font-size: 0.75rem; color: var(--bad); background: none; border: none; cursor: pointer; padding: 2px 4px; }
+  .preview-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .preview-head h2 { margin: 0; }
+  .preview-head .count { margin-left: auto; font-size: 0.72rem; color: var(--muted); }
+  .warn { border: 1px solid var(--accent-line); background: var(--accent-bg); color: var(--soft); border-radius: 12px; padding: 10px 12px; font-size: 0.78rem; margin-bottom: 12px; }
+  .warn.block { border-color: var(--bad-line); background: var(--bad-bg); }
+  .warn ul { margin: 0; padding-left: 18px; }
+  .warn[hidden] { display: none; }
+  pre#out { margin: 0 0 14px; background: var(--mono-bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8rem; line-height: 1.6; color: var(--soft); white-space: pre; tab-size: 4; max-height: 62vh; overflow: auto; }
+  .mobile-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px 16px; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--bg); border-top: 1px solid var(--line); display: flex; gap: 10px; }
+  .mobile-bar .btn { flex: 1; }
+  .toast-sr { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Penjana kod tutorial data</h1>
+      <p>Isi borang, satu entri <code>{ id, category, question, answer, keywords, tutorials }</code> dijana serta-merta untuk disalin ke dalam <code>faqData</code> dalam <code>tutorial-data.js</code>.</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Tukar tema Light/Dark" title="Tukar tema">◐</button>
+  </div>
+
+  <div class="notice">
+    <strong>Ingat:</strong> kod yang dijana hanyalah SATU entri berserta koma di hujung (<code>{ ... },</code>). Tampal sebagai item baharu di dalam array <code>faqData</code>. Jika kategori belum wujud, tambah dahulu dalam <code>categories</code>.
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>Maklumat tutorial</h2>
+        <div class="field">
+          <label for="question">Tajuk soalan (question)</label>
+          <input type="text" id="question" placeholder="cth: Kemaskini Butiran Akaun" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="idIn">ID <span class="hint">(auto daripada tajuk, boleh diubah; digunakan untuk deep-link #id)</span></label>
+          <input type="text" id="idIn" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="category">Kategori</label>
+          <select id="category" class="inp">
+            <option value="akaun-profil">Akaun dan Profil</option>
+            <option value="username-password">Username &amp; Password</option>
+            <option value="harga-semasa">Semakan Harga Semasa</option>
+            <option value="akaun-gap">Akaun Gold Accumulation Program (GAP)</option>
+            <option value="kunci-harga">Kunci Harga</option>
+            <option value="jual-pajak">Jualan/Pajak Emas</option>
+            <option value="dealer">Cara Menjadi Dealer</option>
+            <option value="customer-service">Customer Service</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="answer">Penerangan (answer) <span class="hint">(HTML seperti &lt;strong&gt; dan emoji dibenarkan; jangan letak pautan di sini)</span></label>
+          <textarea class="inp" id="answer" placeholder="Penerangan ringkas tutorial."></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="keywords">Kata kunci carian <span class="hint">(asingkan dengan koma atau baris baru)</span></label>
+          <textarea class="inp" id="keywords" style="min-height:80px" placeholder="cth: kemaskini akaun, profile, butiran bank"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Tutorial berkaitan</h2>
+        <div id="tutList"></div>
+        <button class="btn sm" id="addTut" type="button">+ Tambah tutorial</button>
+      </div>
+
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="resetBtn" type="button">Kosongkan borang</button>
+      </div>
+    </div>
+
+    <div class="preview-col">
+      <div class="card">
+        <div class="preview-head">
+          <h2>Kod entri siap disalin</h2>
+          <span class="count" id="cc"></span>
+        </div>
+        <div class="warn" id="warn" hidden></div>
+        <pre id="out" aria-live="polite"></pre>
+        <div class="row">
+          <button class="btn primary" id="copyBtn" type="button">Salin kod entri</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-bar">
+  <button class="btn primary" id="copyBtn2" type="button">Salin kod entri</button>
+</div>
+<div class="toast-sr" role="status" aria-live="polite" id="sr"></div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var f = { question: $("question"), idIn: $("idIn"), category: $("category"), answer: $("answer"), keywords: $("keywords") };
+  var out = $("out"), tutList = $("tutList");
+  var STORE = "penjana-kod-tutorial-v1";
+  var last = { ok: false, code: "" };
+  var tuts = [{ label: "", description: "", url: "" }];
+  var idTouched = false;
+
+  /* ---------- Utiliti ---------- */
+  function slugify(s) {
+    return String(s).toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/&/g, " dan ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+  // String JS bertanda petikan dua. Emoji/Unicode dikekalkan (fail data berkod UTF-8).
+  function q(s) {
+    return '"' + String(s == null ? "" : s).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\r?\n/g, " ") + '"';
+  }
+  // Template literal (backtick) untuk answer: baris baru dikekalkan.
+  function tpl(s) {
+    s = String(s == null ? "" : s).replace(/\r\n?/g, "\n");
+    return "`" + s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${") + "`";
+  }
+  function parseKeywords(s) {
+    var seen = {}, res = [];
+    String(s).split(/[,\n]+/).forEach(function (k) {
+      k = k.trim();
+      if (k && !seen[k.toLowerCase()]) { seen[k.toLowerCase()] = 1; res.push(k); }
+    });
+    return res;
+  }
+
+  /* ---------- Bina keseluruhan ---------- */
+  function build() {
+    var question = f.question.value.trim();
+    var id = slugify(f.idIn.value) || slugify(question);
+    var answer = f.answer.value.trim();
+    var kws = parseKeywords(f.keywords.value);
+    var blocking = [], warnings = [], list = [];
+
+    if (!question) blocking.push("Tajuk soalan belum diisi.");
+    if (!id) blocking.push("ID tidak boleh kosong.");
+    if (!answer) warnings.push("Penerangan kosong.");
+    if (/<a\b|https?:\/\//i.test(answer)) warnings.push("Penerangan mengandungi pautan. Letakkan pautan dalam Tutorial berkaitan.");
+    if (!kws.length) warnings.push("Tiada kata kunci carian.");
+
+    tuts.forEach(function (t, i) {
+      var l = t.label.trim(), d = t.description.trim(), u = t.url.trim();
+      if (!l && !d && !u) return;
+      if (!l) blocking.push("Tutorial " + (i + 1) + ": label kosong.");
+      if (!/^https?:\/\/\S+$/i.test(u)) blocking.push("Tutorial " + (i + 1) + ": URL mesti bermula dengan https:// dan tanpa ruang.");
+      list.push({ label: l, description: d, url: u });
+    });
+    if (!list.length) warnings.push("Tiada tutorial berkaitan.");
+
+    var code = "    {\n" +
+      "        id: " + q(id) + ",\n" +
+      "        category: " + q(f.category.value) + ",\n" +
+      "        question: " + q(question) + ",\n" +
+      "        answer: " + tpl(answer) + ",\n";
+
+    if (kws.length) code += "        keywords: [\n" + kws.map(function (k) { return "            " + q(k); }).join(",\n") + "\n        ],\n";
+    else code += "        keywords: [],\n";
+
+    if (list.length) {
+      code += "        tutorials: [\n" + list.map(function (t) {
+        return "            {\n" +
+          "                label: " + q(t.label) + ",\n" +
+          "                description: " + q(t.description) + ",\n" +
+          "                url: " + q(t.url) + "\n" +
+          "            }";
+      }).join(",\n") + "\n        ]\n";
+    } else code += "        tutorials: []\n";
+
+    code += "    },";
+    return { code: code, blocking: blocking, warnings: warnings, id: id };
+  }
+
+  /* ---------- Tutorial berkaitan (baris dinamik) ---------- */
+  function renderTuts() {
+    tutList.innerHTML = "";
+    tuts.forEach(function (t, i) {
+      var row = document.createElement("div");
+      row.className = "tut-row";
+      row.innerHTML =
+        '<div class="tut-row-head"><span>Tutorial ' + (i + 1) + '</span><button type="button" class="rm" aria-label="Buang tutorial ' + (i + 1) + '">Buang</button></div>' +
+        '<div class="field"><label>Label</label><input type="text" data-k="label" placeholder="cth: Full Payment" autocomplete="off"></div>' +
+        '<div class="field"><label>Penerangan ringkas</label><input type="text" data-k="description" placeholder="cth: Panduan pembayaran penuh" autocomplete="off"></div>' +
+        '<div class="field"><label>URL</label><input type="text" data-k="url" placeholder="https://pg2u.my/wanhasbullah/..." autocomplete="off" inputmode="url"></div>';
+      Array.prototype.forEach.call(row.querySelectorAll("input"), function (inp) {
+        inp.value = t[inp.getAttribute("data-k")] || "";
+        inp.addEventListener("input", function () { t[inp.getAttribute("data-k")] = inp.value; update(); });
+      });
+      row.querySelector(".rm").addEventListener("click", function () {
+        tuts.splice(i, 1);
+        if (!tuts.length) tuts.push({ label: "", description: "", url: "" });
+        renderTuts(); update();
+      });
+      tutList.appendChild(row);
+    });
+  }
+
+  /* ---------- Paparan ---------- */
+  function renderWarn(res) {
+    var w = $("warn");
+    var items = res.blocking.concat(res.warnings);
+    if (!items.length) { w.hidden = true; w.innerHTML = ""; return; }
+    w.hidden = false;
+    w.className = "warn" + (res.blocking.length ? " block" : "");
+    w.innerHTML = "";
+    var ul = document.createElement("ul");
+    items.forEach(function (s) { var li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
+    w.appendChild(ul);
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify({
+        question: f.question.value, idIn: f.idIn.value, idTouched: idTouched, category: f.category.value,
+        answer: f.answer.value, keywords: f.keywords.value, tuts: tuts
+      }));
+    } catch (e) {}
+  }
+
+  function update() {
+    var res = build();
+    last = { ok: res.blocking.length === 0, code: res.code };
+    out.textContent = res.code;
+    $("cc").textContent = res.code.length.toLocaleString("ms-MY") + " aksara";
+    renderWarn(res);
+    $("copyBtn").disabled = $("copyBtn2").disabled = !last.ok;
+    save();
+  }
+
+  function copy(btn) {
+    if (!last.ok) return;
+    var text = last.code;
+    function done() {
+      btn.classList.add("ok"); btn.textContent = "Disalin ✓";
+      $("sr").textContent = "Kod entri disalin";
+      setTimeout(function () { btn.classList.remove("ok"); btn.textContent = "Salin kod entri"; }, 1800);
+    }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Gagal, salin manual"; }
+      ta.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
+  }
+
+  /* ---------- Acara ---------- */
+  f.question.addEventListener("input", function () {
+    if (!idTouched) f.idIn.value = slugify(f.question.value);
+    update();
+  });
+  f.idIn.addEventListener("input", function () {
+    idTouched = f.idIn.value.trim() !== "";
+    if (!idTouched) f.idIn.value = slugify(f.question.value);
+    update();
+  });
+  ["answer", "keywords"].forEach(function (k) { f[k].addEventListener("input", update); });
+  f.category.addEventListener("change", update);
+  $("addTut").addEventListener("click", function () {
+    tuts.push({ label: "", description: "", url: "" });
+    renderTuts(); update();
+    var inputs = tutList.querySelectorAll(".tut-row:last-child input");
+    if (inputs[0]) inputs[0].focus();
+  });
+  $("copyBtn").addEventListener("click", function () { copy(this); });
+  $("copyBtn2").addEventListener("click", function () { copy(this); });
+  $("resetBtn").addEventListener("click", function () {
+    if (!confirm("Kosongkan semua maklumat dalam borang?")) return;
+    f.question.value = f.idIn.value = f.answer.value = f.keywords.value = "";
+    f.category.selectedIndex = 0;
+    idTouched = false;
+    tuts = [{ label: "", description: "", url: "" }];
+    renderTuts(); update();
+  });
+
+  // Tema
+  var root = document.documentElement;
+  var THEME = "penjana-prompt-tema";
+  try { var t = localStorage.getItem(THEME); if (t) root.setAttribute("data-theme", t); } catch (e) {}
+  $("themeBtn").addEventListener("click", function () {
+    var cur = root.getAttribute("data-theme");
+    if (!cur) cur = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    var next = cur === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME, next); } catch (e) {}
+  });
+
+  // Muat draf
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) {}
+  if (saved) {
+    f.question.value = saved.question || ""; f.idIn.value = saved.idIn || "";
+    idTouched = !!saved.idTouched;
+    if (saved.category) f.category.value = saved.category;
+    f.answer.value = saved.answer || ""; f.keywords.value = saved.keywords || "";
+    if (saved.tuts && saved.tuts.length) tuts = saved.tuts;
+  }
+  renderTuts();
+  update();
+})();
+</script>
+</body>
+</html>
