@@ -2,7 +2,9 @@
    app.js — LOGIC (bergantung pada data.js: categories, faqData)
    ════════════════════════════════════════════════════════ */
 
-const ARROW_ICON = '<svg class="tut-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+const ARROW_ICON = '<svg class="tut-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+const LIST_ICON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="14" y2="14"/></svg>';
+const SHARE_ICON = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
 
 // ── State ────────────────────────────────────────────────
 let activeCategory = "all";
@@ -46,8 +48,10 @@ function buildTabs() {
         b.addEventListener("click", () => setCategory(cat, true));
         wrap.appendChild(b);
     };
+    const cc = document.getElementById("catCount");
+    if (cc) cc.textContent = Object.keys(categories).length + " kategori utama";
     add("all", "Semua");
-    Object.keys(categories).forEach(k => add(k, categories[k].icon + " " + categories[k].label));
+    Object.keys(categories).forEach(k => add(k, categories[k].label));
 }
 
 function renderTutorials(list) {
@@ -61,60 +65,44 @@ function renderTutorials(list) {
             </span>
             ${ARROW_ICON}
         </a>`).join("");
-    return `<div class="tut-section"><div class="tut-title">📖 Tutorial Berkaitan</div><div class="tut-list">${items}</div></div>`;
+    return `<div class="tut-section"><div class="tut-title">${LIST_ICON}<span>Tutorial Berkaitan</span></div><div class="tut-list">${items}</div></div>`;
 }
 
 function buildFAQ() {
     const container = document.getElementById("faqContainer");
     container.innerHTML = "";
 
-    Object.keys(categories).forEach(cat => {
-        const items = faqData.filter(f => f.category === cat);
-        if (!items.length) return;
-
-        const cfg = categories[cat];
-        const group = document.createElement("div");
-        group.className = "faq-group";
-        group.dataset.cat = cat;
-        group.innerHTML = `
-            <div class="section-header">
-                <div class="section-icon">${cfg.icon}</div>
-                <div><div class="section-title">${escapeHTML(cfg.label)}</div></div>
-            </div>
-            <div class="divider"></div>`;
-
-        items.forEach(faq => {
-            const card = document.createElement("div");
-            card.className = "faq-card";
-            card.dataset.id = faq.id;
-            card.dataset.cat = faq.category;
-            card.innerHTML = `
-                <div class="faq-question">
+    faqData.forEach(faq => {
+        const cfg = categories[faq.category] || { label: "", icon: "📘" };
+        const card = document.createElement("div");
+        card.className = "faq-card";
+        card.dataset.id = faq.id;
+        card.dataset.cat = faq.category;
+        card.innerHTML = `
+            <div class="faq-question">
+                <span class="faq-icon">${cfg.icon}</span>
+                <span class="faq-head">
                     <span class="faq-question-text">${escapeHTML(faq.question)}</span>
-                    <span class="faq-chevron">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                    </span>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">
-                        <div class="faq-answer-body">${faq.answer.trim()}</div>
-                        ${renderTutorials(faq.tutorials)}
-                        <div style="display:flex; justify-content:flex-end;">
-                            <button class="faq-copy-btn" type="button">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                <span>Kongsi</span>
-                            </button>
-                        </div>
+                    <span class="faq-cat">${escapeHTML(cfg.label)}</span>
+                </span>
+                <span class="faq-chevron">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </span>
+            </div>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <div class="faq-answer-body">${faq.answer.trim()}</div>
+                    ${renderTutorials(faq.tutorials)}
+                    <div style="display:flex; justify-content:flex-end;">
+                        <button class="faq-copy-btn" type="button">${SHARE_ICON}<span>Kongsi Tutorial</span></button>
                     </div>
-                </div>`;
+                </div>
+            </div>`;
 
-            card.querySelector(".faq-question").addEventListener("click", () => toggleCard(card));
-            const copyBtn = card.querySelector(".faq-copy-btn");
-            copyBtn.addEventListener("click", () => copyFaqLink(faq.id, copyBtn));
-            group.appendChild(card);
-        });
-
-        container.appendChild(group);
+        card.querySelector(".faq-question").addEventListener("click", () => toggleCard(card));
+        const copyBtn = card.querySelector(".faq-copy-btn");
+        copyBtn.addEventListener("click", () => copyFaqLink(faq.id, copyBtn));
+        container.appendChild(card);
     });
 
     applyFilters();
@@ -129,24 +117,22 @@ function toggleCard(card) {
 // ── Filters (kategori + carian) ──────────────────────────
 function applyFilters() {
     const tokens = searchQuery.toLowerCase().trim().split(/\s+/).filter(Boolean);
-    let anyVisible = false;
+    let count = 0;
 
-    document.querySelectorAll(".faq-group").forEach(group => {
-        const catMatch = activeCategory === "all" || activeCategory === group.dataset.cat;
-        let groupHasVisible = false;
-
-        group.querySelectorAll(".faq-card").forEach(card => {
-            const hay = searchIndex.get(card.dataset.id) || "";
-            const textMatch = tokens.every(t => hay.includes(t));
-            const show = catMatch && textMatch;
-            card.classList.toggle("search-hidden", !show);
-            if (show) { groupHasVisible = true; anyVisible = true; }
-        });
-
-        group.classList.toggle("hidden", !groupHasVisible);
+    document.querySelectorAll(".faq-card").forEach(card => {
+        const hay = searchIndex.get(card.dataset.id) || "";
+        const catMatch = activeCategory === "all" || activeCategory === card.dataset.cat;
+        const show = catMatch && tokens.every(t => hay.includes(t));
+        card.classList.toggle("search-hidden", !show);
+        if (show) count++;
     });
 
-    document.getElementById("emptyState").classList.toggle("visible", !anyVisible);
+    document.getElementById("emptyState").classList.toggle("visible", count === 0);
+
+    const title = document.getElementById("listTitle");
+    const meta = document.getElementById("listCount");
+    if (title) title.textContent = searchQuery.trim() ? "Hasil carian" : (activeCategory === "all" ? "Semua tutorial" : categories[activeCategory].label);
+    if (meta) meta.textContent = count + " isu";
 }
 
 function setCategory(cat, closeCards) {
@@ -191,7 +177,7 @@ function copyFaqLink(faqId, btn) {
         btn.querySelector("span").textContent = "Disalin!";
         setTimeout(() => {
             btn.classList.remove("copied");
-            btn.querySelector("span").textContent = "Kongsi";
+            btn.querySelector("span").textContent = "Kongsi Tutorial";
         }, 2000);
     };
     const fallback = () => {
