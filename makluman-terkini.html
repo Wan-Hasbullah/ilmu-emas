@@ -139,6 +139,7 @@
                     isLive: true,
                     isExpired: false,
                     sortDate: occ.start,
+                    endDate: occ.end,
                     badgeHTML: LIVE_BADGE_HTML,
                     buttonLabel: "Sedang Berlangsung"
                 };
@@ -149,6 +150,7 @@
                 isLive: false,
                 isExpired: false,
                 sortDate: occ.start,
+                    endDate: occ.end,
                 badgeHTML: formatCountdownHTML(difference),
                 buttonLabel: "Lihat"
             };
@@ -211,6 +213,20 @@
             };
             assign(typeof maklumanTetapData !== 'undefined' ? maklumanTetapData : []);
             assign(typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : []);
+        }
+
+        // Format tarikh & masa untuk paparan pada kad
+        const HARI_PENUH = ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'];
+        const BULAN_PENDEK = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'];
+        function formatTarikh(d) {
+            return `${HARI_PENUH[d.getDay()]}, ${d.getDate()} ${BULAN_PENDEK[d.getMonth()]} ${d.getFullYear()}`;
+        }
+        function formatMasa(d) {
+            let h = d.getHours();
+            const m = String(d.getMinutes()).padStart(2, '0');
+            const p = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            return `${h}:${m} ${p}`;
         }
 
         // Keadaan UI ringan (kekal walaupun kad dijana semula setiap saat)
@@ -320,18 +336,33 @@
                     ? '<i class="fa-solid fa-check text-emerald-600 text-xs"></i>'
                     : '<i class="fa-regular fa-copy text-xs"></i>';
 
+                const tarikhText = item.sortDate ? formatTarikh(item.sortDate) : '-';
+                const masaText = item.sortDate
+                    ? (item.endDate ? formatMasa(item.sortDate) + ' – ' + formatMasa(item.endDate) : formatMasa(item.sortDate))
+                    : '-';
+
                 card.innerHTML = `
                     <div class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-amber-300 via-amber-500 to-amber-300"></div>
                     <div>
-                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
-                            <h3 class="text-sm sm:text-[15px] font-bold text-slate-900 leading-snug">${item.title}</h3>
-                            <div class="card-countdown-ticker shrink-0">
-                                ${item.badgeHTML}
-                            </div>
-                        </div>
+                        <h3 class="text-sm sm:text-[15px] font-bold text-slate-900 leading-snug mb-2">${item.title}</h3>
                         <p class="text-xs text-slate-600 leading-relaxed text-justify">
                             ${item.caption}
                         </p>
+                        <div class="mt-4 rounded-xl bg-slate-50 border border-slate-100 px-3 py-2.5 space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-11 shrink-0 text-[9px] font-bold uppercase tracking-wider text-slate-400">Tarikh</span>
+                                <span class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-800"><i class="fa-regular fa-calendar text-amber-600 text-[11px]"></i> ${tarikhText}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-11 shrink-0 text-[9px] font-bold uppercase tracking-wider text-slate-400">Masa</span>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                    <span class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-800"><i class="fa-regular fa-clock text-amber-600 text-[11px]"></i> ${masaText}</span>
+                                    <div class="card-countdown-ticker shrink-0">
+                                        ${item.badgeHTML}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                         <button type="button" data-copy="${item.id}" title="Salin pautan" aria-label="Salin pautan event"
