@@ -1,14 +1,6 @@
 // Data Artikel - Sedia dipanggil secara global oleh fail pengurusan artikel
 const ARTIKEL_DATA = [
-  {
-    id: "bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada",
-    title: "Bukan Sibuk Dengan Harga, Tapi Berapa Gram Yang Kita Sudah Ada?",
-    author: "Syarif Jamil",
-    category: "Simpanan Emas",
-    summary: "Fokus utama dalam pelaburan emas adalah mengumpul seberapa banyak gram emas, bukannya bimbang tentang turun naik harga semasa untuk membina kekayaan sebenar.",
-    path: "kandungan-artikel/bukan-sibuk-dengan-harga-tapi-berapa-gram-yang-kita-sudah-ada.html"
-  }, // <-- Ditambah koma di sini untuk memisahkan objek pertama dan kedua
-
+  
     {
     id: "1-kaedah-terbaik-menabung-secara-konsisten",
     title: "#1 Kaedah Terbaik Menabung Secara Konsisten",
@@ -45,13 +37,13 @@ const ARTIKEL_DATA = [
     path: "kandungan-artikel/3-punca-tabungan-emas-tak-bertambah.html"
   },
   
-  {
-    id: "sejarah-harga-emas-10-tahun",
-    title: "Sejarah Harga Emas 10 Tahun",
-    author: "Ainul Haya",
-    category: "Sejarah Harga Emas",
-    summary: "Paras harga emas semasa yang sedang rendah merupakan peluang terbaik untuk pelabur menambah simpanan, bukannya untuk berasa takut atau berhenti menyimpan.",
-    path: "kandungan-artikel/sejarah-harga-emas-10-tahun.html"
+    {
+    id: "kenapa-penyimpan-emas-perlu-set-gap-auto-debit",
+    title: "Kenapa Penyimpan Emas Perlu Set GAP Auto Debit?",
+    author: "Wan Hasbullah",
+    category: "Tips Emas",
+    summary: "",
+    path: "kandungan-artikel/kenapa-penyimpan-emas-perlu-set-gap-auto-debit.html"
   },
 
   {
@@ -61,6 +53,15 @@ const ARTIKEL_DATA = [
     category: "Simpanan Emas",
     summary: "GAP Auto-Debit membantu kita menabung emas secara konsisten setiap bulan tanpa perlu buat keputusan berulang, sekali gus mempercepatkan proses menjadi kaya dengan emas.",
     path: "kandungan-artikel/gap-auto-debit-kaedah-terbaik-menabung-secara-konsisten.html"
+  },
+
+    {
+    id: "menabung-emas-setiap-bulan-rm100-atau-1-gram",
+    title: "Menabung Emas Setiap Bulan RM100 atau 1 Gram?",
+    author: "Wan Hasbullah",
+    category: "Tips Emas",
+    summary: "",
+    path: "kandungan-artikel/menabung-emas-setiap-bulan-rm100-atau-1-gram.html"
   },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
