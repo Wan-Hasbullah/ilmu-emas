@@ -106,6 +106,49 @@ const maklumanTerkiniData = [
         date: "2026-10-13T20:30:00",
         link: "https://pg2u.my/app/event/reg/1112/wanhasbullah"
     },
-
+        
+    {
+        title: "Membina Satu Juta Pertama (M1JP)",
+        caption: "Ketahui langkah praktikal membina simpanan emas dan asas membina satu juta pertama bersama bimbingan mentor dan leader berpengalaman.",
+        date: "2026-10-17T09:30:00",
+        link: "https://g100.my/seminar-membina-satu-juta-pertama/"
+    },
+    {
+        title: "MEMBINA SATU JUTA PERTAMA SEBELUM USIA 30 TAHUN",
+        caption: "Kami bawakan program MILLIONAIRE BY 30 eksklusif untuk anak muda berusia 18-25 tahun untuk sertai program bersama penulis buku Best Seller, Wang Emas & Misi Bebas Hutang, Tuan Mohd Zulkifli Shafie.",
+        date: "2026-10-17T13:30:00",
+        link: "https://g100.my/millionaireby30/"
+    },
+    {
+        title: "MENCARI IKON DALAM MEMBINA KERJAYA",
+        caption: "Kami bawakan program G100 Apprentice X 5G Associates khas untuk mahasiswa berusia 18-25 tahun untuk sertai program bersama mentor, Founder G100 Network, Million Star Triple Diamond Founder Master Dealer Public Gold, Tuan Mohd Zulkifli Shafie.",
+        date: "2026-10-08T21:00:00",
+        link: "https://g100.my/g100-apprentice/"
+    },
+    {
+        title: "[AMPANG] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 8:30 malam.",
+        date: "2026-10-15T20:30:00",
+        link: "https://pg2u.my/app/event/reg/1114/wanhasbullah"
+    },
+    {
+        title: "[PAKA] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:00 pagi.",
+        date: "2026-10-16T10:00:00",
+        link: "https://pg2u.my/app/event/reg/1125/wanhasbullah"
+    },
+    {
+        title: "[SEMPORNA] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:00 pagi.",
+        date: "2026-10-17T10:00:00",
+        link: "https://pg2u.my/app/event/reg/1105/wanhasbullah"
+    },
+    {
+        title: "[KENINGAU] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-17T10:30:00",
+        link: "https://pg2u.my/app/event/reg/1107/wanhasbullah"
+    },
+    
     
 ];
