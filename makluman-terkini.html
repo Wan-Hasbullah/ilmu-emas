@@ -25,22 +25,45 @@
             background: #27272a;
             border-radius: 10px;
         }
+
+        /* Hari ini berdenyut ringan */
+        @keyframes todayPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55); }
+            70%  { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+        .today-pulse { animation: todayPulse 2s ease-out infinite; }
+
+        /* Kad disasarkan melalui anchor: blink/pulse halus */
+        @keyframes cardBlink {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); border-color: #e2e8f0; }
+            50%      { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.35); border-color: #f59e0b; }
+        }
+        .card-highlight { animation: cardBlink 1s ease-in-out infinite; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .today-pulse, .card-highlight { animation: none; }
+            .card-highlight { border-color: #f59e0b; }
+        }
     </style>
 </head>
 <body class="bg-zinc-950 text-gray-400 min-h-screen">
 
-    <nav class="sticky top-0 z-50 bg-zinc-900/90 backdrop-blur-md border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
-        <a href="../index.html" class="text-amber-400 font-black text-xl tracking-wider uppercase flex items-center gap-2">
-            <i class="fa-solid fa-chevron-left text-sm text-gray-400"></i> Ilmu Emas
+    <nav class="sticky top-0 z-50 bg-zinc-900/90 backdrop-blur-md border-b border-zinc-800 px-4 py-3 flex items-center justify-between gap-2">
+        <a href="../index.html" class="text-amber-400 font-black text-lg sm:text-xl tracking-wider uppercase flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-chevron-left text-sm text-gray-400"></i> Makluman Terkini
         </a>
-        <span class="text-xs bg-zinc-800 px-2 py-1 rounded text-zinc-400 font-medium border border-zinc-700">Jadual Terkini & LIVE</span>
+        <span class="text-xs bg-zinc-800 px-2 py-1 rounded text-zinc-400 font-medium border border-zinc-700 truncate">Jadual Terkini & LIVE</span>
     </nav>
 
-    <main class="max-w-md mx-auto px-4 pt-6 md:max-w-xl pb-16">
-        <header class="mb-8">
+    <main class="max-w-md mx-auto px-4 pt-6 md:max-w-2xl pb-16">
+        <header class="mb-6">
             <h1 class="text-2xl font-extrabold text-white">Log Makluman & Talkshow</h1>
             <p class="text-xs text-gray-500 mt-1">Hanya memaparkan program akan datang dan yang sedang berlangsung.</p>
         </header>
+
+        <!-- KALENDAR PREMIUM -->
+        <section id="kalendar-container" class="mb-8 bg-white border border-slate-200 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.25)] overflow-hidden"></section>
 
         <div class="space-y-4" id="makluman-container">
             </div>
@@ -59,6 +82,9 @@
 
     <script>
         let countdownInterval;
+
+        // Asas pautan salin (anchor ditambah selepas #)
+        const BASE_SHARE_URL = "https://ilmu-emas.pages.dev/makluman-terkini";
 
         // =====================================================================
         // MAKLUMAN TETAP (FIXED / BERULANG SETIAP MINGGU)
@@ -99,10 +125,10 @@
             if (days > 0) countdownText += `${days}h `;
             countdownText += `${hours.toString().padStart(2, '0')}j ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
 
-            return `<span class="text-amber-400/90 font-mono text-[11px] font-semibold bg-amber-400/5 px-2 py-0.5 rounded border border-amber-400/10 inline-flex items-center gap-1"><i class="fa-regular fa-clock text-[9px]"></i> Mula: ${countdownText}</span>`;
+            return `<span class="text-amber-700 font-mono text-[11px] font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 inline-flex items-center gap-1"><i class="fa-regular fa-clock text-[9px]"></i> Mula: ${countdownText}</span>`;
         }
 
-        const LIVE_BADGE_HTML = "<span class='text-emerald-400 inline-flex items-center gap-1 bg-emerald-400/5 px-2 py-0.5 rounded border border-emerald-400/10 text-[10px]'><span class='w-1 h-1 rounded-full bg-emerald-400 animate-pulse'></span> LIVE SEKARANG</span>";
+        const LIVE_BADGE_HTML = "<span class='text-emerald-700 inline-flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 text-[10px] font-bold'><span class='w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse'></span> LIVE SEKARANG</span>";
 
         // Status untuk MAKLUMAN TETAP (mingguan)
         function getFixedEventStatus(entry, now) {
@@ -162,6 +188,62 @@
         }
 
         // =====================================================================
+        // ID ANCHOR UNIK UNTUK SETIAP EVENT (guna entry.id jika ada, jika tidak dari tajuk)
+        // =====================================================================
+        function slugify(text) {
+            return String(text || 'event')
+                .toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '') || 'event';
+        }
+
+        function initCardIds() {
+            const used = new Set();
+            const assign = (list) => {
+                list.forEach(entry => {
+                    let base = slugify(entry.id || entry.title);
+                    let id = base, n = 2;
+                    while (used.has(id)) id = base + '-' + n++;
+                    used.add(id);
+                    entry._cid = id;
+                });
+            };
+            assign(typeof maklumanTetapData !== 'undefined' ? maklumanTetapData : []);
+            assign(typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : []);
+        }
+
+        // Keadaan UI ringan (kekal walaupun kad dijana semula setiap saat)
+        let highlightId = null, highlightUntil = 0;
+        let copiedId = null, copiedUntil = 0;
+
+        function focusCard(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            highlightId = id;
+            highlightUntil = Date.now() + 4000;
+            renderGabunganCards();
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text);
+            }
+            return new Promise((resolve) => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); } catch (e) {}
+                document.body.removeChild(ta);
+                resolve();
+            });
+        }
+
+        // =====================================================================
         // GABUNG, TAPIS, SUSUN KRONOLOGI, DAN PAPAR
         // =====================================================================
         function renderGabunganCards() {
@@ -178,6 +260,7 @@
             senaraiTetap.forEach(entry => {
                 const status = getFixedEventStatus(entry, now);
                 entries.push({
+                    id: entry._cid,
                     title: entry.title,
                     caption: entry.caption,
                     link: entry.link,
@@ -190,6 +273,7 @@
                 const status = getIrregularEventStatus(entry, now);
                 if (status.isExpired) return; // buang automatik jika sudah tamat
                 entries.push({
+                    id: entry._cid,
                     title: entry.title,
                     caption: entry.caption,
                     link: entry.link,
@@ -221,27 +305,39 @@
             // 5. JANA HTML KAD
             entries.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 shadow-xl backdrop-blur-sm hover:border-zinc-700/80 transition-all duration-300 flex flex-col justify-between";
+                card.id = item.id;
+                const isHighlighted = item.id === highlightId && Date.now() < highlightUntil;
+                card.className = "relative overflow-hidden scroll-mt-24 bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:border-amber-300 transition-colors duration-300 flex flex-col justify-between" + (isHighlighted ? " card-highlight" : "");
 
                 const pautanAktif = item.link || '#';
 
                 const btnClass = item.isLive
-                    ? "inline-flex items-center gap-1.5 text-[11px] font-bold text-zinc-950 bg-emerald-400 hover:bg-emerald-300 px-3 py-1.5 rounded-lg transition-all duration-200 group"
-                    : "inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-400 bg-amber-400/10 hover:bg-amber-400 hover:text-zinc-950 px-3 py-1.5 rounded-lg transition-all duration-200 group";
+                    ? "inline-flex items-center gap-1.5 text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-500 px-3.5 py-2 rounded-lg transition-all duration-200 group"
+                    : "inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-300 bg-slate-900 hover:bg-slate-700 px-3.5 py-2 rounded-lg transition-all duration-200 group";
+
+                const isCopied = item.id === copiedId && Date.now() < copiedUntil;
+                const copyIcon = isCopied
+                    ? '<i class="fa-solid fa-check text-emerald-600 text-xs"></i>'
+                    : '<i class="fa-regular fa-copy text-xs"></i>';
 
                 card.innerHTML = `
+                    <div class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-amber-300 via-amber-500 to-amber-300"></div>
                     <div>
                         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
-                            <h3 class="text-sm font-bold text-white leading-snug">${item.title}</h3>
+                            <h3 class="text-sm sm:text-[15px] font-bold text-slate-900 leading-snug">${item.title}</h3>
                             <div class="card-countdown-ticker shrink-0">
                                 ${item.badgeHTML}
                             </div>
                         </div>
-                        <p class="text-xs text-zinc-500 leading-relaxed text-justify">
+                        <p class="text-xs text-slate-600 leading-relaxed text-justify">
                             ${item.caption}
                         </p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-zinc-800/60 flex justify-end">
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                        <button type="button" data-copy="${item.id}" title="Salin pautan" aria-label="Salin pautan event"
+                            class="w-8 h-8 inline-flex items-center justify-center rounded-lg text-slate-500 bg-slate-50 border border-slate-200 hover:text-amber-700 hover:border-amber-300 hover:bg-amber-50 transition-all duration-200">
+                            ${copyIcon}
+                        </button>
                         <a href="${pautanAktif}" target="_blank" class="${btnClass}">
                             ${item.buttonLabel} <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
                         </a>
@@ -251,16 +347,149 @@
             });
         }
 
+        // Klik ikon salin (delegasi kerana kad dijana semula setiap saat)
+        document.addEventListener('click', (e) => {
+            const copyBtn = e.target.closest('[data-copy]');
+            if (copyBtn) {
+                const id = copyBtn.getAttribute('data-copy');
+                copyText(BASE_SHARE_URL + '#' + id).then(() => {
+                    copiedId = id;
+                    copiedUntil = Date.now() + 1800;
+                    renderGabunganCards();
+                });
+                return;
+            }
+            const dayBtn = e.target.closest('[data-goto]');
+            if (dayBtn) focusCard(dayBtn.getAttribute('data-goto'));
+        });
+
+        // =====================================================================
+        // KALENDAR PREMIUM (membaca data yang sama: maklumanTetapData & maklumanTerkiniData)
+        // =====================================================================
+        const BULAN = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
+        const HARI = ['Ahd','Isn','Sel','Rab','Kha','Jum','Sab'];
+        let calCursor = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        let lastTodayKey = '';
+
+        function dateKey(d) {
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        }
+
+        function collectCalendarEvents(year, month) {
+            const map = {};
+            const add = (key, ev) => { (map[key] = map[key] || []).push(ev); };
+            const tetap = typeof maklumanTetapData !== 'undefined' ? maklumanTetapData : [];
+            const tidakTetap = typeof maklumanTerkiniData !== 'undefined' ? maklumanTerkiniData : [];
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            tetap.forEach(entry => {
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const dt = new Date(year, month, d);
+                    if (dt.getDay() === entry.dayOfWeek) add(dateKey(dt), { title: entry.title, id: entry._cid, fixed: true });
+                }
+            });
+            tidakTetap.forEach(entry => {
+                if (!entry.date) return;
+                const dt = new Date(entry.date);
+                if (isNaN(dt) || dt.getFullYear() !== year || dt.getMonth() !== month) return;
+                add(dateKey(dt), { title: entry.title, id: entry._cid, fixed: false });
+            });
+            return map;
+        }
+
+        function renderCalendar() {
+            const el = document.getElementById('kalendar-container');
+            if (!el) return;
+
+            const year = calCursor.getFullYear();
+            const month = calCursor.getMonth();
+            const today = new Date();
+            const todayKey = dateKey(today);
+            lastTodayKey = todayKey;
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const events = collectCalendarEvents(year, month);
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let cells = '';
+            for (let i = 0; i < firstDay; i++) cells += '<div class="min-h-[46px] sm:min-h-[64px]"></div>';
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dt = new Date(year, month, d);
+                const key = dateKey(dt);
+                const evs = events[key] || [];
+                const isToday = key === todayKey;
+                const isPast = dt < startOfToday;
+                const hasEvents = evs.length > 0;
+                const dots = evs.slice(0, 3).map(ev =>
+                    `<span class="w-1.5 h-1.5 rounded-full ${ev.fixed ? 'bg-emerald-500' : 'bg-amber-500'}"></span>`
+                ).join('');
+                const tip = evs.map(ev => ev.title).join(' • ');
+                const gotoAttr = hasEvents ? `data-goto="${evs[0].id}" title="${tip.replace(/"/g, '&quot;')}"` : '';
+                const tag = hasEvents ? 'button type="button"' : 'div';
+                const tagEnd = hasEvents ? 'button' : 'div';
+
+                cells += `
+                    <${tag} ${gotoAttr} class="min-h-[46px] sm:min-h-[64px] rounded-xl flex flex-col items-center justify-start pt-1.5 sm:pt-2 gap-1 border transition-colors
+                        ${isToday ? 'bg-amber-50 border-amber-400 today-pulse' : (hasEvents ? 'bg-slate-50 border-slate-200 hover:border-amber-300 hover:bg-amber-50/60' : 'border-transparent')}
+                        ${isPast && !isToday ? 'opacity-50' : ''}">
+                        <span class="text-xs sm:text-sm font-semibold ${isToday ? 'text-amber-700' : 'text-slate-700'}">${d}</span>
+                        <span class="flex gap-0.5 h-1.5">${dots}</span>
+                    </${tagEnd}>`;
+            }
+
+            el.innerHTML = `
+                <div class="h-0.5 bg-gradient-to-r from-amber-300 via-amber-500 to-amber-300"></div>
+                <div class="px-4 sm:px-5 pt-4 pb-3 flex items-center justify-between">
+                    <button type="button" data-cal="-1" aria-label="Bulan sebelum" class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:text-amber-700 hover:border-amber-300 hover:bg-amber-50 transition-colors"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                    <div class="text-center">
+                        <div class="text-base sm:text-lg font-extrabold text-slate-900 leading-tight">${BULAN[month]} ${year}</div>
+                        <div class="text-[10px] text-slate-500 flex items-center justify-center gap-3 mt-0.5">
+                            <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Mingguan</span>
+                            <span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Khas</span>
+                        </div>
+                    </div>
+                    <button type="button" data-cal="1" aria-label="Bulan seterusnya" class="w-8 h-8 rounded-lg border border-slate-200 text-slate-500 hover:text-amber-700 hover:border-amber-300 hover:bg-amber-50 transition-colors"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                </div>
+                <div class="px-3 sm:px-4 pb-4">
+                    <div class="grid grid-cols-7 gap-1 mb-1">
+                        ${HARI.map(h => `<div class="text-center text-[10px] sm:text-[11px] font-bold text-slate-400 py-1">${h}</div>`).join('')}
+                    </div>
+                    <div class="grid grid-cols-7 gap-1">${cells}</div>
+                </div>`;
+        }
+
+        document.addEventListener('click', (e) => {
+            const nav = e.target.closest('[data-cal]');
+            if (!nav) return;
+            calCursor = new Date(calCursor.getFullYear(), calCursor.getMonth() + parseInt(nav.getAttribute('data-cal'), 10), 1);
+            renderCalendar();
+        });
+
+        // Anchor: auto-scroll ke kad berkaitan kemudian blink
+        function handleHashTarget() {
+            const id = decodeURIComponent(location.hash.replace(/^#/, ''));
+            if (id) focusCard(id);
+        }
+        window.addEventListener('hashchange', handleHashTarget);
+
         // ENGINE LIVE REFRESH SETIAP SAAT (countdown, status LIVE, dan susunan sentiasa dikira semula)
         function startLiveCountdowns() {
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = setInterval(renderGabunganCards, 1000);
+            // Kalendar hanya dijana semula bila tarikh hari ini bertukar (kekalkan denyutan lancar)
+            setInterval(() => {
+                if (dateKey(new Date()) !== lastTodayKey) renderCalendar();
+            }, 30000);
         }
 
         // Jalankan sistem selepas fail data tidak tetap selamat dimuatkan
         window.addEventListener('load', () => {
+            initCardIds();
+            renderCalendar();
             renderGabunganCards();
             startLiveCountdowns();
+            handleHashTarget();
         });
     </script>
 </body>
