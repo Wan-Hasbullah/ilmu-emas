@@ -52,7 +52,18 @@ const maklumanTetapData = [
         startMinute: 0,
         endHour: 22,
         endMinute: 0
-    }
+    },
+    {
+        id: "workshop-kaya-dengan-emas",
+        title: "Workshop Kaya Dengan Emas",
+        caption: "NOTA: Ini workshop TERTUTUP. Eksklusif untuk penyimpan emas berdaftar (sudah ada PG Code di bawah dealer aktif #PGG100Network & #5GAssociates), yang nak belajar lebih mendalam.",
+        link: "https://pg2u.my/app/workshop/reg/wanhasbullah",
+        dayOfWeek: 3, // Rabu
+        startHour: 20,
+        startMinute: 0,
+        endHour: 22,
+        endMinute: 0
+    },
 ];
 
 
@@ -75,18 +86,26 @@ const maklumanTetapData = [
 
 const maklumanTerkiniData = [
     // Contoh 1 - program akan datang
-    // {
-    //     title: "Seminar Simpanan Emas 2026",
-    //     caption: "Seminar percuma bersama penceramah jemputan berkaitan strategi simpanan emas untuk persaraan.",
-    //     date: "2026-09-25T20:00:00",
-    //     link: "https://contoh.com/seminar-emas"
-    // },
+    {
+        title: "Private Webinar : Membina Rm1 Juta Pertama",
+        caption: "Siapa nak belajar tingkatkan jumlah TABUNGAN, selesaikan masalah HUTANG dan bina HARTA sampai RM 1 Juta Pertama, jemput join ke Private Webinar Membina Satu Juta Pertama.",
+        date: "2026-10-09T20:30:00",
+        link: "https://pg2u.my/app/pw/wanhasbullah"
+    },
 
-    // Contoh 2 - promosi / program had masa
-    // {
-    //     title: "Promosi Emas Raya",
-    //     caption: "Tawaran istimewa pembelian emas sempena musim perayaan. Tempoh terhad.",
-    //     date: "2026-10-01T10:00:00",
-    //     link: "https://contoh.com/promosi-raya"
-    // },
+    {
+        title: "[KUALA SELANGOR] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 2:30 petang.",
+        date: "2026-10-10T14:30:00",
+        link: "https://pg2u.my/app/event/reg/1113/wanhasbullah"
+    },
+
+    {
+        title: "[SUNWAY] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 8:30 malam.",
+        date: "2026-10-13T20:30:00",
+        link: "https://pg2u.my/app/event/reg/1112/wanhasbullah"
+    },
+
+    
 ];
