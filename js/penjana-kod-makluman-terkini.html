@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ms" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penjana Kod Makluman Terkini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--line:#e2e8f0;--text:#0f172a;--mute:#64748b;--gold:#d97706;--gold-soft:#fffbeb;--gold-line:#fcd34d;--code:#0f172a;--code-text:#e2e8f0;--ok:#059669;--warn:#b45309}
+[data-theme=dark]{--bg:#09090b;--card:#18181b;--line:#27272a;--text:#f4f4f5;--mute:#a1a1aa;--gold:#fbbf24;--gold-soft:#27200c;--gold-line:#78561a;--code:#000;--code-text:#e4e4e7;--ok:#34d399;--warn:#fbbf24}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px}
+.wrap{max-width:720px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+h1{font-size:20px;font-weight:800;margin:0}
+.sub{font-size:12px;color:var(--mute);margin-top:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 8px 30px rgba(15,23,42,.08);position:relative;overflow:hidden;margin-bottom:16px}
+.card:before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,#fcd34d,#f59e0b,#fcd34d)}
+.btn{font:inherit;font-size:12px;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:9px 14px;cursor:pointer;transition:.2s}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:16px}
+.tab{font:inherit;font-size:13px;font-weight:700;border:0;background:transparent;color:var(--mute);padding:10px;border-radius:9px;cursor:pointer}
+.tab.active{background:var(--card);color:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}
+label small{font-weight:500;color:var(--mute)}
+input,select,textarea{width:100%;font:inherit;font-size:14px;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+textarea{min-height:96px;resize:vertical;line-height:1.5}
+.hint{font-size:11px;color:var(--mute);margin-top:4px}
+.warn{font-size:12px;color:var(--warn);margin-top:10px;display:none}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.bar b{font-size:13px}
+pre{margin:0;background:var(--code);color:var(--code-text);border-radius:12px;padding:14px;font:12.5px/1.6 ui-monospace,Menlo,Consolas,monospace;overflow-x:auto;white-space:pre}
+.copy{background:var(--gold);color:#fff;border-color:var(--gold)}
+[data-theme=dark] .copy{color:#18181b}
+.copy:hover{color:#fff;opacity:.9}
+[data-theme=dark] .copy:hover{color:#18181b}
+.note{font-size:12px;color:var(--mute);margin-top:10px;line-height:1.6}
+.note code{background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold);border-radius:6px;padding:1px 6px;font-size:11px}
+[hidden]{display:none!important}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Penjana Kod Makluman Terkini</h1>
+      <div class="sub">Isi borang, salin kod, tampal dalam makluman-terkini-data.js</div>
+    </div>
+    <button class="btn" id="themeBtn" type="button" aria-label="Tukar tema">Gelap</button>
+  </div>
+
+  <div class="card">
+    <div class="tabs" role="tablist">
+      <button class="tab active" type="button" data-type="tetap">Tetap (Mingguan)</button>
+      <button class="tab" type="button" data-type="tidak">Tidak Tetap</button>
+    </div>
+
+    <div class="grid">
+      <div class="full"><label>Tajuk</label><input id="title" type="text" placeholder="Contoh: Talk Show"></div>
+      <div class="full"><label>Penerangan (caption)</label><textarea id="caption" placeholder="Butiran ringkas program"></textarea></div>
+
+      <div id="fTetap" class="full grid" style="padding:0">
+        <div class="full"><label>Hari berulang</label>
+          <select id="day">
+            <option value="0">Ahad</option><option value="1">Isnin</option><option value="2">Selasa</option>
+            <option value="3" selected>Rabu</option><option value="4">Khamis</option><option value="5">Jumaat</option><option value="6">Sabtu</option>
+          </select></div>
+        <div><label>Masa mula</label><input id="start" type="time" value="21:00"></div>
+        <div><label>Masa tamat</label><input id="end" type="time" value="22:00"></div>
+      </div>
+
+      <div id="fTidak" class="full" hidden>
+        <label>Tarikh &amp; masa mula</label><input id="date" type="datetime-local">
+        <div class="hint">Masa tempatan Malaysia. Program dibuang automatik 3 jam selepas masa mula.</div>
+      </div>
+
+      <div class="full"><label>Pautan (link)</label><input id="link" type="url" placeholder="https://"></div>
+      <div class="full"><label>ID anchor <small>(pilihan)</small></label><input id="aid" type="text" placeholder="Contoh: talk-show"><div class="hint">Untuk pautan <code>#talk-show</code>. Kosongkan jika mahu ikut tajuk secara automatik.</div></div>
+    </div>
+    <div class="warn" id="warn"></div>
+  </div>
+
+  <div class="card">
+    <div class="bar">
+      <b id="outTitle">Kod untuk maklumanTetapData</b>
+      <div style="display:flex;gap:8px">
+        <button class="btn" id="resetBtn" type="button">Reset</button>
+        <button class="btn copy" id="copyBtn" type="button">Salin Kod</button>
+      </div>
+    </div>
+    <pre id="out"></pre>
+    <div class="note" id="note"></div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const HARI = ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'];
+const FIELDS = ['title','caption','day','start','end','date','link','aid'];
+let type = 'tetap';
+
+const q = s => JSON.stringify(s); // escape petikan, baris baru & backslash dengan selamat
+const pad = n => String(n).padStart(2, '0');
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+};
+
+function build() {
+  const title = $('title').value.trim();
+  const caption = $('caption').value.trim().replace(/\s*\n\s*/g, ' ');
+  const link = $('link').value.trim();
+  const aid = $('aid').value.trim();
+  const warns = [];
+  const L = [];
+  if (aid) L.push(`        id: ${q(aid)},`);
+  L.push(`        title: ${q(title)},`, `        caption: ${q(caption)},`);
+
+  if (type === 'tetap') {
+    const [sh, sm] = ($('start').value || '00:00').split(':').map(Number);
+    const [eh, em] = ($('end').value || '00:00').split(':').map(Number);
+    if (eh * 60 + em <= sh * 60 + sm) warns.push('Masa tamat mesti selepas masa mula (sesi tidak boleh melepasi tengah malam).');
+    const d = Number($('day').value);
+    L.push(`        link: ${q(link)},`,
+      `        dayOfWeek: ${d}, // ${HARI[d]}`,
+      `        startHour: ${sh},`, `        startMinute: ${sm},`,
+      `        endHour: ${eh},`, `        endMinute: ${em}`);
+  } else {
+    const raw = $('date').value;
+    if (!raw) warns.push('Pilih tarikh & masa mula.');
+    const date = raw ? (raw.length === 16 ? raw + ':00' : raw) : '';
+    L.push(`        date: ${q(date)},`, `        link: ${q(link)}`);
+  }
+  if (!title) warns.push('Tajuk belum diisi.');
+  if (!caption) warns.push('Penerangan belum diisi.');
+  if (!link) warns.push('Pautan belum diisi.');
+
+  $('out').textContent = `    {\n${L.join('\n')}\n    },`;
+  const w = $('warn');
+  w.style.display = warns.length ? 'block' : 'none';
+  w.textContent = warns.join(' ');
+}
+
+function setType(t) {
+  type = t;
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+  $('fTetap').hidden = t !== 'tetap';
+  $('fTidak').hidden = t !== 'tidak';
+  const arr = t === 'tetap' ? 'maklumanTetapData' : 'maklumanTerkiniData';
+  $('outTitle').textContent = 'Kod untuk ' + arr;
+  $('note').innerHTML = `Tampal selepas item terakhir dalam <code>${arr}</code>, sebelum tanda <code>];</code>. Pastikan item sebelumnya berakhir dengan koma.`;
+  store('pm_type', t);
+  build();
+}
+
+function save() {
+  const o = {}; FIELDS.forEach(f => o[f] = $(f).value);
+  store('pm_draft', JSON.stringify(o));
+}
+
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => setType(b.dataset.type)));
+FIELDS.forEach(f => $(f).addEventListener('input', () => { build(); save(); }));
+
+$('copyBtn').addEventListener('click', async () => {
+  const text = $('out').textContent;
+  try { await navigator.clipboard.writeText(text); }
+  catch (e) {
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta);
+    ta.select(); try { document.execCommand('copy'); } catch (_) {} ta.remove();
+  }
+  const b = $('copyBtn'); b.textContent = 'Disalin!';
+  setTimeout(() => b.textContent = 'Salin Kod', 1500);
+});
+
+$('resetBtn').addEventListener('click', () => {
+  ['title','caption','date','link','aid'].forEach(f => $(f).value = '');
+  $('day').value = '3'; $('start').value = '21:00'; $('end').value = '22:00';
+  save(); build();
+});
+
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  $('themeBtn').textContent = t === 'dark' ? 'Cerah' : 'Gelap';
+  store('pm_theme', t);
+}
+$('themeBtn').addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+// Pulihkan draf & tema
+try {
+  const d = JSON.parse(store('pm_draft') || '{}');
+  FIELDS.forEach(f => { if (d[f] != null) $(f).value = d[f]; });
+} catch (e) {}
+setTheme(store('pm_theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+setType(store('pm_type') === 'tidak' ? 'tidak' : 'tetap');
+</script>
+</body>
+</html>
