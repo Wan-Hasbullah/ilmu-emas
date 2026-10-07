@@ -149,6 +149,138 @@ const maklumanTerkiniData = [
         date: "2026-10-17T10:30:00",
         link: "https://pg2u.my/app/event/reg/1107/wanhasbullah"
     },
-    
+    {
+        title: "[KOTA SAMARAHAN] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 02:00 petang.",
+        date: "2026-10-17T14:00:00",
+        link: "https://pg2u.my/app/event/reg/12/wanhasbullah"
+    },
+    {
+        title: "[BANGI] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 08:30 malam.",
+        date: "2026-10-19T20:30:00",
+        link: "https://pg2u.my/app/event/reg/13/wanhasbullah"
+    },
+    {
+        title: "[KLANG] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 08:30 malam.",
+        date: "2026-10-21T20:30:00",
+        link: "https://pg2u.my/app/event/reg/14/wanhasbullah"
+    },
+    {
+        title: "[RELAU] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/15/wanhasbullah"
+    },
+    {
+        title: "[SUNGAI PETANI] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/17/wanhasbullah"
+    },
+    {
+        title: "[SEREMBAN] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/18/wanhasbullah"
+    },
+    {
+        title: "[KLUANG] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/19/wanhasbullah"
+    },
+    {
+        title: "[KANGAR] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/20/wanhasbullah"
+    },
+    {
+        title: "[JOHOR BAHRU] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/21/wanhasbullah"
+    },
+    {
+        title: "[IPOH] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/22/wanhasbullah"
+    },
+    {
+        title: "[LABUAN] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/23/wanhasbullah"
+    },
+    {
+        title: "[TAWAU] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/24/wanhasbullah"
+    },
+    {
+        title: "[MIRI] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/25/wanhasbullah"
+    },
+    {
+        title: "[BETONG] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/26/wanhasbullah"
+    },
+    {
+        title: "[KUANTAN] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/27/wanhasbullah"
+    },
+    {
+        title: "[KUALA TERENGGANU] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/28/wanhasbullah"
+    },
+    {
+        title: "[MELAKA] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:30 pagi.",
+        date: "2026-10-24T10:30:00",
+        link: "https://pg2u.my/app/event/reg/29/wanhasbullah"
+    },
+    {
+        title: "[KUCHING] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 02:30 petang.",
+        date: "2026-10-24T14:30:00",
+        link: "https://pg2u.my/app/event/reg/30/wanhasbullah"
+    },
+    {
+        title: "[BINTULU] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 02:30 petang.",
+        date: "2026-10-24T14:30:00",
+        link: "https://pg2u.my/app/event/reg/31/wanhasbullah"
+    },
+    {
+        title: "[REMBAU] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 10:00 pagi.",
+        date: "2026-10-25T10:00:00",
+        link: "https://pg2u.my/app/event/reg/32/wanhasbullah"
+    },
+    {
+        title: "[KULIM] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 08:30 malam.",
+        date: "2026-10-29T20:30:00",
+        link: "https://pg2u.my/app/event/reg/33/wanhasbullah"
+    },
+    {
+        title: "[PENDANG] Seminar Kaya Dengan Emas",
+        caption: "Penyertaan percuma. Terhad 100 pendaftaran pertama. Cabutan bertuah dan promosi (firesales) emas juga disediakan. Sila datang awal untuk dapatkan seat selesa. Seminar akan bermula tepat 08:30 malam.",
+        date: "2026-10-30T20:30:00",
+        link: "https://pg2u.my/app/event/reg/34/wanhasbullah"
+    },
+]
     
 ];
