@@ -281,6 +281,5 @@ const maklumanTerkiniData = [
         date: "2026-10-30T20:30:00",
         link: "https://pg2u.my/app/event/reg/34/wanhasbullah"
     },
-]
     
 ];
