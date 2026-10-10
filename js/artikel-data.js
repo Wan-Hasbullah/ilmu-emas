@@ -63,5 +63,14 @@ const ARTIKEL_DATA = [
     summary: "",
     path: "kandungan-artikel/menabung-emas-setiap-bulan-rm100-atau-1-gram.html"
   },
+
+    {
+    id: "simpan-emas-vs-trading-emas-mana-lebih-untung",
+    title: "Simpan Emas VS Trading Emas : Mana Lebih Untung?",
+    author: "Azizi Ali (Pakar Kewangan #1 Malaysia",
+    category: "Tips Emas",
+    summary: "Kalau nak tidur lena, hidup tenang dan duit makin bernilai, jangan kejar harga! Simpan emas dan biar masa buat kerja untuk kita",
+    path: "kandungan-artikel/simpan-emas-vs-trading-emas-mana-lebih-untung.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
