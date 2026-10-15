@@ -64,6 +64,11 @@ h1 em{font-style:normal;background:linear-gradient(135deg,var(--g300),var(--g500
 .qc{display:block;margin-top:3px;font-size:12px;color:var(--mut)}
 .chev{width:30px;height:30px;border-radius:50%;background:rgba(212,168,67,.08);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--g400);transition:transform .3s}
 .card.open .chev{transform:rotate(180deg)}
+.card.link{display:block;text-decoration:none;color:inherit;cursor:pointer}
+.card.link:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(212,168,67,.12)}
+.chev.go{background:linear-gradient(135deg,var(--g500),var(--g400));border:none;color:var(--on-gold);transition:transform .2s}
+.chev.go.wa{background:linear-gradient(135deg,#1FA855,#25D366);color:#fff}
+.card.link:hover .chev.go{transform:translateX(3px)}
 .ans{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s}
 .card.open .ans{max-height:900px;opacity:1}
 .ai{padding:18px 20px 20px;border-top:1px solid var(--bd);font-size:14.5px;color:var(--tx2);line-height:1.8}
@@ -86,7 +91,7 @@ h1 em{font-style:normal;background:linear-gradient(135deg,var(--g300),var(--g500
 
 <div class="top-bar">
   <div class="left">
-    <a href="javascript:history.back()" title="Kembali" aria-label="Kembali"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+    <a href="https://ilmu-emas.pages.dev/" title="Kembali" aria-label="Kembali"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
     <span class="ttl">3 Langkah</span>
   </div>
   <div class="help-wrap">
@@ -106,17 +111,13 @@ h1 em{font-style:normal;background:linear-gradient(135deg,var(--g300),var(--g500
 <main class="wrap">
   <div class="list" id="list">
 
-    <div class="card open">
-      <button class="q" aria-expanded="true">
+    <a class="card link" href="https://pgolink.com/free-register" target="_blank" rel="noopener noreferrer">
+      <div class="q">
         <div class="ic">1</div>
-        <div class="hd"><span class="qt">Langkah #1 — Daftar Percuma</span><span class="qc">Pendaftaran akaun</span></div>
-        <div class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-      </button>
-      <div class="ans"><div class="ai">
-        <p>Daftar akaun dewasa (18 tahun ke atas).</p>
-        <div class="btns"><a class="btn main" href="https://pgolink.com/free-register" target="_blank" rel="noopener noreferrer"><span>Daftar Percuma Sekarang</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-      </div></div>
-    </div>
+        <div class="hd"><span class="qt">Langkah #1 — Daftar Percuma</span><span class="qc">Daftar akaun dewasa (18 tahun ke atas)</span></div>
+        <div class="chev go"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </div>
+    </a>
 
     <div class="card">
       <button class="q" aria-expanded="false">
@@ -134,27 +135,22 @@ h1 em{font-style:normal;background:linear-gradient(135deg,var(--g300),var(--g500
       </div></div>
     </div>
 
-    <div class="card">
-      <button class="q" aria-expanded="false">
+    <a class="card link" href="https://wa.me/601126704897?text=Saya%20sudah%20daftar%2C%20apa%20langkah%20seterusnya%3F" target="_blank" rel="noopener noreferrer">
+      <div class="q">
         <div class="ic">3</div>
-        <div class="hd"><span class="qt">Langkah #3 — WhatsApp Saya</span><span class="qc">Hubungi untuk langkah seterusnya</span></div>
-        <div class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-      </button>
-      <div class="ans"><div class="ai">
-        <p>Hubungi saya di <strong style="color:var(--tx)">011-26704897</strong> selepas anda siap daftar dan muat turun aplikasi.</p>
-        <div class="btns"><a class="btn wa" href="https://wa.me/601126704897?text=Saya%20sudah%20daftar%2C%20apa%20langkah%20seterusnya%3F" target="_blank" rel="noopener noreferrer"><span>💬 WhatsApp Saya</span><span>›</span></a></div>
-        <div class="script">Mesej akan terisi automatik: <b>"Saya sudah daftar, apa langkah seterusnya?"</b></div>
-      </div></div>
-    </div>
+        <div class="hd"><span class="qt">Langkah #3 — WhatsApp Saya</span><span class="qc">011-26704897 · Terus WhatsApp selepas siap daftar</span></div>
+        <div class="chev go wa"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </div>
+    </a>
 
   </div>
 </main>
 
-<footer class="foot">© 2025 · 3 Langkah Bermula · Public Gold</footer>
+<footer class="foot">© 2026 · Langkah Bermula · Public Gold</footer>
 
 <script>
 (function(){
-  document.querySelectorAll('.card .q').forEach(function(b){
+  document.querySelectorAll('button.q').forEach(function(b){
     b.addEventListener('click',function(){
       var c=b.parentElement,o=c.classList.toggle('open');
       b.setAttribute('aria-expanded',o);
