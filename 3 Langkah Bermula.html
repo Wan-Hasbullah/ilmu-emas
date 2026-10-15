@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3 Langkah Bermula | Public Gold</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --g200:#F5E6B8;--g300:#E8C96A;--g400:#D4A843;--g500:#B8891E;
+  --bg:#0D0E12;--bg2:#14161C;--card1:#1C1F28;--card2:#14161C;--btn:#252836;
+  --tx:#F0EDE6;--tx2:#A8A4A0;--mut:#6B6868;--on-gold:#0D0E12;--bar:rgba(13,14,18,.85);
+  --bd:rgba(212,168,67,.15);--bdh:rgba(212,168,67,.35);
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  --serif:'Playfair Display',Georgia,serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){color-scheme:light;--bg:#FDF8EC;--bg2:#FFFFFF;--card1:#FFFFFF;--card2:#FFFBF1;--btn:#F5E6B8;--tx:#1B1A17;--tx2:#5C5750;--mut:#8A857C;--bar:rgba(253,248,236,.88);--bd:rgba(150,112,15,.2);--bdh:rgba(150,112,15,.4)}}
+:root[data-theme="light"]{color-scheme:light;--bg:#FDF8EC;--bg2:#FFFFFF;--card1:#FFFFFF;--card2:#FFFBF1;--btn:#F5E6B8;--tx:#1B1A17;--tx2:#5C5750;--mut:#8A857C;--bar:rgba(253,248,236,.88);--bd:rgba(150,112,15,.2);--bdh:rgba(150,112,15,.4)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);line-height:1.7;min-height:100vh;overflow-x:hidden}
+
+/* HEADER */
+.top-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:100;background:var(--bar);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bar);z-index:101}
+.left{display:flex;align-items:center;gap:12px}
+.left a{color:var(--mut);display:flex;transition:color .2s}
+.left a:hover{color:var(--g400)}
+.ttl{font-size:15px;font-weight:700}
+
+/* Help icon + bubble */
+.help-wrap{position:relative;width:44px;height:44px}
+.help-btn{position:relative;width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--g300),var(--g500));color:var(--on-gold);animation:wiggle 5s ease-in-out infinite}
+.help-btn::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--g400);animation:ring 2.5s ease-out infinite}
+.help-btn svg{width:22px;height:22px;position:relative}
+@keyframes ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+@keyframes wiggle{0%,60%,100%{transform:rotate(0)}64%{transform:rotate(-12deg)}68%{transform:rotate(10deg)}72%{transform:rotate(-8deg)}76%{transform:rotate(0)}}
+.bubble{position:absolute;right:calc(100% + 10px);top:50%;padding:7px 14px;font-size:12px;font-weight:700;white-space:nowrap;color:var(--on-gold);background:linear-gradient(135deg,var(--g300),var(--g400));border-radius:100px;box-shadow:0 6px 20px rgba(212,168,67,.35);opacity:0;transform:translateY(-50%) translateX(-10px);pointer-events:none;animation:bub 5s ease-in-out infinite}
+.bubble::after{content:"";position:absolute;right:-4px;top:50%;width:8px;height:8px;background:var(--g400);transform:translateY(-50%) rotate(45deg);border-radius:1px}
+@keyframes bub{0%,55%{opacity:0;transform:translateY(-50%) translateX(-10px)}65%,90%{opacity:1;transform:translateY(-50%) translateX(0)}100%{opacity:0;transform:translateY(-50%) translateX(-10px)}}
+
+/* TITLE */
+.hero{text-align:center;padding:48px 20px 8px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,67,.1);border:1px solid var(--bdh);border-radius:100px;padding:6px 16px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g300);margin-bottom:18px}
+.badge i{width:6px;height:6px;border-radius:50%;background:var(--g400);animation:pl 2s infinite}
+@keyframes pl{50%{opacity:.5;transform:scale(1.3)}}
+:root[data-theme="light"] .badge,.hero h1 em{color:var(--g500)}
+h1{font-family:var(--serif);font-size:clamp(28px,6vw,46px);line-height:1.2}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--g300),var(--g500));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:var(--tx2);font-size:14px;margin-top:10px}
+
+/* CARDS */
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 70px}
+.list{display:flex;flex-direction:column;gap:14px}
+.card{background:linear-gradient(180deg,var(--card1),var(--card2));border:1px solid var(--bd);border-radius:22px;overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.card:hover{border-color:var(--bdh)}
+.card.open{border-color:rgba(212,168,67,.3);box-shadow:0 0 40px rgba(212,168,67,.08)}
+.q{display:flex;align-items:center;gap:16px;padding:18px 20px;cursor:pointer;user-select:none;width:100%;background:none;border:none;color:inherit;text-align:left;font-family:inherit}
+.ic{width:42px;height:42px;border-radius:12px;background:rgba(212,168,67,.08);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:var(--g400);font-size:16px}
+.hd{flex:1;min-width:0;line-height:1.4}
+.qt{display:block;font-size:clamp(14.5px,2.2vw,16px);font-weight:700}
+.qc{display:block;margin-top:3px;font-size:12px;color:var(--mut)}
+.chev{width:30px;height:30px;border-radius:50%;background:rgba(212,168,67,.08);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--g400);transition:transform .3s}
+.card.open .chev{transform:rotate(180deg)}
+.ans{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s}
+.card.open .ans{max-height:900px;opacity:1}
+.ai{padding:18px 20px 20px;border-top:1px solid var(--bd);font-size:14.5px;color:var(--tx2);line-height:1.8}
+.ai p{color:var(--tx);margin-bottom:14px}
+.btns{display:flex;flex-direction:column;gap:10px}
+.btn{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border-radius:14px;background:var(--btn);color:var(--tx);text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid var(--bd);transition:background .2s,color .2s,transform .2s}
+.btn:hover{background:var(--g400);color:var(--on-gold);transform:translateY(-1px)}
+.btn.main{background:linear-gradient(135deg,var(--g500),var(--g400));color:var(--on-gold);border-color:transparent;box-shadow:0 4px 16px rgba(212,168,67,.3)}
+.btn.wa{background:linear-gradient(135deg,#1FA855,#25D366);color:#fff;border-color:transparent}
+.btn span{display:flex;align-items:center;gap:10px}
+.script{margin-top:12px;padding:12px 16px;font-size:13px;color:var(--tx2);background:rgba(212,168,67,.06);border:1px solid var(--bd);border-left:3px solid var(--g400);border-radius:14px}
+.script b{color:var(--tx)}
+.note{font-size:12.5px;color:var(--mut);margin-top:12px}
+.foot{border-top:1px solid var(--bd);padding:32px 24px;text-align:center;color:var(--mut);font-size:13px}
+@media(max-width:480px){.q{padding:16px}.ai{padding:16px}.wrap{padding:22px 16px 60px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="left">
+    <a href="javascript:history.back()" title="Kembali" aria-label="Kembali"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></a>
+    <span class="ttl">3 Langkah</span>
+  </div>
+  <div class="help-wrap">
+    <div class="bubble">Perlukan Bantuan?</div>
+    <button class="help-btn" id="helpBtn" aria-label="Perlukan bantuan? Hubungi kami di WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/><path d="M9 9.5c.3 2.2 2.3 4.2 4.5 4.5l1.3-1.2-1.6-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.6z" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="badge"><i></i>Panduan Pendaftaran</div>
+  <h1><em>3 Langkah</em> Bermula</h1>
+  <p class="sub">Ikuti langkah di bawah untuk mula menyimpan emas bersama Public Gold.</p>
+</header>
+
+<main class="wrap">
+  <div class="list" id="list">
+
+    <div class="card open">
+      <button class="q" aria-expanded="true">
+        <div class="ic">1</div>
+        <div class="hd"><span class="qt">Langkah #1 — Daftar Percuma</span><span class="qc">Pendaftaran akaun</span></div>
+        <div class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </button>
+      <div class="ans"><div class="ai">
+        <p>Daftar akaun dewasa (18 tahun ke atas).</p>
+        <div class="btns"><a class="btn main" href="https://pgolink.com/free-register" target="_blank" rel="noopener noreferrer"><span>Daftar Percuma Sekarang</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <button class="q" aria-expanded="false">
+        <div class="ic">2</div>
+        <div class="hd"><span class="qt">Langkah #2 — Download Apps Public Gold</span><span class="qc">Muat turun aplikasi</span></div>
+        <div class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </button>
+      <div class="ans"><div class="ai">
+        <p>Selepas selesai daftar, download aplikasi Public Gold di bawah.</p>
+        <div class="btns">
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.pgmapp.publicgold" target="_blank" rel="noopener noreferrer"><span>🤖 Pengguna Android</span><span>Muat turun ›</span></a>
+          <a class="btn" href="https://apps.apple.com/my/app/public-gold/id1591580964" target="_blank" rel="noopener noreferrer"><span>🍎 Pengguna iPhone</span><span>Muat turun ›</span></a>
+          <a class="btn" href="https://appgallery.huawei.com/app/C104917075" target="_blank" rel="noopener noreferrer"><span>📱 Pengguna Huawei</span><span>Muat turun ›</span></a>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <button class="q" aria-expanded="false">
+        <div class="ic">3</div>
+        <div class="hd"><span class="qt">Langkah #3 — WhatsApp Saya</span><span class="qc">Hubungi untuk langkah seterusnya</span></div>
+        <div class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </button>
+      <div class="ans"><div class="ai">
+        <p>Hubungi saya di <strong style="color:var(--tx)">011-26704897</strong> selepas anda siap daftar dan muat turun aplikasi.</p>
+        <div class="btns"><a class="btn wa" href="https://wa.me/601126704897?text=Saya%20sudah%20daftar%2C%20apa%20langkah%20seterusnya%3F" target="_blank" rel="noopener noreferrer"><span>💬 WhatsApp Saya</span><span>›</span></a></div>
+        <div class="script">Mesej akan terisi automatik: <b>"Saya sudah daftar, apa langkah seterusnya?"</b></div>
+      </div></div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="foot">© 2025 · 3 Langkah Bermula · Public Gold</footer>
+
+<script>
+(function(){
+  document.querySelectorAll('.card .q').forEach(function(b){
+    b.addEventListener('click',function(){
+      var c=b.parentElement,o=c.classList.toggle('open');
+      b.setAttribute('aria-expanded',o);
+    });
+  });
+  document.getElementById('helpBtn').addEventListener('click',function(){
+    window.open('https://wa.me/601126704897?text='+encodeURIComponent('Saya perlukan bantuan'),'_blank','noopener');
+  });
+})();
+</script>
+</body>
+</html>
