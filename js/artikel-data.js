@@ -72,5 +72,23 @@ const ARTIKEL_DATA = [
     summary: "Kalau nak tidur lena, hidup tenang dan duit makin bernilai, jangan kejar harga! Simpan emas dan biar masa buat kerja untuk kita",
     path: "kandungan-artikel/simpan-emas-vs-trading-emas-mana-lebih-untung.html"
   },
+
+    {
+    id: "kenapa-kita-perlu-simpan-sebahagian-emas-fizikal-sendiri",
+    title: "Kenapa Kita Perlu Simpan Sebahagian Emas Fizikal Sendiri?",
+    author: "Wan Hasbullah",
+    category: "Tips Emas",
+    summary: "Simpan sebahagian emas fizikal dalam tangan sebagai persediaan menghadapi situasi kecemasan yang di luar jangkaan.",
+    path: "kandungan-artikel/kenapa-kita-perlu-simpan-sebahagian-emas-fizikal-sendiri.html"
+  },
+
+    {
+    id: "tempat-simpan-emas-di-rumah-atau-safe-deposit-bank",
+    title: "Tempat Simpan Emas: Di Rumah atau Safe Deposit Bank?",
+    author: "Wan Hasbullah",
+    category: "Tips Emas",
+    summary: "Pemilihan tempat menyimpan emas fizikal perlu disesuaikan dengan saiz dan berat emas yang dimiliki.",
+    path: "kandungan-artikel/tempat-simpan-emas-di-rumah-atau-safe-deposit-bank.html"
+  },
   
 ]; // <-- Kurungan penutup Array yang betul untuk merangkumi semua artikel
