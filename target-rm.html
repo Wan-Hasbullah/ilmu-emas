@@ -25,6 +25,52 @@
     overflow: hidden;
   }
 
+  /* ── Premium card (versi cerah) — Potensi Pertumbuhan Nilai Emas ── */
+  .gt-card-light {
+    background: linear-gradient(145deg, #fffefb 0%, #fff8e6 55%, #fdefc3 100%);
+    border: 1px solid rgba(217,119,6,0.28);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 14px 38px rgba(245,158,11,0.16), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+  .gt-card-light::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24, #fde68a, #fbbf24, #f59e0b);
+    pointer-events: none;
+  }
+  .gold-glow-light {
+    position: absolute;
+    top: -90px; right: -70px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(251,191,36,0.28) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .gl-icon {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1c1917;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 16px rgba(245,158,11,0.3);
+    flex-shrink: 0;
+  }
+  .gl-title { color: #1c1917; }
+  .gl-label { color: #78716c; }
+  .gl-value { color: #1c1917; }
+  .gl-divider { border-top: 1px solid rgba(180,83,9,0.15); }
+  .gl-diff-box {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(217,119,6,0.3);
+    border-radius: 16px;
+    padding: 12px 14px;
+  }
+  .gl-diff { color: #b45309; }
+  .gl-note { color: #78716c; }
+
   /* ── Radial gold glow ── */
   .gold-glow {
     position: absolute;
@@ -301,7 +347,6 @@
       <div class="gold-glow" style="left:50%; right:auto; transform:translateX(-50%); top:-40px;"></div>
       <p class="text-xs text-amber-400/90 uppercase tracking-widest font-semibold relative">Simulasi Simpanan Emas</p>
       <h2 class="text-2xl font-extrabold text-white leading-snug relative">Jika anda simpan RM setiap bulan, berapa nilai emas anda pada masa hadapan?</h2>
-      <p class="text-sm text-zinc-400 leading-relaxed relative">Masukkan jumlah simpanan bulanan dan tempoh simpanan untuk melihat jumlah wang terkumpul serta anggaran pertumbuhan nilai emas berdasarkan andaian kenaikan harga emas sebanyak 10% setahun.</p>
     </div>
 
     <!-- CALCULATOR CARD -->
@@ -471,26 +516,29 @@
         </div>
       </div>
 
-      <!-- POTENSI PERTUMBUHAN NILAI -->
-      <div id="growth-card" class="gt-card p-5 fade-up">
-        <div class="gold-glow"></div>
-        <div class="relative space-y-4">
-          <h4 class="text-base font-bold text-white leading-snug">Potensi Pertumbuhan Nilai Emas</h4>
+      <!-- POTENSI PERTUMBUHAN NILAI (kad cerah fintech premium) -->
+      <div id="growth-card" class="gt-card-light p-5 fade-up">
+        <div class="gold-glow-light"></div>
+        <div class="relative space-y-4 pt-1">
+          <div class="flex items-center gap-3">
+            <div class="gl-icon"><i class="fa-solid fa-chart-line text-sm"></i></div>
+            <h4 class="text-base font-bold leading-snug gl-title">Potensi Pertumbuhan Nilai Emas</h4>
+          </div>
           <div class="grid grid-cols-1 gap-3">
             <div class="flex items-center justify-between">
-              <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wide">Jumlah RM Terkumpul</p>
-              <p class="text-sm font-bold text-white" id="growth-total-rm">RM0.00</p>
+              <p class="text-xs font-semibold uppercase tracking-wide gl-label">Jumlah RM Terkumpul</p>
+              <p class="text-sm font-bold gl-value" id="growth-total-rm">RM0.00</p>
             </div>
             <div class="flex items-center justify-between">
-              <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wide">Anggaran Nilai Emas</p>
-              <p class="text-sm font-bold text-white" id="growth-gold-value">RM0.00</p>
+              <p class="text-xs font-semibold uppercase tracking-wide gl-label">Anggaran Nilai Emas</p>
+              <p class="text-sm font-bold gl-value" id="growth-gold-value">RM0.00</p>
             </div>
-            <div class="flex items-center justify-between pt-3 border-t border-zinc-800/70">
-              <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wide">Perbezaan Anggaran Nilai</p>
-              <p class="text-sm font-bold text-amber-400" id="growth-diff">+RM0.00</p>
+            <div class="gl-diff-box flex items-center justify-between">
+              <p class="text-xs font-semibold uppercase tracking-wide gl-label">Perbezaan Anggaran Nilai</p>
+              <p class="text-base font-extrabold gl-diff" id="growth-diff">+RM0.00</p>
             </div>
           </div>
-          <p class="text-xs text-zinc-500 leading-relaxed pt-1">Ini merupakan simulasi berdasarkan andaian kenaikan harga emas sebanyak 10% setahun. Harga emas sebenar boleh naik atau turun.</p>
+          <p class="text-xs leading-relaxed pt-3 gl-divider gl-note">Ini merupakan simulasi berdasarkan andaian kenaikan harga emas sebanyak 10% setahun. Harga emas sebenar boleh naik atau turun.</p>
         </div>
       </div>
 
