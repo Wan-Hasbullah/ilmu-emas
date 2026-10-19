@@ -631,8 +631,8 @@
                DATA EVENT
                Untuk tambah event baru, tambah satu object di hujung array.
                category mesti salah satu: Fizikal, Anak Muda, Veteran,
-               Mahasiswa, Online (atau tambah kategori baru dalam
-               EVENT_FILTERS di bawah).
+               Mahasiswa, Online, Khas Dealer (atau tambah kategori baru
+               dalam EVENT_FILTERS di bawah).
                ========================================================== */
             const events = [
                 {
@@ -683,26 +683,77 @@
                     audience: "Terbuka",
                     description: "Sesi webinar secara online yang boleh disertai dari mana sahaja tanpa perlu hadir ke lokasi.",
                     url: "https://g100.my/privatewebinar/"
+                },
+                {
+                    title: "PG Leadership Training",
+                    category: "Khas Dealer",
+                    audience: "Khas untuk Dealer",
+                    description: "PLT (PG Leadership Training) adalah core training yang dimulakan sejak 2016. Telahpun terbukti membantu penyimpan emas di bawah bimbingan kami mencapai Financial Freedom (\u201Ctak kerja pun ada duit\u201D) hanya dalam tempoh 3 \u2013 5 tahun sahaja.",
+                    url: "https://g100.my/plt/"
+                },
+                {
+                    title: "New Dealer Orientation",
+                    category: "Khas Dealer",
+                    audience: "Khas untuk Dealer",
+                    description: "Tak perlu bimbang kalau orang lain tak sertai anda. Yang paling penting ialah anda sendiri yakin dengan apa yang anda lakukan. New Dealer Orientation (NDO) akan membongkarkan rahsia menjadi dealer yang dipercayai dan disegani oleh customer, dan membina masa depan anda bersama Public Gold dengan penuh yakin!",
+                    url: "https://g100.my/ndo/"
+                },
+                {
+                    title: "WEEKLY BUSINESS MEETING",
+                    category: "Khas Dealer",
+                    audience: "Khas untuk Dealer",
+                    description: "Peluang dapatkan input terkini, associate sesama team G100 yang positif, dan rungkaikan sebarang persoalan tentang bisnes setiap minggu supaya sentiasa bermotivasi.",
+                    url: "https://g100.my/weekly-business-meeting/"
+                },
+                {
+                    title: "WEEKLY GROUP COACHING",
+                    category: "Khas Dealer",
+                    audience: "Khas untuk Dealer",
+                    description: "Peluang dapatkan input dan update terkini, group coaching sesama upline mentor dalam team G100 yang positif, dan juga peluang untuk rungkaikan sebarang persoalan tentang bisnes setiap minggu supaya sentiasa bermotivasi.",
+                    url: "https://g100.my/wgc/"
+                },
+                {
+                    title: "MASTER DEALER Conference",
+                    category: "Khas Dealer",
+                    audience: "Khas untuk Dealer",
+                    description: "Peluang untuk bernetworing, bina hubungan dengan achievers dan dealer daripada latar belakang profesion dan region yang sama dengan anda.",
+                    url: "https://g100.my/md-conference/"
+                },
+                {
+                    title: "GOLD PROPERTY PAIRING PROJECT",
+                    category: "Khas Dealer",
+                    audience: "Khas untuk Dealer",
+                    description: "Peluang mencapai massive FINANCIAL FREEDOM melalui HARTANAH bersama G100.",
+                    url: "https://g100.my/gpp/"
+                },
+                {
+                    title: "MASTER DEALER WORKSHOP",
+                    category: "Khas Dealer",
+                    audience: "Khas untuk Master Dealer G100",
+                    description: "Khas untuk Master Dealer G100 dapatkan input dan bimbingan direct tentang cara membina team dan melahirkan leaders daripada mentor TUAN MOHD ZUKIFLI SHAFIE.",
+                    url: "https://g100.my/mdworkshop/"
                 }
             ];
 
             /* Label filter (label paparan) dan kategori sebenar (value) */
             const EVENT_FILTERS = [
-                { label: "SEMUA",      value: "Semua" },
-                { label: "FIZIKAL",    value: "Fizikal" },
-                { label: "ANAK MUDA",  value: "Anak Muda" },
-                { label: "VETERAN",    value: "Veteran" },
-                { label: "MAHASISWA",  value: "Mahasiswa" },
-                { label: "ONLINE",     value: "Online" }
+                { label: "SEMUA",        value: "Semua" },
+                { label: "FIZIKAL",      value: "Fizikal" },
+                { label: "ANAK MUDA",    value: "Anak Muda" },
+                { label: "VETERAN",      value: "Veteran" },
+                { label: "MAHASISWA",    value: "Mahasiswa" },
+                { label: "ONLINE",       value: "Online" },
+                { label: "KHAS DEALER",  value: "Khas Dealer" }
             ];
 
             /* Icon Font Awesome mengikut kategori */
             const EVENT_ICONS = {
-                "Fizikal":   "fa-microphone-lines",
-                "Anak Muda": "fa-rocket",
-                "Veteran":   "fa-medal",
-                "Mahasiswa": "fa-graduation-cap",
-                "Online":    "fa-video"
+                "Fizikal":      "fa-microphone-lines",
+                "Anak Muda":    "fa-rocket",
+                "Veteran":      "fa-medal",
+                "Mahasiswa":    "fa-graduation-cap",
+                "Online":       "fa-video",
+                "Khas Dealer":  "fa-crown"
             };
             const EVENT_DEFAULT_ICON = "fa-calendar-days";
 
