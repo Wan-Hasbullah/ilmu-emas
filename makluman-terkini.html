@@ -45,6 +45,26 @@
             .today-pulse, .card-highlight { animation: none; }
             .card-highlight { border-color: #f59e0b; }
         }
+
+        /* Butang kembali ke atas */
+        #back-to-top {
+            position: fixed;
+            right: 16px;
+            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            z-index: 60;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #back-to-top { transition: none; }
+        }
     </style>
 </head>
 <body class="bg-zinc-950 text-gray-400 min-h-screen">
@@ -68,6 +88,12 @@
         <div class="space-y-4" id="makluman-container">
             </div>
     </main>
+
+    <!-- BUTANG KEMBALI KE ATAS -->
+    <button id="back-to-top" type="button" aria-label="Kembali ke atas" title="Kembali ke atas"
+        class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-zinc-900/90 backdrop-blur-md border border-amber-500/40 text-amber-400 shadow-[0_8px_30px_rgba(0,0,0,0.45)] hover:bg-amber-500 hover:text-zinc-900 hover:border-amber-400 transition-colors duration-200">
+        <i class="fa-solid fa-chevron-up text-sm"></i>
+    </button>
 
     <script>
         const timestamp = new Date().getTime();
@@ -545,6 +571,26 @@
                 if (dateKey(new Date()) !== lastTodayKey) renderCalendar();
             }, 30000);
         }
+
+        // =====================================================================
+        // BUTANG KEMBALI KE ATAS
+        // =====================================================================
+        (function () {
+            const btn = document.getElementById('back-to-top');
+            if (!btn) return;
+
+            const toggleBtn = () => {
+                btn.classList.toggle('show', window.scrollY > 300);
+            };
+
+            window.addEventListener('scroll', toggleBtn, { passive: true });
+            toggleBtn();
+
+            btn.addEventListener('click', () => {
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+            });
+        })();
 
         // Jalankan sistem selepas fail data tidak tetap selamat dimuatkan
         window.addEventListener('load', () => {
