@@ -1,11 +1,12 @@
 // =====================================================================
 // MAKLUMAN TERKINI - Gold Saver / Ilmu Emas
 // =====================================================================
-// Fail ini menyimpan KEDUA-DUA jenis makluman yang dipaparkan di
+// Fail ini menyimpan KETIGA-TIGA jenis makluman yang dipaparkan di
 // makluman-terkini.html:
 //
 //   1) maklumanTetapData     -> program TETAP yang berulang setiap minggu
 //   2) maklumanTerkiniData   -> program TIDAK TETAP (sekali sahaja / promosi)
+//   3) maklumanDealerData    -> program KHAS DEALER (dot ungu pada kalendar)
 //
 // Sistem countdown, status "LIVE SEKARANG" dan penyusunan kronologi akan
 // dikira secara automatik oleh makluman-terkini.html berdasarkan data di
@@ -75,6 +76,9 @@ const maklumanTetapData = [
 //   caption : Butiran / penerangan ringkas program (String)
 //   date    : Tarikh & masa MULA program, format "YYYY-MM-DDTHH:MM:SS"
 //             (guna masa tempatan Malaysia, contoh: 8:00 malam = T20:00:00)
+//   endDate : (PILIHAN) Tarikh & masa TAMAT, format sama seperti date.
+//             Jika diisi, program kekal LIVE sehingga masa ini dan masa
+//             dipaparkan sebagai julat. Jika tiada, LIVE selama 3 jam.
 //   link    : Pautan "Lihat" / pendaftaran / siaran program (String)
 //
 // Nota:
@@ -282,4 +286,64 @@ const maklumanTerkiniData = [
         "link": "https://pg2u.my/app/event/wanhasbullah"
     }
     
+];
+
+
+// =====================================================================
+// 3) MAKLUMAN DEALER (KHAS UNTUK DEALER — DOT UNGU PADA KALENDAR)
+// =====================================================================
+// Guna fungsi dealerEvent() supaya penambahan program dealer mudah dan
+// seragam. Setiap program dealer akan:
+//   - dipaparkan sebagai kad biasa dalam senarai kronologi
+//   - bertanda dot UNGU (Dealer) pada kalendar
+//   - dibuang automatik apabila sudah tamat
+//
+// Parameter dealerEvent({ ... }):
+//   title   : Tajuk program (String)
+//   caption : Butiran / penerangan ringkas program (String)
+//   date    : Tarikh & masa MULA, format "YYYY-MM-DDTHH:MM:SS"
+//   endDate : (PILIHAN) Tarikh & masa TAMAT, format sama. Jika tiada,
+//             program dianggap LIVE selama 3 jam selepas masa mula.
+//   link    : Pautan "Lihat" / pendaftaran / siaran program (String)
+//
+// Contoh tambah program baharu:
+//   dealerEvent({
+//       title: "Nama Program Dealer",
+//       caption: "Penerangan ringkas program.",
+//       date: "2026-11-05T21:00:00",
+//       link: "https://contoh.com/"
+//   }),
+// =====================================================================
+
+function dealerEvent({ title, caption, date, endDate = null, link }) {
+    return {
+        title: title,
+        caption: caption,
+        date: date,
+        endDate: endDate,
+        link: link,
+        dealer: true
+    };
+}
+
+const maklumanDealerData = [
+    dealerEvent({
+        title: "Pre-MD Session",
+        caption: "Khas untuk PRE-MD G100 dapatkan input dan bimbingan direct tentang cara mengubah mindset dan membiasakan tabiat yang betul daripada para Master Dealer dan Founder Master Dealer yang proven sukses.",
+        date: "2026-10-22T21:00:00",
+        link: "https://g100.my/premd-session/"
+    }),
+    dealerEvent({
+        title: "MD Workshop",
+        caption: "Khas untuk Master Dealer G100 dapatkan input dan bimbingan direct tentang cara membina team dan melahirkan leaders daripada mentor Tuan Mohd Zulkifli Shafie.",
+        date: "2026-10-29T21:00:00",
+        link: "https://g100.my/mdworkshop/"
+    }),
+    dealerEvent({
+        title: "PG Leadership Training (PLT)",
+        caption: "PLT (PG Leadership Training) adalah core training yang dimulakan sejak 2016. Telahpun terbukti membantu penyimpan emas di bawah bimbingan kami mencapai Financial Freedom (“tak kerja pun ada duit”) hanya dalam tempoh 3 – 5 tahun sahaja.",
+        date: "2026-10-31T08:30:00",
+        endDate: "2026-10-31T18:00:00",
+        link: "https://g100.my/plt/"
+    })
 ];
