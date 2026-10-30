@@ -245,11 +245,12 @@
     }
     return res;
   }
-  // Escape untuk template literal (`...`): kekalkan baris baharu & jarak asal,
-  // hanya lindungi \ , ` dan ${
+  // Escape untuk template literal (`...`): lindungi \ , ` dan ${
+  // Baris baharu ditulis sebagai \n (satu baris kod), bukan pemisah baris sebenar.
   function escTpl(s) {
     return String(s == null ? "" : s).replace(/\r\n?/g, "\n")
-      .replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+      .replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${")
+      .replace(/\n/g, "\\n");
   }
 
   // Tukar teks petikan (satu baris = satu perenggan) kepada kod HTML
