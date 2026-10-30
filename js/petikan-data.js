@@ -24,11 +24,12 @@
  */
 
 const PETIKAN = [
-  {
+    {
     id: "q1",
     kategori: "tips-kewangan",
     oleh: "Mohd Zulkifli Shafie",
-    petikan: "Tiada SHORCUT melunasi hutang. Belajarlah apa-apa strategi sekali pun, akhir sekali hutang tetap perlu dibayar dengan duit kita juga. Tak ada teknik magik untuk langsai hutang."
+    petikan: `\n<p>\n  Tiada SHORCUT melunasi hutang.\n</p>\n<p>\n  Belajarlah apa-apa strategi sekali pun, akhir sekali hutang tetap perlu dibayar dengan duit kita juga.\n</p>\n<p>\n  Tak ada teknik magik untuk langsai hutang.\n</p>\n`,
+    link: ""
   },
   {
     id: "q2",
