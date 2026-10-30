@@ -62,6 +62,7 @@
     }
     .quote-card.cat-tips-emas::before    { background: linear-gradient(to right, #fbbf24, #f59e0b); }
     .quote-card.cat-tips-kewangan::before{ background: linear-gradient(to right, #38bdf8, #0ea5e9); }
+    .quote-card.cat-mindset::before      { background: linear-gradient(to right, #a78bfa, #8b5cf6); }
     .quote-card:hover { border-color: rgba(251,191,36,0.25); }
     .quote-card:hover::before { opacity: 1; }
 
@@ -79,6 +80,17 @@
     /* ── Category badge colours ── */
     .badge-tips-emas     { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
     .badge-tips-kewangan { background: rgba(56,189,248,0.10); color: #38bdf8; border: 1px solid rgba(56,189,248,0.25); }
+    .badge-mindset       { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+
+    /* ── Isi petikan: jarak satu baris antara setiap perenggan ── */
+    .petikan-body p  { margin: 0 0 1em; }
+    .petikan-body h3 { font-size: 1em; font-weight: 800; color: #fbbf24; margin: 1.2em 0 0.5em; }
+    .petikan-body h4 { font-size: 1em; font-weight: 700; margin: 1em 0 0.4em; }
+    .petikan-body ul { list-style: disc; padding-left: 1.25em; margin: 0 0 1em; }
+    .petikan-body li { margin-bottom: 0.35em; }
+    .petikan-body hr { border: 0; border-top: 1px solid rgba(63,63,70,0.7); margin: 1em 0; }
+    .petikan-body > :first-child { margin-top: 0; }
+    .petikan-body > :last-child { margin-bottom: 0; }
 
     /* ── Share modal ── */
     #share-modal { transition: opacity 0.3s ease; }
@@ -442,6 +454,29 @@
 
     let activeCat = 'semua';
 
+    // ── Format isi petikan ──
+    // Teks biasa: setiap baris jadi satu perenggan <p> (jarak satu baris).
+    // Jika data sudah mengandungi tag HTML (cth. dari penjana kod), kekalkan seperti asal.
+    function formatPetikan(raw) {
+      var s = String(raw == null ? '' : raw).replace(/\r\n?/g, '\n').trim();
+      if (/<\/?(p|h3|h4|ul|li|hr|br)\b/i.test(s)) return s;
+      return s.split(/\n+/)
+        .map(function (l) { return l.trim(); })
+        .filter(Boolean)
+        .map(function (l) { return '<p>' + l + '</p>'; })
+        .join('');
+    }
+
+    // Versi teks biasa untuk WhatsApp (perenggan dipisah satu baris kosong)
+    function petikanToText(raw) {
+      var d = document.createElement('div');
+      d.innerHTML = formatPetikan(raw);
+      return [].slice.call(d.querySelectorAll('p,h3,h4,li'))
+        .map(function (e) { return e.textContent.trim(); })
+        .filter(Boolean)
+        .join('\n\n');
+    }
+
     function buildFilterBar() {
       const bar = document.getElementById('filter-bar');
       let html = `<button class="cat-pill active" id="pill-semua" data-cat="semua" onclick="filterCat('semua',this)">Semua</button>`;
@@ -466,7 +501,7 @@
       const cfg = KATEGORI_CONFIG[item.kategori];
       const label = cfg ? cfg.label : item.kategori.replace("-", " ");
       const badgeClass  = `badge-${item.kategori}`;
-      const quoteColour = item.kategori === 'tips-emas' ? 'text-amber-400/60' : 'text-sky-400/60';
+      const quoteColour = cfg ? cfg.quoteChar : 'rgba(251,191,36,0.6)';
 
       return `
         <div id="${item.id}"
@@ -484,8 +519,8 @@
           </div>
 
           <div class="relative pl-4 mb-4">
-            <span class="absolute left-0 top-0 ${quoteColour} text-3xl font-serif leading-none">"</span>
-            <p class="text-zinc-100 text-[15px] font-medium leading-relaxed pt-4">${item.petikan}</p>
+            <span class="absolute left-0 top-0 text-3xl font-serif leading-none" style="color:${quoteColour}">"</span>
+            <div class="petikan-body text-zinc-100 text-[15px] font-medium leading-relaxed pt-4">${formatPetikan(item.petikan)}</div>
           </div>
 
           <div class="flex gap-2 mt-3 items-center">
@@ -595,7 +630,7 @@
       if (!currentShareId) return;
       const item = PETIKAN.find(p => p.id === currentShareId);
       const url  = window.location.origin + window.location.pathname + '#' + currentShareId;
-      const msg  = encodeURIComponent('✨ Petikan Ilmu Emas:\n\n"' + (item ? item.petikan : '') + '"\n\n🔗 ' + url);
+      const msg  = encodeURIComponent('✨ Petikan Ilmu Emas:\n\n"' + (item ? petikanToText(item.petikan) : '') + '"\n\n🔗 ' + url);
       window.open('https://wa.me/?text=' + msg, '_blank');
       closeShare();
     }
@@ -630,7 +665,7 @@
           '</div>' +
           '<div style="position:relative;padding-left:20px;">' +
             '<span style="position:absolute;left:0;top:-8px;color:' + quoteChar + ';font-size:56px;line-height:1;font-family:Georgia,serif;">"</span>' +
-            '<p style="color:#f4f4f5;font-size:22px;font-weight:600;line-height:1.6;padding-top:28px;">' + item.petikan + '</p>' +
+            '<div class="petikan-body" style="color:#f4f4f5;font-size:22px;font-weight:600;line-height:1.6;padding-top:28px;">' + formatPetikan(item.petikan) + '</div>' +
           '</div>' +
         '</div>' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:36px;padding-top:20px;border-top:1px solid rgba(63,63,70,0.5);">' +
