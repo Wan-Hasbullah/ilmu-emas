@@ -12,6 +12,7 @@
  * KATEGORI YANG TERSEDIA:
  * "tips-emas"      → warna Amber/Emas
  * "tips-kewangan"  → warna Biru/Sky
+ * "mindset"        → warna Ungu/Violet
  *
  * CONTOH STRUKTUR:
  * ─────────────────
@@ -318,5 +319,16 @@ const KATEGORI_CONFIG = {
     borderImg:   "rgba(56,189,248,0.44)",
     topBar:      "linear-gradient(to right, #38bdf8, #0ea5e9)",
     quoteChar:   "#38bdf899"
+  },
+  "mindset": {
+    label:       "Mindset",
+    icon:        "fa-brain",
+    accent:      "#a78bfa",
+    accentBg:    "rgba(167,139,250,0.12)",
+    accentBgImg: "rgba(167,139,250,0.07)",
+    border:      "rgba(167,139,250,0.25)",
+    borderImg:   "rgba(167,139,250,0.44)",
+    topBar:      "linear-gradient(to right, #a78bfa, #8b5cf6)",
+    quoteChar:   "#a78bfa99"
   }
 };
